@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('can_view')->default('ROLE_USER');
             $table->string('can_edit')->default('ROLE_ADMIN');
             $table->timestamps();
+
+            $table->index(['updated_at']);
         });
     }
 

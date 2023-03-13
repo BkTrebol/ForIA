@@ -8,6 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Models\User_preference;
+use App\Models\Private_message;
+use App\Models\Post;
+use App\Models\Topic;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -18,9 +23,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nick',
         'email',
         'password',
+        'location',
+        'birthday',
+        'avatar',
     ];
 
     /**
@@ -40,5 +48,23 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'roles' => 'array',
     ];
+
+    public function preferences()
+    {
+        return $this->hasOne(User_preference::class);
+    }
+
+    public function topics(){
+        return $this->hasMany(Topic::class);
+    }
+
+    public function posts(){
+        return $this->hasMany(Posts::class);
+    }
+
+    public function private_message(){
+        return $this->hasMany(Private_message::class);
+    }
 }

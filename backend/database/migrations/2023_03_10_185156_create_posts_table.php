@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('topic_id')->onDelete('cascade')->constraint();
-            $table->foreignId('user_id')->nullable()->nullOnDelete()->constraint();
+            $table->foreignId('topic_id')->onDelete('cascade')->constrained();
+            $table->foreignId('user_id')->nullable()->nullOnDelete()->constrained();
             $table->text('content');
             $table->timestamps();
+
+            $table->index(['created_at']);
         });
     }
 

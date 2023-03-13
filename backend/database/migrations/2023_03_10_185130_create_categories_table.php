@@ -14,11 +14,14 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('title')->unique();
+            $table->string('section')->nullable();
             $table->string('description')->nullable();
             $table->string('image')->nullable();
             $table->string('music')->nullable();
             $table->string('can_view')->default('ROLE_USER');
             $table->timestamps();
+
+            $table->index(['section']);
         });
     }
 
