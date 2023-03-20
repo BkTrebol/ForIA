@@ -8,8 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-use App\Models\User_preference;
-use App\Models\Private_message;
+use App\Models\UserPreference;
+use App\Models\PrivateMessage;
 use App\Models\Post;
 use App\Models\Topic;
 
@@ -53,7 +53,7 @@ class User extends Authenticatable
 
     public function preferences()
     {
-        return $this->hasOne(User_preference::class);
+        return $this->hasOne(UserPreference::class);
     }
 
     public function topics(){
@@ -64,7 +64,12 @@ class User extends Authenticatable
         return $this->hasMany(Posts::class);
     }
 
-    public function private_message(){
-        return $this->hasMany(Private_message::class);
+    public function privateMessages(){
+        return $this->hasMany(PrivateMessage::class)->orWhere('private_messages.user2_id', $this->id);
+    }
+
+    public function privateTopics(){
+        return $this->hasManyThrough(Topic::class, PrivateMessage::class, 'user_id', 'id', 'id', 'topic_id')
+            ->orWhere('private_messages.user2_id', $this->id);
     }
 }

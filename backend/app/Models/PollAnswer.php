@@ -6,33 +6,29 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\User;
-use App\Models\Topic;
-class Private_message extends Model
+use App\Models\Poll_option;
+
+class PollAnswer extends Model
 {
     use HasFactory;
 
+    
      /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'topic_id',
+        'poll_option_id',
         'user_id',
-        'user2_id',
     ];
 
     
     public function user(){
         return $this->belongsTo(User::class,'user_id');
     }
-
-    public function user2(){
-        return $this->belongsTo(User::class,'user2_id');
-    }
-
-    public function topic(): HasOne
-    {
-        return $this->hasOne(Topic::class);
+    
+    public function option(){
+        return $this->belongsTo(PollOption::class,'poll_option_id');
     }
 }

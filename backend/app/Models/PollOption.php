@@ -5,13 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Poll_answer;
-use App\Models\Poll;
-
-class Poll_option extends Model
+class PollOption extends Model
 {
     use HasFactory;
-    
      /**
      * The attributes that are mass assignable.
      *
@@ -23,8 +19,8 @@ class Poll_option extends Model
     ];
 
     
-    public function poll_answers(){
-        return $this->hasMany(Poll_answer::class);
+    public function answers(){
+        return $this->hasMany(PollAnswer::class);
     }
 
     public function poll(){

@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+use App\Models\User;
+use App\Models\Category;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Topic>
  */
@@ -17,7 +19,10 @@ class TopicFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->word(),
+            'description' => fake()->sentence(),
+            'category_id' => $this->faker->randomElement(Category::pluck('id')),
+            'user_id' => $this->faker->randomElement(User::pluck('id')),
         ];
     }
 }

@@ -6,24 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\User;
-
-class User_preference extends Model
+use App\Models\Topic;
+class PrivateMessage extends Model
 {
     use HasFactory;
-        /**
+
+     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
+        'topic_id',
         'user_id',
-        'sidebar',
-        'filter_bad_words',
-        'allow_view_profile',
-        'allow_user_to_mp',
-        'hide_online_presence',
-        'two_fa',
-        'allow_music'
+        'user2_id',
     ];
 
     
@@ -31,4 +27,12 @@ class User_preference extends Model
         return $this->belongsTo(User::class,'user_id');
     }
 
+    public function user2(){
+        return $this->belongsTo(User::class,'user2_id');
+    }
+
+    public function topic()
+    {
+        return $this->hasOne(Topic::class);
+    }
 }

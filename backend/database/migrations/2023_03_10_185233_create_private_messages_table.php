@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('private_messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('topic_id')->onDelete('cascada')->constrained();
+            $table->foreignId('topic_id')->unique()->onDelete('cascada')->constrained();
             $table->foreignId('user_id')->onDelete('cascade')->constrained();
             $table->unsignedBigInteger('user2_id');
             $table->foreign('user2_id')->references('id')->on('users')->onDelete('cascade')->constrained();

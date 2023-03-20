@@ -4,8 +4,10 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+use App\Models\User;
+use App\Models\PollOption;
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Poll_answer>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PollAnswer>
  */
 class PollAnswerFactory extends Factory
 {
@@ -17,7 +19,8 @@ class PollAnswerFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'poll_option_id' => $this->faker->randomElement(PollOption::pluck('id')),
+            'user_id' => $this->faker->randomElement(User::pluck('id'))
         ];
     }
 }

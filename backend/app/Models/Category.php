@@ -29,4 +29,8 @@ class Category extends Model
     public function topics(){
         return $this->hasMany(Topic::class)->orderBy('update_at','desc');
     }
+
+    public function lastPost(){
+        return $this->hasOneThrough(Post::class,Topic::class)->orderBy('created_at','desc');
+    }
 }

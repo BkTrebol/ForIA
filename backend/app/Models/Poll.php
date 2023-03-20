@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\Poll_option;
+use App\Models\PollOption;
+use App\Models\User;
 
 class Poll extends Model
 {
@@ -23,8 +24,16 @@ class Poll extends Model
     ];
 
     
-    public function poll_options(){
-        return $this->hasMany(Poll_option::class);
+    public function options(){
+        return $this->hasMany(PollOption::class);
+    }
+
+    public function answers(){
+        return $this->hasManyThrough(PollAnswer::class, PollOption::class)->count();
+    }
+
+    public function voted(int $user_id){
+        return $this->hasManyThrough(PollAnswer::class, PollOption::class)->where('user_id','=',$user_id)->exists();
     }
 
     public function topic(){
