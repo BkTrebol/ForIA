@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthData } from '../../models/auth-data';
 import { Register } from '../../models/register';
 import { Global } from '../global';
+
 @Injectable({
   providedIn: 'root',
 })

@@ -14,7 +14,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private _authService: AuthService, private fb: FormBuilder) {
     this.error = "";
-    this.authData = {email: "", password: "", remember_me: false};
+    // this.authData = {email: "", password: "", remember_me: false};
+    this.authData = new AuthData("", "", false);
   }
 
   formLogin = this.fb.group({
@@ -36,7 +37,7 @@ export class LoginComponent implements OnInit {
       ],
     ],
     remember_me: [
-      '', []
+      false, []
     ]
   });
 
@@ -57,14 +58,13 @@ export class LoginComponent implements OnInit {
   submit() {
     if (this.formLogin.valid) {
       console.log(this.authData);
-      // this.authData = {
-      //   email: this.formLogin.value.email,
-      //   password: this.formLogin.value.password,
-      //   remember_me: this.formLogin.value.remember_me,
-      // };
+      console.log(this.formLogin.value);
       this._authService.login(this.authData).subscribe({
         next: (a) => console.log(a),
-        error: (e) => console.log(e),
+        error: (e) => {
+          this.error = e.error;
+          console.log(e)
+        },
       });
       this.error = '';
     } else {
@@ -80,6 +80,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this._authService.getCSRF();
+    this._authService.getCSRF();
   }
 }

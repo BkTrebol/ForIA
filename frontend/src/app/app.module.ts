@@ -53,7 +53,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
     HttpClientModule,
     HttpClientXsrfModule,
     FontAwesomeModule,
-    // FontAwesomeModule,
+    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
   ],
   providers: [],
   bootstrap: [AppComponent],

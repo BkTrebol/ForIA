@@ -90,6 +90,15 @@
           font-size: $size-p;
           @include col(space-between, 8px);
         }
+        // For checkbox
+        .row-field {
+          padding-left: 16px;
+          font-size: $size-p;
+          @include row(space-between, 16px);
+          input[type=checkbox]{
+             transform: scale(1.6);
+          }
+        }
       }
     }
     // The button for submit
