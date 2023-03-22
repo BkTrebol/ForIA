@@ -56,12 +56,12 @@ export class LoginComponent implements OnInit {
 
   submit() {
     if (this.formLogin.valid) {
-      console.log(this.formLogin.value);
-      this.authData = {
-        email: this.formLogin.value.email,
-        password: this.formLogin.value.password,
-        remember_me: this.formLogin.value.remember_me,
-      };
+      console.log(this.authData);
+      // this.authData = {
+      //   email: this.formLogin.value.email,
+      //   password: this.formLogin.value.password,
+      //   remember_me: this.formLogin.value.remember_me,
+      // };
       this._authService.login(this.authData).subscribe({
         next: (a) => console.log(a),
         error: (e) => console.log(e),
