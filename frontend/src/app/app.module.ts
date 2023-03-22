@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 
+//App
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
+// Components
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
@@ -16,6 +21,12 @@ import { EditorComponent } from './components/post/editor/editor.component';
 import { ReplyComponent } from './components/private-message/reply/reply.component';
 import { HeaderComponent } from './components/includes/header/header.component';
 import { FooterComponent } from './components/includes/footer/footer.component';
+
+//Extra (icons)
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
 
 @NgModule({
   declarations: [
@@ -32,13 +43,24 @@ import { FooterComponent } from './components/includes/footer/footer.component';
     EditorComponent,
     ReplyComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    HttpClientXsrfModule,
+    FontAwesomeModule,
+    // FontAwesomeModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {
+  constructor(library: FaIconLibrary) {
+    // library.addIcons(faFilm, faFish, faBell, faAngular);
+    library.addIconPacks(fas, far, fab);
+  }
+}

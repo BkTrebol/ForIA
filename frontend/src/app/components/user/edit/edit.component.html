@@ -1,1 +1,89 @@
-<p>edit works!</p>
+<div class="form-page">
+    <form [formGroup]="formEditProfile" (ngSubmit)="submit()" class="form-container">
+        <h2>Edit Profile</h2>
+        <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}!</h3>
+        <div class="fields">
+            <div class="group">
+                <div class="field">
+                    <input type="text" formControlName="nick" class="input" placeholder="Nick" required>
+                    <fa-icon class="icon" [icon]="['fas', 'user']"></fa-icon>
+                </div>
+                <div class="message-block" *ngIf="!nick?.valid && nick?.touched">
+                    <ng-container *ngFor="let validation of validationMessagesEditProfile.nick | keyvalue">
+                        <div *ngIf="nick?.errors?.[validation.key]">
+                            <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{ validation.value }}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="group">
+                <div class="field">
+                    <input type="email" formControlName="email" class="input" placeholder="Email" required>
+                    <fa-icon class="icon" [icon]="['fas', 'envelope']"></fa-icon>
+                </div>
+                <div class="message-block" *ngIf="!email?.valid && email?.touched">
+                    <ng-container *ngFor="let validation of validationMessagesEditProfile.email | keyvalue">
+                        <div *ngIf="email?.errors?.[validation.key]">
+                            <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{ validation.value }}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="group">
+                <div class="field">
+                    <input type="text" formControlName="location" class="input" placeholder="Location">
+                    <fa-icon class="icon" [icon]="['fas', 'location-dot']"></fa-icon>
+                </div>
+                <div class="message-block" *ngIf="!location?.valid && location?.touched">
+                    <ng-container *ngFor="let validation of validationMessagesEditProfile.location | keyvalue">
+                        <div *ngIf="location?.errors?.[validation.key]">
+                            <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{ validation.value }}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="group">
+                <div class="col-field">
+                    <label for="birthday">Birthday</label>
+                    <div class="field">
+                        <input type="date" formControlName="birthday" id="birthday" class="input date">
+                        <fa-icon class="icon" [icon]="['fas', 'cake-candles']"></fa-icon>
+                    </div>
+                </div>
+                <div class="message-block" *ngIf="!birthday?.valid && birthday?.touched">
+                    <ng-container *ngFor="let validation of validationMessagesEditProfile.birthday | keyvalue">
+                        <div *ngIf="birthday?.errors?.[validation.key]">
+                            <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{ validation.value }}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="group">
+                <div class="col-field">
+                    <label for="file">Avatar</label>
+                    <div class="field">
+                        <input type="file" id="file" formControlName="avatar" class="input">
+                        <fa-icon class="icon" [icon]="['fas', 'image-portrait']"></fa-icon>
+                    </div>
+                </div>
+                <div class="message-block" *ngIf="!avatar?.valid && avatar?.touched">
+                    <ng-container *ngFor="let validation of validationMessagesEditProfile.avatar | keyvalue">
+                        <div *ngIf="avatar?.errors?.[validation.key]">
+                            <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{ validation.value }}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="btn-field">
+            <button [disabled]="!formEditProfile.valid" class="btn-send">
+                Edit Profile
+            </button>
+            <fa-icon class="btn-icon" [icon]="['fas', 'thumbs-up']"></fa-icon>
+        </div>
+        <div class="form-links">
+            <p><a routerLink="/login">Edit User Preferences</a></p>
+        </div>
+    </form>
+</div>
+

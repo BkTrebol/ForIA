@@ -1,0 +1,261 @@
+// VARIABLES
+@import "./vars";
+
+// FUNCTIONS
+@import "./mixins";
+
+
+/*
+SIMPLE - visual elements & nº options (no super simple)
+
+Group elements by colors, proximity, shapes
+
+Remember better first and last element of sequence
+
+Easy access (click) - close and big
+
+Shorten times (no lot of time)
+
+Remember different element
+
+20% -> 80%
+
+Show incomplete tasks & visual progress & notifications
+
+Divide into parts (<=7)
+
+No changes
+*/
+
+// Containers
+// .cont-two {
+//   max-width: $size-cont;
+// }
+// .cont-center {
+//   max-width: $size-cont;
+//   margin: auto;
+// }
+// .grid {
+//   display: grid;
+//   grid-template-columns: repeat(4, 1fr);
+//   // grid-template-rows: ;
+// }
+// .side-bar {
+//   grid-column: 1 / 2;
+// }
+// .content {
+//   grid-column: 2 / 4;
+// }
+// Example
+// .light {
+//   @include theme($light-theme: true);
+// }
+
+// All the page
+.page-container {
+  position: relative;
+  min-height: 100vh;
+  // @include bg-gradient; // BG default
+}
+
+// Main container
+.container-wrap {
+  position: relative;
+  min-height: calc(100vh - $height-subtract);
+  padding-bottom: $height-footer;
+  // @include bg-gradient; // maybe bg
+  background-image: url("/assets/images/tech.jpg");
+  background-origin: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  @include mobile {
+    min-height: calc(100vh - $height-subtract-mobile);
+    padding-bottom: $height-footer-mobile;
+  }
+}
+
+// * Footer container
+$color-bg-footer: $color-black-clear;
+$color-p-footer: $color-white-clear;
+.footer {
+  @include row(space-around);
+  position: absolute;
+  width: 100%;
+  height: $height-footer;
+  bottom: 0;
+  left: 0;
+  color: $color-p-footer;
+  background-color: $color-bg-footer;
+  p {
+    font-family: $font-text;
+    font-size: $size-p;
+  }
+  .footer-text {
+    @include col(space-between, 8px);
+  }
+  .icons-footer {
+    @include row(space-around);
+    & a {
+      padding: 10px;
+      cursor: pointer;
+      color: $color-gradient3;
+      font-size: $size-icon-footer;
+      &:hover {
+        animation: upAnimation .5s ease-in-out;
+        color: $color-gradient2;
+      }
+    }
+  }
+   // Responsive for tablet
+  @include tablet {
+    .icons-footer a{
+      padding: 8px;
+    }
+  }
+  // Responsive for mobile
+  @include mobile {
+    @include col-center(space-evenly);
+    height: $height-footer-mobile;
+    .footer-text {
+      @include col-center(space-between, 8px);
+    }
+  }
+}
+
+// * Header container
+.header {
+  z-index: 10;
+  top:0;
+  position: sticky;
+  @include row(flex-start, 50px);
+  padding: 0 32px;
+  height: $height-header;
+  background-color: $color-black-clear;
+  .logo {
+    .logoIA {
+      height: 55px;
+    }
+    .logoFORIA {
+      height: 37px;
+    }
+    @include row(flex-start, 12px);
+    &:hover {
+      cursor: pointer;
+    }
+    &:hover .logoIA {
+      animation: gir 5s cubic-bezier(0.37, 0.6, 0.82, 0.66) infinite;
+    }
+  }
+  nav {
+    @include row(space-between);
+    width: 100%;
+    ul {
+      @include row(space-between, 50px);
+      font-size: $size-subtitle;
+      font-family: $font-titles;
+      li {
+        list-style: none;
+        fa-icon {
+          margin-right: 12px;
+        }
+        a {
+          color: $color-secondary;
+          text-decoration: none;
+          font-weight: bold;
+          padding-bottom: 5px;
+          &:hover {
+            border-bottom: 3px solid $color-primary;
+          }
+          &.active {
+            border-bottom: 3px solid $color-primary;
+          }
+          &.active fa-icon {
+            color: $color-primary;
+          }
+        }
+      }
+    }
+  }
+  // Responsive for tablet
+  @include tablet() {
+    @include row(flex-start, 30px);
+    padding: 0 16px;
+    .logo .logoFORIA {
+      @include no;
+    }
+    ul {
+      @include row(space-between, 25px);
+      fa-icon {
+        margin-right: 8px;
+      }
+    }
+  }
+  // Responsive for mobile
+  @include mobile() {
+    @include row(flex-start, 20px);
+    padding: 0 10px;
+    nav ul {
+        @include row(flex-star, 20px);
+        li {
+          fa-icon {
+            margin-right: 6px;
+          }
+          // Myabe do a navbar with only icons
+          // a span {
+          //   @include no;
+          // }
+        }
+
+    }
+  }
+}
+
+// When scroll down the nav height is small
+.small {
+  height: $height-header-small;
+  .logo {
+    .logoIA {
+      height: 35px;
+    }
+    .logoFORIA {
+      height: 20px;
+    }
+  }
+  nav ul{
+    font-size: $size-btn; //20px
+  }
+}
+
+// Animation logoIA
+@keyframes gir {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Animation icons footer
+@keyframes upAnimation {
+  50%{
+    transform: scale(1.15);
+  }
+}
+
+// Fonts provisional
+// h1,
+// label {
+//   font-family: $font-titles;
+// }
+// p,
+// h2,
+// input {
+//   font-family: $font-text;
+// }
+
+// Utilities
+.b {
+  border: 2px solid $color-tertiary;
+}

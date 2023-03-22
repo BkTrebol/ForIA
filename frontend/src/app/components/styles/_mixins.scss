@@ -1,0 +1,187 @@
+@function weight($weight-name) {
+  @return map-get($font-weights, $weight-name);
+}
+
+@function opacity($hex, $o) {
+  @return rgba($hex, $o);
+}
+
+//@extend .class //example
+
+@function set-text-color($color) {
+  @if (lightness($color) > 40%) {
+    @return #000;
+  } @else {
+    @return #fff;
+  }
+}
+
+@mixin btn($color, $inici) {
+  width: 100%;
+  cursor: pointer;
+  font-size: $size-btn;
+  font-family: $font-btn;
+  font-weight: weight(bold);
+  position: relative;
+  padding: 16px;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  color: $color;
+  &::after,
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: $inici;
+    height: $inici;
+    border: 5px solid;
+    transition: all 0.6s ease;
+    border-radius: 2px;
+  }
+  &::after {
+    bottom: 0;
+    right: 0;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: $color;
+    border-right-color: $color;
+  }
+  &::before {
+    top: 0;
+    left: 0;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+    border-top-color: $color;
+    border-left-color: $color;
+  }
+  &:hover:after,
+  &:hover:before {
+    width: 100%;
+    height: 100%;
+  }
+  &:disabled,
+  &[disabled] {
+    cursor: not-allowed;
+    &:hover:after,
+    &:hover:before {
+      width: $inici;
+      height: $inici;
+    }
+  }
+}
+
+@mixin btn1($color) {
+  border: 1px solid $color;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: $size-btn;
+  font-family: $font-btn;
+  font-weight: weight(bold);
+  // color: $color;
+  // background-color: $color-white-clear;
+  color: $color-white-clear;
+  background-color: $color;
+  transition: 0.5s;
+  &:hover {
+    // color: $color-white-clear;
+    // background-color: $color;
+    box-shadow: rgba(240, 46, 170, 0.4) 5px 5px,
+      rgba(240, 46, 170, 0.3) 10px 10px, rgba(240, 46, 170, 0.2) 15px 15px,
+      rgba(240, 46, 170, 0.1) 20px 20px, rgba(240, 46, 170, 0.05) 25px 25px;
+  }
+}
+
+// Display flex
+@mixin flex($dir, $align, $space, $gap: 0px) {
+  display: flex;
+  align-items: $align;
+  justify-content: $space;
+  flex-direction: $dir;
+  gap: $gap;
+}
+
+@mixin center() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin col-center($space, $gap: 0px) {
+  display: flex;
+  align-items: center;
+  justify-content: $space;
+  flex-direction: column;
+  gap: $gap;
+}
+
+@mixin col($space, $gap: 0px) {
+  display: flex;
+  align-items: flex-start;
+  justify-content: $space;
+  flex-direction: column;
+  gap: $gap;
+}
+
+@mixin row($space, $gap: 0px) {
+  display: flex;
+  align-items: center;
+  justify-content: $space;
+  flex-direction: row;
+  gap: $gap;
+}
+
+// Responsive
+@mixin mobile() {
+  @media (max-width: $size-mobile) {
+    @content;
+  }
+}
+
+@mixin tablet() {
+  @media (max-width: $size-tablet) {
+    @content;
+  }
+}
+
+// For the background gradient
+@mixin bg-gradient() {
+  background: #8e2de2; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #4a00e0,
+    #8e2de2
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #4a00e0,
+    #8e2de2
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+// For standard transitions
+@mixin transition($ease) {
+  transition: all 0.5s $ease;
+}
+
+// Testing
+@mixin theme($light-theme: true) {
+  @if $light-theme {
+    background-color: lighten($color-primary, 100%);
+    color: darken($color-p, 100%);
+  }
+}
+
+// For development
+@mixin b() {
+  border: 2px solid red;
+}
+
+@mixin no() {
+  display: none;
+}
+
+.no {
+  @include no;
+}

@@ -1,0 +1,160 @@
+// VARIABLES
+@import "./vars";
+
+// FUNCTIONS
+@import "./mixins";
+
+// Forms: login, register, edit user, edit user preferences
+.form-page {
+  @include center;
+  padding: 64px;
+  .form-container {
+    // Space that separate the items of the form
+    @include col(space-around, 40px);
+    background: $color-opacity;
+    backdrop-filter: blur(16px);
+    color: $color-white-clear;
+    padding: 32px 64px;
+    border-radius: 24px;
+    font-family: $font-text;
+    // The title of the form
+    h2 {
+      font-size: $size-title;
+      letter-spacing: 1.2px;
+      margin: auto;
+    }
+    h3 {
+      color: $color-tertiary;
+    }
+    // All the input fileds
+    .fields {
+      // Space between the group input
+      @include col(space-around, 24px);
+      .group {
+        // Space between the input and the error message
+        @include col(space-between, 4px);
+        .message-block {
+          font-size: $size-text;
+          color: $color-tertiary;
+          margin-left: 16px;
+        }
+        // For display only one message of error
+        .message-block div:not(:first-child) {
+          display: none;
+        }
+        .field {
+          // Space between the input and the icon
+          @include row(space-between, 32px);
+          font-size: $size-p;
+          .input {
+            width: 300px;
+            font-size: $size-p;
+            padding: 16px;
+            border: none;
+            color: $color-white-clear;
+            border-radius: 8px;
+            background-color: opacity($color-black, 0.4);
+            &:focus {
+              outline: $color-grey-clear solid thin;
+            }
+            &::placeholder {
+              color: $color-grey-clear;
+            }
+            // For autocomplete default properties
+            &:-webkit-autofill,
+            &:-webkit-autofill:focus {
+              transition: all 1000000s;
+            }
+          }
+          .input.ng-invalid.ng-touched + .icon {
+            color: $color-tertiary;
+          }
+          .input.ng-valid + .icon {
+            color: $color-shades1;
+          }
+          // For date input
+          .date {
+            background: opacity($color-black, 0.4);
+            color: $color-white-clear;
+            &::-webkit-calendar-picker-indicator {
+              filter: invert(100%);
+            }
+          }
+          // Border red for invalid input
+          // .input.ng-invalid.ng-touched {
+          //   outline: $color-tertiary solid thin;
+          // }
+        }
+        // Inputs without a placeholder
+        .col-field {
+          font-size: $size-p;
+          @include col(space-between, 8px);
+        }
+      }
+    }
+    // The button for submit
+    .btn-field {
+      width: 100%;
+      // Space between the button and the icon
+      @include row(space-between, 24px);
+      .btn-send {
+        @include btn($color-shades1, 20%);
+      }
+      .btn-icon {
+        color: transparent;
+      }
+    }
+    // Links in the form
+    .form-links {
+      @include col(space-around, 16px);
+      a {
+        cursor: pointer;
+        color: $color-gradient4;
+        &:hover {
+          color: $color-gradient3;
+        }
+      }
+    }
+  }
+  // Change the color of the okey icon (btn-icon) when the form is valid
+  .form-container.ng-valid .btn-field .btn-icon {
+    color: $color-shades1;
+  }
+  // Responsive for tablet
+  @include tablet {
+    padding: 48px;
+    .form-container {
+      padding: 24px 40px;
+    }
+  }
+  // Responsive for mobile
+  @include mobile {
+    padding: 16px;
+    .form-container {
+      // Space that separate the items of the form
+      @include col(space-around, 32px);
+      padding: 16px 32px;
+      .fields {
+        // Space between the inputs
+        @include col(space-around, 20px);
+        .group {
+          .field {
+            // Space between the input and the icon
+            @include row(space-between, 20px);
+            .input {
+              width: min(280px, 75vw);
+            }
+          }
+        }
+      }
+      .btn-field {
+        // Space between the button and the icon
+        @include row(space-between, 20px);
+      }
+    }
+    // Responsive for mobile
+    .form-container.ng-valid .btn-field .btn-send {
+      @include btn($color-shades1, 100%);
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+    "css.styleSheets": [
+        // "*.scss",
+        "app.component.scss",
+        "../styles/form.scss",
+        "./user/styles/general.scss",
+        "./user/styles/form.scss"
+        // "${app.component}.scss",
+        // "/src/app/app.component.scss"
+        // "*.component.scss"
+    ],
+    "cSpell.words": ["Dani", "Eloi", "FORIA", "oneline", "pinterest", "reflog"],
+}

@@ -1,0 +1,82 @@
+// COLORS
+
+$color-primary: #0CF25D;
+$color-secondary: #FF9537;
+$color-tertiary: #FF697D;
+$color-quart: #00B1FF;
+
+$color-shades1: #00C12E;
+$color-shades2: #009200;
+$color-shades3: #006400;
+$color-shades4: #003A00;
+
+$color-gradient1: #00DE9A;
+$color-gradient2: #00C5CF;
+$color-gradient3: #00A9F4;
+$color-gradient4: #0089FC;
+$color-gradient5: #0063E5;
+
+$color-primary1: #034159;
+$color-primary2: #025951;
+$color-primary3: #02735E;
+$color-primary4: #038C3E;
+
+$color-grey-dark: #3D4A3D;
+$color-grey-clear: #A0AFA0;
+
+$color-black: #000;
+$color-white: #FFF;
+$color-black-clear: #111;
+$color-white-clear: #EEE;
+$color-opacity: rgba($color-black-clear, .5);
+
+// Letter
+$color-title: $color-secondary;
+$color-subtitle: $color-shades2;
+$color-p: $color-white;
+$color-a: $color-gradient1;
+$color-a-hover: $color-gradient2;
+$color-a-active: $color-gradient3;
+// $color-bg-input: opacity($color-black, 0.6);
+// Messages
+$color-error: $color-tertiary;
+$color-success: $color-primary;
+$color-info: $color-quart;
+$color-cancel: $color-grey-clear;
+
+//SIZES
+$size-form: 1000px;
+$size-cont: 1600px;
+
+$size-tablet: 1000px;
+$size-mobile: 800px;
+
+$size-icon-footer: 30px;
+$size-icon-form: 25px;
+
+$height-header: 100px;
+$height-header-small: $height-header - 50px;
+$height-footer: 100px;
+$height-footer-mobile: $height-footer + 120px;
+
+$height-subtract: $height-header + $height-footer;
+$height-subtract-mobile: $height-header + $height-footer-mobile;
+
+// Fonts
+$size-p: 18px;
+$size-title: 30px;
+$size-subtitle: 25px;
+$size-text: 15px;
+$size-btn: 20px;
+
+$font-titles: "Roboto";
+$font-text: "Sans";
+$font-btn: "Roboto";
+
+// Examples
+
+$font-weights: (
+    "regular": 400,
+    "medium": 500,
+    "bold": 700
+)

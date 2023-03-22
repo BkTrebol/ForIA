@@ -1,1 +1,47 @@
-<p>login works!</p>
+<div class="form-page">
+    <form [formGroup]="formLogin" (ngSubmit)="submit()" class="form-container">
+        <h2>Login</h2>
+        <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}!</h3>
+        <div class="fields">
+            <div class="group">
+                <div class="field">
+                    <input type="email" formControlName="email" class="input" placeholder="Email" required>
+                    <fa-icon class="icon" [icon]="['fas', 'envelope']"></fa-icon>
+                </div>
+                <div class="message-block" *ngIf="!email?.valid && email?.touched">
+                    <ng-container *ngFor="let validation of validationMessagesLogin.email | keyvalue">
+                        <div *ngIf="email?.errors?.[validation.key]">
+                            <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{ validation.value }}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="group">
+                <div class="field">
+                    <input type="text" formControlName="password" class="input" placeholder="Password" required>
+                    <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
+                </div>
+                <div class="message-block" *ngIf="!password?.valid && password?.touched">
+                    <ng-container *ngFor="let validation of validationMessagesLogin.password | keyvalue">
+                        <div *ngIf="password?.errors?.[validation.key]">
+                            <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{ validation.value }}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
+            <input type="checkbox" formControlName="remember_me">
+
+        </div>
+        <div class="btn-field">
+            <button [disabled]="!formLogin.valid" class="btn-send" type="submit">
+                Login
+            </button>
+            <fa-icon class="btn-icon" [icon]="['fas', 'thumbs-up']"></fa-icon>
+        </div>
+        <div class="form-links">
+            <p><a>Forgot your password</a></p>
+            <p>New user? <a routerLink="/register">Register</a></p>
+        </div>
+    </form>
+</div>
