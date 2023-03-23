@@ -1,7 +1,7 @@
 <div class="form-page">
     <form [formGroup]="formLogin" (ngSubmit)="submit()" class="form-container">
         <h2>Login</h2>
-        <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}!</h3>
+        <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}</h3>
         <div class="fields">
             <div class="group">
                 <div class="field">
@@ -18,7 +18,7 @@
             </div>
             <div class="group">
                 <div class="field">
-                    <input type="text" formControlName="password" [(ngModel)]="authData.password" class="input" placeholder="Password" required>
+                    <input type="password" formControlName="password" [(ngModel)]="authData.password" class="input" placeholder="Password" required>
                     <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!password?.valid && password?.touched">
@@ -29,22 +29,12 @@
                     </ng-container>
                 </div>
             </div>
-
-            <!-- <div class="group">
-                <div class="row-field">
-                    <div class="field">
-                        <label for="remember" class="input">Remember Me</label>
-                        <input type="checkbox" id="remember" formControlName="remember_me" [(ngModel)]="authData.remember_me">
-                    </div>
-                </div>
-            </div> -->
             <div class="group">
                 <div class="row-field">
                     <input type="checkbox" id="remember" formControlName="remember_me" [(ngModel)]="authData.remember_me">
                     <label for="remember">Remember Me</label>
                 </div>
             </div>
-
         </div>
         <div class="btn-field">
             <button [disabled]="!formLogin.valid" class="btn-send" type="submit">
@@ -53,8 +43,8 @@
             <fa-icon class="btn-icon" [icon]="['fas', 'thumbs-up']"></fa-icon>
         </div>
         <div class="form-links">
-            <p><a>Forgot your password</a></p>
-            <p>New user? <a routerLink="/register">Register</a></p>
+            <p>Forgot your password? <a routerLink="/auth/reset-password">Reset Password</a></p>
+            <p>New user? <a routerLink="/auth/register">Register</a></p>
         </div>
     </form>
 </div>

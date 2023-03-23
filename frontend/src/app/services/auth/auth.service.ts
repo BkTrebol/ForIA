@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { AuthData } from '../../models/auth-data';
 import { Register } from '../../models/register';
 import { Global } from '../global';
@@ -13,7 +14,18 @@ export class AuthService {
   private baseURL: string = Global.url;
   private apiURL: string = Global.api;
 
+  private isAuthenticated: boolean = false;
+  private authStatusListener = new Subject<boolean>();
+
   constructor(private http: HttpClient, public router: Router) {}
+
+  getIsAuth() {
+    return this.isAuthenticated;
+  }
+
+  getAuthStatusListener() {
+    return this.authStatusListener.asObservable();
+  }
 
   getCSRF(): Observable<any> {
     return this.http.get<any>(`${this.baseURL}/sanctum/csrf-cookie`, {
@@ -46,6 +58,9 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
+    this.isAuthenticated = false;
+    this.authStatusListener.next(false);
+    //And more
     return this.http.get(`${this.apiURL}auth/logout`, {
       withCredentials: true,
     });

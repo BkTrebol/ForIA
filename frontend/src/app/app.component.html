@@ -5,7 +5,7 @@
       <img class="logoIA" src="/assets/svg/logoIA.svg" height="55" alt="logo icon FORIA">
       <img class="logoFORIA" src="/assets/svg/logoFORIA.svg" height="37" alt="logo FORIA">
     </a>
-    <nav *ngIf="auth">
+    <nav *ngIf="userIsAuthenticated">
       <ul>
         <li><a routerLink="/message/list" routerLinkActive="active">
             <fa-icon [icon]="['fas', 'message']"></fa-icon><span>Messages</span>
@@ -24,7 +24,7 @@
               [icon]="['fas', 'right-from-bracket']"></fa-icon><span>Logout</span></a></li>
       </ul>
     </nav>
-    <nav *ngIf="!auth">
+    <nav *ngIf="!userIsAuthenticated">
       <ul>
         <li><a routerLink="/edit" routerLinkActive="active"><fa-icon
               [icon]="['fas', 'edit']"></fa-icon><span>Edit</span></a>
