@@ -22,7 +22,7 @@ export class AuthService {
   private subscribe$: Subscription;
 
   public userData: User;
-  public userPreferences: {sidebar: boolean, allow_music: boolean};
+  public userPreferences: { sidebar: boolean; allow_music: boolean };
 
   constructor(private http: HttpClient, public router: Router) {
     this.baseURL = Global.url;
@@ -41,7 +41,7 @@ export class AuthService {
       created_at: '',
       updated_at: '',
     };
-    this.userPreferences = {sidebar: true, allow_music: false};
+    this.userPreferences = { sidebar: true, allow_music: false };
   }
 
   getIsAuth() {
@@ -61,27 +61,54 @@ export class AuthService {
     return this.http.post(`${this.apiURL}auth/register`, params);
   }
 
-  login(authData: AuthData): Observable<any> {
+  // Add confirmation subscribe
+  login(authData: AuthData) {
     let params = JSON.stringify(authData);
-    return this.http.post(`${this.apiURL}auth/login`, params);
+    this.http.post(`${this.apiURL}auth/login`, params).subscribe({
+      next: (res) => {
+        this.autoAuthUser();
+      },
+      error: err => {
+        this.autoAuthUser();
+      }
+    });
   }
 
-  logout(): Observable<any> {
-    this.userData = {
-      id: 0,
-      nick: '',
-      email: '',
-      location: '',
-      birthday: '',
-      avatar: '',
-      roles: [],
-      created_at: '',
-      updated_at: '',
-    };
-    this.userPreferences = { sidebar: true, allow_music: false };
-    this.isAuthenticated = false;
-    this.authStatusListener.next(false);
-    return this.http.get(`${this.apiURL}auth/logout`);
+  logout() {
+    this.http.get(`${this.apiURL}auth/logout`).subscribe({
+      next: (res) => {
+        this.userData = {
+          id: 0,
+          nick: '',
+          email: '',
+          location: '',
+          birthday: '',
+          avatar: '',
+          roles: [],
+          created_at: '',
+          updated_at: '',
+        };
+        this.userPreferences = { sidebar: true, allow_music: false };
+        this.isAuthenticated = false;
+        this.authStatusListener.next(false);
+      },
+      error: (err) => {
+        this.userData = {
+          id: 0,
+          nick: '',
+          email: '',
+          location: '',
+          birthday: '',
+          avatar: '',
+          roles: [],
+          created_at: '',
+          updated_at: '',
+        };
+        this.userPreferences = { sidebar: true, allow_music: false };
+        this.isAuthenticated = false;
+        this.authStatusListener.next(false);
+      },
+    });
   }
 
   autoAuthUser() {

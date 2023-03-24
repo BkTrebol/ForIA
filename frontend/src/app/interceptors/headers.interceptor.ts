@@ -24,7 +24,7 @@ export class HeadersInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     // Check if our Api
-    
+
     const headersRequest = request.clone({
       headers: this.headers,
       withCredentials: true
