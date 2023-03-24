@@ -24,7 +24,9 @@
       margin: auto;
     }
     h3 {
+      text-align: center;
       color: $color-tertiary;
+      max-width: 330px
     }
     // All the input fileds
     .fields {
@@ -97,6 +99,7 @@
           @include row(space-between, 16px);
           input[type=checkbox]{
              transform: scale(1.6);
+             accent-color: $color-shades1;
           }
         }
       }

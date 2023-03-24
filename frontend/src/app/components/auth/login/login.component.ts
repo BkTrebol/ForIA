@@ -1,5 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Validators,
+  FormBuilder,
+  NonNullableFormBuilder,
+  FormGroup,
+} from '@angular/forms';
+import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthData } from 'src/app/models/auth-data';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -8,40 +15,13 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss', '../../styles/user-form.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+  private unsubscribe$: Subject<void>;
   public error: string;
   public authData: AuthData;
-
-  constructor(private _authService: AuthService, private fb: FormBuilder) {
-    this.error = "";
-    // this.authData = {email: "", password: "", remember_me: false};
-    this.authData = new AuthData("", "", false);
-  }
-
-  formLogin = this.fb.group({
-    email: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(30),
-        Validators.email,
-      ],
-    ],
-    password: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.pattern('^[a-zA-Z0-9]+$'),
-      ],
-    ],
-    remember_me: [
-      false, []
-    ]
-  });
-
-  validationMessagesLogin = {
+  public formLogin: FormGroup;
+  public formBuilderNonNullable: NonNullableFormBuilder;
+  public validationMessagesLogin = {
     email: {
       required: 'Email is Required',
       minlength: 'Min Length is 3',
@@ -55,18 +35,53 @@ export class LoginComponent implements OnInit {
     },
   };
 
+  constructor(private _authService: AuthService, private router: Router) {
+    this.unsubscribe$ = new Subject();
+    this.error = '';
+    this.authData = { email: '', password: '', remember_me: false };
+    this.formBuilderNonNullable = new FormBuilder().nonNullable;
+    this.formLogin = this.formBuilderNonNullable.group({
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(255),
+          Validators.email,
+        ],
+      ],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern('^[a-zA-Z0-9]+$'), //TODO change pattern more secure
+        ],
+      ],
+      remember_me: [false, []],
+    });
+  }
+
+  ngOnInit() {
+    this._authService.getCSRF();
+  }
+
+  // Login the user
   submit() {
     if (this.formLogin.valid) {
-      console.log(this.authData);
-      console.log(this.formLogin.value);
-      this._authService.login(this.authData).subscribe({
-        next: (a) => console.log(a),
-        error: (e) => {
-          this.error = e.error;
-          console.log(e)
-        },
-      });
-      this.error = '';
+      this._authService
+        .login(this.authData)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: (res) => {
+            this.error = '';
+            this.router.navigate(['/user/profile']);
+          },
+          error: (err) => {
+            this.error = err.error.message;
+            this.formLogin.controls['password'].reset();
+          },
+        });
     } else {
       this.error = 'Invalid data in the Form';
     }
@@ -79,7 +94,8 @@ export class LoginComponent implements OnInit {
     return this.formLogin.get('password');
   }
 
-  ngOnInit() {
-    this._authService.getCSRF();
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

@@ -1,30 +1,53 @@
-import { Component, OnInit } from '@angular/core';
-// import { CssService } from './services/css.service';
-// import { UserService } from './services/user.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss', './components/styles/general.scss'],
 })
-export class AppComponent implements OnInit {
-  auth: boolean;
-  top: boolean = false;
-  canSmall: boolean = false;
+export class AppComponent implements OnInit, OnDestroy {
+  private unsubscribe$: Subject<void>;
+  userIsAuthenticated: boolean;
 
-  constructor(private router: Router) {
-    this.auth = true; //serivce
+  top: boolean;
+  canSmall: boolean;
+
+  constructor(private _authService: AuthService, private router: Router) {
+    this.unsubscribe$ = new Subject();
+    this.userIsAuthenticated = false;
+    this.top = false;
+    this.canSmall = false;
   }
 
   ngOnInit() {
-    // For changing the nav height
+    this.userIsAuthenticated = this._authService.getIsAuth();
+    this._authService
+      .getAuthStatusListener()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((isAuthenticated) => {
+        this.userIsAuthenticated = isAuthenticated;
+      });
+    this._authService.autoAuthUser();
+
+    // Function that change the nav height on scroll
     this.small();
     // Only in some pages
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        if (['/login', '/register', '/edit'].includes(event.url)) {
-          console.log(event.url);
+        if (
+          [
+            '/auth/login',
+            '/auth/register',
+            '/auth/reset-password',
+            '/user/edit',
+            '/user/preferences',
+          ].includes(event.url)
+        ) {
+          // console.log(event.url);
           this.canSmall = false;
         } else {
           this.canSmall = true;
@@ -50,9 +73,15 @@ export class AppComponent implements OnInit {
     };
   }
 
-  //Logout
+  // Logout the user
   logout() {
-    console.log("Logout (app.component)");
-    
+    console.log('Logout (app.component)');
+    this._authService.logout();
+  }
+
+  ngOnDestroy(): void {
+    this._authService.unsubscribeAutoAuthUser();
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }
