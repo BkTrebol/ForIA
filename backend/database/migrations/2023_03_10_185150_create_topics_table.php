@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained();
             $table->foreignId('user_id')->nullable()->nullOnDelete()->constrained();
             $table->string('title');
-            $table->string('description')->nullabel();
+            $table->string('description')->nullable();
             $table->string('can_view')->default('ROLE_USER');
             $table->string('can_edit')->default('ROLE_ADMIN');
             $table->timestamps();

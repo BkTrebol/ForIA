@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->json('roles')->default(json_encode(['ROLE_USER']));
             $table->boolean('google_auth')->default(false); 
+            $table->date('suspension')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

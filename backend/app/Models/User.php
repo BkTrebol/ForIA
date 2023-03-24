@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 use App\Models\UserPreference;
 use App\Models\PrivateMessage;
 use App\Models\Post;
@@ -29,6 +30,7 @@ class User extends Authenticatable
         'location',
         'birthday',
         'avatar',
+        'google_auth',
     ];
 
     /**
@@ -41,6 +43,8 @@ class User extends Authenticatable
         'remember_token',
         'email_verified_at',
         'google_auth',
+        'suspension',
+        'preferences'
     ];
 
     /**
@@ -74,4 +78,5 @@ class User extends Authenticatable
         return $this->hasManyThrough(Topic::class, PrivateMessage::class, 'user_id', 'id', 'id', 'topic_id')
             ->orWhere('private_messages.user2_id', $this->id);
     }
+
 }
