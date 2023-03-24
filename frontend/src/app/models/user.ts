@@ -1,7 +1,7 @@
 export interface User {
     id:number;
-    nick:number;
-    email:number;
+    nick:string;
+    email:string;
     location:string;
     birthday:string;
     avatar:string;
