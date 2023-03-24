@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Facade;
 
 return [
 
+    // Administrator roles.
+    'adminRoles' => ['ROLE_ADMIN','ROLE_GOD'],
+
+    'trash' => 2,
     /*
     |--------------------------------------------------------------------------
     | Application Name
