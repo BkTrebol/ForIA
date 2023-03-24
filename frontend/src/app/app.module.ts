@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 //App
 import { AppRoutingModule } from './app-routing.module';
@@ -28,6 +28,9 @@ import { ReplyComponent } from './components/private-message/reply/reply.compone
 // Includes
 import { HeaderComponent } from './components/includes/header/header.component';
 import { FooterComponent } from './components/includes/footer/footer.component';
+
+// Interceptors
+import { HeadersInterceptor } from "./interceptors/headers.interceptor";
 
 //Extra (icons)
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -60,9 +63,11 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
     HttpClientModule,
     HttpClientXsrfModule,
     FontAwesomeModule,
-    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
+    ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {

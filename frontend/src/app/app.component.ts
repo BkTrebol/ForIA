@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { Subscription } from 'rxjs';
 import { AuthService } from './services/auth/auth.service';
 
@@ -8,24 +9,29 @@ import { AuthService } from './services/auth/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss', './components/styles/general.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+  private unsubscribe$: Subject<void>;
   userIsAuthenticated: boolean;
-  private authListenerSubs!: Subscription;
 
-  top: boolean = false;
-  canSmall: boolean = false;
+  top: boolean;
+  canSmall: boolean;
 
   constructor(private _authService: AuthService, private router: Router) {
-    this.userIsAuthenticated = false; //serivce
+    this.unsubscribe$ = new Subject();
+    this.userIsAuthenticated = false;
+    this.top = false;
+    this.canSmall = false;
   }
 
   ngOnInit() {
     this.userIsAuthenticated = this._authService.getIsAuth();
-    this.authListenerSubs = this._authService
-      .getAuthStatusListener() //.pipe(takeUntil)
+    this._authService
+      .getAuthStatusListener()
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe((isAuthenticated) => {
         this.userIsAuthenticated = isAuthenticated;
       });
+    this._authService.autoAuthUser();
 
     // Function that change the nav height on scroll
     this.small();
@@ -71,5 +77,11 @@ export class AppComponent implements OnInit {
   logout() {
     console.log('Logout (app.component)');
     this._authService.logout();
+  }
+
+  ngOnDestroy(): void {
+    this._authService.unsubscribeAutoAuthUser();
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   Validators,
   FormBuilder,
@@ -6,6 +6,7 @@ import {
   FormGroup,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthData } from 'src/app/models/auth-data';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -14,7 +15,8 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss', '../../styles/user-form.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+  private unsubscribe$: Subject<void>;
   public error: string;
   public authData: AuthData;
   public formLogin: FormGroup;
@@ -34,6 +36,7 @@ export class LoginComponent implements OnInit {
   };
 
   constructor(private _authService: AuthService, private router: Router) {
+    this.unsubscribe$ = new Subject();
     this.error = '';
     this.authData = { email: '', password: '', remember_me: false };
     this.formBuilderNonNullable = new FormBuilder().nonNullable;
@@ -59,19 +62,26 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  ngOnInit() {
+    this._authService.getCSRF();
+  }
+
   // Login the user
   submit() {
     if (this.formLogin.valid) {
-      this._authService.login(this.authData).subscribe({
-        next: (res) => {
-          this.error = '';
-          this.router.navigate(['/user/profile']);
-        },
-        error: (err) => {
-          this.error = err.error.message;
-          this.formLogin.controls['password'].reset();
-        },
-      });
+      this._authService
+        .login(this.authData)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: (res) => {
+            this.error = '';
+            this.router.navigate(['/user/profile']);
+          },
+          error: (err) => {
+            this.error = err.error.message;
+            this.formLogin.controls['password'].reset();
+          },
+        });
     } else {
       this.error = 'Invalid data in the Form';
     }
@@ -84,7 +94,8 @@ export class LoginComponent implements OnInit {
     return this.formLogin.get('password');
   }
 
-  ngOnInit() {
-    this._authService.getCSRF();
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

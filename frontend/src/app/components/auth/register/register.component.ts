@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   Validators,
   FormBuilder,
@@ -6,6 +6,7 @@ import {
   FormGroup,
   AbstractControl,
 } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { Register } from 'src/app/models/register';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -33,7 +34,8 @@ function passwordMatchValidator(control: AbstractControl) {
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss', '../../styles/user-form.scss'],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
+  private unsubscribe$: Subject<void>;
   public error: string;
   public user: Register;
   public formRegister: FormGroup;
@@ -66,6 +68,7 @@ export class RegisterComponent implements OnInit {
   };
 
   constructor(private _authService: AuthService, private router: Router) {
+    this.unsubscribe$ = new Subject();
     this.error = '';
     this.user = {
       nick: '',
@@ -119,7 +122,9 @@ export class RegisterComponent implements OnInit {
   // Register the User
   submit() {
     if (this.formRegister.valid) {
-      this._authService.register(this.user).subscribe({
+      this._authService.register(this.user)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
         next: (res) => {
           this.error = '';
           this.router.navigate(['/user/profile']);
@@ -138,9 +143,7 @@ export class RegisterComponent implements OnInit {
             this.formRegister.controls['password_confirmation'].setErrors({
               mismatch: true,
             });
-            this.formRegister.controls[
-              'password_confirmation'
-            ].markAsTouched();
+            this.formRegister.controls['password_confirmation'].markAsTouched();
           }
           if (err.error.errors.nick) {
             this.formRegister.controls['nick'].setErrors({ repeat: true });
@@ -170,5 +173,10 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this._authService.getCSRF();
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }
