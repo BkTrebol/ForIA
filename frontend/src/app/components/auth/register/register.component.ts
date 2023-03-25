@@ -122,37 +122,41 @@ export class RegisterComponent implements OnInit, OnDestroy {
   // Register the User
   submit() {
     if (this.formRegister.valid) {
-      this._authService.register(this.user)
+      this._authService.register(this.user);
+      this._authService
+        .getAuthStatusListener()
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
-        next: (res) => {
-          this.error = '';
-          this.router.navigate(['/user/profile']);
-        },
-        error: (err) => {
-          // Message error
-          this.error = err.error.message.split('.')[0];
-          // Reset the passwords
-          this.formRegister.controls['password'].reset();
-          // this.formRegister.controls['password'].markAsUntouched();
-          this.formRegister.controls['password_confirmation'].reset();
-          // this.formRegister.controls['password_confirmation'].markAsUntouched();
+          next: (res) => {
+            this.error = '';
+            this.router.navigate(['/user/profile']);
+          },
+          error: (err) => {
+            // Message error
+            this.error = err.error.message.split('.')[0];
+            // Reset the passwords
+            this.formRegister.controls['password'].reset();
+            // this.formRegister.controls['password'].markAsUntouched();
+            this.formRegister.controls['password_confirmation'].reset();
+            // this.formRegister.controls['password_confirmation'].markAsUntouched();
 
-          // Show the errors from the backend
-          if (err.error.errors.password) {
-            this.formRegister.controls['password_confirmation'].setErrors({
-              mismatch: true,
-            });
-            this.formRegister.controls['password_confirmation'].markAsTouched();
-          }
-          if (err.error.errors.nick) {
-            this.formRegister.controls['nick'].setErrors({ repeat: true });
-          }
-          if (err.error.errors.email) {
-            this.formRegister.controls['email'].setErrors({ repeat: true });
-          }
-        },
-      });
+            // Show the errors from the backend
+            if (err.error.errors.password) {
+              this.formRegister.controls['password_confirmation'].setErrors({
+                mismatch: true,
+              });
+              this.formRegister.controls[
+                'password_confirmation'
+              ].markAsTouched();
+            }
+            if (err.error.errors.nick) {
+              this.formRegister.controls['nick'].setErrors({ repeat: true });
+            }
+            if (err.error.errors.email) {
+              this.formRegister.controls['email'].setErrors({ repeat: true });
+            }
+          },
+        });
     } else {
       this.error = 'Invalid data in the Form';
     }

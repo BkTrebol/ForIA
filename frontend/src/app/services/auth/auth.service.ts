@@ -7,7 +7,6 @@ import { AuthData } from '../../models/auth-data';
 import { Register } from '../../models/register';
 import { Global } from '../global';
 import { User } from '../../models/user';
-import { UserPreferences } from 'src/app/models/user-preferences';
 
 @Injectable({
   providedIn: 'root',
@@ -56,55 +55,39 @@ export class AuthService {
     return this.http.get<any>(`${this.baseURL}/sanctum/csrf-cookie`);
   }
 
-  register(register: Register): Observable<any> {
+  register(register: Register) {
     let params = JSON.stringify(register);
-    return this.http.post(`${this.apiURL}auth/register`, params);
+    this.http.post(`${this.apiURL}auth/register`, params).subscribe({
+      next: (res) => {
+        this.autoAuthUser();
+      },
+      error: (err) => {
+        this.autoAuthUser();
+      },
+    });
   }
 
-  // Add confirmation subscribe
   login(authData: AuthData) {
     let params = JSON.stringify(authData);
     this.http.post(`${this.apiURL}auth/login`, params).subscribe({
       next: (res) => {
         this.autoAuthUser();
       },
-      error: err => {
+      error: (err) => {
         this.autoAuthUser();
-      }
+      },
     });
   }
 
   logout() {
     this.http.get(`${this.apiURL}auth/logout`).subscribe({
       next: (res) => {
-        this.userData = {
-          id: 0,
-          nick: '',
-          email: '',
-          location: '',
-          birthday: '',
-          avatar: '',
-          roles: [],
-          created_at: '',
-          updated_at: '',
-        };
-        this.userPreferences = { sidebar: true, allow_music: false };
+        this.resetAuthUser();
         this.isAuthenticated = false;
         this.authStatusListener.next(false);
       },
       error: (err) => {
-        this.userData = {
-          id: 0,
-          nick: '',
-          email: '',
-          location: '',
-          birthday: '',
-          avatar: '',
-          roles: [],
-          created_at: '',
-          updated_at: '',
-        };
-        this.userPreferences = { sidebar: true, allow_music: false };
+        this.resetAuthUser();
         this.isAuthenticated = false;
         this.authStatusListener.next(false);
       },
@@ -120,6 +103,7 @@ export class AuthService {
         this.authStatusListener.next(true);
       },
       error: (err) => {
+        this.resetAuthUser();
         this.isAuthenticated = false;
         this.authStatusListener.next(false);
       },
@@ -130,7 +114,35 @@ export class AuthService {
     this.subscribe$.unsubscribe();
   }
 
-  getAuthData(): Observable<any> {
+  // Helpers
+  resetAuthUser() {
+    this.userData = {
+      id: 0,
+      nick: '',
+      email: '',
+      location: '',
+      birthday: '',
+      avatar: '',
+      roles: [],
+      created_at: '',
+      updated_at: '',
+    };
+    this.userPreferences = { sidebar: true, allow_music: false };
+  }
+
+  // For tests
+  getAuthUser(): Observable<any> {
     return this.http.get(`${this.apiURL}auth/data`);
+  }
+  testRegister(register: Register): Observable<any> {
+    let params = JSON.stringify(register);
+    return this.http.post(`${this.apiURL}auth/register`, params);
+  }
+  testLogin(authData: AuthData): Observable<any> {
+    let params = JSON.stringify(authData);
+    return this.http.post(`${this.apiURL}auth/login`, params);
+  }
+  testLogout(): Observable<any> {
+    return this.http.get(`${this.apiURL}auth/logout`);
   }
 }
