@@ -13,7 +13,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss', '../../styles/user-form.scss'],
+  styleUrls: ['./login.component.scss', '../../../../styles/user-form.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     .subscribe(r =>{
         if (r) this.router.navigate(['/']);
     })
-    
+
     this.error = '';
     this.authData = { email: '', password: '', remember_me: false };
     this.formBuilderNonNullable = new FormBuilder().nonNullable;

@@ -1,0 +1,50 @@
+<!-- <div class="form-page">
+    <form [formGroup]="formLogin" (ngSubmit)="submit()" class="form-container">
+        <h2>Login</h2>
+        <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}</h3>
+        <div class="fields">
+            <div class="group">
+                <div class="field">
+                    <input type="email" formControlName="email" [(ngModel)]="authData.email" class="input" placeholder="Email" required>
+                    <fa-icon class="icon" [icon]="['fas', 'envelope']"></fa-icon>
+                </div>
+                <div class="message-block" *ngIf="!email?.valid && email?.touched">
+                    <ng-container *ngFor="let validation of validationMessagesLogin.email | keyvalue">
+                        <div *ngIf="email?.errors?.[validation.key]">
+                            <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{ validation.value }}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="group">
+                <div class="field">
+                    <input type="password" formControlName="password" [(ngModel)]="authData.password" class="input" placeholder="Password" required>
+                    <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
+                </div>
+                <div class="message-block" *ngIf="!password?.valid && password?.touched">
+                    <ng-container *ngFor="let validation of validationMessagesLogin.password | keyvalue">
+                        <div *ngIf="password?.errors?.[validation.key]">
+                            <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{ validation.value }}
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="group">
+                <div class="row-field">
+                    <input type="checkbox" id="remember" formControlName="remember_me" [(ngModel)]="authData.remember_me">
+                    <label for="remember">Remember Me</label>
+                </div>
+            </div>
+        </div>
+        <div class="btn-field">
+            <button [disabled]="!formLogin.valid" class="btn-send" type="submit">
+                Login
+            </button>
+            <fa-icon class="btn-icon" [icon]="['fas', 'thumbs-up']"></fa-icon>
+        </div>
+        <div class="form-links">
+            <p>Forgot your password? <a routerLink="/auth/reset-password">Reset Password</a></p>
+            <p>New user? <a routerLink="/auth/register">Register</a></p>
+        </div>
+    </form>
+</div> -->
