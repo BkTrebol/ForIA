@@ -21,47 +21,43 @@ use App\Http\Controllers\UserController;
 // Authenticated routes.
 Route::middleware('auth:sanctum')->group(function(){
     // Authentication routes.
-    Route::controller(AuthController::class)->prefix('auth')->name('auth.')->group(function(){
-        Route::get('/data','userData')->name('userData');
-        Route::get('/logout','logout')->name('logout');
+    Route::controller(AuthController::class)->prefix('auth')->group(function(){
+        Route::get('/data','userData');
+        Route::get('/logout','logout');
     });
-
 
     // Topic routes.
-    Route::controller(TopicController::class)->prefix('topic')->name('topic.')->group(function(){
-        Route::post('/create','createTopic')->name('create');
-        Route::put('/{topic}','editTopic')->name('edit');
-        Route::delete('/{topic}','deleteTopic')->name('delete');
+    Route::controller(TopicController::class)->prefix('topic')->group(function(){
+        Route::post('/create','createTopic');
+        Route::put('/{topic}','editTopic');
+        Route::delete('/{topic}','deleteTopic');
     });
-
     //User Routes.
-    Route::controller(UserController::class)->prefix('user')->name('user.')->group(function(){
-        Route::get('/edit','getUserData')->name('edit');
-        Route::get('/preference','getUserPreferences')->name('preferences');
-        Route::post('/edit','editUserData')->name('editUser');
-        Route::post('/preference','editUserPreference')->name('editPreference');
-        Route::get('{user}','profile')->name('profile');
+    Route::controller(UserController::class)->prefix('user')->group(function(){
+        Route::get('/edit','getUserData');
+        Route::get('/preference','getUserPreferences');
+        Route::post('/edit','editUserData');
+        Route::post('/preference','editUserPreference');
+        Route::get('{user}','profile');
     });
-
 });
 
 // Public routes.
+Route::controller(AuthController::class)->prefix('auth')->group(function(){
+    Route::post('/register','register');
+    Route::post('/login','login');
+    Route::post('/googleauth','googleAuth');
+    Route::post('/googleconfirm','confirmGoogle');
+});
 
-    Route::controller(AuthController::class)->prefix('auth')->name('auth.')->group(function(){
-        Route::post('/register','register')->name('register');
-        Route::post('/login','login')->name('login');
-        Route::post('/googleauth','googleAuth')->name('googleauth');
-        Route::post('/googleconfirm','confirmGoogle')->name('googleconfirm');
-    });
-    
-    Route::controller(CategoryController::class)->prefix('category')->name('category.')->group(function(){
-        Route::get('','getCategories')->name('list');
-        Route::get('/{category}','viewCategory')->name('view');
-    });
-    
-    Route::controller(TopicController::class)->prefix('topic')->name('topic.')->group(function(){
-        Route::get('/{topic}','viewTopic')->name('view');
-    });
+Route::controller(CategoryController::class)->prefix('category')->group(function(){
+    Route::get('','getCategories');
+    Route::get('/{category}','viewCategory');
+});
+
+Route::controller(TopicController::class)->prefix('topic')->group(function(){
+    Route::get('/{topic}','viewTopic');
+});
 
 
 
