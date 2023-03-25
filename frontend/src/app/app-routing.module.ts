@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+// Guard
+import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
+
 // Components
 import { RegisterComponent } from './components/auth/register/register.component';
 import { LoginComponent } from './components/auth/login/login.component';
@@ -19,21 +23,42 @@ const routes: Routes = [
     title: 'Reset Password',
   },
 
-  { path: 'user/profile', component: ProfileComponent, title: 'User Profile' },
-  { path: 'user/edit', component: EditComponent, title: 'Edit Profile' },
+  {
+    path: 'user/profile',
+    component: ProfileComponent,
+    title: 'User Profile',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user/edit',
+    component: EditComponent,
+    title: 'Edit Profile',
+    canActivate: [AuthGuard],
+  },
   {
     path: 'user/preferences',
     component: PreferencesComponent,
     title: 'Edit Preferences',
+    canActivate: [AuthGuard],
   },
+  // {
+  //   path: 'user/preferences',
+  //   component: PreferencesComponent,
+  //   title: 'Edit Preferences',
+  //   canActivate: [AuthGuard, RoleGuard],
+  // },
 
-  { path: 'user/edit', component: ListComponent, title: 'ForIA' },
-  { path: '', redirectTo: '/', pathMatch: 'full' },
+  {
+    path: '',
+    component: ListComponent,
+    title: 'ForIA',
+  },
   { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
+  providers: [AuthGuard, RoleGuard],
 })
 export class AppRoutingModule {}

@@ -16,8 +16,26 @@ describe('AuthService Test', () => {
     expect(service).toBeTruthy();
   });
 
-  it('#getIsAuth should return false', () => {
+  it('getIsAuth() should return false', () => {
     expect(service.getIsAuth()).toBe(false);
+  });
+
+  it('should have property userData initialized', () => {
+    expect(service.userData).toEqual({
+      id: 0,
+      nick: '',
+      email: '',
+      location: '',
+      birthday: '',
+      avatar: '',
+      roles: [],
+      created_at: '',
+      updated_at: '',
+    });
+  });
+
+  it('should have property userPreferences initialized', () => {
+    expect(service.userPreferences).toEqual({ sidebar: true, allow_music: false });
   });
 
   // it('#getAuthStatusListener should return false from observable', (done: DoneFn) => {

@@ -69,8 +69,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   // Login the user
   submit() {
     if (this.formLogin.valid) {
+      this._authService.login(this.authData);
       this._authService
-        .login(this.authData)
+        .getAuthStatusListener()
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {

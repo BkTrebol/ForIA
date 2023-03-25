@@ -75,8 +75,18 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // Logout the user
   logout() {
-    console.log('Logout (app.component)');
     this._authService.logout();
+    this._authService
+      .getAuthStatusListener()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (res) => {
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          this.router.navigate(['/']);
+        },
+      });
   }
 
   ngOnDestroy(): void {
