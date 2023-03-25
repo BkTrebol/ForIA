@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.canSmall = false;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.userIsAuthenticated = this._authService.getIsAuth();
     this._authService
       .getAuthStatusListener()
@@ -57,7 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   // For changing the nav height on scroll
-  small() {
+  small(): void {
     window.onscroll = () => {
       if (
         // document.body.scrollTop > 100 ||
@@ -74,7 +74,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   // Logout the user
-  logout() {
+  logout(): void {
     this._authService.logout();
     this._authService
       .getAuthStatusListener()

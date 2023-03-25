@@ -62,12 +62,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this._authService.getCSRF();
   }
 
   // Login the user
-  submit() {
+  submit(): void {
     if (this.formLogin.valid) {
       this._authService.login(this.authData);
       this._authService
@@ -95,7 +95,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     return this.formLogin.get('password');
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

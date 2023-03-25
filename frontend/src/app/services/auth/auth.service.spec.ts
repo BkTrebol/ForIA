@@ -1,7 +1,8 @@
-import { TestBed } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { AuthService } from './auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Observable, of } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 describe('AuthService Test', () => {
   let service: AuthService;
@@ -24,11 +25,8 @@ describe('AuthService Test', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getIsAuth should return false', () => {
+  it('AuthService variables initialized', () => {
     expect(service.getIsAuth()).toBe(false);
-  });
-
-  it('should have property userData initialized', () => {
     expect(service.userData).toEqual({
       id: 0,
       nick: '',
@@ -40,9 +38,6 @@ describe('AuthService Test', () => {
       created_at: '',
       updated_at: '',
     });
-  });
-
-  it('should have property userPreferences initialized', () => {
     expect(service.userPreferences).toEqual({
       sidebar: true,
       allow_music: false,
@@ -62,8 +57,12 @@ describe('AuthService Test', () => {
 
     httpPostClientSpy.post.and.returnValue(of(mockRegisterResult));
 
+    const result = service.testRegister(mockRegisterData);
+    expect(result).not.toBeNull();
+
     service.testRegister(mockRegisterData).subscribe((res) => {
-      expect(res).toBe(mockRegisterResult);
+      expect(res).not.toBeNull();
+      expect(res).toEqual(mockRegisterResult);
     });
   });
 
@@ -79,8 +78,12 @@ describe('AuthService Test', () => {
 
     httpPostClientSpy.post.and.returnValue(of(mockLoginResult));
 
+    const result = service.testLogin(mockLoginData);
+    expect(result).not.toBeNull();
+
     service.testLogin(mockLoginData).subscribe((res) => {
-      expect(res).toBe(mockLoginResult);
+      expect(res).not.toBeNull();
+      expect(res).toEqual(mockLoginResult);
     });
   });
 
@@ -91,8 +94,12 @@ describe('AuthService Test', () => {
 
     httpGetClientSpy.get.and.returnValue(of(mockLogoutResult));
 
+    const result = service.testLogout();
+    expect(result).not.toBeNull();
+
     service.testLogout().subscribe((res) => {
-      expect(res).toBe(mockLogoutResult);
+      expect(res).not.toBeNull();
+      expect(res).toEqual(mockLogoutResult);
     });
   });
 
@@ -117,18 +124,24 @@ describe('AuthService Test', () => {
 
     httpGetClientSpy.get.and.returnValue(of(mockAuthUserResult));
 
+    const result = service.getAuthUser();
+    expect(result).not.toBeNull();
+
     service.getAuthUser().subscribe((res) => {
-      expect(res).toBe(mockAuthUserResult);
+      expect(res).toEqual(mockAuthUserResult);
     });
   });
 
-  it('TODO getCSRF valid should return status code 204 No Content from observable', () => {
-    const mockCSRFResult = "";
+  it('getCSRF valid should return status code 204 No Content from observable', () => {
+    const mockCSRFResult = '';
 
     httpGetClientSpy.get.and.returnValue(of(mockCSRFResult));
 
+    const result = service.getCSRF();
+    expect(result).not.toBeNull();
+
     service.getCSRF().subscribe((res) => {
-      expect(res).toBe(mockCSRFResult);
+      expect(res).toEqual(mockCSRFResult);
     });
   });
 
@@ -149,6 +162,32 @@ describe('AuthService Test', () => {
       sidebar: true,
       allow_music: false,
     });
+  });
+
+  it(`Login invalid should return error`, () => {
+    const mockLoginData = {
+      email: 'abc',
+      password: '123',
+      remember_me: false,
+    };
+    const error = new HttpErrorResponse({
+      error: 'Invalid user',
+      status: 409,
+      statusText: 'Not Found',
+    });
+
+    httpPostClientSpy.post.and.returnValue(of(error));
+
+    const result = service.testLogin(mockLoginData);
+    expect(result).not.toBeNull();
+
+    service.testLogin(mockLoginData).subscribe({
+      next: (res) => { },
+      error: (err) => {
+        expect(err).not.toBeNull();
+        expect(err.status).toEqual(409);
+      }
+  });
   });
 
   // it('autoAuthUser valid should return the data of the user from observable', () => {
@@ -174,6 +213,4 @@ describe('AuthService Test', () => {
   //     allow_music: false,
   //   });
   // });
-
-  // get CSRF token
 });

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
-// import { By } from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -28,26 +28,26 @@ describe('LoginComponent Test', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return Form Invalid (empty)', () => {
+  it('HTML Form Invalid (empty)', () => {
     const form = component.formLogin;
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Invalid (only email)', () => {
+  it('HTML Form Invalid (only email)', () => {
     const form = component.formLogin;
     const email = form.controls['email'];
     email.setValue('test@gmail.com');
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Invalid (only password)', () => {
+  it('HTML Form Invalid (only password)', () => {
     const form = component.formLogin;
     const password = form.controls['password'];
     password.setValue('password');
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Invalid (email and password invalid)', () => {
+  it('HTML Form Invalid (email and password invalid)', () => {
     const form = component.formLogin;
     const email = form.controls['email'];
     email.setValue('abcd');
@@ -56,7 +56,7 @@ describe('LoginComponent Test', () => {
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Invalid (email invalid and password valid)', () => {
+  it('HTML Form Invalid (email invalid and password valid)', () => {
     const form = component.formLogin;
     const email = form.controls['email'];
     email.setValue('abcd');
@@ -65,7 +65,7 @@ describe('LoginComponent Test', () => {
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Invalid (email valid and password invalid)', () => {
+  it('HTML Form Invalid (email valid and password invalid)', () => {
     const form = component.formLogin;
     const email = form.controls['email'];
     email.setValue('a@a');
@@ -74,7 +74,7 @@ describe('LoginComponent Test', () => {
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Valid (email and password valid)', () => {
+  it('HTML Form Valid (email and password valid)', () => {
     const form = component.formLogin;
     const email = form.controls['email'];
     email.setValue('a@a');
@@ -83,7 +83,7 @@ describe('LoginComponent Test', () => {
     expect(form.valid).toBeTrue();
   });
 
-  it('should return Form Valid (email and password and remember_me valid)', () => {
+  it('HTML Form Valid (email, password and remember_me true valid)', () => {
     const form = component.formLogin;
     const email = form.controls['email'];
     email.setValue('a@a');
@@ -94,26 +94,34 @@ describe('LoginComponent Test', () => {
     expect(form.valid).toBeTrue();
   });
 
+  it('HTML Form Valid (email, password and remember_me false valid)', () => {
+    const form = component.formLogin;
+    const email = form.controls['email'];
+    email.setValue('a@a');
+    const password = form.controls['password'];
+    password.setValue('12345678');
+    const remember_me = form.controls['remember_me'];
+    remember_me.setValue(false);
+    expect(form.valid).toBeTrue();
+  });
+
   // it('should return error because Form Invalid', () => {
-  //   const fixture = TestBed.createComponent(LoginComponent);
-  //   const app = fixture.componentInstance;
-  //   fixture.detectChanges();
-
-  //   const form = app.formLogin;
-  //   const email = app.formLogin.controls['email'];
+  //   const form = component.formLogin;
+  //   const email = component.formLogin.controls['email'];
   //   email.setValue('a@abcd');
-  //   const password = app.formLogin.controls['password'];
+  //   const password = component.formLogin.controls['password'];
   //   password.setValue('12345678');
-  //   const remember_me = app.formLogin.controls['remember_me'];
+  //   const remember_me = component.formLogin.controls['remember_me'];
   //   remember_me.setValue(false);
+  //   expect(form.valid).toBeTrue();
 
-  //   const btnElement = fixture.debugElement.query(By.css('button.btn-send'));
+  //   const btnElement = fixture.debugElement.query(By.css('.btn-send'));
   //   btnElement.nativeElement.click();
-  //   expect(app.error).toBe('Invalid data in the Form');
+  //   expect(component.error).toEqual('Invalid data in the Form');
   // });
 
-  it('should have property error and authData initialized', () => {
-    expect(component.error).toBe('');
+  it('TS error and authData initialized', () => {
+    expect(component.error).toEqual('');
     expect(component.authData).toEqual({
       email: '',
       password: '',
@@ -121,4 +129,13 @@ describe('LoginComponent Test', () => {
     });
   });
 
+  it('HTML title, label and btn', () => {
+    const compiled = fixture.nativeElement;
+    const title = compiled.querySelector('h2');
+    const label = compiled.querySelector('label[for="remember"');
+    const btn = compiled.querySelector('.btn-send');
+    expect(title.textContent).toContain('Login');
+    expect(label.textContent).toContain('Remember Me');
+    expect(btn.textContent).toContain('Login');
+  });
 });

@@ -119,8 +119,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngOnInit(): void {
+    this._authService.getCSRF();
+  }
+
   // Register the User
-  submit() {
+  submit(): void {
     if (this.formRegister.valid) {
       this._authService.register(this.user);
       this._authService
@@ -175,11 +179,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     return this.formRegister.get('password_confirmation');
   }
 
-  ngOnInit() {
-    this._authService.getCSRF();
-  }
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

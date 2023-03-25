@@ -27,40 +27,40 @@ describe('RegisterComponent Test', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return Form Invalid (empty)', () => {
+  it('HTML Form Invalid (empty)', () => {
     const form = component.formRegister;
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Invalid (only nick)', () => {
+  it('HTML Form Invalid (only nick)', () => {
     const form = component.formRegister;
     const nick = form.controls['nick'];
     nick.setValue('test123');
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Invalid (only email)', () => {
+  it('HTML Form Invalid (only email)', () => {
     const form = component.formRegister;
     const email = form.controls['email'];
     email.setValue('test@gmail.com');
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Invalid (only password)', () => {
+  it('HTML Form Invalid (only password)', () => {
     const form = component.formRegister;
     const password = form.controls['password'];
     password.setValue('password');
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Invalid (only password_confirmation)', () => {
+  it('HTML Form Invalid (only password_confirmation)', () => {
     const form = component.formRegister;
     const password_confirmation = form.controls['password_confirmation'];
     password_confirmation.setValue('password');
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Invalid (all invalid)', () => {
+  it('HTML Form Invalid (all invalid)', () => {
     const form = component.formRegister;
     const nick = form.controls['nick'];
     nick.setValue('ab');
@@ -73,7 +73,7 @@ describe('RegisterComponent Test', () => {
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Invalid (nick invalid)', () => {
+  it('HTML Form Invalid (nick invalid)', () => {
     const form = component.formRegister;
     const nick = form.controls['nick'];
     nick.setValue('ab');
@@ -86,7 +86,7 @@ describe('RegisterComponent Test', () => {
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Invalid (nick invalid)', () => {
+  it('HTML Form Invalid (nick invalid)', () => {
     const form = component.formRegister;
     const nick = form.controls['nick'];
     nick.setValue('ab');
@@ -99,7 +99,7 @@ describe('RegisterComponent Test', () => {
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Invalid (email invalid)', () => {
+  it('HTML Form Invalid (email invalid)', () => {
     const form = component.formRegister;
     const nick = form.controls['nick'];
     nick.setValue('abc');
@@ -112,7 +112,7 @@ describe('RegisterComponent Test', () => {
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Invalid (password invalid)', () => {
+  it('HTML Form Invalid (password invalid)', () => {
     const form = component.formRegister;
     const nick = form.controls['nick'];
     nick.setValue('abc');
@@ -125,7 +125,7 @@ describe('RegisterComponent Test', () => {
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Invalid (password_confirmation invalid)', () => {
+  it('HTML Form Invalid (password_confirmation invalid)', () => {
     const form = component.formRegister;
     const nick = form.controls['nick'];
     nick.setValue('abc');
@@ -138,7 +138,7 @@ describe('RegisterComponent Test', () => {
     expect(form.invalid).toBeTrue();
   });
 
-  it('should return Form Invalid (passwords dont\'t match)', () => {
+  it("HTML Form Invalid (passwords dont't match)", () => {
     const form = component.formRegister;
     const nick = form.controls['nick'];
     nick.setValue('abc');
@@ -151,7 +151,7 @@ describe('RegisterComponent Test', () => {
     expect(form.invalid).toBeTrue();
   });
 
-  it("should return Form Invalid (all valid)", () => {
+  it('HTML Form Invalid (all valid)', () => {
     const form = component.formRegister;
     const nick = form.controls['nick'];
     nick.setValue('abc');
@@ -164,7 +164,7 @@ describe('RegisterComponent Test', () => {
     expect(form.valid).toBeTrue();
   });
 
-  it('should have property error and user initialized', () => {
+  it('TS property error and user initialized', () => {
     expect(component.error).toBe('');
     expect(component.user).toEqual({
       nick: '',
@@ -172,6 +172,16 @@ describe('RegisterComponent Test', () => {
       password: '',
       password_confirmation: '',
     });
+  });
+
+  it('HTML title, (label) and btn', () => {
+    const compiled = fixture.nativeElement;
+    const title = compiled.querySelector('h2');
+    // const label = compiled.querySelector('label[for="remember"');
+    const btn = compiled.querySelector('.btn-send');
+    expect(title.textContent).toContain('Register');
+    // expect(label.textContent).toContain('Remember Me');
+    expect(btn.textContent).toContain('Register');
   });
 
 });
