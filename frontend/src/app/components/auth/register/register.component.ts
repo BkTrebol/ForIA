@@ -69,6 +69,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   constructor(private _authService: AuthService, private router: Router) {
     this.unsubscribe$ = new Subject();
+    this._authService.userData
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe(r =>{
+        if (r) this.router.navigate(['/']);
+    })
     this.error = '';
     this.user = {
       nick: '',

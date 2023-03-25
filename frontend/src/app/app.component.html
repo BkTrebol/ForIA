@@ -14,8 +14,8 @@
             <fa-icon [icon]="['fas', 'vial']"></fa-icon><span>Test</span></a></li>
       </ul>
       <ul>
-        <li class="dreta"><a routerLink="/user/profile" routerLinkActive="active"><fa-icon
-              [icon]="['fas', 'user']"></fa-icon><span>Profile</span></a></li>
+        <li class="dreta"><a routerLink="/user/profile" routerLinkActive="ac'tive"><fa-icon
+              [icon]="['fas', 'user']"></fa-icon><span>{{userIsAuthenticated.userData.nick}}</span></a></li>
         <li><a routerLink="/user/edit" routerLinkActive="active"><fa-icon
               [icon]="['fas', 'edit']"></fa-icon><span>Edit</span></a></li>
         <li><a routerLink="/user/preferences" routerLinkActive="active"><fa-icon

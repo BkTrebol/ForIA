@@ -15,7 +15,7 @@ export class RoleGuard {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    const roles = this.authService.userData.roles;
+    const roles = this.authService.user.roles;
     if (!roles.includes("ROLE_ADMIN")) {
       this.router.navigate(['/']);
       return false;

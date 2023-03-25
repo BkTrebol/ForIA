@@ -6,7 +6,7 @@ import {
   FormGroup,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, first, takeUntil } from 'rxjs';
 import { AuthData } from 'src/app/models/auth-data';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -37,6 +37,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(private _authService: AuthService, private router: Router) {
     this.unsubscribe$ = new Subject();
+    this._authService.userData
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe(r =>{
+        if (r) this.router.navigate(['/']);
+    })
+    
     this.error = '';
     this.authData = { email: '', password: '', remember_me: false };
     this.formBuilderNonNullable = new FormBuilder().nonNullable;
@@ -69,20 +75,31 @@ export class LoginComponent implements OnInit, OnDestroy {
   // Login the user
   submit() {
     if (this.formLogin.valid) {
-      this._authService.login(this.authData);
-      this._authService
-        .getAuthStatusListener()
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe({
-          next: (res) => {
-            this.error = '';
-            this.router.navigate(['/user/profile']);
-          },
-          error: (err) => {
-            this.error = err.error.message;
-            this.formLogin.controls['password'].reset();
-          },
-        });
+      this._authService.login(this.authData)
+      .pipe(first())
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (res) => {
+                this.error = '';
+                this.router.navigate(['/user/profile']);
+              },
+              error: (err) => {
+                this.error = err.error.message;
+                this.formLogin.controls['password'].reset();
+      }})
+      // this._authService
+      //   .getAuthStatusListener()
+      //   .pipe(takeUntil(this.unsubscribe$))
+      //   .subscribe({
+      //     next: (res) => {
+      //       this.error = '';
+      //       this.router.navigate(['/user/profile']);
+      //     },
+      //     error: (err) => {
+      //       this.error = err.error.message;
+      //       this.formLogin.controls['password'].reset();
+      //     },
+      //   });
     } else {
       this.error = 'Invalid data in the Form';
     }
