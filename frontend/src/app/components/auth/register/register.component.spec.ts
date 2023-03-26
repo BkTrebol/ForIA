@@ -3,6 +3,7 @@ import { RegisterComponent } from './register.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 
 describe('RegisterComponent Test', () => {
   let component: RegisterComponent;
@@ -167,6 +168,16 @@ describe('RegisterComponent Test', () => {
     expect(btn.disabled).toBeTrue();
   });
 
+  it('HTML title, (label) and btn text', () => {
+    const compiled = fixture.nativeElement;
+    const title = compiled.querySelector('h2');
+    // const label = compiled.querySelector('label[for="remember"');
+    const btn = compiled.querySelector('.btn-send');
+    expect(title.textContent).toContain('Register');
+    // expect(label.textContent).toContain('Remember Me');
+    expect(btn.textContent).toContain('Register');
+  });
+
   it('TS property error and user initialized', () => {
     expect(component.error).toBe('');
     expect(component.user).toEqual({
@@ -177,14 +188,26 @@ describe('RegisterComponent Test', () => {
     });
   });
 
-  it('HTML title, (label) and btn text', () => {
-    const compiled = fixture.nativeElement;
-    const title = compiled.querySelector('h2');
-    // const label = compiled.querySelector('label[for="remember"');
-    const btn = compiled.querySelector('.btn-send');
-    expect(title.textContent).toContain('Register');
-    // expect(label.textContent).toContain('Remember Me');
-    expect(btn.textContent).toContain('Register');
+  it("TS error message don't change (all invalid)", () => {
+    const form = component.formRegister;
+    const nick = form.controls['nick'];
+    nick.setValue('a');
+    const email = form.controls['email'];
+    email.setValue('abcd');
+    const password = form.controls['password'];
+    password.setValue('1234567');
+    const password_confirmation = form.controls['password_confirmation'];
+    password_confirmation.setValue('123456');
+
+    const btnElement = fixture.debugElement.query(By.css('.btn-send'));
+    btnElement.nativeElement.click();
+    expect(component.error).toEqual('');
+    expect(form.valid).toBeFalse();
+  });
+
+  it('TS submit should change error (invalid form)', () => {
+    component.submit();
+    expect(component.error).toEqual('Invalid data in the Form');
   });
 
 });

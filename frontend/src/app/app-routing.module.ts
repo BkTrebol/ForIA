@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // Guard
-import { authGuard } from './guards/auth.guard';
-import { roleGuard } from './guards/role.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 
 // Components
 import { RegisterComponent } from './components/auth/register/register.component';
@@ -27,25 +27,25 @@ const routes: Routes = [
     path: 'user/profile',
     component: ProfileComponent,
     title: 'User Profile',
-    canActivate: [authGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'user/edit',
     component: EditComponent,
     title: 'Edit Profile',
-    canActivate: [authGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'user/preferences',
     component: PreferencesComponent,
     title: 'Edit Preferences',
-    canActivate: [authGuard],
+    canActivate: [AuthGuard],
   },
   // {
   //   path: 'user/preferences',
   //   component: PreferencesComponent,
   //   title: 'Edit Preferences',
-  //   canActivate: [authGuard, roleGuard],
+  //   canActivate: [AuthGuard, RoleGuard],
   // },
 
   {
@@ -59,6 +59,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [],
+  providers: [AuthGuard, RoleGuard],
 })
 export class AppRoutingModule {}

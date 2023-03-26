@@ -122,28 +122,6 @@ describe('LoginComponent Test', () => {
   //   expect(component.error).toEqual('Invalid data in the Form');
   // });
 
-  it('TS error and authData initialized', () => {
-    expect(component.error).toEqual('');
-    expect(component.authData).toEqual({
-      email: '',
-      password: '',
-      remember_me: false,
-    });
-  });
-
-  it('TS error message don\'t change (email and password invalid)', () => {
-    const form = component.formLogin;
-    const email = form.controls['email'];
-    email.setValue('abc');
-    const password = form.controls['password'];
-    password.setValue('1234567');
-
-    const btnElement = fixture.debugElement.query(By.css('.btn-send'));
-    btnElement.nativeElement.click();
-    expect(component.error).toEqual('');
-    expect(form.valid).toBeFalse();
-  });
-
   it("HTML button disabled (email and password invalid)", () => {
     const form = component.formLogin;
     const email = form.controls['email'];
@@ -192,14 +170,30 @@ describe('LoginComponent Test', () => {
     expect(btn.textContent).toContain('Login');
   });
 
-  it('TS testLogin should change error', () => {
-    const mockLoginResult = {
-      message: 'Logged in successfully.',
-    };
-    spyOn<AuthService, any>(component._authService, 'testSubmit').and.callFake(
-      () => of(mockLoginResult)
-    );
-    component.testSubmit();
+  it('TS error and authData initialized', () => {
+    expect(component.error).toEqual('');
+    expect(component.authData).toEqual({
+      email: '',
+      password: '',
+      remember_me: false,
+    });
+  });
+
+  it("TS error message don't change (email and password invalid)", () => {
+    const form = component.formLogin;
+    const email = form.controls['email'];
+    email.setValue('abc');
+    const password = form.controls['password'];
+    password.setValue('1234567');
+
+    const btnElement = fixture.debugElement.query(By.css('.btn-send'));
+    btnElement.nativeElement.click();
+    expect(component.error).toEqual('');
+    expect(form.valid).toBeFalse();
+  });
+
+  it('TS submit should change error (invalid form)', () => {
+    component.submit();
     expect(component.error).toEqual('Invalid data in the Form');
   });
 

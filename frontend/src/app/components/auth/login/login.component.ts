@@ -89,21 +89,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  testSubmit(): void {
-    if (this.formLogin.valid) {
-      this._authService.testLogin(this.authData).subscribe({
-        next: res => {
-          this.error = 'testLogin Success';
-        },
-        error: err => {
-          this.error = 'Error Subscribe testLogin';
-        }
-      });
-    } else {
-      this.error = 'Invalid data in the Form';
-    }
-  }
-
   get email() {
     return this.formLogin.get('email');
   }
