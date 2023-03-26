@@ -35,7 +35,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     },
   };
 
-  constructor(private _authService: AuthService, private router: Router) {
+  // Change to private
+  constructor(public _authService: AuthService, private router: Router) {
     this.unsubscribe$ = new Subject();
     this.error = '';
     this.authData = { email: '', password: '', remember_me: false };
@@ -83,6 +84,21 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.formLogin.controls['password'].reset();
           },
         });
+    } else {
+      this.error = 'Invalid data in the Form';
+    }
+  }
+
+  testSubmit(): void {
+    if (this.formLogin.valid) {
+      this._authService.testLogin(this.authData).subscribe({
+        next: res => {
+          this.error = 'testLogin Success';
+        },
+        error: err => {
+          this.error = 'Error Subscribe testLogin';
+        }
+      });
     } else {
       this.error = 'Invalid data in the Form';
     }

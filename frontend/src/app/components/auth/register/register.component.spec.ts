@@ -86,19 +86,6 @@ describe('RegisterComponent Test', () => {
     expect(form.invalid).toBeTrue();
   });
 
-  it('HTML Form Invalid (nick invalid)', () => {
-    const form = component.formRegister;
-    const nick = form.controls['nick'];
-    nick.setValue('ab');
-    const email = form.controls['email'];
-    email.setValue('a@a');
-    const password = form.controls['password'];
-    password.setValue('12345678');
-    const password_confirmation = form.controls['password_confirmation'];
-    password_confirmation.setValue('12345678');
-    expect(form.invalid).toBeTrue();
-  });
-
   it('HTML Form Invalid (email invalid)', () => {
     const form = component.formRegister;
     const nick = form.controls['nick'];
@@ -151,7 +138,7 @@ describe('RegisterComponent Test', () => {
     expect(form.invalid).toBeTrue();
   });
 
-  it('HTML Form Invalid (all valid)', () => {
+  it('HTML Form Valid (all valid)', () => {
     const form = component.formRegister;
     const nick = form.controls['nick'];
     nick.setValue('abc');
@@ -164,6 +151,22 @@ describe('RegisterComponent Test', () => {
     expect(form.valid).toBeTrue();
   });
 
+  it('HTML button disabled (all invalid)', () => {
+    const form = component.formRegister;
+    const nick = form.controls['nick'];
+    nick.setValue('a');
+    const email = form.controls['email'];
+    email.setValue('abcd');
+    const password = form.controls['password'];
+    password.setValue('1234567');
+    const password_confirmation = form.controls['password_confirmation'];
+    password_confirmation.setValue('123456');
+
+    expect(form.invalid).toBeTrue();
+    const btn = fixture.nativeElement.querySelector('.btn-send');
+    expect(btn.disabled).toBeTrue();
+  });
+
   it('TS property error and user initialized', () => {
     expect(component.error).toBe('');
     expect(component.user).toEqual({
@@ -174,7 +177,7 @@ describe('RegisterComponent Test', () => {
     });
   });
 
-  it('HTML title, (label) and btn', () => {
+  it('HTML title, (label) and btn text', () => {
     const compiled = fixture.nativeElement;
     const title = compiled.querySelector('h2');
     // const label = compiled.querySelector('label[for="remember"');

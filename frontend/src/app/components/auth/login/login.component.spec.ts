@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { of } from 'rxjs';
 
 describe('LoginComponent Test', () => {
   let component: LoginComponent;
@@ -129,7 +131,58 @@ describe('LoginComponent Test', () => {
     });
   });
 
-  it('HTML title, label and btn', () => {
+  it('TS error message don\'t change (email and password invalid)', () => {
+    const form = component.formLogin;
+    const email = form.controls['email'];
+    email.setValue('abc');
+    const password = form.controls['password'];
+    password.setValue('1234567');
+
+    const btnElement = fixture.debugElement.query(By.css('.btn-send'));
+    btnElement.nativeElement.click();
+    expect(component.error).toEqual('');
+    expect(form.valid).toBeFalse();
+  });
+
+  it("HTML button disabled (email and password invalid)", () => {
+    const form = component.formLogin;
+    const email = form.controls['email'];
+    email.setValue('abc');
+    const password = form.controls['password'];
+    password.setValue('1234567');
+
+    expect(form.valid).toBeFalse();
+    const btn = fixture.nativeElement.querySelector('.btn-send');
+    expect(btn.disabled).toBeTrue();
+  });
+
+  // it('HTML button not disabled (email and password valid)', () => {
+  //   const form = component.formLogin;
+  //   const email = form.controls['email'];
+  //   email.setValue('a@a');
+  //   const password = form.controls['password'];
+  //   password.setValue('12345678');
+
+  //   const btn = fixture.debugElement.nativeElement.querySelector('.btn-send');
+  //   // expect(btn.disabled).toBeUndefined();
+  //   // expect(
+  //   //   btn.attributes.getNamedItem('ng-reflect-is-disabled').value
+  //   // ).toBeTruthy();
+  //   // expect(btn.attributes['disabled']).toBeUndefined();
+  //   // expect(btn.disabled).toBeFalse();
+  //   // expect(btn.nativeElement.getAttribute('disabled')).toEqual('');
+  //   // expect(btn.attributes).toContain(['disabled']);
+  //   // expect(Object.keys(btn.attributes)).toContain('disabled');
+  //   // expect(btn.nativeElement.getAttribute('disabled')).toEqual('');
+
+  //   // const h2: HTMLElement = fixture.nativeElement.querySelector('.btn-send');
+  //   // const bgColor = h2.style.backgroundColor;
+  //   // expect(bgColor).toBe('skyblue');
+  //   // expect(btn.properties['disabled']).toBeUndefined();
+  //   expect(form.valid).toBeTrue();
+  // });
+
+  it('HTML title, label and btn text', () => {
     const compiled = fixture.nativeElement;
     const title = compiled.querySelector('h2');
     const label = compiled.querySelector('label[for="remember"');
@@ -138,4 +191,16 @@ describe('LoginComponent Test', () => {
     expect(label.textContent).toContain('Remember Me');
     expect(btn.textContent).toContain('Login');
   });
+
+  it('TS testLogin should change error', () => {
+    const mockLoginResult = {
+      message: 'Logged in successfully.',
+    };
+    spyOn<AuthService, any>(component._authService, 'testSubmit').and.callFake(
+      () => of(mockLoginResult)
+    );
+    component.testSubmit();
+    expect(component.error).toEqual('Invalid data in the Form');
+  });
+
 });
