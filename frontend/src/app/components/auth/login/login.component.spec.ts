@@ -110,15 +110,16 @@ describe('LoginComponent Test', () => {
   // it('should return error because Form Invalid', () => {
   //   const form = component.formLogin;
   //   const email = component.formLogin.controls['email'];
-  //   email.setValue('a@abcd');
+  //   email.setValue('a@a');
   //   const password = component.formLogin.controls['password'];
   //   password.setValue('12345678');
   //   const remember_me = component.formLogin.controls['remember_me'];
   //   remember_me.setValue(false);
-  //   expect(form.valid).toBeTrue();
+  //   expect(form.invalid).toBeTrue();
 
   //   const btnElement = fixture.debugElement.query(By.css('.btn-send'));
-  //   btnElement.nativeElement.click();
+  //   // btnElement.nativeElement.click();
+  //   // btnElement.triggerEventHandler('click', null);
   //   expect(component.error).toEqual('Invalid data in the Form');
   // });
 

@@ -1,45 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
-import { AuthData } from 'src/app/models/auth-data';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Validators,
+  FormBuilder,
+  NonNullableFormBuilder,
+  FormGroup,
+} from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
+import { Router } from '@angular/router';
+import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss', '../../styles/user-form.scss'],
 })
-export class EditComponent implements OnInit {
-  error!: string;
-
-  public user: AuthData;
-  constructor(private _authService: AuthService, private fb: FormBuilder) {
-    this.user = { email: '', password: '', remember_me: true };
-  }
-
-  ngOnInit() {
-    // this._userService.getCSRF();
-  }
-
-  formEditProfile = this.fb.group({
-    nick: [
-      '',
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-    ],
-    email: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(30),
-        Validators.email,
-      ],
-    ],
-    location: ['', [Validators.minLength(3), Validators.maxLength(64)]],
-    birthday: ['', [Validators.minLength(3), Validators.maxLength(64)]],
-    avatar: ['', []], //Validators.minLength(3), Validators.maxLength(64)]],
-  });
-
-  validationMessagesEditProfile = {
+export class EditComponent implements OnInit, OnDestroy {
+  private unsubscribe$: Subject<void>;
+  public error: string;
+  public loading: boolean;
+  public user: User;
+  public formEditProfile: FormGroup;
+  public formBuilderNonNullable: NonNullableFormBuilder;
+  public validationMessagesEditProfile = {
     nick: {
       required: 'Nick is Required',
       minlength: 'Min Length is 3',
@@ -65,14 +49,68 @@ export class EditComponent implements OnInit {
     },
   };
 
-  submit() {
+  constructor(private _authService: AuthService, private userService: UserService, private router: Router) {
+    this.unsubscribe$ = new Subject();
+    this.error = '';
+    this.loading = false;
+    this.user = {
+      id: 0,
+      nick: '',
+      email: '',
+      location: '',
+      birthday: '',
+      avatar: '',
+      roles: [],
+      created_at: '',
+      updated_at: '',
+    };
+    this.formBuilderNonNullable = new FormBuilder().nonNullable;
+    this.formEditProfile = this.formBuilderNonNullable.group({
+      nick: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+        ],
+      ],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+          Validators.email,
+        ],
+      ],
+      location: ['', [Validators.minLength(3), Validators.maxLength(64)]],
+      birthday: ['', [Validators.minLength(3), Validators.maxLength(64)]],
+      avatar: ['', []], //Validators.minLength(3), Validators.maxLength(64)]],
+    });
+  }
+
+  ngOnInit() {
+    this._authService.getCSRF();
+    this.user = this._authService.userData;
+  }
+
+  submit(): void {
     if (this.formEditProfile.valid) {
-      // this.formEditProfile.value (1 argument)
-      // this._authService.login(this.email, this.password).subscribe({
-      //   next: (a) => console.log(a),
-      //   error: (e) => console.log(e),
-      // });
+      this.loading = true;
       this.error = '';
+      this.userService
+        .editUser(this.user)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: (res) => {
+            this.loading = false;
+            this.router.navigate(['/user/profile']);
+          },
+          error: (err) => {
+            this.loading = false;
+            this.error = err.error.message;
+          },
+        });
     } else {
       this.error = 'Invalid data in the Form';
     }
@@ -92,5 +130,10 @@ export class EditComponent implements OnInit {
   }
   get avatar() {
     return this.formEditProfile.get('avatar');
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
-import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AuthData } from '../../models/auth-data';
 import { Register } from '../../models/register';
@@ -23,7 +22,7 @@ export class AuthService {
   public userData: User;
   public userPreferences: { sidebar: boolean; allow_music: boolean };
 
-  constructor(private http: HttpClient, public router: Router) {
+  constructor(private http: HttpClient) {
     this.baseURL = Global.url;
     this.apiURL = Global.api;
     this.isAuthenticated = false;
