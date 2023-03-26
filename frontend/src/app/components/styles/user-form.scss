@@ -23,10 +23,15 @@
       letter-spacing: 1.2px;
       margin: auto;
     }
+    // The error message
     h3 {
       text-align: center;
       color: $color-tertiary;
       max-width: 330px
+    }
+    // The loading spinner
+    h4 {
+      margin: auto;
     }
     // All the input fileds
     .fields {
@@ -98,7 +103,7 @@
           font-size: $size-p;
           @include row(space-between, 16px);
           input[type=checkbox]{
-             transform: scale(1.6);
+             transform: scale(1.5);
              accent-color: $color-shades1;
           }
         }

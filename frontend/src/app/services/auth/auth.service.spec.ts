@@ -174,27 +174,4 @@ describe('AuthService Test', () => {
   });
   });
 
-  // it('autoAuthUser valid should return the data of the user from observable', () => {
-  //   const mockAuthDataResult = {};
-
-  //   httpGetClientSpy.get.and.returnValue(of(mockAuthDataResult));
-
-  //   service.autoAuthUser();
-
-  //   expect(service.userData).toEqual({
-  //     id: 0,
-  //     nick: '',
-  //     email: '',
-  //     location: '',
-  //     birthday: '',
-  //     avatar: '',
-  //     roles: [],
-  //     created_at: '',
-  //     updated_at: '',
-  //   });
-  //   expect(service.userPreferences).toEqual({
-  //     sidebar: true,
-  //     allow_music: false,
-  //   });
-  // });
 });

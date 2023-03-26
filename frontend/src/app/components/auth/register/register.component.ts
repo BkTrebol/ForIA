@@ -37,6 +37,7 @@ function passwordMatchValidator(control: AbstractControl) {
 export class RegisterComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public error: string;
+  public loading: boolean;
   public user: Register;
   public formRegister: FormGroup;
   public formBuilderNonNullable: NonNullableFormBuilder;
@@ -70,6 +71,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   constructor(private _authService: AuthService, private router: Router) {
     this.unsubscribe$ = new Subject();
     this.error = '';
+    this.loading = false;
     this.user = {
       nick: '',
       email: '',
@@ -126,16 +128,19 @@ export class RegisterComponent implements OnInit, OnDestroy {
   // Register the User
   submit(): void {
     if (this.formRegister.valid) {
+      this.loading = true;
       this._authService.register(this.user);
       this._authService
         .getAuthStatusListener()
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
+            this.loading = false;
             this.error = '';
             this.router.navigate(['/user/profile']);
           },
           error: (err) => {
+            this.loading = false;
             // Message error
             this.error = err.error.message.split('.')[0];
             // Reset the passwords

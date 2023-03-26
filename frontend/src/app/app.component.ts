@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { Subscription } from 'rxjs';
 import { AuthService } from './services/auth/auth.service';
 
 @Component({
@@ -36,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // Function that change the nav height on scroll
     this.small();
     // Only in some pages
-    this.router.events.subscribe((event) => {
+    this.router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
       if (event instanceof NavigationEnd) {
         if (
           [

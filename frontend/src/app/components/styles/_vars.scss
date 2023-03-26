@@ -54,8 +54,8 @@ $size-mobile: 800px;
 $size-icon-footer: 30px;
 $size-icon-form: 25px;
 
-$height-header: 100px;
-$height-header-small: $height-header - 50px;
+$height-header: 80px;
+$height-header-small: $height-header - 40px;
 $height-footer: 100px;
 $height-footer-mobile: $height-footer + 120px;
 
@@ -64,8 +64,9 @@ $height-subtract-mobile: $height-header + $height-footer-mobile;
 
 // Fonts
 $size-p: 18px;
-$size-title: 30px;
-$size-subtitle: 25px;
+$size-title: 32px;
+$size-subtitle: 24px;
+$size-subtitle-small: 18px;
 $size-text: 15px;
 $size-btn: 20px;
 

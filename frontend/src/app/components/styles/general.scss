@@ -105,6 +105,9 @@ $color-p-footer: $color-white-clear;
         animation: upAnimation .5s ease-in-out;
         color: $color-gradient2;
       }
+      &:active {
+        color: $color-gradient1;
+      }
     }
   }
    // Responsive for tablet
@@ -134,10 +137,10 @@ $color-p-footer: $color-white-clear;
   background-color: $color-black-clear;
   .logo {
     .logoIA {
-      height: 55px;
+      height: 50px;
     }
     .logoFORIA {
-      height: 37px;
+      height: 30px;
     }
     @include row(flex-start, 12px);
     &:hover {
@@ -153,25 +156,27 @@ $color-p-footer: $color-white-clear;
     ul {
       @include row(space-between, 50px);
       font-size: $size-subtitle;
-      font-family: $font-titles;
+      font-family: $font-text;
       li {
         list-style: none;
         fa-icon {
           margin-right: 12px;
         }
         a {
-          color: $color-secondary;
+          color: $color-gradient3;
           text-decoration: none;
           font-weight: bold;
           padding-bottom: 5px;
+          // fa-icon {
+          //   display: none;
+          // }
           &:hover {
-            border-bottom: 3px solid $color-primary;
+            color: $color-gradient2;
+            // border-bottom: 3px solid $color-gradient2;
           }
           &.active {
-            border-bottom: 3px solid $color-primary;
-          }
-          &.active fa-icon {
-            color: $color-primary;
+            color: $color-gradient1;
+            // border-bottom: 3px solid $color-gradient1;
           }
         }
       }
@@ -216,14 +221,14 @@ $color-p-footer: $color-white-clear;
   height: $height-header-small;
   .logo {
     .logoIA {
-      height: 35px;
+      height: 32px;
     }
     .logoFORIA {
-      height: 20px;
+      height: 18px;
     }
   }
   nav ul{
-    font-size: $size-btn; //20px
+    font-size: $size-subtitle-small;
   }
 }
 

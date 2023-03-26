@@ -170,8 +170,9 @@ describe('LoginComponent Test', () => {
     expect(btn.textContent).toContain('Login');
   });
 
-  it('TS error and authData initialized', () => {
+  it('TS error, loading and authData initialized', () => {
     expect(component.error).toEqual('');
+    expect(component.loading).toEqual(false);
     expect(component.authData).toEqual({
       email: '',
       password: '',

@@ -18,6 +18,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class LoginComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public error: string;
+  public loading: boolean;
   public authData: AuthData;
   public formLogin: FormGroup;
   public formBuilderNonNullable: NonNullableFormBuilder;
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(public _authService: AuthService, private router: Router) {
     this.unsubscribe$ = new Subject();
     this.error = '';
+    this.loading = false;
     this.authData = { email: '', password: '', remember_me: false };
     this.formBuilderNonNullable = new FormBuilder().nonNullable;
     this.formLogin = this.formBuilderNonNullable.group({
@@ -70,16 +72,24 @@ export class LoginComponent implements OnInit, OnDestroy {
   // Login the user
   submit(): void {
     if (this.formLogin.valid) {
+      this.loading = true;
+      this.error = '';
       this._authService.login(this.authData);
       this._authService
         .getAuthStatusListener()
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
-            this.error = '';
-            this.router.navigate(['/user/profile']);
+            this.loading = false;
+            if (!res) {
+              this.error = 'Email or Password does not match with our record';
+              this.formLogin.controls['password'].reset();
+            } else {
+              this.router.navigate(['/user/profile']);
+            }
           },
           error: (err) => {
+            this.loading = false;
             this.error = err.error.message;
             this.formLogin.controls['password'].reset();
           },

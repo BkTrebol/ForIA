@@ -178,8 +178,9 @@ describe('RegisterComponent Test', () => {
     expect(btn.textContent).toContain('Register');
   });
 
-  it('TS property error and user initialized', () => {
+  it('TS property error, loading and user initialized', () => {
     expect(component.error).toBe('');
+    expect(component.loading).toBe(false);
     expect(component.user).toEqual({
       nick: '',
       email: '',

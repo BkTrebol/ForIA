@@ -2,6 +2,7 @@
     <form [formGroup]="formRegister" (ngSubmit)="submit()" class="form-container">
         <h2>Register</h2>
         <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}</h3>
+        <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="fields">
             <div class="group">
                 <div class="field">
