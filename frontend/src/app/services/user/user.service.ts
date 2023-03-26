@@ -13,7 +13,7 @@ export class UserService {
   public userPreferences: UserPreferences;
 
   constructor(private http: HttpClient) {
-    this.apiUserURL = Global.url + 'user/';
+    this.apiUserURL = Global.api + 'user/';
     this.userPreferences = {
       id_user: 0,
       sidebar: true,
@@ -36,6 +36,6 @@ export class UserService {
 
   editUser(user: User): Observable<any> {
     let params = JSON.stringify(user);
-    return this.http.put(`${this.apiUserURL}edit`, params)
+    return this.http.post(`${this.apiUserURL}edit`, params)
   }
 }
