@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss', '../../styles/user-form.scss'],
+  styleUrls: ['./edit.component.scss', '../../../../styles/user-form.scss'],
 })
 export class EditComponent implements OnInit {
   error!: string;

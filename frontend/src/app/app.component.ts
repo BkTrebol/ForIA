@@ -9,7 +9,7 @@ import { UserPreferences } from './models/user-preferences';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss', './components/styles/general.scss'],
+  styleUrls: ['./app.component.scss', './styles/general.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;

@@ -32,7 +32,7 @@ function passwordMatchValidator(control: AbstractControl) {
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss', '../../styles/user-form.scss'],
+  styleUrls: ['./register.component.scss', '../../../../styles/user-form.scss'],
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
@@ -67,7 +67,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
     },
   };
 
-  constructor(private _authService: AuthService, private router: Router) {
+  constructor(
+    private _authService: AuthService,
+    private router: Router,) {
+
     this.unsubscribe$ = new Subject();
     this._authService.userData
     .pipe(takeUntil(this.unsubscribe$))
