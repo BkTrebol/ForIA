@@ -4,6 +4,8 @@ Forum about IA.
 # Structure
 
 ## Angular
+
+### Components
 Define variable type
 Constructor
 ngOnInit
@@ -13,10 +15,10 @@ ngOnDestroy
 # Tests
 
 ## Angular
-TOTAL: 57 SUCCESS
+TOTAL: 68 SUCCESS
 
 ## Laravel
 2
 
-# Remeber
+# Remeber when deploy
 config>cors>allow-credentials = false;
