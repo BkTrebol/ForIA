@@ -7,16 +7,10 @@ import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angu
 import { HeadersInterceptor } from "../helpers/interceptors/headers.interceptor";
 
 //Extra (icons)
-import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import { fab } from '@fortawesome/free-brands-svg-icons';
-
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
-  declarations: [
-  ],
+  declarations: [],
   imports: [
     // CommonModule,
     FormsModule,
@@ -24,10 +18,11 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
     HttpClientModule,
     HttpClientXsrfModule,
     FontAwesomeModule,
-    
+
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true },
   ],
   exports: [
     FormsModule,
@@ -35,10 +30,6 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
     HttpClientModule,
     HttpClientXsrfModule,
     FontAwesomeModule,
-
-    
-  ]
+  ],
 })
-export class SharedModule {
-
- }
+export class SharedModule {}

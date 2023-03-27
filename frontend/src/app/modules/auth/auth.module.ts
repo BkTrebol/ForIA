@@ -12,7 +12,6 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 
 @NgModule({
   declarations: [
-    
     LoginComponent,
     RegisterComponent,
     ResetPasswordComponent
@@ -23,9 +22,9 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     SharedModule,
   ],
   exports: [
-    
+
   ]
 })
-export class AuthModule { 
+export class AuthModule {
 
 }
