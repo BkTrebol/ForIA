@@ -5,6 +5,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
+// Check if the button .btn-send is disabled or not
+function checkBtn(is: boolean, fixture: ComponentFixture<LoginComponent>) {
+  const btn = fixture.nativeElement.querySelector('.btn-send');
+  fixture.detectChanges();
+  expect(btn.disabled).toBe(is);
+}
+
 describe('LoginComponent Test', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
@@ -31,6 +38,7 @@ describe('LoginComponent Test', () => {
   it('HTML Form Invalid (empty)', () => {
     const form = component.formLogin;
     expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
   });
 
   it('HTML Form Invalid (only email)', () => {
@@ -38,6 +46,7 @@ describe('LoginComponent Test', () => {
     const email = form.controls['email'];
     email.setValue('test@gmail.com');
     expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
   });
 
   it('HTML Form Invalid (only password)', () => {
@@ -45,6 +54,7 @@ describe('LoginComponent Test', () => {
     const password = form.controls['password'];
     password.setValue('password');
     expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
   });
 
   it('HTML Form Invalid (email and password invalid)', () => {
@@ -54,6 +64,7 @@ describe('LoginComponent Test', () => {
     const password = form.controls['password'];
     password.setValue('1234567');
     expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
   });
 
   it('HTML Form Invalid (email invalid and password valid)', () => {
@@ -63,6 +74,7 @@ describe('LoginComponent Test', () => {
     const password = form.controls['password'];
     password.setValue('12345678');
     expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
   });
 
   it('HTML Form Invalid (email valid and password invalid)', () => {
@@ -72,6 +84,7 @@ describe('LoginComponent Test', () => {
     const password = form.controls['password'];
     password.setValue('1234567');
     expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
   });
 
   it('HTML Form Valid (email and password valid)', () => {
@@ -81,6 +94,7 @@ describe('LoginComponent Test', () => {
     const password = form.controls['password'];
     password.setValue('12345678');
     expect(form.valid).toBeTrue();
+    checkBtn(false, fixture);
   });
 
   it('HTML Form Valid (email, password and remember_me true valid)', () => {
@@ -92,6 +106,7 @@ describe('LoginComponent Test', () => {
     const remember_me = form.controls['remember_me'];
     remember_me.setValue(true);
     expect(form.valid).toBeTrue();
+    checkBtn(false, fixture);
   });
 
   it('HTML Form Valid (email, password and remember_me false valid)', () => {
@@ -103,6 +118,7 @@ describe('LoginComponent Test', () => {
     const remember_me = form.controls['remember_me'];
     remember_me.setValue(false);
     expect(form.valid).toBeTrue();
+    checkBtn(false, fixture);
   });
 
   // it('should return error because Form Invalid', () => {
@@ -113,11 +129,11 @@ describe('LoginComponent Test', () => {
   //   password.setValue('12345678');
   //   const remember_me = component.formLogin.controls['remember_me'];
   //   remember_me.setValue(false);
-  //   expect(form.invalid).toBeTrue();
+  //   expect(form.valid).toBeTrue();
 
   //   const btnElement = fixture.debugElement.query(By.css('.btn-send'));
-  //   // btnElement.nativeElement.click();
-  //   // btnElement.triggerEventHandler('click', null);
+  //   btnElement.nativeElement.click();
+  //   btnElement.triggerEventHandler('click', null);
   //   expect(component.error).toEqual('Invalid data in the Form');
   // });
 
@@ -129,35 +145,18 @@ describe('LoginComponent Test', () => {
     password.setValue('1234567');
 
     expect(form.valid).toBeFalse();
-    const btn = fixture.nativeElement.querySelector('.btn-send');
-    expect(btn.disabled).toBeTrue();
+    checkBtn(true, fixture);
   });
 
-  // it('HTML button not disabled (email and password valid)', () => {
-  //   const form = component.formLogin;
-  //   const email = form.controls['email'];
-  //   email.setValue('a@a');
-  //   const password = form.controls['password'];
-  //   password.setValue('12345678');
-
-  //   const btn = fixture.debugElement.nativeElement.querySelector('.btn-send');
-  //   // expect(btn.disabled).toBeUndefined();
-  //   // expect(
-  //   //   btn.attributes.getNamedItem('ng-reflect-is-disabled').value
-  //   // ).toBeTruthy();
-  //   // expect(btn.attributes['disabled']).toBeUndefined();
-  //   // expect(btn.disabled).toBeFalse();
-  //   // expect(btn.nativeElement.getAttribute('disabled')).toEqual('');
-  //   // expect(btn.attributes).toContain(['disabled']);
-  //   // expect(Object.keys(btn.attributes)).toContain('disabled');
-  //   // expect(btn.nativeElement.getAttribute('disabled')).toEqual('');
-
-  //   // const h2: HTMLElement = fixture.nativeElement.querySelector('.btn-send');
-  //   // const bgColor = h2.style.backgroundColor;
-  //   // expect(bgColor).toBe('skyblue');
-  //   // expect(btn.properties['disabled']).toBeUndefined();
-  //   expect(form.valid).toBeTrue();
-  // });
+  it('HTML button not disabled (email and password valid)', () => {
+    const form = component.formLogin;
+    const email = form.controls['email'];
+    email.setValue('a@a');
+    const password = form.controls['password'];
+    password.setValue('12345678');
+    expect(form.valid).toBeTrue();
+    checkBtn(false, fixture);
+  });
 
   it('HTML title, label and btn text', () => {
     const compiled = fixture.nativeElement;
@@ -190,10 +189,13 @@ describe('LoginComponent Test', () => {
     btnElement.nativeElement.click();
     expect(component.error).toEqual('');
     expect(form.valid).toBeFalse();
+    checkBtn(true, fixture);
   });
 
   it('TS submit should change error (invalid form)', () => {
     component.submit();
     expect(component.error).toEqual('Invalid data in the Form');
+    expect(component.loading).toBeFalse();
+    checkBtn(true, fixture);
   });
 });

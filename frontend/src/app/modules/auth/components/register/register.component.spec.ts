@@ -5,6 +5,13 @@ import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testi
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
+// Check if the button .btn-send is disabled or not
+function checkBtn(is: boolean, fixture: ComponentFixture<RegisterComponent>) {
+  const btn = fixture.nativeElement.querySelector('.btn-send');
+  fixture.detectChanges();
+  expect(btn.disabled).toBe(is);
+}
+
 describe('RegisterComponent Test', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
@@ -31,6 +38,7 @@ describe('RegisterComponent Test', () => {
   it('HTML Form Invalid (empty)', () => {
     const form = component.formRegister;
     expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
   });
 
   it('HTML Form Invalid (only nick)', () => {
@@ -38,6 +46,7 @@ describe('RegisterComponent Test', () => {
     const nick = form.controls['nick'];
     nick.setValue('test123');
     expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
   });
 
   it('HTML Form Invalid (only email)', () => {
@@ -45,6 +54,7 @@ describe('RegisterComponent Test', () => {
     const email = form.controls['email'];
     email.setValue('test@gmail.com');
     expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
   });
 
   it('HTML Form Invalid (only password)', () => {
@@ -52,6 +62,7 @@ describe('RegisterComponent Test', () => {
     const password = form.controls['password'];
     password.setValue('password');
     expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
   });
 
   it('HTML Form Invalid (only password_confirmation)', () => {
@@ -59,6 +70,7 @@ describe('RegisterComponent Test', () => {
     const password_confirmation = form.controls['password_confirmation'];
     password_confirmation.setValue('password');
     expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
   });
 
   it('HTML Form Invalid (all invalid)', () => {
@@ -72,6 +84,7 @@ describe('RegisterComponent Test', () => {
     const password_confirmation = form.controls['password_confirmation'];
     password_confirmation.setValue('7654321');
     expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
   });
 
   it('HTML Form Invalid (nick invalid)', () => {
@@ -85,6 +98,7 @@ describe('RegisterComponent Test', () => {
     const password_confirmation = form.controls['password_confirmation'];
     password_confirmation.setValue('12345678');
     expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
   });
 
   it('HTML Form Invalid (email invalid)', () => {
@@ -98,6 +112,7 @@ describe('RegisterComponent Test', () => {
     const password_confirmation = form.controls['password_confirmation'];
     password_confirmation.setValue('12345678');
     expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
   });
 
   it('HTML Form Invalid (password invalid)', () => {
@@ -111,6 +126,7 @@ describe('RegisterComponent Test', () => {
     const password_confirmation = form.controls['password_confirmation'];
     password_confirmation.setValue('12345678');
     expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
   });
 
   it('HTML Form Invalid (password_confirmation invalid)', () => {
@@ -124,21 +140,22 @@ describe('RegisterComponent Test', () => {
     const password_confirmation = form.controls['password_confirmation'];
     password_confirmation.setValue('1234567');
     expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
   });
 
-  //TODO don't mismatch
-  // it("HTML Form Invalid (passwords dont't match)", () => {
-  //   const form = component.formRegister;
-  //   const nick = form.controls['nick'];
-  //   nick.setValue('abc');
-  //   const email = form.controls['email'];
-  //   email.setValue('a@a');
-  //   const password = form.controls['password'];
-  //   password.setValue('12345678');
-  //   const password_confirmation = form.controls['password_confirmation'];
-  //   password_confirmation.setValue('1234567899');
-  //   expect(form.invalid).toBeTrue();
-  // });
+  it("HTML Form Invalid (passwords dont't match)", () => {
+    const form = component.formRegister;
+    const nick = form.controls['nick'];
+    nick.setValue('abc');
+    const email = form.controls['email'];
+    email.setValue('a@a');
+    const password = form.controls['password'];
+    password.setValue('12345678');
+    const password_confirmation = form.controls['password_confirmation'];
+    password_confirmation.setValue('123456789');
+    expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
+  });
 
   it('HTML Form Valid (all valid)', () => {
     const form = component.formRegister;
@@ -151,6 +168,7 @@ describe('RegisterComponent Test', () => {
     const password_confirmation = form.controls['password_confirmation'];
     password_confirmation.setValue('12345678');
     expect(form.valid).toBeTrue();
+    checkBtn(false, fixture);
   });
 
   it('HTML button disabled (all invalid)', () => {
@@ -163,10 +181,8 @@ describe('RegisterComponent Test', () => {
     password.setValue('1234567');
     const password_confirmation = form.controls['password_confirmation'];
     password_confirmation.setValue('123456');
-
     expect(form.invalid).toBeTrue();
-    const btn = fixture.nativeElement.querySelector('.btn-send');
-    expect(btn.disabled).toBeTrue();
+    checkBtn(true, fixture);
   });
 
   it('HTML title, (label) and btn text', () => {
@@ -205,10 +221,13 @@ describe('RegisterComponent Test', () => {
     btnElement.nativeElement.click();
     expect(component.error).toEqual('');
     expect(form.valid).toBeFalse();
+    checkBtn(true, fixture);
   });
 
   it('TS submit should change error (invalid form)', () => {
     component.submit();
     expect(component.error).toEqual('Invalid data in the Form');
+    expect(component.loading).toBeFalse();
+    checkBtn(true, fixture);
   });
 });

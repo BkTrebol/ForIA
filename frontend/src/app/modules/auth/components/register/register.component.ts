@@ -4,11 +4,30 @@ import {
   FormBuilder,
   NonNullableFormBuilder,
   FormGroup,
+  AbstractControl,
 } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { Register } from 'src/app/models/register';
 import { AuthService } from '../../service/auth.service';
+
+// Custom Validator
+function passwordMatchValidator(control: AbstractControl) {
+  const password = control?.get('password');
+  const confirmPassword = control?.get('password_confirmation');
+
+  if (password?.value !== confirmPassword?.value) {
+    let errors = confirmPassword?.errors ?? {};
+    errors['mismatch'] = true;
+    confirmPassword?.setErrors(errors);
+    return { passwordMismatch: true };
+  } else {
+    let errors = confirmPassword?.errors ?? [];
+    delete errors['mismatch'];
+    confirmPassword?.setErrors(Object.keys(errors).length == 0 ? null : errors);
+    return null;
+  }
+}
 
 @Component({
   selector: 'app-register',
@@ -44,8 +63,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     password_confirmation: {
       required: 'Password Confirmation is Required',
       minlength: 'Min Length is 8',
-      pattern: 'Password confirmation mismatch',
-      mismatch: "Password Confirmation don't match",
+      mismatch: 'Password confirmation mismatch',
     },
   };
 
@@ -65,37 +83,42 @@ export class RegisterComponent implements OnInit, OnDestroy {
       password_confirmation: '',
     };
     this.formBuilderNonNullable = new FormBuilder().nonNullable;
-    this.formRegister = this.formBuilderNonNullable.group({
-      nick: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(100),
+    this.formRegister = this.formBuilderNonNullable.group(
+      {
+        nick: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(100),
+          ],
         ],
-      ],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(255),
-          Validators.email,
+        email: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(255),
+            Validators.email,
+          ],
         ],
-      ],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.pattern('^[a-zA-Z0-9]+$'),
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.pattern('^[a-zA-Z0-9]+$'), // TODO change pattern
+          ],
         ],
-      ],
-      password_confirmation: [
-        '',
-        [Validators.required, Validators.minLength(8)],
-      ],
-    });
+        password_confirmation: [
+          '',
+          [Validators.required, Validators.minLength(8)],
+        ],
+      },
+      {
+        validators: passwordMatchValidator,
+      }
+    );
   }
 
   // Register the User

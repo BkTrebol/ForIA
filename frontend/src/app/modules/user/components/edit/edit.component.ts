@@ -43,8 +43,8 @@ export class EditComponent implements OnInit, OnDestroy {
       maxlength: 'Max Length is 64',
     },
     avatar: {
-      // minlength: 'Min Length is 3',
-      // maxlength: 'Max Length is 64',
+      minlength: 'Min Length is 3',
+      maxlength: 'Max Length is 64',
     },
   };
 
@@ -84,13 +84,12 @@ export class EditComponent implements OnInit, OnDestroy {
       ],
       location: ['', [Validators.minLength(3), Validators.maxLength(64)]],
       birthday: ['', [Validators.minLength(3), Validators.maxLength(64)]],
-      avatar: ['', []], //Validators.minLength(3), Validators.maxLength(64)]],
+      avatar: ['', [Validators.minLength(3), Validators.maxLength(64)]],
     });
   }
 
   ngOnInit() {
-    // this._authService.getCSRF();
-    // this.user = this._authService.userData;
+    // this.user = this.userService.userData;
   }
 
   submit(): void {
