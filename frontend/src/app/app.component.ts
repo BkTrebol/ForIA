@@ -1,36 +1,37 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { AuthService } from './services/auth/auth.service';
+import { AuthService } from './modules/auth/service/auth.service';
+import { User } from './models/user';
+import { UserPreferences } from './models/user-preferences';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss', './components/styles/general.scss'],
+  styleUrls: ['./app.component.scss', './styles/general.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
-  userIsAuthenticated: boolean;
+  public userIsAuthenticated: {userData:User,userPreferences:UserPreferences} | null;
 
   top: boolean;
   canSmall: boolean;
 
   constructor(private _authService: AuthService, private router: Router) {
     this.unsubscribe$ = new Subject();
-    this.userIsAuthenticated = false;
+    this.userIsAuthenticated = null;
     this.top = false;
     this.canSmall = false;
+    this._authService.autoAuthUser();
+
   }
 
-  ngOnInit(): void {
-    this.userIsAuthenticated = this._authService.getIsAuth();
-    this._authService
-      .getAuthStatusListener()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((isAuthenticated) => {
-        this.userIsAuthenticated = isAuthenticated;
-      });
-    this._authService.autoAuthUser();
+  ngOnInit() {
+    this._authService.userData
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe(r =>{
+      this.userIsAuthenticated = r
+    })
 
     // Function that change the nav height on scroll
     this.small();
@@ -75,21 +76,10 @@ export class AppComponent implements OnInit, OnDestroy {
   // Logout the user
   logout(): void {
     this._authService.logout();
-    this._authService
-      .getAuthStatusListener()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (res) => {
-          this.router.navigate(['/']);
-        },
-        error: (err) => {
-          this.router.navigate(['/']);
-        },
-      });
   }
 
   ngOnDestroy(): void {
-    this._authService.unsubscribeAutoAuthUser();
+    // this._authService.unsubscribeAutoAuthUser();
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
