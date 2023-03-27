@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { AuthService } from './services/auth/auth.service';
+import { AuthService } from './modules/auth/service/auth.service';
 import { User } from './models/user';
 import { UserPreferences } from './models/user-preferences';
 
@@ -32,14 +32,6 @@ export class AppComponent implements OnInit, OnDestroy {
     .subscribe(r =>{
       this.userIsAuthenticated = r
     })
-    // this.userIsAuthenticated = this._authService.getIsAuth();
-    // this._authService
-    //   .getAuthStatusListener()
-    //   .pipe(takeUntil(this.unsubscribe$))
-    //   .subscribe((isAuthenticated) => {
-    //     this.userIsAuthenticated = isAuthenticated;
-    //   });
-    // this._authService.autoAuthUser();
 
     // Function that change the nav height on scroll
     this.small();
@@ -84,17 +76,6 @@ export class AppComponent implements OnInit, OnDestroy {
   // Logout the user
   logout(): void {
     this._authService.logout();
-    // this._authService
-    //   .getAuthStatusListener()
-    //   .pipe(takeUntil(this.unsubscribe$))
-    //   .subscribe({
-    //     next: (res) => {
-    //       this.router.navigate(['/']);
-    //     },
-    //     error: (err) => {
-    //       this.router.navigate(['/']);
-    //     },
-    //   });
   }
 
   ngOnDestroy(): void {

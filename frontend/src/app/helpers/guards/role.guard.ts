@@ -7,12 +7,12 @@ import {
   CanActivateFn,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from '../services/auth/auth.service';
+import { AuthService } from 'src/app/modules/auth/service/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard {
+export class RoleGuard {
   constructor(private authService: AuthService, private router: Router) {}
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -22,21 +22,21 @@ export class AuthGuard {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    const isAuth = this.authService.user;
-    if (!isAuth) {
-      this.router.navigate(['/auth/login']);
+    const roles = this.authService.user.roles;
+    if (!roles.includes("ROLE_ADMIN")) {
+      this.router.navigate(['/']);
       return false;
     }
     return true;
   }
 }
 
-// export const authGuard: CanActivateFn = () => {
+// export const roleGuard: CanActivateFn = () => {
 //   const authService = inject(AuthService);
 //   const router = inject(Router);
 
-//   if (!authService.getIsAuth()) {
-//     router.navigate(['/auth/login']);
+//   if (!authService.userData.roles.includes('ROLE_ADMIN')) {
+//     router.navigate(['/']);
 //     return false;
 //   }
 //   return true;

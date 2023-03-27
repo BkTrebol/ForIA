@@ -3,10 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { AuthData } from '../../models/auth-data';
-import { Register } from '../../models/register';
-import { Global } from '../global';
-import { User } from '../../models/user';
+import { AuthData } from 'src/app/models/auth-data';
+import { Register } from 'src/app/models/register';
+import { Global } from 'src/app/environment/global';
+import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 
 @Injectable({
@@ -16,12 +16,6 @@ export class AuthService {
   private baseURL: string;
   private apiURL: string;
 
-  // private isAuthenticated: boolean;
-  // private authStatusListener: Subject<boolean>;
-  // private subscribe$: Subscription;
-
-
-  // public userPreferences: { sidebar: boolean; allow_music: boolean };
 
   private userSubject: BehaviorSubject<any>;
   public userData: Observable<{userData:User,userPreferences:UserPreferences} | null>;
@@ -61,16 +55,9 @@ export class AuthService {
     return this.http.get<any>(`${this.baseURL}/sanctum/csrf-cookie`);
   }
 
-  register(register: Register) {
+  register(register: Register):Observable<any> {
     let params = JSON.stringify(register);
-    this.http.post(`${this.apiURL}auth/register`, params).subscribe({
-      next: (res) => {
-        this.autoAuthUser();
-      },
-      error: (err) => {
-        this.autoAuthUser();
-      },
-    });
+    return this.http.post(`${this.apiURL}auth/register`, params);
   }
 
   login(authData: AuthData) {

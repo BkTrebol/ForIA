@@ -8,8 +8,7 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { UserService } from 'src/app/services/user/user.service';
+import { UserService } from 'src/app/modules/user/service/user.service';
 
 @Component({
   selector: 'app-edit',
@@ -49,7 +48,7 @@ export class EditComponent implements OnInit, OnDestroy {
     },
   };
 
-  constructor(private _authService: AuthService, private userService: UserService, private router: Router) {
+  constructor(private userService: UserService, private router: Router) {
     this.unsubscribe$ = new Subject();
     this.error = '';
     this.loading = false;
@@ -90,8 +89,8 @@ export class EditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._authService.getCSRF();
-    this.user = this._authService.userData;
+    // this._authService.getCSRF();
+    // this.user = this._authService.userData;
   }
 
   submit(): void {

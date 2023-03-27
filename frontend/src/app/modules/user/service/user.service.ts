@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Global } from '../global';
-import { UserPreferences } from '../../models/user-preferences';
+import { Global } from '../../../environment/global';
+import { UserPreferences } from '../../../models/user-preferences';
 import { User } from 'src/app/models/user';
 
 @Injectable({

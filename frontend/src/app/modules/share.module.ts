@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // Interceptors
-import { HeadersInterceptor } from "../interceptors/headers.interceptor";
+import { HeadersInterceptor } from "../helpers/interceptors/headers.interceptor";
 
 //Extra (icons)
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';

@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { UserPreferences } from '../../../models/user-preferences';
-import { User } from '../../../models/user';
-import { AuthService } from '../../../services/auth/auth.service';
-import { UserService } from '../../../services/user/user.service';
+import { UserPreferences } from 'src/app/models/user-preferences';
+import { User } from 'src/app/models/user';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss', '../../styles/card.scss'],
+  styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit{
   public user: User;
   public preferences: UserPreferences;
 
-  constructor(private _authService: AuthService, private userSerivce: UserService) {
+  constructor( private userSerivce: UserService) {
     this.user = {
       id: 0,
       nick: '',
@@ -38,7 +37,7 @@ export class ProfileComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.user = this._authService.userData;
+    // this.user = this._authService.userData;
     this.preferences = this.userSerivce.userPreferences;
   }
 }
