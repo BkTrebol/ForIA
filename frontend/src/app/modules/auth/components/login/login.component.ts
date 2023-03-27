@@ -65,11 +65,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._authService.userData
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe(r =>{
+    this._authService.authData
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((r) => {
         if (r) this.router.navigate(['/']);
-    })
+      });
     this._authService.getCSRF();
   }
 
@@ -77,20 +77,22 @@ export class LoginComponent implements OnInit, OnDestroy {
   submit() {
     if (this.formLogin.valid) {
       this.loading = true;
-      this._authService.login(this.authData)
-      .pipe(first())
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (res) => {
-                this.error = '';
-                this.loading = false;
-                this.router.navigate(['/user/profile']);
-              },
-              error: (err) => {
-                this.loading = false;
-                this.error = err.error.message;
-                this.formLogin.controls['password'].reset();
-      }})
+      this._authService
+        .login(this.authData)
+        .pipe(first())
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: (res) => {
+            this.error = '';
+            this.loading = false;
+            this.router.navigate(['/user/profile']);
+          },
+          error: (err) => {
+            this.loading = false;
+            this.error = err.error.message;
+            this.formLogin.controls['password'].reset();
+          },
+        });
     } else {
       this.error = 'Invalid data in the Form';
     }

@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 import { Register } from 'src/app/models/register';
 import { AuthService } from '../../service/auth.service';
 
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -19,6 +18,7 @@ import { AuthService } from '../../service/auth.service';
 export class RegisterComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public error: string;
+  public loading: boolean;
   public user: Register;
   public formRegister: FormGroup;
   public formBuilderNonNullable: NonNullableFormBuilder;
@@ -49,17 +49,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
     },
   };
 
-  constructor(
-    private _authService: AuthService,
-    private router: Router,) {
-
+  constructor(private _authService: AuthService, private router: Router) {
     this.unsubscribe$ = new Subject();
-    this._authService.userData
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe(r =>{
+    this._authService.authData
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((r) => {
         if (r) this.router.navigate(['/']);
-    })
+      });
     this.error = '';
+    this.loading = false;
     this.user = {
       nick: '',
       email: '',
@@ -67,78 +65,79 @@ export class RegisterComponent implements OnInit, OnDestroy {
       password_confirmation: '',
     };
     this.formBuilderNonNullable = new FormBuilder().nonNullable;
-    this.formRegister = this.formBuilderNonNullable.group(
-      {
-        nick: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(100),
-          ],
+    this.formRegister = this.formBuilderNonNullable.group({
+      nick: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100),
         ],
-        email: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(255),
-            Validators.email,
-          ],
+      ],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(255),
+          Validators.email,
         ],
-        password: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.pattern('^[a-zA-Z0-9]+$'),
-          ],
+      ],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern('^[a-zA-Z0-9]+$'),
         ],
-        password_confirmation: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(8),
-          ],
-        ],
-      },
-    );
+      ],
+      password_confirmation: [
+        '',
+        [Validators.required, Validators.minLength(8)],
+      ],
+    });
   }
 
   // Register the User
   submit() {
     if (this.formRegister.valid) {
-      this._authService.register(this.user)
+      this.loading = true
+      this._authService
+        .register(this.user)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
-        next: (res) => {
-          this.error = '';
-          this.router.navigate(['/user/profile']);
-        },
-        error: (err) => {
-          // Message error
-          this.error = err.error.message.split('.')[0];
-          // Reset the passwords
-          this.formRegister.controls['password'].reset();
-          // this.formRegister.controls['password'].markAsUntouched();
-          this.formRegister.controls['password_confirmation'].reset();
-          // this.formRegister.controls['password_confirmation'].markAsUntouched();
+          next: (res) => {
+            this.error = '';
+            this.loading = false
+            this.router.navigate(['/user/profile']);
+          },
+          error: (err) => {
+            this.loading = false;
+            // Message error
+            this.error = err.error.message.split('.')[0];
+            // Reset the passwords
+            this.formRegister.controls['password'].reset();
+            // this.formRegister.controls['password'].markAsUntouched();
+            this.formRegister.controls['password_confirmation'].reset();
+            // this.formRegister.controls['password_confirmation'].markAsUntouched();
 
-          // Show the errors from the backend
-          if (err.error.errors.password) {
-            this.formRegister.controls['password_confirmation'].setErrors({
-              mismatch: true,
-            });
-            this.formRegister.controls['password_confirmation'].markAsTouched();
-          }
-          if (err.error.errors.nick) {
-            this.formRegister.controls['nick'].setErrors({ repeat: true });
-          }
-          if (err.error.errors.email) {
-            this.formRegister.controls['email'].setErrors({ repeat: true });
-          }
-        },
-      });
+            // Show the errors from the backend
+            if (err.error.errors.password) {
+              this.formRegister.controls['password_confirmation'].setErrors({
+                mismatch: true,
+              });
+              this.formRegister.controls[
+                'password_confirmation'
+              ].markAsTouched();
+            }
+            if (err.error.errors.nick) {
+              this.formRegister.controls['nick'].setErrors({ repeat: true });
+            }
+            if (err.error.errors.email) {
+              this.formRegister.controls['email'].setErrors({ repeat: true });
+            }
+          },
+        });
     } else {
       this.error = 'Invalid data in the Form';
     }

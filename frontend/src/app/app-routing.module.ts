@@ -6,6 +6,7 @@ import { AuthGuard } from './helpers/guards/auth.guard';
 import { RoleGuard } from './helpers/guards/role.guard';
 // TODO auth guard invers
 
+// Lazy loading
 const routes: Routes = [
   {
     path: 'auth',

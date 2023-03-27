@@ -12,10 +12,13 @@ import { UserPreferences } from './models/user-preferences';
 })
 export class AppComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
-  public userIsAuthenticated: {userData:User,userPreferences:UserPreferences} | null;
+  public userIsAuthenticated: {
+    userData: User;
+    userPreferences: UserPreferences;
+  } | null;
 
-  top: boolean;
-  canSmall: boolean;
+  public top: boolean;
+  public canSmall: boolean;
 
   constructor(private _authService: AuthService, private router: Router) {
     this.unsubscribe$ = new Subject();
@@ -23,15 +26,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.top = false;
     this.canSmall = false;
     this._authService.autoAuthUser();
-
   }
 
   ngOnInit() {
-    this._authService.userData
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe(r =>{
-      this.userIsAuthenticated = r
-    })
+    this._authService.authData
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((r) => {
+        this.userIsAuthenticated = r;
+      });
 
     // Function that change the nav height on scroll
     this.small();
@@ -44,10 +46,10 @@ export class AppComponent implements OnInit, OnDestroy {
             '/auth/register',
             '/auth/reset-password',
             '/user/edit',
+            '/user/profile',
             '/user/preferences',
           ].includes(event.url)
         ) {
-          // console.log(event.url);
           this.canSmall = false;
         } else {
           this.canSmall = true;
@@ -75,11 +77,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // Logout the user
   logout(): void {
-    this._authService.logout();
+    this._authService
+      .logout()
+      .subscribe({ complete: () => this.router.navigate(['/']) });
   }
 
   ngOnDestroy(): void {
-    // this._authService.unsubscribeAutoAuthUser();
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

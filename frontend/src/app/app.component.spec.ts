@@ -31,8 +31,6 @@ describe('AppComponent Test', () => {
   });
 
   it(`should have property userIsAuthenticated to false`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    // expect(app.userIsAuthenticated).toBe(false);
+    expect(app.userIsAuthenticated).toBe(null);
   });
 });

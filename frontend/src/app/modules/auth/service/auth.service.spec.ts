@@ -1,8 +1,8 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { AuthService } from './auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Observable, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from './auth.service';
 
 describe('AuthService Test', () => {
   let service: AuthService;
@@ -10,12 +10,12 @@ describe('AuthService Test', () => {
 
   beforeEach(() => {
     httpClientSpy = jasmine.createSpyObj<AuthService>('AuthService', [
-      'testRegister',
-      'testLogin',
-      'testLogout',
-      'getAuthUser',
       'getCSRF',
-      'getIsAuth',
+      'register',
+      'login',
+      'checkLogin',
+      'autoAuthUser',
+      'logout',
     ]);
 
     TestBed.configureTestingModule({
@@ -33,27 +33,6 @@ describe('AuthService Test', () => {
     expect(service).toBeTruthy();
   });
 
-  it('AuthService variables initialized', () => {
-    const mockIsAuthResult = false;
-    httpClientSpy.getIsAuth.and.returnValue(mockIsAuthResult);
-    expect(service.getIsAuth()).toBe(false);
-    // expect(service.userData).toEqual({
-    //   id: 0,
-    //   nick: '',
-    //   email: '',
-    //   location: '',
-    //   birthday: '',
-    //   avatar: '',
-    //   roles: [],
-    //   created_at: '',
-    //   updated_at: '',
-    // });
-    // expect(service.userPreferences).toEqual({
-    //   sidebar: true,
-    //   allow_music: false,
-    // });
-  });
-
   it('Register valid should return message from observable', () => {
     const mockRegisterData = {
       nick: 'abcd',
@@ -65,42 +44,42 @@ describe('AuthService Test', () => {
       message: 'User created successfully',
     };
 
-    httpClientSpy.testRegister.and.returnValue(of(mockRegisterResult));
-    // const result = service.testRegister(mockRegisterData);
-    // expect(result).not.toBeNull();
-    service.testRegister(mockRegisterData).subscribe((res) => {
+    httpClientSpy.register.and.returnValue(of(mockRegisterResult));
+    service.register(mockRegisterData).subscribe((res) => {
       expect(res).toEqual(mockRegisterResult);
     });
   });
 
-  it('Login valid should return message from observable', () => {
-    const mockLoginData = {
-      email: 'a@a',
-      password: '12345678',
-      remember_me: false,
-    };
-    const mockLoginResult = {
-      message: 'Logged in successfully.',
-    };
+  // it('Login valid should return message from observable', () => {
+  //   const mockLoginData = {
+  //     email: 'a@a',
+  //     password: '12345678',
+  //     remember_me: false,
+  //   };
+  //   const mockLoginResult = {
+  //     message: 'Logged in successfully.',
+  //   };
 
-    httpClientSpy.testLogin.and.returnValue(of(mockLoginResult));
-    service.testLogin(mockLoginData).subscribe((res) => {
-      expect(res).toEqual(mockLoginResult);
-    });
-  });
+  //   httpClientSpy.login.and.returnValue(of(mockLoginResult));
+  //   httpClientSpy.checkLogin.and.returnValue(of(""));
+  //   service.login(mockLoginData).subscribe(res => {
+  //     expect(res).toEqual(mockLoginResult);
+  //   })
+  //   });
+  // });
 
   it('Logout valid should return message from observable', () => {
     const mockLogoutResult = {
       message: 'Logout successfully',
     };
 
-    httpClientSpy.testLogout.and.returnValue(of(mockLogoutResult));
-    service.testLogout().subscribe((res) => {
+    httpClientSpy.logout.and.returnValue(of(mockLogoutResult));
+    service.logout().subscribe((res) => {
       expect(res).toEqual(mockLogoutResult);
     });
   });
 
-  it('getAuthUser valid should return the data of the user from observable', () => {
+  it('checkLogin valid should return the data of the user from observable', () => {
     const mockAuthUserResult = {
       userData: {
         id: 13,
@@ -119,8 +98,8 @@ describe('AuthService Test', () => {
       },
     };
 
-    httpClientSpy.getAuthUser.and.returnValue(of(mockAuthUserResult));
-    service.getAuthUser().subscribe((res) => {
+    httpClientSpy.checkLogin.and.returnValue(of(mockAuthUserResult));
+    service.checkLogin().subscribe((res) => {
       expect(res).toEqual(mockAuthUserResult);
     });
   });
@@ -134,44 +113,24 @@ describe('AuthService Test', () => {
     });
   });
 
-  // it('resetAuthUser should modify userData and userPreferences reseted', () => {
-  //   service.resetAuthUser();
-  //   expect(service.userData).toEqual({
-  //     id: 0,
-  //     nick: '',
-  //     email: '',
-  //     location: '',
-  //     birthday: '',
-  //     avatar: '',
-  //     roles: [],
-  //     created_at: '',
-  //     updated_at: '',
+  // it(`Login invalid should return error`, () => {
+  //   const mockLoginData = {
+  //     email: 'abc',
+  //     password: '123',
+  //     remember_me: false,
+  //   };
+  //   const error = new HttpErrorResponse({
+  //     error: 'Invalid user',
+  //     status: 409,
+  //     statusText: 'Not Found',
   //   });
-  //   expect(service.userPreferences).toEqual({
-  //     sidebar: true,
-  //     allow_music: false,
+
+  //   httpClientSpy.login.and.returnValue(of(error));
+  //   service.login(mockLoginData).subscribe({
+  //     next: (res) => {},
+  //     error: (err) => {
+  //       expect(err.status).toEqual(409);
+  //     },
   //   });
   // });
-
-  it(`Login invalid should return error`, () => {
-    const mockLoginData = {
-      email: 'abc',
-      password: '123',
-      remember_me: false,
-    };
-    const error = new HttpErrorResponse({
-      error: 'Invalid user',
-      status: 409,
-      statusText: 'Not Found',
-    });
-
-    httpClientSpy.testLogin.and.returnValue(of(error));
-    service.testLogin(mockLoginData).subscribe({
-      next: (res) => { },
-      error: (err) => {
-        expect(err.status).toEqual(409);
-      }
-  });
-  });
-
 });

@@ -11,16 +11,13 @@ import { FooterComponent } from './components/footer/footer.component';
 
 // Interceptors
 import { HeadersInterceptor } from "./helpers/interceptors/headers.interceptor";
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // Extra (icons)
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
-
-// Modules
-import { AuthModule } from './modules/auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -31,8 +28,8 @@ import { AuthModule } from './modules/auth/auth.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     FontAwesomeModule,
-    AuthModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }
