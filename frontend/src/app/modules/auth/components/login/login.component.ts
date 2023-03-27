@@ -6,19 +6,18 @@ import {
   FormGroup,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, first, takeUntil } from 'rxjs';
 import { AuthData } from 'src/app/models/auth-data';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss', '../../styles/user-form.scss'],
+  styleUrls: ['./login.component.scss', '../../../../styles/user-form.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public error: string;
-  public loading: boolean;
   public authData: AuthData;
   public formLogin: FormGroup;
   public formBuilderNonNullable: NonNullableFormBuilder;
@@ -36,11 +35,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     },
   };
 
-  // Change to private
-  constructor(public _authService: AuthService, private router: Router) {
+  constructor(private _authService: AuthService, private router: Router) {
     this.unsubscribe$ = new Subject();
+    this._authService.userData
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe(r =>{
+        if (r) this.router.navigate(['/']);
+    })
+
     this.error = '';
-    this.loading = false;
     this.authData = { email: '', password: '', remember_me: false };
     this.formBuilderNonNullable = new FormBuilder().nonNullable;
     this.formLogin = this.formBuilderNonNullable.group({
@@ -65,35 +68,38 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this._authService.getCSRF();
   }
 
   // Login the user
-  submit(): void {
+  submit() {
     if (this.formLogin.valid) {
-      this.loading = true;
-      this.error = '';
-      this._authService.login(this.authData);
-      this._authService
-        .getAuthStatusListener()
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe({
-          next: (res) => {
-            this.loading = false;
-            if (!res) {
-              this.error = 'Email or Password does not match with our record';
-              this.formLogin.controls['password'].reset();
-            } else {
-              this.router.navigate(['/user/profile']);
-            }
-          },
-          error: (err) => {
-            this.loading = false;
-            this.error = err.error.message;
-            this.formLogin.controls['password'].reset();
-          },
-        });
+      this._authService.login(this.authData)
+      .pipe(first())
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (res) => {
+                this.error = '';
+                this.router.navigate(['/user/profile']);
+              },
+              error: (err) => {
+                this.error = err.error.message;
+                this.formLogin.controls['password'].reset();
+      }})
+      // this._authService
+      //   .getAuthStatusListener()
+      //   .pipe(takeUntil(this.unsubscribe$))
+      //   .subscribe({
+      //     next: (res) => {
+      //       this.error = '';
+      //       this.router.navigate(['/user/profile']);
+      //     },
+      //     error: (err) => {
+      //       this.error = err.error.message;
+      //       this.formLogin.controls['password'].reset();
+      //     },
+      //   });
     } else {
       this.error = 'Invalid data in the Form';
     }
@@ -106,7 +112,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     return this.formLogin.get('password');
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

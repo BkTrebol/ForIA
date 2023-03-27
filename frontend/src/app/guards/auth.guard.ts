@@ -22,7 +22,8 @@ export class AuthGuard {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (!this.authService.getIsAuth()) {
+    const isAuth = this.authService.user;
+    if (!isAuth) {
       this.router.navigate(['/auth/login']);
       return false;
     }

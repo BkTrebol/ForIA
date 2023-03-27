@@ -32,12 +32,11 @@ function passwordMatchValidator(control: AbstractControl) {
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss', '../../styles/user-form.scss'],
+  styleUrls: ['./register.component.scss', '../../../../styles/user-form.scss'],
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public error: string;
-  public loading: boolean;
   public user: Register;
   public formRegister: FormGroup;
   public formBuilderNonNullable: NonNullableFormBuilder;
@@ -68,10 +67,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
     },
   };
 
-  constructor(private _authService: AuthService, private router: Router) {
+  constructor(
+    private _authService: AuthService,
+    private router: Router,) {
+
     this.unsubscribe$ = new Subject();
+    this._authService.userData
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe(r =>{
+        if (r) this.router.navigate(['/']);
+    })
     this.error = '';
-    this.loading = false;
     this.user = {
       nick: '',
       email: '',
@@ -121,51 +127,40 @@ export class RegisterComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnInit(): void {
-    this._authService.getCSRF();
-  }
-
   // Register the User
-  submit(): void {
+  submit() {
     if (this.formRegister.valid) {
-      this.loading = true;
-      this._authService.register(this.user);
-      this._authService
-        .getAuthStatusListener()
+      this._authService.register(this.user)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
-          next: (res) => {
-            this.loading = false;
-            this.error = '';
-            this.router.navigate(['/user/profile']);
-          },
-          error: (err) => {
-            this.loading = false;
-            // Message error
-            this.error = err.error.message.split('.')[0];
-            // Reset the passwords
-            this.formRegister.controls['password'].reset();
-            // this.formRegister.controls['password'].markAsUntouched();
-            this.formRegister.controls['password_confirmation'].reset();
-            // this.formRegister.controls['password_confirmation'].markAsUntouched();
+        next: (res) => {
+          this.error = '';
+          this.router.navigate(['/user/profile']);
+        },
+        error: (err) => {
+          // Message error
+          this.error = err.error.message.split('.')[0];
+          // Reset the passwords
+          this.formRegister.controls['password'].reset();
+          // this.formRegister.controls['password'].markAsUntouched();
+          this.formRegister.controls['password_confirmation'].reset();
+          // this.formRegister.controls['password_confirmation'].markAsUntouched();
 
-            // Show the errors from the backend
-            if (err.error.errors.password) {
-              this.formRegister.controls['password_confirmation'].setErrors({
-                mismatch: true,
-              });
-              this.formRegister.controls[
-                'password_confirmation'
-              ].markAsTouched();
-            }
-            if (err.error.errors.nick) {
-              this.formRegister.controls['nick'].setErrors({ repeat: true });
-            }
-            if (err.error.errors.email) {
-              this.formRegister.controls['email'].setErrors({ repeat: true });
-            }
-          },
-        });
+          // Show the errors from the backend
+          if (err.error.errors.password) {
+            this.formRegister.controls['password_confirmation'].setErrors({
+              mismatch: true,
+            });
+            this.formRegister.controls['password_confirmation'].markAsTouched();
+          }
+          if (err.error.errors.nick) {
+            this.formRegister.controls['nick'].setErrors({ repeat: true });
+          }
+          if (err.error.errors.email) {
+            this.formRegister.controls['email'].setErrors({ repeat: true });
+          }
+        },
+      });
     } else {
       this.error = 'Invalid data in the Form';
     }
@@ -184,7 +179,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
     return this.formRegister.get('password_confirmation');
   }
 
-  ngOnDestroy(): void {
+  ngOnInit() {
+    this._authService.getCSRF();
+  }
+
+  ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
