@@ -19,6 +19,7 @@ Prefix: user
 - edit PUT
 - preferences PUT
 - {user} GET
+- change-password PUT
 
 Prefix: topic
 - create POST
@@ -46,4 +47,4 @@ Prefix: topic
 - {topic} GET
 
 Prefix: post
-- /topic/{topic}
+- /topic/{topic} GET (get all posts of one topic)

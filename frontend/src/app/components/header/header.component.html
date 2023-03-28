@@ -1,1 +1,46 @@
-<p>header works!</p>
+<header class="header" [ngClass]="{'small': top}">
+    <a class="logo" routerLink="/">
+        <img class="logoIA" src="/assets/svg/logoIA.svg" height="50" alt="logo icon FORIA">
+        <img class="logoFORIA" src="/assets/svg/logoFORIA.svg" height="30" alt="logo FORIA">
+    </a>
+    <nav *ngIf="userIsAuthenticated">
+        <ul>
+            <li><a routerLink="/message/list" routerLinkActive="active">
+                    <fa-icon [icon]="['fas', 'message']"></fa-icon><span>Messages</span>
+                </a></li>
+            <li><a routerLink="/test" routerLinkActive="active">
+                    <fa-icon [icon]="['fas', 'vial']"></fa-icon><span>Test</span></a></li>
+        </ul>
+        <ul>
+            <li class="dreta"><a routerLink="/user/profile" routerLinkActive="active"><fa-icon
+                        [icon]="['fas', 'user']"></fa-icon><span>{{userIsAuthenticated.userData.nick}}</span></a></li>
+            <li><a routerLink="/user/edit" routerLinkActive="active"><fa-icon
+                        [icon]="['fas', 'edit']"></fa-icon><span>Edit</span></a></li>
+            <li><a routerLink="/user/preferences" routerLinkActive="active"><fa-icon
+                        [icon]="['fas', 'gear']"></fa-icon><span>Preferences</span></a></li>
+            <li><a href="javascript:void(0);" (click)="logout()"><fa-icon
+                        [icon]="['fas', 'right-from-bracket']"></fa-icon><span>Logout</span></a></li>
+        </ul>
+    </nav>
+    <nav *ngIf="!userIsAuthenticated">
+        <ul>
+            <li><a routerLink="/edit" routerLinkActive="active"><fa-icon
+                        [icon]="['fas', 'edit']"></fa-icon><span>Edit</span></a>
+            </li>
+            <li><a routerLink="/test" routerLinkActive="active">
+                    <fa-icon [icon]="['fas', 'user']"></fa-icon><span>Test</span></a>
+            </li>
+        </ul>
+        <ul>
+            <li><a routerLink="/auth/register" routerLinkActive="active">
+                    <fa-icon [icon]="['fas', 'address-card']"></fa-icon><span>Registrar</span>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/auth/login" routerLinkActive="active">
+                    <fa-icon [icon]="['fas', 'right-to-bracket']"></fa-icon><span>Login</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
