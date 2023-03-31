@@ -7,6 +7,10 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PostController;
+
+use App\Models\Post;
+use App\Models\Topic;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,21 +29,30 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/data','userData');
         Route::get('/logout','logout');
     });
-
-    // Topic routes.
-    Route::controller(TopicController::class)->prefix('topic')->group(function(){
-        Route::post('/create','createTopic');
-        Route::put('/{topic}','editTopic');
-        Route::delete('/{topic}','deleteTopic');
-    });
     //User Routes.
     Route::controller(UserController::class)->prefix('user')->group(function(){
         Route::get('/edit','getUserData');
         Route::get('/preference','getUserPreferences');
-        Route::post('/edit','editUserData');
-        Route::post('/preference','editUserPreference');
+        Route::put('/edit','editUserData');
+        Route::put('/preference','editUserPreference');
         Route::get('{user}','profile');
     });
+
+
+    // Topic routes.
+    Route::controller(TopicController::class)->prefix('topic')->group(function(){
+        Route::post('/','createTopic');
+        Route::put('/{topic}','editTopic');
+        Route::delete('/{topic}','deleteTopic');
+    });
+
+    // Post routes.
+    Route::controller(PostController::class)->prefix('post')->group(function(){
+        Route::post('/','createPost');
+        Route::put('/{post}','editPost');
+        Route::delete('/{post}','deletePost');
+    });
+    
 });
 
 // Public routes.
@@ -74,4 +87,10 @@ Route::get('holi',function(Request $request) {
         'email' => ['required', 'string', 'max:255'],
     ], 
     );
+});
+
+Route::get('testing/{post}', function(Post $post){
+    $topic = Topic::find($post->topic_id);
+   
+    return response()->json(['post' => $topic->posts->count() ]);
 });

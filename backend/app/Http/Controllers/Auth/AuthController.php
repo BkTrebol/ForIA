@@ -13,6 +13,7 @@ use App\Models\User;
 class AuthController extends Controller
 {
     function login(Request $request){
+        if (Auth::user()) return response()->json(['message' => 'Unauthorized'],403);
         if(!Auth::attempt($request->only(['email', 'password']),$request->remember_me)){
             return response()->json([
                 'message' => 'Email or Password does not match with our record.',
@@ -34,6 +35,7 @@ class AuthController extends Controller
     }
 
     function register(Request $request){
+        if (Auth::user()) return response()->json(['message' => 'Unauthorized'],403);
         $request->validate([
             'nick' => ['required', 'string', 'max:100','unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -74,7 +76,7 @@ class AuthController extends Controller
         }
     
         $id_token = $request->credential;
-        $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]);  // Specify the CLIENT_ID of the app that accesses the backend
+        $client = new Google_Client(['client_id' => config('app.GOOGLE_CLIENT_ID')]);  // Specify the CLIENT_ID of the app that accesses the backend
         $payload = $client->verifyIdToken($id_token);
 
         if (!$payload) {

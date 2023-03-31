@@ -8,6 +8,8 @@ return [
     'adminRoles' => ['ROLE_ADMIN','ROLE_GOD'],
 
     'trash' => 2,
+
+    'GOOGLE_CLIENT_ID' => env('GOOGLE_CLIENT_ID'),
     /*
     |--------------------------------------------------------------------------
     | Application Name

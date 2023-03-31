@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('image')->nullable();
             $table->string('music')->nullable();
-            $table->string('can_view')->default('ROLE_USER');
-            $table->string('can_edit')->default('ROLE_USER');
+            $table->string('can_view')->default('ROLE_GUEST');
+            $table->string('can_post')->default('ROLE_USER');
+            $table->string('can_mod')->default('ROLE_MOD');
             $table->timestamps();
 
             $table->index(['section']);

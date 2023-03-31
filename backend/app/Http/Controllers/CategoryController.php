@@ -11,7 +11,8 @@ class CategoryController extends Controller
     function getCategories(){
         // Gets the categories that the user can view.
         $user = Auth::user();
-        $categories = Category::with('lastPost')->get()->whereIn('can_view', $user->roles)->groupBy('section');
+        $roles = $user ? $user->roles : ['ROLE_GUEST'];
+        $categories = Category::with('lastPost')->get()->whereIn('can_view', $roles)->groupBy('section');
 
         return response()->json([
             'categories' => $categories,
@@ -21,13 +22,13 @@ class CategoryController extends Controller
     function viewCategory(Category $category){
         // Returns the topics in a category that a user can view, if the user can view the category.
         $user = Auth::user();
-        if(!in_array($category->can_view,$user->roles)){
+        $roles = $user ? $user->roles : ['ROLE_GUEST'];
+        if(!in_array($category->can_view,$roles)){
             return response()->json([
                 'message' => 'Unauthorized'],403);
         }
-        
         return response()->json([
-            'topics'=>$category->topics->whereIn('can_view', $user->roles)
+            'topics'=>$category->topics->whereIn('can_view', $roles)
         ],200);
     }
 
