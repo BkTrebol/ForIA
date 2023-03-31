@@ -3,6 +3,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 describe('AppComponent Test', () => {
   let app: AppComponent;
@@ -15,7 +17,7 @@ describe('AppComponent Test', () => {
         HttpClientTestingModule,
         FontAwesomeModule,
       ],
-      declarations: [AppComponent],
+      declarations: [AppComponent, HeaderComponent, FooterComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(AppComponent);
     app = fixture.componentInstance;
@@ -25,14 +27,7 @@ describe('AppComponent Test', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have property top, canSmall and userIsAuthenticated to false`, () => {
-    expect(app.top).toBe(false);
-    expect(app.canSmall).toBe(false);
-  });
-
-  it(`should have property userIsAuthenticated to false`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    // expect(app.userIsAuthenticated).toBe(false);
+  it(`should have property userIsAuthenticated to null`, () => {
+    expect(app.userIsAuthenticated).toBe(null);
   });
 });
