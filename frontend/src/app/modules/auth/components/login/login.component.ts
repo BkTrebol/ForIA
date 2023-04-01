@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     email: {
       required: 'Email is Required',
       minlength: 'Min Length is 3',
-      maxlength: 'Max Length is 30',
+      maxlength: 'Max Length is 255',
       email: 'Invalid Email',
     },
     password: {
@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           },
           error: (err) => {
             this.loading = false;
-            this.error = err.error.message;
+            this.error = err.error.message; //Maybe split
             this.formLogin.controls['password'].reset();
           },
         });

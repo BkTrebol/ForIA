@@ -9,7 +9,8 @@ describe('AuthService Test', () => {
   let httpClientSpy: jasmine.SpyObj<AuthService>;
 
   beforeEach(() => {
-    httpClientSpy = jasmine.createSpyObj<AuthService>('AuthService', [
+    //AuthService
+    httpClientSpy = jasmine.createSpyObj<any>('AuthService', [
       'getCSRF',
       'register',
       'login',

@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
 import { Subject } from 'rxjs';
+import { Global } from 'src/app/environment/global';
 import { AuthData } from 'src/app/models/auth-data';
 import { Register } from 'src/app/models/register';
-import { Global } from 'src/app/environment/global';
 import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
+import { ResetPassword } from 'src/app/models/reset-password';
 
 @Injectable({
   providedIn: 'root',
@@ -44,7 +45,7 @@ export class AuthService {
       map((r) => {
         this.checkLogin().subscribe({
           next: (checkR) => {
-            console.log("R", r);
+            console.log('R', r);
             console.log('checkR', checkR);
             return r;
           },
@@ -75,6 +76,11 @@ export class AuthService {
 
   public get user() {
     return this.userSubject.value;
+  }
+
+  resetPassword(resetPassowrdData: ResetPassword): Observable<any> {
+    let params = JSON.stringify(resetPassowrdData);
+    return this.http.post(`${this.apiURL}auth/reset-password`, params);
   }
 
   logout(): Observable<any> {

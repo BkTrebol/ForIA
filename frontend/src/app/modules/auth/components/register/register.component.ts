@@ -69,11 +69,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   constructor(private _authService: AuthService, private router: Router) {
     this.unsubscribe$ = new Subject();
-    this._authService.authData
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((r) => {
-        if (r) this.router.navigate(['/']);
-      });
     this.error = '';
     this.loading = false;
     this.user = {
@@ -121,17 +116,26 @@ export class RegisterComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngOnInit() {
+    this._authService.authData
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((r) => {
+        if (r) this.router.navigate(['/']);
+      });
+    this._authService.getCSRF();
+  }
+
   // Register the User
   submit() {
     if (this.formRegister.valid) {
-      this.loading = true
+      this.loading = true;
       this._authService
         .register(this.user)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
             this.error = '';
-            this.loading = false
+            this.loading = false;
             this.router.navigate(['/user/profile']);
           },
           error: (err) => {
@@ -177,10 +181,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
   get password_confirmation() {
     return this.formRegister.get('password_confirmation');
-  }
-
-  ngOnInit() {
-    this._authService.getCSRF();
   }
 
   ngOnDestroy() {
