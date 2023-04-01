@@ -1,1 +1,14 @@
-<p>list works!</p>
+<div class="list">
+    <p class="loading" *ngIf="loading">Loading ...</p>
+    <ul *ngIf="!loading">
+        <ng-container *ngFor="let category of categories">
+            <li *ngIf="category.can_view">
+                <h1>{{category.title}}</h1>
+                <h2>{{category.section}}</h2>
+                <p>{{category.description}}</p>
+                <img *ngIf="category.image != null" src="{{category.image}}" alt="{{category.image}}">
+                <a routerLink="/category/{{category.id}}">View</a>
+            </li>
+        </ng-container>
+    </ul>
+</div>

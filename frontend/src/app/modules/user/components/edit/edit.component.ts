@@ -89,7 +89,7 @@ export class EditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.user = this.userService.userData;
+    // this.user = this.userService.authData;
   }
 
   submit(): void {
