@@ -21,6 +21,7 @@ export class AuthService {
     userData: User;
     userPreferences: UserPreferences;
   } | null>;
+  public isAuth: boolean;
 
   constructor(private http: HttpClient) {
     this.baseURL = Global.url;
@@ -28,6 +29,7 @@ export class AuthService {
 
     this.userSubject = new BehaviorSubject(null);
     this.authData = this.userSubject.asObservable();
+    this.isAuth = false;
   }
 
   getCSRF(): Observable<any> {
@@ -39,7 +41,7 @@ export class AuthService {
     return this.http.post(`${this.apiURL}auth/register`, params);
   }
 
-  login(authData: AuthData) {
+  login(authData: AuthData): Observable<any> {
     let params = JSON.stringify(authData);
     return this.http.post(`${this.apiURL}auth/login`, params).pipe(
       map((r) => {
@@ -54,10 +56,16 @@ export class AuthService {
     );
   }
 
+  login2(authData: AuthData): Observable<any> {
+    let params = JSON.stringify(authData);
+    return this.http.post(`${this.apiURL}auth/login`, params)
+  }
+
   checkLogin(): Observable<any> {
     return this.http.get(`${this.apiURL}auth/data`).pipe(
       map((r) => {
         this.userSubject.next(r);
+        this.isAuth = true;
         return r;
       })
     );
@@ -85,6 +93,7 @@ export class AuthService {
 
   logout(): Observable<any> {
     this.userSubject.next(null);
+    this.isAuth = false;
     return this.http.get(`${this.apiURL}auth/logout`);
   }
 }

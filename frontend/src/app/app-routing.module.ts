@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 // Guards
 import { AuthGuard } from './helpers/guards/auth.guard';
 import { RoleGuard } from './helpers/guards/role.guard';
-// TODO auth guard invers
+import { GuestGuard } from './helpers/guards/guest.guard';
 
 // Lazy loading
 const routes: Routes = [
@@ -12,6 +12,7 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
+    // canActivate: [GuestGuard],
   },
   {
     path: 'user',

@@ -38,6 +38,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public error: string;
   public loading: boolean;
+  public canShow: boolean;
+  public canShowConf: boolean;
   public user: Register;
   public formRegister: FormGroup;
   public formBuilderNonNullable: NonNullableFormBuilder;
@@ -71,6 +73,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.unsubscribe$ = new Subject();
     this.error = '';
     this.loading = false;
+    this.canShow = false;
+    this.canShowConf = false;
     this.user = {
       nick: '',
       email: '',
@@ -168,6 +172,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
     } else {
       this.error = 'Invalid data in the Form';
     }
+  }
+
+  changeShow() {
+    this.canShow = !this.canShow;
+  }
+  
+  changeShowConf() {
+    this.canShowConf = !this.canShowConf;
   }
 
   get nick() {

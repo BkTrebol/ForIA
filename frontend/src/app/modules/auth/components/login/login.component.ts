@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public error: string;
   public loading: boolean;
+  public canShow: boolean;
   public authData: AuthData;
   public formLogin: FormGroup;
   public formBuilderNonNullable: NonNullableFormBuilder;
@@ -40,6 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.unsubscribe$ = new Subject();
     this.error = '';
     this.loading = false;
+    this.canShow = false;
     this.authData = { email: '', password: '', remember_me: false };
     this.formBuilderNonNullable = new FormBuilder().nonNullable;
     this.formLogin = this.formBuilderNonNullable.group({
@@ -65,11 +67,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._authService.authData
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((r) => {
-        if (r) this.router.navigate(['/']);
-      });
+    // this._authService.authData
+    //   .pipe(takeUntil(this.unsubscribe$))
+    //   .subscribe((r) => {
+    //     if (r) this.router.navigate(['/']);
+    //   });
     this._authService.getCSRF();
   }
 
@@ -78,14 +80,26 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.formLogin.valid) {
       this.loading = true;
       this._authService
-        .login(this.authData)
-        .pipe(first())
+        .login2(this.authData)
+        // .pipe(first())
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
-            this.error = '';
-            this.loading = false;
-            this.router.navigate(['/user/profile']);
+            this._authService
+              .checkLogin()
+              .pipe(takeUntil(this.unsubscribe$))
+              .subscribe({
+                next: (res) => {
+                  this.error = '';
+                  this.loading = false;
+                  console.log('loginggg', res);
+                  this.router.navigate(['/user/profile']);
+                },
+              });
+            // this.error = '';
+            // this.loading = false;
+            // console.log("loginggg", res);
+            // this.router.navigate(['/user/profile']);
           },
           error: (err) => {
             this.loading = false;
@@ -96,6 +110,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     } else {
       this.error = 'Invalid data in the Form';
     }
+  }
+
+  changeShow() {
+    this.canShow = !this.canShow;
   }
 
   get email() {

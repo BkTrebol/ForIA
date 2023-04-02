@@ -6,7 +6,8 @@
         <div class="fields">
             <div class="group">
                 <div class="field">
-                    <input type="text" autocomplete="nickname" formControlName="nick" class="input" placeholder="Nick" [(ngModel)]="user.nick" required>
+                    <input type="text" autocomplete="nickname" formControlName="nick" class="input" placeholder="Nick"
+                        [(ngModel)]="user.nick" required>
                     <fa-icon class="icon" [icon]="['fas', 'user']"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!nick?.valid && nick?.touched">
@@ -19,7 +20,8 @@
             </div>
             <div class="group">
                 <div class="field">
-                    <input type="email" autocomplete="email" formControlName="email" class="input" placeholder="Email" [(ngModel)]="user.email" required>
+                    <input type="email" autocomplete="email" formControlName="email" class="input" placeholder="Email"
+                        [(ngModel)]="user.email" required>
                     <fa-icon class="icon" [icon]="['fas', 'envelope']"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!email?.valid && email?.touched">
@@ -31,9 +33,14 @@
                 </div>
             </div>
             <div class="group">
-                <div class="field">
-                    <input type="password" autocomplete="new-password" formControlName="password" class="input" placeholder="Password" [(ngModel)]="user.password" required>
-                    <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
+                <div class="show">
+                    <div class="field">
+                        <input type="{{ canShow  ? 'text': 'password'}}" autocomplete="new-password"
+                            formControlName="password" class="input" placeholder="Password" [(ngModel)]="user.password"
+                            required>
+                        <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
+                    </div>
+                    <fa-icon class="eye" [icon]="['fas', canShow ? 'eye':'eye-slash']" (click)="changeShow()"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!password?.valid && password?.touched">
                     <ng-container *ngFor="let validation of validationMessagesRegister.password | keyvalue">
@@ -44,10 +51,15 @@
                 </div>
             </div>
             <div class="group">
-                <div class="field">
-                    <input type="password" autocomplete="new-password" formControlName="password_confirmation" class="input"
-                        placeholder="Password Confirmation" [(ngModel)]="user.password_confirmation" required>
-                    <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
+                <div class="show">
+                    <div class="field">
+                        <input type="{{ canShowConf  ? 'text': 'password'}}" autocomplete="new-password"
+                            formControlName="password_confirmation" class="input" placeholder="Password Confirmation"
+                            [(ngModel)]="user.password_confirmation" required>
+                        <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
+                    </div>
+                    <fa-icon class="eye" [icon]="['fas', canShowConf ? 'eye':'eye-slash']"
+                        (click)="changeShowConf()"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!password_confirmation?.valid && password_confirmation?.touched">
                     <ng-container

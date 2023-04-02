@@ -42,7 +42,11 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   public error: string;
   public errorEmail: string;
   public loading: boolean;
+  public canShowOld: boolean;
+  public canShow: boolean;
+  public canShowConf: boolean;
   public email: string;
+  public emailSend: boolean;
   public resetPasswordData: ResetPassword;
   public formSendEmail: FormGroup;
   public formResetPassword: FormGroup;
@@ -79,7 +83,11 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     this.error = '';
     this.errorEmail = '';
     this.loading = false;
+    this.canShowOld = false;
+    this.canShow = false;
+    this.canShowConf = false
     this.email = '';
+    this.emailSend = false;
     this.resetPasswordData = {
       old_password: '',
       password: '',
@@ -139,8 +147,10 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   sendEmail() {
     if (this.formSendEmail.valid) {
       console.log('Sending email');
+      this.emailSend = true;
     } else {
       this.errorEmail = 'Invalid email';
+      this.emailSend = false;
     }
   }
 
@@ -186,6 +196,18 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     } else {
       this.error = 'Invalid data in the Form';
     }
+  }
+
+  changeShowOld() {
+    this.canShowOld = !this.canShowOld;
+  }
+
+  changeShow() {
+    this.canShow = !this.canShow;
+  }
+
+  changeShowConf() {
+    this.canShowConf = !this.canShowConf;
   }
 
   get gemail() {

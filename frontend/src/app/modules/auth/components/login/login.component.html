@@ -6,7 +6,8 @@
         <div class="fields">
             <div class="group">
                 <div class="field">
-                    <input type="email" autocomplete="email" formControlName="email" [(ngModel)]="authData.email" class="input" placeholder="Email" required>
+                    <input type="email" autocomplete="email" formControlName="email" [(ngModel)]="authData.email"
+                        class="input" placeholder="Email" required>
                     <fa-icon class="icon" [icon]="['fas', 'envelope']"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!email?.valid && email?.touched">
@@ -18,11 +19,14 @@
                 </div>
             </div>
             <div class="group">
-                <div class="field">
-                    <input type="password" autocomplete="current-password" formControlName="password" [(ngModel)]="authData.password" class="input" placeholder="Password" required>
-                    <fa-icon class="icon" [icon]="['fas', 'eye-slash']"></fa-icon>
-                    <fa-icon class="icon" [icon]="['fas', 'eye']"></fa-icon>
-                    <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
+                <div class="show">
+                    <div class="field">
+                        <input type="{{ canShow  ? 'text': 'password'}}" autocomplete="current-password"
+                            formControlName="password" [(ngModel)]="authData.password" class="input"
+                            placeholder="Password" required>
+                        <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
+                    </div>
+                    <fa-icon class="eye" [icon]="['fas', canShow ? 'eye':'eye-slash']" (click)="changeShow()"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!password?.valid && password?.touched">
                     <ng-container *ngFor="let validation of validationMessagesLogin.password | keyvalue">
@@ -34,7 +38,8 @@
             </div>
             <div class="group">
                 <div class="row-field">
-                    <input type="checkbox" id="remember" formControlName="remember_me" [(ngModel)]="authData.remember_me">
+                    <input type="checkbox" id="remember" formControlName="remember_me"
+                        [(ngModel)]="authData.remember_me">
                     <label for="remember">Remember Me</label>
                 </div>
             </div>
@@ -47,7 +52,8 @@
         </div>
         <div>
             <!-- TODO new account -->
-            <div id="g_id_onload" data-client_id="472808114741-tfcsc7mk1qcm25bdqvvos82vplp4uh01.apps.googleusercontent.com"
+            <div id="g_id_onload"
+                data-client_id="472808114741-tfcsc7mk1qcm25bdqvvos82vplp4uh01.apps.googleusercontent.com"
                 data-context="signin" data-ux_mode="popup" data-login_uri="http://localhost:8000/api/auth/googleauth"
                 data-auto_prompt="false">
             </div>

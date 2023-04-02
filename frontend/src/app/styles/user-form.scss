@@ -27,7 +27,7 @@
     h3 {
       text-align: center;
       color: $color-tertiary;
-      max-width: 330px
+      max-width: 330px;
     }
     // The loading spinner
     h4 {
@@ -48,6 +48,16 @@
         // For display only one message of error
         .message-block div:not(:first-child) {
           display: none;
+        }
+        // For show passowrd eye icon
+        .show {
+          @include row(space-between);
+          position: relative;
+          .eye {
+            position: absolute;
+            right: 19%;
+            cursor: pointer;
+          }
         }
         .field {
           // Space between the input and the icon
@@ -102,9 +112,9 @@
           padding-left: 16px;
           font-size: $size-p;
           @include row(space-between, 16px);
-          input[type=checkbox]{
-             transform: scale(1.5);
-             accent-color: $color-shades1;
+          input[type="checkbox"] {
+            transform: scale(1.5);
+            accent-color: $color-shades1;
           }
         }
       }

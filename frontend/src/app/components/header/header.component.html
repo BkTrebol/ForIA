@@ -3,6 +3,15 @@
         <img class="logoIA" src="/assets/svg/logoIA.svg" height="50" alt="logo icon FORIA">
         <img class="logoFORIA" src="/assets/svg/logoFORIA.svg" height="30" alt="logo FORIA">
     </a>
+    <form>
+        <input type="text" placeholder="Search">
+        <select name="type" id="type">
+            <option value="section">Section</option>
+            <option value="category">Category</option>
+            <option value="topic">Topic</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
     <nav *ngIf="userIsAuthenticated">
         <ul>
             <li><a routerLink="/message/list" routerLinkActive="active">

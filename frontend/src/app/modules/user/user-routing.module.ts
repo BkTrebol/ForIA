@@ -5,9 +5,22 @@ import { EditComponent } from './components/edit/edit.component';
 import { PreferencesComponent } from './components/preferences/preferences.component';
 
 const routes: Routes = [
-  {path: 'profile', component: ProfileComponent,title:"User Profile"},
-  {path: 'edit',component: EditComponent,title:"Edit Profile"},
-  {path: 'preferences',component:PreferencesComponent,title:"Edit Preferences"},
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    title: 'ForIA - User Profile',
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent, //change
+    title: 'ForIA - User Preferences',
+  },
+  { path: 'edit', component: EditComponent, title: 'ForIA - Edit Profile' },
+  {
+    path: 'preferences',
+    component: PreferencesComponent,
+    title: 'ForIA - Edit Preferences',
+  },
 ];
 
 @NgModule({

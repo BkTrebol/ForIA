@@ -5,12 +5,12 @@ import { LoginComponent } from './components/login/login.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 const routes: Routes = [
-  { path: 'register', component: RegisterComponent, title: 'Register' },
-  { path: 'login', component: LoginComponent, title: 'Login' },
+  { path: 'register', component: RegisterComponent, title: 'ForIA - Register' },
+  { path: 'login', component: LoginComponent, title: 'ForIA - Login' },
   {
     path: 'reset-password',
     component: ResetPasswordComponent,
-    title: 'Reset Password',
+    title: 'ForIA - Reset Password',
   },
 ];
 
