@@ -11,6 +11,7 @@ import { FooterComponent } from './components/footer/footer.component';
 
 // Interceptors
 import { HeadersInterceptor } from "./helpers/interceptors/headers.interceptor";
+import { ErrorsInterceptor } from './helpers/interceptors/errors.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // Extra (icons)
@@ -29,6 +30,11 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorsInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

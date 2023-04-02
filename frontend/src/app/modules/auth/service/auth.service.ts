@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
-import { Subject } from 'rxjs';
 import { Global } from 'src/app/environment/global';
 import { AuthData } from 'src/app/models/auth-data';
 import { Register } from 'src/app/models/register';
@@ -21,7 +20,6 @@ export class AuthService {
     userData: User;
     userPreferences: UserPreferences;
   } | null>;
-  public isAuth: boolean;
 
   constructor(private http: HttpClient) {
     this.baseURL = Global.url;
@@ -29,7 +27,6 @@ export class AuthService {
 
     this.userSubject = new BehaviorSubject(null);
     this.authData = this.userSubject.asObservable();
-    this.isAuth = false;
   }
 
   getCSRF(): Observable<any> {
@@ -65,7 +62,6 @@ export class AuthService {
     return this.http.get(`${this.apiURL}auth/data`).pipe(
       map((r) => {
         this.userSubject.next(r);
-        this.isAuth = true;
         return r;
       })
     );
@@ -93,7 +89,6 @@ export class AuthService {
 
   logout(): Observable<any> {
     this.userSubject.next(null);
-    this.isAuth = false;
     return this.http.get(`${this.apiURL}auth/logout`);
   }
 }

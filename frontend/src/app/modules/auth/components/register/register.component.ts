@@ -121,11 +121,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._authService.authData
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((r) => {
-        if (r) this.router.navigate(['/']);
-      });
+    // this._authService.authData
+    //   .pipe(takeUntil(this.unsubscribe$))
+    //   .subscribe((r) => {
+    //     if (r) this.router.navigate(['/']);
+    //   });
     this._authService.getCSRF();
   }
 
@@ -177,7 +177,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   changeShow() {
     this.canShow = !this.canShow;
   }
-  
+
   changeShowConf() {
     this.canShowConf = !this.canShowConf;
   }

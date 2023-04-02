@@ -80,33 +80,46 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.formLogin.valid) {
       this.loading = true;
       this._authService
-        .login2(this.authData)
-        // .pipe(first())
+        .login(this.authData)
+        .pipe(first())
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
-            this._authService
-              .checkLogin()
-              .pipe(takeUntil(this.unsubscribe$))
-              .subscribe({
-                next: (res) => {
-                  this.error = '';
-                  this.loading = false;
-                  console.log('loginggg', res);
-                  this.router.navigate(['/user/profile']);
-                },
-              });
-            // this.error = '';
-            // this.loading = false;
-            // console.log("loginggg", res);
-            // this.router.navigate(['/user/profile']);
+            this.error = '';
+            this.loading = false;
+            console.log("loginggg", res);
+            this.router.navigate(['/user/profile']);
           },
           error: (err) => {
             this.loading = false;
-            this.error = err.error.message; //Maybe split
+            this.error = err.error.message;
             this.formLogin.controls['password'].reset();
           },
         });
+
+      // this._authService
+      //   .login2(this.authData)
+      //   .pipe(takeUntil(this.unsubscribe$))
+      //   .subscribe({
+      //     next: (res) => {
+      //       this._authService
+      //         .checkLogin()
+      //         .pipe(takeUntil(this.unsubscribe$))
+      //         .subscribe({
+      //           next: (res) => {
+      //             this.error = '';
+      //             this.loading = false;
+      //             console.log('loginggg', res);
+      //             this.router.navigate(['/user/profile']);
+      //           },
+      //         });
+      //     },
+      //     error: (err) => {
+      //       this.loading = false;
+      //       this.error = err.error.message; //Maybe split
+      //       this.formLogin.controls['password'].reset();
+      //     },
+      //   });
     } else {
       this.error = 'Invalid data in the Form';
     }
