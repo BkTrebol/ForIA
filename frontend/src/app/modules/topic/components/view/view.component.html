@@ -1,1 +1,36 @@
-<p>view works!</p>
+<div class="list-page">
+    <div class="loading" *ngIf="loading">
+        <fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon>
+        <p>Loading ...</p>
+    </div>
+    <div class="list" *ngIf="!loading">
+        <div class="list-header">
+            <h1>{{category.title}}Titol Categoria Example</h1>
+            <h2>{{topic.title}}Titol Topic Example</h2>
+            <a routerLink="/topic/create">Create new Post</a>
+        </div>
+        <div class="list-body">
+            <ul>
+                <li *ngFor="let post of posts">
+                    <div class="title">
+                        <div>
+                            <h3>{{post.user_id}}</h3>
+                        </div>
+                        <div class="row">
+                            <div class="buttons">
+                                <!-- <button *ngIf="post.can_edit">Edit</button> -->
+                                <button type="button">Edit</button>
+                                <button type="button">Delete</button>
+                            </div>
+                            <p>{{post.created_at | date}}</p>
+                        </div>
+                    </div>
+                    <p>{{post.content}}</p>
+                </li>
+            </ul>
+        </div>
+        <div class="list-footer">
+            <button type="button" (click)="scrollToTop()">Back to top</button>
+        </div>
+    </div>
+</div>

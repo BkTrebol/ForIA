@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Category } from 'src/app/models/category';
 import { CategoryService } from '../../service/category.service';
+import { Category } from 'src/app/models/category';
 import { Topic } from 'src/app/models/topic';
 
 @Component({
@@ -32,7 +32,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       description: '',
       image: '',
       music: '',
-      can_view: false,
+      can_mod: false,
     };
     this.id = this.route.snapshot.paramMap.get('id');
     this.topics = [];

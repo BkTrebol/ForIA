@@ -5,5 +5,5 @@ export interface Category {
   description: string;
   image: string;
   music: string;
-  can_view: boolean;
+  can_mod: boolean;
 }

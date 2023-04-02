@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { Category } from 'src/app/models/category';
 import { CategoryService } from '../../service/category.service';
+import { Category } from 'src/app/models/category';
 
 @Component({
   selector: 'app-list',

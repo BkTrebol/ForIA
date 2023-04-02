@@ -4,7 +4,8 @@ export interface Topic {
   user_id: number;
   title: string;
   description: string;
-  can_post: string;
+  can_post: boolean;
+  can_mod: boolean;
   created_at: string;
   updated_at: string;
 }
