@@ -13,6 +13,7 @@ export class CategoryService {
     this.apiCategoryURL = Global.api + 'category/';
   }
 
+  //TODO add types
   allCategories(): Observable<any> {
     return this.http.get(`${this.apiCategoryURL}`);
   }

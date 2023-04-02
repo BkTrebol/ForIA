@@ -38,6 +38,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.topics = [];
     this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';
   }
+
   ngOnInit() {
     if (this.id === null) {
       this.router.navigate(['']);
@@ -76,6 +77,10 @@ export class ViewComponent implements OnInit, OnDestroy {
     audio.src = this.audioUrl;
     audio.load();
     audio.play();
+  }
+
+  scrollToTop() {
+    window.scroll(0, 0);
   }
 
   ngOnDestroy(): void {

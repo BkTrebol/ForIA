@@ -42,6 +42,10 @@ export class ListComponent implements OnInit, OnDestroy {
       });
   }
 
+  scrollToTop() {
+    window.scroll(0, 0);
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();

@@ -23,21 +23,63 @@
   }
 }
 
-.list {
+.list-page {
   @include center;
   padding: 64px;
-  ul {
-    background-color: $color-black-grey;
+  .list {
+    min-width: 1200px;
+    background-color: $color-primary1;
     color: $color-white-clear;
     padding: 32px 64px;
-    border-radius: 24px;
     font-family: $font-text;
-    list-style: none;
-    li {
-      padding: 16px;
-      border: 2px solid $color-gradient1;
+    // border-radius: 24px;
+    .list-header {
+      @include row(space-between);
+      padding-bottom: 16px;
+      h1 {
+        font-family: $font-text;
+      }
       a {
-        color: $color-gradient4;
+        @include a-link($color-gradient1, $color-gradient2, $color-gradient3);
+      }
+    }
+    .list-body {
+      ul {
+        font-family: $font-text;
+        list-style: none;
+        li {
+          padding: 16px;
+          background-color: $color-black-grey;
+          margin-bottom: 8px;
+          .title {
+            @include flex(row, flex-start, space-between);
+            h2 {
+              text-decoration: underline;
+            }
+            .row {
+              @include row(space-between, 16px);
+              .buttons {
+                @include row(space-between, 16px);
+                button {
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+          a {
+            @include a-link($color-gradient4, $color-gradient5, $color-gradient6);
+          }
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+    .list-footer {
+      padding-top: 16px;
+      button{
+        cursor: pointer;
+        // @include btn1($color-secondary)
       }
     }
   }
@@ -45,6 +87,8 @@
     background-color: $color-black-grey;
     color: $color-white-clear;
     padding: 32px 64px;
-    font-size: $size-subtitle;
+    font-family: $font-text;
+    font-size: $size-title;
+    text-align: center;
   }
 }

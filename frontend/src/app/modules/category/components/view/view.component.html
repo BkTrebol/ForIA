@@ -1,15 +1,38 @@
-<div class="list">
-    <p class="loading" *ngIf="loading">Loading ...</p>
-    <h1>{{category.title}}</h1>
-    <ul *ngIf="!loading">
-        <ng-container *ngFor="let topic of topics">
-            <li *ngIf="topic.can_view">
-                <h2>{{topic.title}}</h2>
-                <h3>{{topic.user_id}}</h3>
-                <p>{{topic.description}}</p>
-                <small>{{topic.updated_at | date}}</small>
-                <a routerLink="/topic/{{topic.id}}">View</a>
-            </li>
-        </ng-container>
-    </ul>
+<div class="list-page">
+    <div class="loading" *ngIf="loading">
+        <fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon>
+        <p>Loading ...</p>
+    </div>
+    <div class="list" *ngIf="!loading">
+        <div class="list-header">
+            <h1>{{category.title}}Titol Example</h1>
+            <a routerLink="/topic/create">Create new Topic</a>
+        </div>
+        <div class="list-body">
+            <ul>
+                <li *ngFor="let topic of topics" routerLink="/topic/{{topic.id}}">
+                    <div class="title">
+                        <div>
+                            <h2>{{topic.title}}</h2>
+                            <h3>{{topic.user_id}}</h3>
+                        </div>
+                        <div class="row">
+                            <div class="buttons">
+                                <!-- <button *ngIf="topic.can_edit">Edit</button> -->
+                                <button type="button">Edit</button>
+                                <button type="button">Delete</button>
+                            </div>
+                            <p>{{topic.created_at | date}}</p>
+                        </div>
+                    </div>
+                    <p>{{topic.description}}</p>
+                    <p>11 posts (3h ago)</p>
+                    <!-- <a routerLink="/topic/{{topic.id}}">View</a> -->
+                </li>
+            </ul>
+        </div>
+        <div class="list-footer">
+            <button type="button" (click)="scrollToTop()">Back to top</button>
+        </div>
+    </div>
 </div>

@@ -94,6 +94,16 @@
   }
 }
 
+@mixin a-link($color1, $color2, $color3) {
+  color: $color1;
+  &:hover {
+    color: $color2;
+  }
+  &:active {
+    color: $color3;
+  }
+}
+
 // Display flex
 @mixin flex($dir, $align, $space, $gap: 0px) {
   display: flex;
