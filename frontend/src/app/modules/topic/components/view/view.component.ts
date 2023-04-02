@@ -16,6 +16,8 @@ export class ViewComponent implements OnInit, OnDestroy {
   public category: Category;
   public topic: Topic;
   public posts: Array<Post>;
+  public can_post: boolean;
+  public can_edit: boolean;
   public id: string | null;
   public audioUrl: string;
 
@@ -44,8 +46,10 @@ export class ViewComponent implements OnInit, OnDestroy {
       can_post: false,
       can_mod: false,
       created_at: '',
-      updated_at: ''
-    }
+      updated_at: '',
+    };
+    this.can_post = false;
+    this.can_edit = false;
     this.id = this.route.snapshot.paramMap.get('id');
     this.posts = [];
     this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';
@@ -56,37 +60,15 @@ export class ViewComponent implements OnInit, OnDestroy {
       this.router.navigate(['']);
     } else {
       this.topicService
-        .topic(this.id)
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe({
-          next: (res) => {
-            this.topic = res;
-            this.topicService
-              .category(this.topic.category_id)
-              .pipe(takeUntil(this.unsubscribe$))
-              .subscribe({
-                next: (res) => {
-                  this.category = res;
-                  // this.loading = false;
-                },
-                error: (err) => {
-                  console.log(err);
-                  // this.router.navigate(['']);
-                  // this.loading = false;
-                },
-              });
-          },
-          error: (err) => {
-            console.log(err);
-            // this.loading = false;
-          },
-        });
-      this.topicService
         .posts(this.id)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
+            this.category = res.category;
+            this.topic = res.topic;
             this.posts = res.posts;
+            this.can_post = res.can_post;
+            this.can_edit = res.can_edit;
             this.loading = false;
           },
           error: (err) => {

@@ -20,6 +20,8 @@
             <div class="group">
                 <div class="field">
                     <input type="password" autocomplete="current-password" formControlName="password" [(ngModel)]="authData.password" class="input" placeholder="Password" required>
+                    <fa-icon class="icon" [icon]="['fas', 'eye-slash']"></fa-icon>
+                    <fa-icon class="icon" [icon]="['fas', 'eye']"></fa-icon>
                     <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!password?.valid && password?.touched">

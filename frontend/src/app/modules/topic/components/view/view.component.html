@@ -5,9 +5,10 @@
     </div>
     <div class="list" *ngIf="!loading">
         <div class="list-header">
-            <h1>{{category.title}}Titol Categoria Example</h1>
-            <h2>{{topic.title}}Titol Topic Example</h2>
-            <a routerLink="/topic/create">Create new Post</a>
+            <h1><a routerLink="/category/{{category.id}}">{{category.title}}</a></h1>
+            <h2>{{topic.title}}</h2>
+            <a *ngIf="can_post" routerLink="/topic/create">Create new Post</a>
+            <a *ngIf="can_edit" routerLink="/topic/edit/{{topic.id}}">Edit</a>
         </div>
         <div class="list-body">
             <ul>
