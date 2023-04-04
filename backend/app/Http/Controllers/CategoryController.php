@@ -28,7 +28,15 @@ class CategoryController extends Controller
                 'message' => 'Unauthorized'],403);
         }
         return response()->json([
+            'category' => [
+                'id' => $category->id,
+                'title' => $category->title,
+                'can_post' => in_array($category->can_post,$roles)],
+                
             'topics'=>$category->topics->whereIn('can_view', $roles)
+            ->map(function($topic){
+                return $topic->only('id','user_id','title','description');
+            }),
         ],200);
     }
 

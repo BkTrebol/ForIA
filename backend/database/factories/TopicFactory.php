@@ -23,6 +23,7 @@ class TopicFactory extends Factory
             'description' => fake()->sentence(),
             'category_id' => $this->faker->randomElement(Category::pluck('id')),
             'user_id' => $this->faker->randomElement(User::pluck('id')),
+            'content' => fake()->realTextBetween($minNbChars = 40,$maxNbChars = 200,$indexSize = 2),
         ];
     }
 }

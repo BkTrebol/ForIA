@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->nullOnDelete()->constrained();
             $table->string('title');
             $table->string('description')->nullable();
+            $table->text('content')->nullable();
             $table->string('can_view')->default('ROLE_GUEST');
             $table->string('can_post')->default('ROLE_USER');
             $table->timestamps();
