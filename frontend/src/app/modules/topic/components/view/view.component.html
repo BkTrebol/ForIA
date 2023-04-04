@@ -12,7 +12,7 @@
         </div>
         <!-- <div class="list-body"> -->
         <div class="topic">
-                <div *ngIf="can_edit" class="buttons">
+                <div *ngIf="can_edit" class="edit-buttons">
                     <!-- <button *ngIf="topic.can_edit">Edit</button> -->
                     <button type="button">Edit</button>
                     <button type="button">Delete</button>
@@ -31,6 +31,11 @@
 
         <div class="posts">
             <div class="row post" *ngFor="let post of posts">
+                <div *ngIf="post.can_edit" class="edit-buttons">
+                    <!-- <button *ngIf="topic.can_edit">Edit</button> -->
+                    <button type="button">Edit</button>
+                    <button type="button">Delete</button>
+                </div>
                 <div class="user-card">
                     {{post.user.nick}}
                     {{post.user.roles}}
