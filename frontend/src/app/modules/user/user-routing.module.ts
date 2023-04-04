@@ -3,21 +3,27 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProfileComponent } from './components/profile/profile.component';
 import { EditComponent } from './components/edit/edit.component';
 import { PreferencesComponent } from './components/preferences/preferences.component';
+import { AuthGuard } from 'src/app/helpers/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
     title: 'ForIA - User Profile',
+    canActivate: [AuthGuard],
   },
   {
-    path: 'profile',
+    path: 'preferences',
     component: ProfileComponent, //change
     title: 'ForIA - User Preferences',
   },
-  { path: 'edit', component: EditComponent, title: 'ForIA - Edit Profile' },
   {
-    path: 'preferences',
+    path: 'edit/profile',
+    component: EditComponent,
+    title: 'ForIA - Edit Profile',
+  },
+  {
+    path: 'edit/preferences',
     component: PreferencesComponent,
     title: 'ForIA - Edit Preferences',
   },

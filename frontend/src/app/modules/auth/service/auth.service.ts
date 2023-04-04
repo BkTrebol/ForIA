@@ -25,7 +25,7 @@ export class AuthService {
     this.baseURL = Global.url;
     this.apiURL = Global.api;
 
-    this.userSubject = new BehaviorSubject(null);
+    this.userSubject = new BehaviorSubject(null); //maybe localstorage
     this.authData = this.userSubject.asObservable();
   }
 
@@ -55,7 +55,13 @@ export class AuthService {
 
   login2(authData: AuthData): Observable<any> {
     let params = JSON.stringify(authData);
-    return this.http.post(`${this.apiURL}auth/login`, params)
+    return this.http.post(`${this.apiURL}auth/login`, params).pipe(
+      map((r) => {
+        // console.log("Login2 (auth service):", r);
+        this.userSubject.next(r);
+        return r;
+      })
+    );
   }
 
   checkLogin(): Observable<any> {

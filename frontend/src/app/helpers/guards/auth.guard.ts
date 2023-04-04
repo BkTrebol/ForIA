@@ -6,7 +6,7 @@ import {
   Router,
   CanActivateFn,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 
 @Injectable({
@@ -22,27 +22,52 @@ export class AuthGuard {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    // const isAuth = this._authService.user;
+    // if (!isAuth || isAuth === null) {
+    //   // Provisional perquè no funcionava si recarregaves la pàgina
+    //   this._authService.checkLogin().subscribe({
+    //     next: res => {
+    //       if (!res || res === null) {
+    //         this.router.navigate(['/auth/login']);
+    //         return false;
+    //       } else {
+    //         return true;
+    //       }
+    //     },
+    //     error: err => {
+    //       this.router.navigate(['/auth/login']);
+    //       return false;
+    //     }
+    //   });
+    //   // this.router.navigate(['/auth/login']);
+    //   // return false;
+    // }
+    // return true;
+
     const isAuth = this._authService.user;
+    console.log("auth guard is:", isAuth);
     if (!isAuth || isAuth === null) {
-      // Provisional perquè no funcionava si recarregaves la pàgina
-      this._authService.checkLogin().subscribe({
-        next: res => {
-          if (!res || res === null) {
-            this.router.navigate(['/auth/login']);
-            return false;
-          } else {
-            return true;
-          }
-        },
-        error: err => {
-          this.router.navigate(['/auth/login']);
-          return false;
-        }
-      });
-      // this.router.navigate(['/auth/login']);
-      // return false;
+      // return this._authService.checkLogin().pipe(
+      //   map((res) => {
+      //     if (!res || res === null) {
+      //       this.router.navigate(['/auth/login']);
+      //       return false;
+      //     } else {
+      //       return true;
+      //     }
+      //   }),
+      //   catchError((err) => {
+      //     this.router.navigate(['/auth/login']);
+      //     return of(false);
+      //   })
+      // );
+      // this.router.navigate(['/auth/login'], {
+      //   queryParams: { returnUrl: state.url },
+      // });
+      return false;
+    } else {
+      return true;
     }
-    return true;
   }
 }
 
