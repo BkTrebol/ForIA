@@ -32,9 +32,11 @@ Route::middleware('auth:sanctum')->group(function(){
     //User Routes.
     Route::controller(UserController::class)->prefix('user')->group(function(){
         Route::get('/edit','getUserData');
+        Route::post('/edit','editUserData');
+        Route::put('/password','changePassword');
         Route::get('/preference','getUserPreferences');
-        Route::put('/edit','editUserData');
         Route::put('/preference','editUserPreference');
+
         Route::get('{user}','profile');
     });
 

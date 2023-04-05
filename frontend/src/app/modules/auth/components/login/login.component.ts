@@ -102,19 +102,30 @@ export class LoginComponent implements OnInit, OnDestroy {
       //   });
 
       this._authService
-        .login2(this.authData)
-        .pipe(first())
+        .login(this.authData)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
+            // this._authService
+            //   .checkLogin()
+            //   .pipe(takeUntil(this.unsubscribe$))
+            //   .subscribe({
+            //     next: (res) => {
+            //       this.error = '';
+            //       this.loading = false;
+            //       console.log('loginggg', res);
+            //       this.router.navigate(['/user/profile']);
+            //     },
+            //   });
             this.error = '';
             this.loading = false;
-            // console.log('login2 (ts)', res);
-            // this.router.navigate(['/user/profile']);
+            // console.log("loginggg", res);
+            // this.router.navigate(['/']);
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
             this.router.navigateByUrl(returnUrl);
           },
           error: (err) => {
+            console.log(err)
             this.loading = false;
             this.error = err.error.message;
             this.formLogin.controls['password'].reset();

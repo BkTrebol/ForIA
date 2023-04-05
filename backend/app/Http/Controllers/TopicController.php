@@ -23,8 +23,11 @@ class TopicController extends Controller
             'can_edit' => in_array($topic->category->can_mod,$roles) || $topic->user_id == $user->id,
             'can_post' => in_array($topic->can_post,$roles),
             'category' => $topic->category->only('id','title'),
-            'topic' => $topic->only('id','user_id','title','created_at','updated_at'),
-            'posts' => $topic->posts,
+            'topic' => $topic->only('id','title','created_at','updated_at','content','user'),
+            'posts' => $topic->posts()->with('user')->get()->map(function($post){
+                $post['can_edit'] = $this->checkPostPermission($post);
+                return $post->only('id','content','created_at','updated_at','can_edit','user');
+            })
         ],200);
 
     }
@@ -43,13 +46,14 @@ class TopicController extends Controller
             'user_id' => $request->user()->id,
             'title' => $request->title,
             'description' => $request->description,
+            'content' => $request->content,
         ]);
 
-        $post = Post::create([
-            'topic_id' => $topic->id,
-            'user_id' => $request->user()->id,
-            'content' => $request->content
-        ]);
+        // $post = Post::create([
+        //     'topic_id' => $topic->id,
+        //     'user_id' => $request->user()->id,
+        //     'content' => $request->content
+        // ]);
 
         return response()->json([
             'message' => 'Topic created successfully',
@@ -110,5 +114,20 @@ class TopicController extends Controller
                 'message'=>'Unauthorized',
             ],403);
         }       
+    }
+
+
+    function checkPostPermission(Post $post){
+        $user = Auth::user();
+        $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
+        $isMod = in_array($post->topic->category->can_mod, $user->roles);
+        if (!$isAdmin && !$isMod) {
+            // IF the used isn't either an admin or a mod, chekcs if is the owner of the post and the post is the last one of the topic.
+            if($post->user_id != $user->id || 
+            Post::where('topic_id', $post->topic_id)->orderBy('created_at','desc')->first()->id != $post->id){
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -8,10 +8,47 @@
             <h1><a routerLink="/category/{{category.id}}">{{category.title}}</a></h1>
             <h2>{{topic.title}}</h2>
             <a *ngIf="can_post" routerLink="/topic/create">Create new Post</a>
-            <a *ngIf="can_edit" routerLink="/topic/edit/{{topic.id}}">Edit</a>
+            <!-- <a *ngIf="can_edit" routerLink="/topic/edit/{{topic.id}}">Edit</a> -->
         </div>
-        <div class="list-body">
-            <ul>
+        <!-- <div class="list-body"> -->
+        <div class="topic">
+                <div *ngIf="can_edit" class="edit-buttons">
+                    <!-- <button *ngIf="topic.can_edit">Edit</button> -->
+                    <button type="button">Edit</button>
+                    <button type="button">Delete</button>
+                </div>
+                <div class="user-card">
+                    {{topic.user.nick}}
+                    {{topic.user.roles}}
+                    {{topic.user.location}}
+                    {{topic.user.birthday}} <!--Test-->
+                </div>
+                <div class="topic-body">
+                    <p>{{topic.content}}</p>
+                    <p>{{topic.created_at | date}}</p>
+                </div>
+        </div>
+
+        <div class="posts">
+            <div class="row post" *ngFor="let post of posts">
+                <div *ngIf="post.can_edit" class="edit-buttons">
+                    <!-- <button *ngIf="topic.can_edit">Edit</button> -->
+                    <button type="button">Edit</button>
+                    <button type="button">Delete</button>
+                </div>
+                <div class="user-card">
+                    {{post.user.nick}}
+                    {{post.user.roles}}
+                    {{post.user.location}}
+                    {{post.user.birthday | date}}
+                </div>
+                <div class="post-body">
+                    <p> {{post.content}}</p>
+                </div>
+            </div>
+
+        </div>
+        <!-- <ul>
                 <li *ngFor="let post of posts">
                     <div class="title">
                         <div>
@@ -19,7 +56,7 @@
                         </div>
                         <div class="row">
                             <div class="buttons">
-                                <!-- <button *ngIf="post.can_edit">Edit</button> -->
+                                 <button *ngIf="post.can_edit">Edit</button>
                                 <button type="button">Edit</button>
                                 <button type="button">Delete</button>
                             </div>
@@ -28,8 +65,8 @@
                     </div>
                     <p>{{post.content}}</p>
                 </li>
-            </ul>
-        </div>
+            </ul> -->
+        <!-- </div> -->
         <div class="list-footer">
             <button type="button" (click)="scrollToTop()">Back to top</button>
         </div>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, concatMap, map } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Global } from 'src/app/environment/global';
 import { AuthData } from 'src/app/models/auth-data';
 import { Register } from 'src/app/models/register';
@@ -41,14 +42,14 @@ export class AuthService {
   login(authData: AuthData): Observable<any> {
     let params = JSON.stringify(authData);
     return this.http.post(`${this.apiURL}auth/login`, params).pipe(
-      map((r) => {
-        this.checkLogin().subscribe({
-          next: (checkR) => {
-            console.log('R', r);
-            console.log('checkR', checkR);
-            return r;
-          },
-        });
+      concatMap((r) => {
+          return this.checkLogin().pipe(
+            map((checkR) => {
+              // console.log('R', r);
+              // console.log('checkR', checkR);
+              return r;
+            }),
+          );
       })
     );
   }

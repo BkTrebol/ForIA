@@ -14,8 +14,10 @@ export class ViewComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public loading: boolean;
   public category: Category;
-  public topic: Topic;
-  public posts: Array<Post>;
+  // public topic: Topic;
+  public topic:any;
+  // public posts: Array<Post>;
+  public posts:Array<any>;
   public can_post: boolean;
   public can_edit: boolean;
   public id: string | null;
@@ -43,6 +45,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       user_id: 0,
       title: '',
       description: '',
+      content:'',
       can_post: false,
       can_mod: false,
       created_at: '',
@@ -70,6 +73,7 @@ export class ViewComponent implements OnInit, OnDestroy {
             this.can_post = res.can_post;
             this.can_edit = res.can_edit;
             this.loading = false;
+            console.log(this.posts)
           },
           error: (err) => {
             console.log(err);
