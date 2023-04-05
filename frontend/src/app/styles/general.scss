@@ -232,6 +232,26 @@ $color-p-footer: $color-white-clear;
   }
 }
 
+.page-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  width: 100vw;
+  height: 100vh;
+  background-color: $color-black;
+  color: $color-primary;
+  transition: all 1s ease;
+  @include center;
+  fa-icon {
+    font-size: 200px;
+  }
+  img {
+    height: 400px;
+    animation: gir 5s linear infinite;
+  }
+}
+
 // Animation logoIA
 @keyframes gir {
   from {
