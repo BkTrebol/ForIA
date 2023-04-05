@@ -15,13 +15,14 @@ ngOnDestroy
 # Tests
 
 ## Angular
-TOTAL: 82 SUCCESS
+TOTAL: 84 SUCCESS
 
 ## Laravel
 2
 
 # Remeber when deploy
-config>cors>allow-credentials = false;
+backend: config>cors>allow-credentials = false;
+frontend: pattern passowrd (reigster)
 
 # Changes
 Components reorganitzats a modules.

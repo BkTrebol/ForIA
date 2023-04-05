@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-// Guards
-import { AuthGuard } from './helpers/guards/auth.guard';
-import { RoleGuard } from './helpers/guards/role.guard';
-import { GuestGuard } from './helpers/guards/guest.guard';
-import { AuthLoadGuard } from './helpers/guards/auth-load.guard';
+// Guards Can Load
+import { AuthGuard } from './helpers/guards/canLoad/auth.guard';
+import { GuestGuard } from './helpers/guards/canLoad/guest.guard';
 
 // Lazy loading
 const routes: Routes = [
@@ -13,14 +11,13 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
-    canActivate: [GuestGuard],
+    canLoad: [GuestGuard],
   },
   {
     path: 'user',
     loadChildren: () =>
       import('./modules/user/user.module').then((m) => m.UserModule),
-    canActivate: [AuthGuard],
-    canLoad: [AuthLoadGuard],
+    canLoad: [AuthGuard],
   },
   {
     path: 'private-message',
@@ -28,7 +25,7 @@ const routes: Routes = [
       import('./modules/private-message/private-message.module').then(
         (m) => m.PrivateMessageModule
       ),
-    canActivate: [AuthGuard],
+    canLoad: [AuthGuard],
   },
   {
     path: 'topic',
@@ -53,6 +50,5 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AuthGuard, RoleGuard, AuthLoadGuard],
 })
 export class AppRoutingModule {}

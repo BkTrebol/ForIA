@@ -6,7 +6,7 @@ import {
   FormGroup,
 } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject, first, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthData } from 'src/app/models/auth-data';
 import { AuthService } from '../../service/auth.service';
 
@@ -71,11 +71,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this._authService.authData
-    //   .pipe(takeUntil(this.unsubscribe$))
-    //   .subscribe((r) => {
-    //     if (r) this.router.navigate(['/']);
-    //   });
+    this._authService.authData
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((r) => {
+        if (r) this.router.navigate(['/']);
+      });
     this._authService.getCSRF();
   }
 
@@ -83,49 +83,18 @@ export class LoginComponent implements OnInit, OnDestroy {
   submit() {
     if (this.formLogin.valid) {
       this.loading = true;
-      // this._authService
-      //   .login(this.authData)
-      //   .pipe(first())
-      //   .pipe(takeUntil(this.unsubscribe$))
-      //   .subscribe({
-      //     next: (res) => {
-      //       this.error = '';
-      //       this.loading = false;
-      //       console.log("loginggg", res);
-      //       this.router.navigate(['/user/profile']);
-      //     },
-      //     error: (err) => {
-      //       this.loading = false;
-      //       this.error = err.error.message;
-      //       this.formLogin.controls['password'].reset();
-      //     },
-      //   });
-
       this._authService
         .login(this.authData)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
-            // this._authService
-            //   .checkLogin()
-            //   .pipe(takeUntil(this.unsubscribe$))
-            //   .subscribe({
-            //     next: (res) => {
-            //       this.error = '';
-            //       this.loading = false;
-            //       console.log('loginggg', res);
-            //       this.router.navigate(['/user/profile']);
-            //     },
-            //   });
             this.error = '';
             this.loading = false;
-            // console.log("loginggg", res);
-            // this.router.navigate(['/']);
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
             this.router.navigateByUrl(returnUrl);
           },
           error: (err) => {
-            console.log(err)
+            console.log("Err (login ts):", err);
             this.loading = false;
             this.error = err.error.message;
             this.formLogin.controls['password'].reset();

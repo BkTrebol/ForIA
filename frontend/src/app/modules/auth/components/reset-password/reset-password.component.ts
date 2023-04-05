@@ -135,15 +135,15 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this._authService.authData
-    //   .pipe(takeUntil(this.unsubscribe$))
-    //   .subscribe((r) => {
-    //     if (r) this.router.navigate(['/']);
-    //   });
+    this._authService.authData
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((r) => {
+        if (r) this.router.navigate(['/']);
+      });
     this._authService.getCSRF();
   }
 
-  //
+  // Send email
   sendEmail() {
     if (this.formSendEmail.valid) {
       console.log('Sending email');

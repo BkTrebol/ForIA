@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -20,6 +21,7 @@ describe('LoginComponent Test', () => {
     await TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
+        RouterTestingModule,
         FontAwesomeTestingModule,
         ReactiveFormsModule,
       ],

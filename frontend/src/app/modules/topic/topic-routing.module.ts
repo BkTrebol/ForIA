@@ -4,8 +4,8 @@ import { CreateComponent } from './components/create/create.component';
 import { ViewComponent } from './components/view/view.component';
 
 // Guards
-import { AuthGuard } from '../../helpers/guards/auth.guard';
-import { RoleGuard } from '../../helpers/guards/role.guard';
+import { AuthGuard } from '../../helpers/guards/canActivate/auth.guard';
+import { RoleGuard } from '../../helpers/guards/canActivate/role.guard';
 
 const routes: Routes = [
   {

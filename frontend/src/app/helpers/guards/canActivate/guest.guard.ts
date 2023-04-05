@@ -5,7 +5,7 @@ import {
   UrlTree,
   Router,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 @Injectable({
   providedIn: 'root',
@@ -23,14 +23,19 @@ export class GuestGuard {
     const isAuth = this._authService.user;
     if (!isAuth || isAuth === null) {
       // Provisional perquè no funcionava si recarregaves la pàgina
-      this._authService.checkLogin().subscribe((r) => {
-        if (!r || r === null) {
-          return true;
-        } else {
-          this.router.navigate(['/user/profile']);
-          return false;
-        }
-      });
+      return this._authService.checkLogin().pipe(
+        map((res) => {
+          if (!res || res === null) {
+            return true;
+          } else {
+            this.router.navigate(['/']);
+            return false;
+          }
+        }),
+        catchError((err) => {
+          return of(true);
+        })
+      );
     }
     return true;
   }
