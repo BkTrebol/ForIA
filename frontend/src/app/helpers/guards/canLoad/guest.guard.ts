@@ -18,7 +18,6 @@ export class GuestGuard implements CanLoad {
     | UrlTree {
     const isAuth = this._authService.user;
     if (!isAuth || isAuth === null) {
-      // Provisional perquè no funcionava si recarregaves la pàgina
       return this._authService.checkLogin().pipe(
         map((res) => {
           if (!res || res === null) {
@@ -32,7 +31,8 @@ export class GuestGuard implements CanLoad {
           return of(true);
         })
       );
+    } else {
+      return true;
     }
-    return true;
   }
 }

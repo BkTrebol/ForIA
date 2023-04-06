@@ -3,9 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CreateComponent } from './components/create/create.component';
 import { ViewComponent } from './components/view/view.component';
 
-// Guards
 import { AuthGuard } from '../../helpers/guards/canActivate/auth.guard';
-import { RoleGuard } from '../../helpers/guards/canActivate/role.guard';
 
 const routes: Routes = [
   {
@@ -20,6 +18,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [AuthGuard, RoleGuard],
+  providers: [AuthGuard],
 })
 export class TopicRoutingModule {}

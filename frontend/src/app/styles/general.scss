@@ -232,6 +232,7 @@ $color-p-footer: $color-white-clear;
   }
 }
 
+// Loader
 .page-loading {
   position: absolute;
   top: 0;
@@ -240,12 +241,11 @@ $color-p-footer: $color-white-clear;
   width: 100vw;
   height: 100vh;
   background-color: $color-black;
+  // background-color: $color-opacity;
+  // backdrop-filter: blur(10px);
   color: $color-primary;
   transition: all 1s ease;
   @include center;
-  fa-icon {
-    font-size: 200px;
-  }
   img {
     height: 400px;
     animation: gir 5s linear infinite;

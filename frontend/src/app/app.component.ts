@@ -27,11 +27,12 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private _authService: AuthService, private router: Router) {
     this.unsubscribe$ = new Subject();
     this.userIsAuthenticated = null;
-    this.loading = false;
+    this.loading = true;
     this._authService.autoAuthUser();
   }
 
   ngOnInit() {
+    this.loading = false;
     this._authService.authData
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((r) => {
@@ -42,14 +43,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
       if (event instanceof GuardsCheckStart) {
         this.loading = true;
-        console.log('GuardStart');
+        console.log('GuardStart', new Date(Date.now()));
       }
       if (
         event instanceof GuardsCheckEnd ||
         event instanceof NavigationCancel
       ) {
         this.loading = false;
-        console.log('GuardEnd');
+        console.log('GuardEnd', new Date(Date.now()));
       }
     });
   }

@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-// Guards Can Load
+// Guards Can Load and Can Activate Child
 import { AuthGuard } from './helpers/guards/canLoad/auth.guard';
 import { GuestGuard } from './helpers/guards/canLoad/guest.guard';
+import { AuthGuard as AuthChildGuard } from './helpers/guards/canActivateChild/auth.guard';
+import { GuestGuard as GuestChildGuard } from './helpers/guards/canActivateChild/guest.guard';
 
 // Lazy loading
 const routes: Routes = [
@@ -12,12 +14,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
     canLoad: [GuestGuard],
+    canActivateChild: [GuestChildGuard],
   },
   {
     path: 'user',
     loadChildren: () =>
       import('./modules/user/user.module').then((m) => m.UserModule),
     canLoad: [AuthGuard],
+    canActivateChild: [AuthChildGuard],
   },
   {
     path: 'private-message',
@@ -26,6 +30,7 @@ const routes: Routes = [
         (m) => m.PrivateMessageModule
       ),
     canLoad: [AuthGuard],
+    canActivateChild: [AuthChildGuard],
   },
   {
     path: 'topic',
@@ -50,5 +55,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
+  providers: [AuthGuard, GuestGuard, AuthChildGuard, GuestChildGuard],
 })
 export class AppRoutingModule {}
