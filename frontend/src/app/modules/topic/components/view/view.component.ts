@@ -2,9 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TopicService } from '../../service/topic.service';
-import { Category } from 'src/app/models/category';
-import { Topic } from 'src/app/models/topic';
-import { Post } from 'src/app/models/post';
+import { Category, Topic, Post } from 'src/app/models/receive/list-posts';
 @Component({
   selector: 'app-view',
   templateUrl: './view.component.html',
@@ -15,9 +13,9 @@ export class ViewComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public category: Category;
   // public topic: Topic;
-  public topic: any;
+  public topic: Topic;
   // public posts: Array<Post>;
-  public posts: Array<any>;
+  public posts: Post[];
   public can_post: boolean;
   public can_edit: boolean;
   public audioUrl: string;
@@ -32,23 +30,17 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.category = {
       id: 0,
       title: '',
-      section: '',
-      description: '',
-      image: '',
-      music: '',
-      can_mod: false,
+      // section: '',
     };
     this.topic = {
       id: 0,
-      category_id: 0,
-      user_id: 0,
+      // user_id: 0,
       title: '',
-      description: '',
-      content: '',
-      can_post: false,
-      can_mod: false,
+      content: '', // description: '',
+      // can_mod: false,
       created_at: '',
       updated_at: '',
+      user: { id: 0, nick: '', roles: [], avatar: null },
     };
     this.can_post = false;
     this.can_edit = false;
@@ -64,7 +56,6 @@ export class ViewComponent implements OnInit, OnDestroy {
       this.can_post = this.route.snapshot.data['response'].can_post;
       this.can_edit = this.route.snapshot.data['response'].can_edit;
       this.loading = false;
-      console.log(this.posts);
     } else {
       this.loading = false;
       this.router.navigate(['/category']);

@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ViewComponent } from './view.component';
 
-describe('ViewComponent', () => {
+describe('ViewComponent test', () => {
   let component: ViewComponent;
   let fixture: ComponentFixture<ViewComponent>;
 

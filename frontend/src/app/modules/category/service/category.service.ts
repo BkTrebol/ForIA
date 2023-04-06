@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Global } from '../../../environment/global';
-import { Category } from '../../../models/category';
-import { Topic } from '../../../models/topic';
+import { ListCategory } from 'src/app/models/receive/list-category';
+import { ListTopic } from 'src/app/models/receive/list-topics';
 @Injectable({
   providedIn: 'root',
 })
@@ -14,12 +14,11 @@ export class CategoryService {
     this.apiCategoryURL = Global.api + 'category/';
   }
 
-  //TODO add types
-  categories(): Observable<any> {
-    return this.http.get(`${this.apiCategoryURL}`);
+  categories(): Observable<ListCategory> {
+    return this.http.get<ListCategory>(`${this.apiCategoryURL}`);
   }
 
-  topics(id: string): Observable<any> {
-    return this.http.get(`${this.apiCategoryURL}${id}`);
+  topics(id: string): Observable<ListTopic> {
+    return this.http.get<ListTopic>(`${this.apiCategoryURL}${id}`);
   }
 }

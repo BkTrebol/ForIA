@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryService } from '../../service/category.service';
-import { Category } from 'src/app/models/category';
-import { Topic } from 'src/app/models/topic';
+import { Category, Topic } from 'src/app/models/receive/list-topics';
 
 @Component({
   selector: 'app-view',
@@ -14,7 +13,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public loading: boolean;
   public category: Category;
-  public topics: Array<Topic>;
+  public topics: Topic[];
   public audioUrl: string;
 
   constructor(
@@ -27,11 +26,8 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.category = {
       id: 0,
       title: '',
-      section: '',
-      description: '',
-      image: '',
-      music: '',
-      can_mod: false,
+      // section: '',
+      can_post: false // can_mod: '',
     };
     this.topics = [];
     this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';

@@ -6,16 +6,17 @@ import {
 } from '@angular/router';
 import { Observable, catchError, map, of } from 'rxjs';
 import { TopicService } from 'src/app/modules/topic/service/topic.service';
+import { ListPosts } from 'src/app/models/receive/list-posts';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TopicResolver implements Resolve<boolean> {
+export class TopicResolver implements Resolve<boolean | ListPosts> {
   constructor(private topicService: TopicService, private router: Router) {}
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean> {
+  ): Observable<boolean | ListPosts> {
     const id = route.paramMap.get('id') ?? '';
     return this.topicService.posts(id).pipe(
       map((res) => {
@@ -23,7 +24,7 @@ export class TopicResolver implements Resolve<boolean> {
           return res;
         } else {
           this.router.navigate(['/category']); //Provisional (fer /category/2/topic/3)
-          return null;
+          return false;
         }
       }),
       catchError((err) => {
