@@ -5,6 +5,8 @@ import {
   GuardsCheckStart,
   NavigationCancel,
   NavigationEnd,
+  NavigationError,
+  NavigationStart,
   Router,
 } from '@angular/router';
 import { AuthService } from './modules/auth/service/auth.service';
@@ -41,16 +43,21 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Loading Page
     this.router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
-      if (event instanceof GuardsCheckStart) {
+      if (
+        event instanceof GuardsCheckStart ||
+        event instanceof NavigationStart
+      ) {
         this.loading = true;
-        console.log('GuardStart', new Date(Date.now()));
+        // console.log('GuardStart', new Date(Date.now()));
       }
       if (
         event instanceof GuardsCheckEnd ||
-        event instanceof NavigationCancel
+        event instanceof NavigationEnd ||
+        event instanceof NavigationCancel ||
+        event instanceof NavigationError
       ) {
         this.loading = false;
-        console.log('GuardEnd', new Date(Date.now()));
+        // console.log('GuardEnd', new Date(Date.now()));
       }
     });
   }

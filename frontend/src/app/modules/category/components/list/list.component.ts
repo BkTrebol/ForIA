@@ -23,7 +23,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.categoryService
-      .allCategories()
+      .categories()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {

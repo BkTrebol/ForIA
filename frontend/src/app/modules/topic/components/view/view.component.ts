@@ -15,12 +15,11 @@ export class ViewComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public category: Category;
   // public topic: Topic;
-  public topic:any;
+  public topic: any;
   // public posts: Array<Post>;
-  public posts:Array<any>;
+  public posts: Array<any>;
   public can_post: boolean;
   public can_edit: boolean;
-  public id: string | null;
   public audioUrl: string;
 
   constructor(
@@ -45,7 +44,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       user_id: 0,
       title: '',
       description: '',
-      content:'',
+      content: '',
       can_post: false,
       can_mod: false,
       created_at: '',
@@ -53,34 +52,41 @@ export class ViewComponent implements OnInit, OnDestroy {
     };
     this.can_post = false;
     this.can_edit = false;
-    this.id = this.route.snapshot.paramMap.get('id');
     this.posts = [];
     this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';
   }
 
   ngOnInit() {
-    if (this.id === null) {
-      this.router.navigate(['']);
+    if (this.route.snapshot.data['response']) {
+      this.category = this.route.snapshot.data['response'].category;
+      this.topic = this.route.snapshot.data['response'].topic;
+      this.posts = this.route.snapshot.data['response'].posts;
+      this.can_post = this.route.snapshot.data['response'].can_post;
+      this.can_edit = this.route.snapshot.data['response'].can_edit;
+      this.loading = false;
+      console.log(this.posts);
     } else {
-      this.topicService
-        .posts(this.id)
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe({
-          next: (res) => {
-            this.category = res.category;
-            this.topic = res.topic;
-            this.posts = res.posts;
-            this.can_post = res.can_post;
-            this.can_edit = res.can_edit;
-            this.loading = false;
-            console.log(this.posts)
-          },
-          error: (err) => {
-            console.log(err);
-            this.loading = false;
-          },
-        });
+      this.loading = false;
+      this.router.navigate(['/category']);
     }
+    // this.topicService
+    //   .posts(this.id)
+    //   .pipe(takeUntil(this.unsubscribe$))
+    //   .subscribe({
+    //     next: (res) => {
+    //       this.category = res.category;
+    //       this.topic = res.topic;
+    //       this.posts = res.posts;
+    //       this.can_post = res.can_post;
+    //       this.can_edit = res.can_edit;
+    //       this.loading = false;
+    //       console.log(this.posts)
+    //     },
+    //     error: (err) => {
+    //       console.log(err);
+    //       this.loading = false;
+    //     },
+    //   });
   }
 
   playAudio() {

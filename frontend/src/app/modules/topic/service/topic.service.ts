@@ -17,7 +17,6 @@ export class TopicService {
   }
 
   //TODO add types
-
   posts(id: string): Observable<any> {
     return this.http.get(`${this.apiTopicURL}${id}`);
   }

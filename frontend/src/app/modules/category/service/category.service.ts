@@ -15,12 +15,8 @@ export class CategoryService {
   }
 
   //TODO add types
-  allCategories(): Observable<any> {
+  categories(): Observable<any> {
     return this.http.get(`${this.apiCategoryURL}`);
-  }
-
-  category(id: string): Observable<any> {
-    return this.http.get(`${this.apiCategoryURL}${id}`);
   }
 
   topics(id: string): Observable<any> {

@@ -15,7 +15,6 @@ export class ViewComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public category: Category;
   public topics: Array<Topic>;
-  public id: string | null;
   public audioUrl: string;
 
   constructor(
@@ -34,42 +33,32 @@ export class ViewComponent implements OnInit, OnDestroy {
       music: '',
       can_mod: false,
     };
-    this.id = this.route.snapshot.paramMap.get('id');
     this.topics = [];
     this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';
   }
 
   ngOnInit() {
-    if (this.id === null) {
-      this.router.navigate(['']);
+    if (this.route.snapshot.data['response']) {
+      this.category = this.route.snapshot.data['response'].category;
+      this.topics = this.route.snapshot.data['response'].topics;
+      this.loading = false;
     } else {
-      this.categoryService
-        .category(this.id)
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe({
-          next: (res) => {
-            this.category = res;
-            // this.loading = false;
-          },
-          error: (err) => {
-            console.log(err);
-            // this.loading = false;
-          },
-        });
-      this.categoryService
-        .topics(this.id)
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe({
-          next: (res) => {
-            this.topics = res.topics;
-            this.loading = false;
-          },
-          error: (err) => {
-            console.log(err);
-            this.loading = false;
-          },
-        });
+      this.loading = false;
+      this.router.navigate(['/category']);
     }
+    // this.categoryService
+    //   .topics(this.id)
+    //   .pipe(takeUntil(this.unsubscribe$))
+    //   .subscribe({
+    //     next: (res) => {
+    //       this.topics = res.topics;
+    //       this.loading = false;
+    //     },
+    //     error: (err) => {
+    //       console.log(err);
+    //       this.loading = false;
+    //     },
+    //   });
   }
 
   playAudio() {

@@ -1,18 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { GuestGuard } from './guest.guard';
+import { CategoryResolver } from './category.resolver';
 
-describe('GuestGuard', () => {
-  let guard: GuestGuard;
+describe('CategoryResolver', () => {
+  let resolver: CategoryResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule],
     });
-    guard = TestBed.inject(GuestGuard);
+    resolver = TestBed.inject(CategoryResolver);
   });
 
   it('should be created', () => {
-    expect(guard).toBeTruthy();
+    expect(resolver).toBeTruthy();
   });
 });
