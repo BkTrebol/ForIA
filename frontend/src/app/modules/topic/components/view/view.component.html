@@ -12,21 +12,21 @@
         </div>
         <!-- <div class="list-body"> -->
         <div class="topic">
-                <div *ngIf="can_edit" class="edit-buttons">
-                    <!-- <button *ngIf="topic.can_edit">Edit</button> -->
-                    <button type="button">Edit</button>
-                    <button type="button">Delete</button>
-                </div>
-                <div class="user-card">
-                    {{topic.user.nick}}
-                    {{topic.user.roles}}
-                    <!-- {{topic.user.location}}
+            <div *ngIf="can_edit" class="edit-buttons">
+                <!-- <button *ngIf="topic.can_edit">Edit</button> -->
+                <button type="button">Edit</button>
+                <button type="button">Delete</button>
+            </div>
+            <div class="user-card">
+                {{topic.user.nick}}
+                {{topic.user.roles}}
+                <!-- {{topic.user.location}}
                     {{topic.user.birthday}} -->
-                </div>
-                <div class="topic-body">
-                    <p>{{topic.content}}</p>
-                    <p>{{topic.created_at | date}}</p>
-                </div>
+            </div>
+            <div class="topic-body">
+                <p>{{topic.content}}</p>
+                <p>{{topic.created_at | date}}</p>
+            </div>
         </div>
 
         <div class="posts">
@@ -47,6 +47,23 @@
                 </div>
             </div>
 
+        </div>
+        <div class="form">
+            <form [formGroup]="formPost" (ngSubmit)="submitPost()">
+                <div>
+                <textarea formControlName="content" required cols="30" rows="10"></textarea>
+                <div class="message-block" *ngIf="!content?.valid && content?.touched">
+                    <ng-container *ngFor="let validation of validationMessagesPost.content | keyvalue">
+                        <div *ngIf="content?.errors?.[validation.key]">
+                            <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{ validation.value }}
+                        </div>
+                    </ng-container>
+                </div>
+                </div>
+                <button [disabled]="!formPost.valid" type="submit">
+                    Post
+                </button>
+            </form>
         </div>
         <!-- <ul>
                 <li *ngFor="let post of posts">

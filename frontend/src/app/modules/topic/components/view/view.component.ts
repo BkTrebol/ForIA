@@ -1,6 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Validators,
+  FormBuilder,
+  NonNullableFormBuilder,
+  FormGroup,
+} from '@angular/forms';
 import { TopicService } from '../../service/topic.service';
 import { Category, Topic, Post } from 'src/app/models/receive/list-posts';
 @Component({
@@ -19,7 +25,15 @@ export class ViewComponent implements OnInit, OnDestroy {
   public can_post: boolean;
   public can_edit: boolean;
   public audioUrl: string;
-
+  public formPost: FormGroup;
+  public formBuilderNonNullable: NonNullableFormBuilder;
+  public validationMessagesPost = {
+    content: {
+      required: "The Post can't be empty",
+      minlength: 'Min Length is 3',
+      maxlength: 'Max Length is 255',
+    },
+  };
   constructor(
     private topicService: TopicService,
     public route: ActivatedRoute,
@@ -46,6 +60,17 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.can_edit = false;
     this.posts = [];
     this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';
+    this.formBuilderNonNullable = new FormBuilder().nonNullable;
+    this.formPost = this.formBuilderNonNullable.group({
+      content: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(255),
+        ],
+      ],
+    });
   }
 
   ngOnInit() {
@@ -78,6 +103,24 @@ export class ViewComponent implements OnInit, OnDestroy {
     //       this.loading = false;
     //     },
     //   });
+  }
+
+  submitPost() {
+    let obj = { content: this.content?.value, topic_id: this.topic.id };
+    console.log('submit post', obj);
+    this.topicService.createPost(obj).subscribe({
+      next: res => {
+        console.log(res);
+
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+  }
+
+  get content() {
+    return this.formPost.get('content');
   }
 
   playAudio() {
