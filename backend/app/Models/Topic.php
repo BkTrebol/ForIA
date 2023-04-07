@@ -28,6 +28,7 @@ class Topic extends Model
         'description',
         'can_view',
         'can_edit',
+        'content',
     ];
 
     

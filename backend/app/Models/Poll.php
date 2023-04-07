@@ -23,13 +23,18 @@ class Poll extends Model
         'finish_date',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'topic_id',
+    ];
     
     public function options(){
         return $this->hasMany(PollOption::class);
     }
 
     public function answers(){
-        return $this->hasManyThrough(PollAnswer::class, PollOption::class)->count();
+        return $this->hasManyThrough(PollAnswer::class, PollOption::class);
     }
 
     public function voted(int $user_id){

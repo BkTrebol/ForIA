@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Models\Topic;
 use App\Models\Post;
+use App\Models\Poll;
+use App\Models\PollOption;
 
 class TopicController extends Controller
 {
@@ -29,8 +31,8 @@ class TopicController extends Controller
                 return $post->only('id','content','created_at','updated_at','can_edit','user');
             })
         ],200);
-
     }
+
 
     function createTopic(Request $request){
         // Creates a new topic if the user can view the containing category.
@@ -49,16 +51,51 @@ class TopicController extends Controller
             'content' => $request->content,
         ]);
 
-        // $post = Post::create([
-        //     'topic_id' => $topic->id,
-        //     'user_id' => $request->user()->id,
-        //     'content' => $request->content
-        // ]);
+        if ($request->has('poll')){
+            $request->validate([
+                'poll.name' => ['required','min:3','max:50'],
+                'poll.options' => ['required','array','min:2'],
+                'poll.options.*' => ['string','max:100']
+            ]);
+
+            $poll = Poll::create([
+                'topic_id' => $topic->id,
+                'name' => $request->poll['name'],
+                'finish_date' => $request->poll['finish_date']??Null,
+            ]);
+            foreach ($request->poll['options'] as $option){
+                PollOption::create([
+                    'option' => $option,
+                    'poll_id' => $poll->id,
+                ]);
+            }
+        }
 
         return response()->json([
             'message' => 'Topic created successfully',
             'topic' => $topic,
         ],201);
+    }
+
+    function getTopicData(Topic $topic){
+        $user = Auth::user();
+        $roles = $user->roles;
+        $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
+        $isMod = in_array($topic->category->can_mod,$user->roles);
+
+        if (!$isAdmin && !$isMod && $user->id != $topic->user_id){
+            return response()->json([
+                'message' => 'Unauthorized',
+            ],403);
+        }
+        $topic['can_edit'] = $topic->posts->count() == 0;
+        if ($topic->poll){
+            $topic->load('poll.options');
+            $topic->poll['can_edit'] = $topic->poll->answers->count() == 0 || $isAdmin ||$isMod;
+        }
+        return response()->json([
+            "topic" => $topic->only('id','title','description','content','category_id','poll','can_edit')
+        ]);
     }
 
     function editTopic(Topic $topic,Request $request){
@@ -70,8 +107,50 @@ class TopicController extends Controller
          ]);
 
          $user = Auth::user();
+         $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
+         $isMod = in_array($topic->category->can_mod,$user->roles);
+         // Edits/Creates poll if exists in request.
+         if ($request->has('poll')){
+            $request->validate([
+                'poll.name' => ['required','min:3','max:50'],
+                'poll.options' => ['required','array','min:2','max:10'],
+                'poll.options.*' => ['array','min:1','max:2'],
+                'poll.options.*.option' => ['required','string']
+            ]);
+            // Checks if either the user has special permissions or the topic has a poll with votes.
+            if ($topic->poll && $topic->poll->answers->count() != 0 && !$isAdmin && !$isMod){
+                return response()->json([
+                    'message' => 'Unauthorized',
+                ],403);
+            }
+
+            $poll = Poll::updateOrCreate([
+                'id' => $topic->poll->id??Null,
+            ],
+                ['topic_id' => $topic->id,
+                'name' => $request->poll['name'],
+                'finish_date' => $request->poll['finish_date']??Null,]
+            );
+
+            $currentOptions = $poll->options()->pluck('option','id')->toArray();
+            foreach ($request->poll['options'] as $option){
+                if (isset($option['id'])){
+                    PollOption::where('id', $option['id'])->update([
+                        'option' => $option['option'],
+                    ]);
+                    unset($currentOptions[$option['id']]);
+                } else {
+                    PollOption::create([
+                        'option' => $option['option'],
+                        'poll_id' => $poll->id,
+                    ]);
+                }
+            }     
+            PollOption::whereIn('id',array_keys($currentOptions))->delete();       
+        }
+
          // Checks if user owns the topic or can edit it.
-         if (!in_array($topic->category->can_mod,$user->roles) && ($user->id != $topic->user->id || $topic->posts->count() > 1)) {
+         if (!$isMod && !$isAdmin && ($user->id != $topic->user->id || $topic->posts->count() > 0)) {
             return response()->json([
                 'message' => 'Unauthorized',
             ],403);
@@ -86,11 +165,11 @@ class TopicController extends Controller
             $topic->category_id = $request->category_id;
          }
 
-
+        
          $topic->title = $request->title;
          $topic->description = $request->description;
+         $topic->content = $request->content;
          $topic->update();
-        
          return response()->json([
             'message'=> 'Topic updated succesfully',
          ],200);

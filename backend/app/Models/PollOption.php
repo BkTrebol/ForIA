@@ -18,6 +18,11 @@ class PollOption extends Model
         'option',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'poll_id'
+    ];
     
     public function answers(){
         return $this->hasMany(PollAnswer::class);
