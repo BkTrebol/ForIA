@@ -3,22 +3,22 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
-import { Global } from '../../environment/global'
+import { Global } from '../../environment/global';
 
 @Injectable()
 export class HeadersInterceptor implements HttpInterceptor {
   private headers: HttpHeaders;
-  private ApiUrl: string;
+  private url: string;
   constructor() {
     this.headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      Accept: 'application/json',
     });
-    this.ApiUrl = Global.url;
+    this.url = Global.url;
   }
 
   intercept(
@@ -26,13 +26,21 @@ export class HeadersInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     // Check if our Api Url
-    const isApiUrl = request.url.startsWith(this.ApiUrl);
-
+    const isApiUrl = request.url.startsWith(this.url);
+    const isFormData = request.url.startsWith(this.url + 'api/user/edit');
+    const isPost = request.method === 'POST'
     if (isApiUrl) {
-      request = request.clone({
-        headers: this.headers,
-        withCredentials: true
-      });
+      // Check if doesen't need to change the headers
+      if (isFormData && isPost) {
+        request = request.clone({
+          withCredentials: true
+        });
+      } else {
+        request = request.clone({
+          headers: this.headers,
+          withCredentials: true,
+        });
+      }
     }
     return next.handle(request);
   }

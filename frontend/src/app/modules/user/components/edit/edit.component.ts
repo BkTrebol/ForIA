@@ -6,9 +6,10 @@ import {
   FormGroup,
 } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
-import { Router } from '@angular/router';
-import { User } from 'src/app/models/user';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/modules/user/service/user.service';
+import { EditUserProfile } from 'src/app/models/receive/edit-user-profile';
+import { Global } from 'src/app/environment/global';
 
 @Component({
   selector: 'app-edit',
@@ -19,7 +20,11 @@ export class EditComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public error: string;
   public loading: boolean;
-  public user: User;
+  public user: EditUserProfile;
+  public filesToUpload: Array<File>;
+  public imageSelected: string;
+  public imageSrc: string;
+  public url: string;
   public formEditProfile: FormGroup;
   public formBuilderNonNullable: NonNullableFormBuilder;
   public validationMessagesEditProfile = {
@@ -48,10 +53,14 @@ export class EditComponent implements OnInit, OnDestroy {
     },
   };
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    public route: ActivatedRoute
+  ) {
     this.unsubscribe$ = new Subject();
     this.error = '';
-    this.loading = false;
+    this.loading = true;
     this.user = {
       id: 0,
       nick: '',
@@ -59,10 +68,11 @@ export class EditComponent implements OnInit, OnDestroy {
       location: '',
       birthday: '',
       avatar: '',
-      roles: [],
-      created_at: '',
-      updated_at: '',
     };
+    this.filesToUpload = [];
+    this.imageSelected = '';
+    this.imageSrc = '';
+    this.url = Global.api + 'user/';
     this.formBuilderNonNullable = new FormBuilder().nonNullable;
     this.formEditProfile = this.formBuilderNonNullable.group({
       nick: [
@@ -84,20 +94,37 @@ export class EditComponent implements OnInit, OnDestroy {
       ],
       location: ['', [Validators.minLength(3), Validators.maxLength(64)]],
       birthday: ['', [Validators.minLength(3), Validators.maxLength(64)]],
-      avatar: ['', [Validators.minLength(3), Validators.maxLength(64)]],
+      avatar: [null, [Validators.minLength(3), Validators.maxLength(64)]],
     });
   }
 
   ngOnInit() {
-    // this.user = this.userService.authData;
+    // this.userService.getEdit().subscribe({
+    //   next: (res) => {
+    //     this.user = res.user;
+    //     this.loading = false;
+    //   },
+    //   error: (err) => {
+    //     this.loading = false;
+    //     console.log(err);
+    //   },
+    // });
+    if (this.route.snapshot.data['response']) {
+      this.user = this.route.snapshot.data['response'].user;
+      this.loading = false;
+    } else {
+      this.loading = false;
+      this.router.navigate(['/user/profile']);
+    }
   }
 
   submit(): void {
     if (this.formEditProfile.valid) {
       this.loading = true;
       this.error = '';
+      delete this.formEditProfile.value.avatar;
       this.userService
-        .editUser(this.user)
+        .editProfile(this.formEditProfile.value, this.filesToUpload)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
@@ -111,6 +138,24 @@ export class EditComponent implements OnInit, OnDestroy {
         });
     } else {
       this.error = 'Invalid data in the Form';
+    }
+  }
+
+  //* Detecta quan es selecciona una imatge i l'afagei a la variables filesToUpload
+  fileChangeEvent(fileInput: any) {
+    this.filesToUpload = <Array<File>>fileInput.target.files;
+  }
+
+  //* Mostra la imatge seleccionada
+  readURL(event: any) {
+    // console.log(event.target.files[0]);
+    if (event.target.files && event.target.files[0]) {
+      this.imageSelected = event.target.files[0].name;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imageSrc = e.target.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
     }
   }
 

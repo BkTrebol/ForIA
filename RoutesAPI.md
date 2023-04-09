@@ -22,12 +22,12 @@ Prefix: user
 - change-password PUT
 
 Prefix: topic
-- create POST
+- POST
 - {topic} PUT
 - {topic} DELETE
 
 Prefix: post
-- create POST
+- POST
 - {post} PUT
 - {post} DELETE
 

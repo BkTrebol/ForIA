@@ -4,6 +4,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { EditComponent } from './components/edit/edit.component';
 import { PreferencesComponent } from './components/preferences/preferences.component';
 
+import { EditProfileResolver } from 'src/app/helpers/resolvers/edit-profile.resolver';
+
 const routes: Routes = [
   {
     path: 'profile',
@@ -19,6 +21,9 @@ const routes: Routes = [
     path: 'edit/profile',
     component: EditComponent,
     title: 'ForIA - Edit Profile',
+    resolve: {
+      response: EditProfileResolver,
+    },
   },
   {
     path: 'edit/preferences',
@@ -30,5 +35,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  providers: [EditProfileResolver],
 })
 export class UserRoutingModule {}

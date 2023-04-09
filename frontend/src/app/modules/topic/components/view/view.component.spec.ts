@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ViewComponent } from './view.component';
 
 describe('ViewComponent test', () => {
@@ -13,7 +14,8 @@ describe('ViewComponent test', () => {
       imports: [
         HttpClientTestingModule,
         FontAwesomeTestingModule,
-        RouterTestingModule.withRoutes([]),
+        RouterTestingModule,//.withRoutes([]),
+        ReactiveFormsModule,
       ],
       declarations: [ViewComponent],
     }).compileComponents();

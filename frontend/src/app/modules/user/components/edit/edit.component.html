@@ -61,10 +61,15 @@
             </div>
             <div class="group">
                 <div class="col-field">
-                    <p>Actual Avatar: {{ user.avatar }}</p>
+                    <p *ngIf="user.avatar == null">No tens un Avatar encara</p>
+                    <!-- <div *ngIf="user.avatar != null">
+                        <p>Avatar: {{imageSelected}}</p>
+                        <img class="avatar" [src]="imageSrc || url+'get-avatar/'+user.avatar" alt="Avatar">
+                    </div> -->
                     <label for="file">Avatar</label>
                     <div class="field">
-                        <input type="file" id="file" formControlName="avatar" class="input">
+                        <input type="file" accept="image/*" (change)="fileChangeEvent($event)"
+                        (change)="readURL($event);" id="file" formControlName="avatar" class="input">
                         <fa-icon class="icon" [icon]="['fas', 'image-portrait']"></fa-icon>
                     </div>
                 </div>
@@ -84,7 +89,7 @@
             <fa-icon class="btn-icon" [icon]="['fas', 'thumbs-up']"></fa-icon>
         </div>
         <div class="form-links">
-            <p><a routerLink="/login">Edit User Preferences</a></p>
+            <p><a routerLink="/user/">Edit User Preferences</a></p>
         </div>
     </form>
 </div>

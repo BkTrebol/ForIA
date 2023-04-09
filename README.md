@@ -23,6 +23,7 @@ TOTAL: 84 SUCCESS
 # Remeber when deploy
 backend: config>cors>allow-credentials = false;
 frontend: pattern passowrd (reigster)
+moure carpeta environment al nivell de app i assets
 
 # Changes
 Components reorganitzats a modules.
