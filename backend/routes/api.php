@@ -44,6 +44,7 @@ Route::middleware('auth:sanctum')->group(function(){
     // Topic routes.
     Route::controller(TopicController::class)->prefix('topic')->group(function(){
         Route::post('/','createTopic');
+        Route::get('/edit/{topic}','getTopicData');
         Route::put('/{topic}','editTopic');
         Route::delete('/{topic}','deleteTopic');
     });
@@ -51,6 +52,7 @@ Route::middleware('auth:sanctum')->group(function(){
     // Post routes.
     Route::controller(PostController::class)->prefix('post')->group(function(){
         Route::post('/','createPost');
+        Route::get('/edit/{post}','getPostData');
         Route::put('/{post}','editPost');
         Route::delete('/{post}','deletePost');
     });
@@ -67,6 +69,7 @@ Route::controller(AuthController::class)->prefix('auth')->group(function(){
 
 Route::controller(CategoryController::class)->prefix('category')->group(function(){
     Route::get('','getCategories');
+    Route::get('/list','getCategoryList');
     Route::get('/{category}','viewCategory');
 });
 

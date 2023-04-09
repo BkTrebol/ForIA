@@ -31,6 +31,12 @@ class PostController extends Controller
          ]);
     }
 
+    function getPostData(Post $post){
+        return response()->json([
+            "post" => $post
+        ]);
+    }
+    
     function editPost(Post $post, Request $request){
         if (!checkPermission($post)){
             return response()->json([
@@ -48,8 +54,6 @@ class PostController extends Controller
                 'post' => $post
             ],200);
         }
-
-
     }
 
     function deletePost(Post $post,Request $request){ 

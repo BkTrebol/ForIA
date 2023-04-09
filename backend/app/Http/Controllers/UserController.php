@@ -22,7 +22,7 @@ class UserController extends Controller
         $request->validate([
                 'nick' => ['required', 'string', 'max:100','unique:users,nick,'.$user->id],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
-                'locatio'=> ['string'],
+                'location'=> ['string'],
                 'birthday' => ['date'],
                 'avatar' => ['image','mimes:jpg,png,jpeg,gif,svg'],
         ]);
