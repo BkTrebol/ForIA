@@ -22,7 +22,7 @@ class Post extends Model
         'content',
     ];
 
-
+    protected $touches = ['topic'];
     
     public function user(){
         return $this->belongsTo(User::class,'user_id');
@@ -31,5 +31,13 @@ class Post extends Model
     
     public function topic(){
         return $this->belongsTo(Topic::class,'topic_id');
+    }
+
+    protected static function boot(){
+        parent::boot();
+
+        static::saved(function($post){
+            $post->topic->touch();
+        });
     }
 }

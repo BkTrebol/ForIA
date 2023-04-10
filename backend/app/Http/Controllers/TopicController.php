@@ -21,16 +21,34 @@ class TopicController extends Controller
         if(!in_array($topic->category->can_view,$roles) || !in_array($topic->can_view,$roles) )
         return response()->json(['message' => "Unauthorized"],403);
         else
-        return response()->json([
-            'can_edit' => in_array($topic->category->can_mod,$roles) || $topic->user_id == $user->id,
+        $posts = $topic->posts()->with('user')->paginate(config('app.pagination.topic'));
+        $response =  [
+            'can_edit' => in_array($topic->category->can_mod,$roles) || ($user && $topic->user_id == $user->id),
             'can_post' => in_array($topic->can_post,$roles),
             'category' => $topic->category->only('id','title'),
-            'topic' => $topic->only('id','title','created_at','updated_at','content','user'),
-            'posts' => $topic->posts()->with('user')->get()->map(function($post){
+
+            'posts' => $posts->map(function($post){
                 $post['can_edit'] = $this->checkPostPermission($post);
                 return $post->only('id','content','created_at','updated_at','can_edit','user');
-            })
-        ],200);
+            }),
+            'poll' => !$topic->poll ? null : $topic->poll()->with(['options'])->get()->map(function($poll) use($user){
+                $poll['can_vote'] = !$user ? false : 
+                !$poll->voted($user->id) && ($poll->finish_date == null || $poll->finish_date > now()) 
+;
+                return $poll;
+            }),
+            "current_page" => $posts->currentPage(),
+            "last_page" => $posts->lastPage(),
+            "total" => $posts->total()
+        ];
+
+        if($posts->onFirstPage()){
+            $response['topic'] = $topic->only('id','title','created_at','updated_at','content','user');
+        } else {
+            $response['topic'] = $topic->only('id','title');
+        }
+
+        return response()->json($response,200);
     }
 
 

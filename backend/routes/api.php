@@ -8,6 +8,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PollController;
+use App\Http\Controllers\PrivateMessageController;
 
 use App\Models\Post;
 use App\Models\Topic;
@@ -56,6 +58,19 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::put('/{post}','editPost');
         Route::delete('/{post}','deletePost');
     });
+
+    // Poll
+    Route::controller(PollController::class)->prefix('poll')->group(function(){
+        Route::put('/vote/{option}','vote');
+    });
+
+    // PrivateMEssage
+    Route::controller(PrivateMessageController::class)->prefix('pm')->group(function(){
+        Route::get('/','getMessages');
+        Route::get('/{pm}','getPrivateMessage');
+        Route::post('/new','newPrivateMessage');
+        Route::post('/','sendMessage');
+    });
     
 });
 
@@ -75,6 +90,9 @@ Route::controller(CategoryController::class)->prefix('category')->group(function
 
 Route::controller(TopicController::class)->prefix('topic')->group(function(){
     Route::get('/{topic}','viewTopic');
+});
+Route::controller(PollController::class)->prefix('poll')->group(function(){
+    Route::get('/{poll}','getVotes');
 });
 
 
