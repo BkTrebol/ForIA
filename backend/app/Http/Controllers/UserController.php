@@ -44,6 +44,11 @@ class UserController extends Controller
 
         $avatar = $request->file('avatar');
         if ($avatar){
+            if ($use->avatar){
+                if (Storage::disk('avatars')->exists($user->avatar)){
+                    Storage::disk('avatars')->delete($user->avatar);
+                }
+            }
             $avatar_path = $avatar->store('avatars');
             preg_match('/.*\/(.*(?:.png|.jpg|.jpeg|.gif|.svg))/',$avatar_path,$match);
             $user->avatar = $match[1];
