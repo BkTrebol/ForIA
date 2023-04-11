@@ -19,7 +19,6 @@ class PrivateMessageController extends Controller
         return response()->json([
             "messages" => $pms->map(function($pm) use($user){
                 $topic =  Topic::find($pm->topic_id);
-                // $topic['other_user'] = $user->id == $pm->user_id ? $pm->user2_id : $pm_user;
                 return $topic;
             }),
             "current_page" => $pms->currentPage(),
@@ -67,18 +66,6 @@ class PrivateMessageController extends Controller
             "content" => ['required'],
             "recipient" => ["required","exists:users,id","not_in:$user->id"],
         ]);
-
-        // $exists = PrivateMessage::where('user_id',$user->id)->where('user2_id',$request->recipient)->exists() || 
-        //     PrivateMessage::where('user2_id',$user->id)->where('user_id',$request->recipient)->exists();
-
-        // if($exists){
-        //     return response()->json([
-        //         "message" => "Private message already exists.",
-        //         "id" => $user->id,
-        //         "to" => $request->recipient
-
-        //     ]);
-        // }
 
         $topic = Topic::create([
             'category_id' => config('app.pmCategory'),

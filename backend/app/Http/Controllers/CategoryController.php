@@ -16,13 +16,32 @@ class CategoryController extends Controller
 
     function getCategories(){
         // Gets the categories that the user can view.
-        $user = Auth::user();
+        $user = Auth::user();   
         $roles = $user ? $user->roles : ['ROLE_GUEST'];
-        $categories = Category::with('lastPost')->get()->whereIn('can_view', $roles)->groupBy('section');
-
-        return response()->json([
-            'categories' => $categories,
-        ],200);
+        $categories = Category::get()->whereIn('can_view', $roles)->groupBy('section')->map(function($section,$sectionName)use($roles){
+           $abc['categories'] = $section->map(function($category) use($roles){
+        $post = $category->lastPost;
+        $category['can_post'] = in_array($category->can_post,$roles);
+        $category['lastPost'] = [
+                'created_at' => $post->created_at,
+                'topic' => [
+                    'id' => $post->topic->id,
+                    'title' => $post->topic->title,
+                ],
+                'user' =>[
+                    'id' => $post->user->id,
+                    'nick' =>$post->user->nick,
+                    'avatar' => $post->user->avatar,
+                ]
+                ];
+        return $category->only('id','title','lastPost','description','image','can_post');
+            });
+            $abc['name'] = $sectionName;
+            return $abc;
+        })->values();
+        return response()->json(
+             $categories,
+            200);
     }
 
     function viewCategory(Category $category){
@@ -41,7 +60,7 @@ class CategoryController extends Controller
                 'can_post' => in_array($category->can_post,$roles)],
                 
             'topics'=>$topics->map(function($topic){
-                return $topic->only('id','user_id','title','description');
+                return $topic->load('user:id,nick,avatar')->only('id','user','title','description');
             }),
             "current_page" => $topics->currentPage(),
             "last_page" => $topics->lastPage(),

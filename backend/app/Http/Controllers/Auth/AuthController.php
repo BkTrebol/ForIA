@@ -51,6 +51,14 @@ class AuthController extends Controller
     return response()->json(['message' => 'User created successfully'],201);
     }
 
+    function checkLogin(){
+        $user = Auth::user();
+
+        return response()->json([
+            'logged' => $user ? true : false] 
+            ,200);
+    }
+
     function userData(Request $request){
         $user = Auth::user();
         $preferences = Auth::user()->preferences->only('sidebar','allow_music');

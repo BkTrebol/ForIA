@@ -5,15 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\User;
 
 class UserController extends Controller
 {   
 
+    function getUserAvatar(String $avatar){
+        if (Storage::disk('avatars')->exists($avatar)){
+            return response(Storage::disk('avatars')->get($avatar),200);
+        } else{
+            return response()->json('e: '.$avatar);
+        }
+    }
+
     function getUserData(Request $request){
         return response()->json([
-            'user' => $request->user()->only(['id','nick','email','location','birthday','avatar',])
+            'user' => $request->user()->only(['nick','email','location','birthday','avatar'])
         ],200);
     }
 

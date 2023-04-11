@@ -21,7 +21,7 @@ class TopicController extends Controller
         if(!in_array($topic->category->can_view,$roles) || !in_array($topic->can_view,$roles) )
         return response()->json(['message' => "Unauthorized"],403);
         else
-        $posts = $topic->posts()->with('user')->paginate(config('app.pagination.topic'));
+        $posts = $topic->load('user:id,nick,avatar,rol,created_at')->posts()->paginate(config('app.pagination.topic'));
         $response =  [
             'can_edit' => in_array($topic->category->can_mod,$roles) || ($user && $topic->user_id == $user->id),
             'can_post' => in_array($topic->can_post,$roles),
@@ -29,7 +29,7 @@ class TopicController extends Controller
 
             'posts' => $posts->map(function($post){
                 $post['can_edit'] = $this->checkPostPermission($post);
-                return $post->only('id','content','created_at','updated_at','can_edit','user');
+                return $post->load('user:id,nick,avatar,rol,created_at')->only('id','content','created_at','updated_at','can_edit','user');
             }),
             'poll' => !$topic->poll ? null : $topic->poll()->with(['options'])->get()->map(function($poll) use($user){
                 $poll['can_vote'] = !$user ? false : 
@@ -41,7 +41,7 @@ class TopicController extends Controller
             "last_page" => $posts->lastPage(),
             "total" => $posts->total()
         ];
-
+        // TODO: USER-MAP:Id,nick,avatar,rol,created_at.
         if($posts->onFirstPage()){
             $response['topic'] = $topic->only('id','title','created_at','updated_at','content','user');
         } else {
@@ -216,6 +216,7 @@ class TopicController extends Controller
 
     function checkPostPermission(Post $post){
         $user = Auth::user();
+        if (!$user) return false;
         $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
         $isMod = in_array($post->topic->category->can_mod, $user->roles);
         if (!$isAdmin && !$isMod) {

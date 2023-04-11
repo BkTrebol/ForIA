@@ -31,6 +31,6 @@ class Category extends Model
     }
 
     public function lastPost(){
-        return $this->hasOneThrough(Post::class,Topic::class)->orderBy('created_at','desc');
+        return $this->hasOneThrough(Post::class,Topic::class)->with('user')->orderBy('created_at','desc');
     }
 }

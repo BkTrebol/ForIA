@@ -80,6 +80,7 @@ Route::controller(AuthController::class)->prefix('auth')->group(function(){
     Route::post('/login','login');
     Route::post('/googleauth','googleAuth');
     Route::post('/googleconfirm','confirmGoogle');
+    Route::get('/checklogin','checkLogin');
 });
 
 Route::controller(CategoryController::class)->prefix('category')->group(function(){
@@ -95,12 +96,23 @@ Route::controller(PollController::class)->prefix('poll')->group(function(){
     Route::get('/{poll}','getVotes');
 });
 
+Route::controller(UserController::class)->prefix('user')->group(function(){
+    Route::get('/get-avatar/{avatar}','getUserAvatar');
+});
+
 
 
 
 // Testing Routes.
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+Route::get('/checklogin', function (){
+    $user = Auth::user();
+
+    return response()->json([
+        'logged' => $user ? true : false] 
+        ,200);
 });
 
 Route::get('holi',function(Request $request) {
