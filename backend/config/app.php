@@ -6,8 +6,12 @@ return [
 
     // Administrator roles.
     'adminRoles' => ['ROLE_ADMIN','ROLE_GOD'],
-
+    'pmCategory' => 1,
     'trash' => 2,
+    'pagination' => [
+        'category' => 10,
+        'topic' => 7,
+    ],
 
     'GOOGLE_CLIENT_ID' => env('GOOGLE_CLIENT_ID'),
     /*

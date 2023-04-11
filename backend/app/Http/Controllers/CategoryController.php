@@ -33,16 +33,19 @@ class CategoryController extends Controller
             return response()->json([
                 'message' => 'Unauthorized'],403);
         }
+        $topics = $category->topics()->whereIn('can_view', $roles)->paginate(config('app.pagination.category'));
         return response()->json([
             'category' => [
                 'id' => $category->id,
                 'title' => $category->title,
                 'can_post' => in_array($category->can_post,$roles)],
                 
-            'topics'=>$category->topics->whereIn('can_view', $roles)
-            ->map(function($topic){
+            'topics'=>$topics->map(function($topic){
                 return $topic->only('id','user_id','title','description');
             }),
+            "current_page" => $topics->currentPage(),
+            "last_page" => $topics->lastPage(),
+            "total" => $topics->total()
         ],200);
     }
 
