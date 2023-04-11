@@ -28,11 +28,12 @@ class UserController extends Controller
 
     function editUserData(Request $request){
         $user = Auth::user();
+        // return response()->json([$request]);
         $request->validate([
                 'nick' => ['required', 'string', 'max:100','unique:users,nick,'.$user->id],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
-                'location'=> ['string'],
-                'birthday' => ['date'],
+                'location'=> ['string','nullable'],
+                'birthday' => ['date','nullable'],
                 'avatar' => ['image','mimes:jpg,png,jpeg,gif,svg'],
         ]);
 
