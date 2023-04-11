@@ -6,7 +6,8 @@
         <div class="fields">
             <div class="group">
                 <div class="field">
-                    <input type="text" formControlName="nick" [(ngModel)]="user.nick" class="input" placeholder="Nick" required>
+                    <input type="text" formControlName="nick" [(ngModel)]="user.nick" class="input" placeholder="Nick"
+                        required>
                     <fa-icon class="icon" [icon]="['fas', 'user']"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!nick?.valid && nick?.touched">
@@ -19,7 +20,8 @@
             </div>
             <div class="group">
                 <div class="field">
-                    <input type="email" formControlName="email" [(ngModel)]="user.email" class="input" placeholder="Email" required>
+                    <input type="email" formControlName="email" [(ngModel)]="user.email" class="input"
+                        placeholder="Email" required>
                     <fa-icon class="icon" [icon]="['fas', 'envelope']"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!email?.valid && email?.touched">
@@ -32,7 +34,8 @@
             </div>
             <div class="group">
                 <div class="field">
-                    <input type="text" formControlName="location" [(ngModel)]="user.location" class="input" placeholder="Location">
+                    <input type="text" formControlName="location" [(ngModel)]="user.location" class="input"
+                        placeholder="Location">
                     <fa-icon class="icon" [icon]="['fas', 'location-dot']"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!location?.valid && location?.touched">
@@ -47,7 +50,8 @@
                 <div class="col-field">
                     <label for="birthday">Birthday</label>
                     <div class="field">
-                        <input type="date" formControlName="birthday" [(ngModel)]="user.birthday" id="birthday" class="input date">
+                        <input type="date" formControlName="birthday" [(ngModel)]="user.birthday" id="birthday"
+                            class="input date">
                         <fa-icon class="icon" [icon]="['fas', 'cake-candles']"></fa-icon>
                     </div>
                 </div>
@@ -61,15 +65,19 @@
             </div>
             <div class="group">
                 <div class="col-field">
-                    <p *ngIf="user.avatar == null">No tens un Avatar encara</p>
-                    <!-- <div *ngIf="user.avatar != null">
+                    <div *ngIf="user.avatar == null">
+                        <p>No tens un Avatar encara</p>
+                        <img class="avatar" [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+user.nick"
+                            alt="Default Avatar">
+                    </div>
+                    <div *ngIf="user.avatar != null">
                         <p>Avatar: {{imageSelected}}</p>
                         <img class="avatar" [src]="imageSrc || url+'get-avatar/'+user.avatar" alt="Avatar">
-                    </div> -->
+                    </div>
                     <label for="file">Avatar</label>
                     <div class="field">
                         <input type="file" accept="image/*" (change)="fileChangeEvent($event)"
-                        (change)="readURL($event);" id="file" formControlName="avatar" class="input">
+                            (change)="readURL($event);" id="file" formControlName="avatar" class="input">
                         <fa-icon class="icon" [icon]="['fas', 'image-portrait']"></fa-icon>
                     </div>
                 </div>
@@ -93,4 +101,3 @@
         </div>
     </form>
 </div>
-

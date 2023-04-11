@@ -17,12 +17,15 @@
             <li><a routerLink="/message/list" routerLinkActive="active">
                     <fa-icon [icon]="['fas', 'message']"></fa-icon><span>Messages</span>
                 </a></li>
-            <li><a routerLink="/test" routerLinkActive="active">
-                    <fa-icon [icon]="['fas', 'vial']"></fa-icon><span>Test</span></a></li>
         </ul>
         <ul>
-            <li class="dreta"><a routerLink="/user/profile" routerLinkActive="active"><fa-icon
-                        [icon]="['fas', 'user']"></fa-icon><span>{{userIsAuthenticated.userData.nick}}</span></a></li>
+            <li class="dreta">
+                <a class="avatar" routerLink="/user/profile" routerLinkActive="active">
+                    <img [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+userIsAuthenticated.userData.nick"
+                        alt="Default Avatar" width="40" height="40">
+                    <span>{{userIsAuthenticated.userData.nick}}</span>
+                </a>
+            </li>
             <li><a routerLink="/user/edit/profile" routerLinkActive="active"><fa-icon
                         [icon]="['fas', 'edit']"></fa-icon><span>Edit</span></a></li>
             <li><a routerLink="/user/edit/preferences" routerLinkActive="active"><fa-icon
