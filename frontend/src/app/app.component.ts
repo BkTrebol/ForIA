@@ -7,6 +7,8 @@ import {
   NavigationEnd,
   NavigationError,
   NavigationStart,
+  ResolveEnd,
+  ResolveStart,
   Router,
 } from '@angular/router';
 import { AuthService } from './modules/auth/service/auth.service';
@@ -29,12 +31,11 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private _authService: AuthService, private router: Router) {
     this.unsubscribe$ = new Subject();
     this.userIsAuthenticated = null;
-    this.loading = true;
+    this.loading = false;
     this._authService.autoAuthUser();
   }
 
   ngOnInit() {
-    this.loading = false;
     this._authService.authData
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((r) => {
@@ -45,19 +46,19 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
       if (
         event instanceof GuardsCheckStart ||
-        event instanceof NavigationStart
+        event instanceof NavigationStart ||
+        event instanceof ResolveStart
       ) {
         this.loading = true;
-        // console.log('GuardStart', new Date(Date.now()));
       }
       if (
         event instanceof GuardsCheckEnd ||
         event instanceof NavigationEnd ||
         event instanceof NavigationCancel ||
-        event instanceof NavigationError
+        event instanceof NavigationError ||
+        event instanceof ResolveEnd
       ) {
         this.loading = false;
-        // console.log('GuardEnd', new Date(Date.now()));
       }
     });
   }

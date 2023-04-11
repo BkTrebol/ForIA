@@ -16,30 +16,30 @@ export class ListComponent implements OnInit, OnDestroy {
 
   constructor(private categoryService: CategoryService) {
     this.unsubscribe$ = new Subject();
-    this.loading = true;
+    this.loading = false; //true
     this.sections = { '': []};
     this.categories = [];
   }
 
   ngOnInit() {
-    this.categoryService
-      .categories()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (res) => {
-          let cat = res.categories;
-          // console.log("Cat", cat);
-          Object.keys(cat).forEach((section: any) => {
-            this.categories.push(cat[section][0]);
-          });
-          // this.categories = res;
-          this.loading = false;
-        },
-        error: (err) => {
-          console.log(err);
-          this.loading = false;
-        },
-      });
+    // this.categoryService
+    //   .categories()
+    //   .pipe(takeUntil(this.unsubscribe$))
+    //   .subscribe({
+    //     next: (res) => {
+    //       let cat = res.categories;
+    //       // console.log("Cat", cat);
+    //       Object.keys(cat).forEach((section: any) => {
+    //         this.categories.push(cat[section][0]);
+    //       });
+    //       // this.categories = res;
+    //       this.loading = false;
+    //     },
+    //     error: (err) => {
+    //       console.log(err);
+    //       this.loading = false;
+    //     },
+    //   });
   }
 
   scrollToTop() {

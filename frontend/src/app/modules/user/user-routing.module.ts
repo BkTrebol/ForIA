@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfileComponent } from './components/profile/profile.component';
 import { EditComponent } from './components/edit/edit.component';
-import { PreferencesComponent } from './components/preferences/preferences.component';
 
 import { EditProfileResolver } from 'src/app/helpers/resolvers/edit-profile.resolver';
 
@@ -13,22 +12,12 @@ const routes: Routes = [
     title: 'ForIA - User Profile',
   },
   {
-    path: 'preferences',
-    component: ProfileComponent, //change
-    title: 'ForIA - User Preferences',
-  },
-  {
-    path: 'edit/profile',
+    path: 'edit',
     component: EditComponent,
     title: 'ForIA - Edit Profile',
     resolve: {
       response: EditProfileResolver,
     },
-  },
-  {
-    path: 'edit/preferences',
-    component: PreferencesComponent,
-    title: 'ForIA - Edit Preferences',
   },
 ];
 

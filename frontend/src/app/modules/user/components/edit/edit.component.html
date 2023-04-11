@@ -1,7 +1,7 @@
 <div class="form-page">
     <form [formGroup]="formEditProfile" (ngSubmit)="submit()" class="form-container">
         <h2>Edit Profile</h2>
-        <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}!</h3>
+        <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}</h3>
         <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="fields">
             <div class="group">
@@ -68,11 +68,11 @@
                     <div *ngIf="user.avatar == null">
                         <p>No tens un Avatar encara</p>
                         <img class="avatar" [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+user.nick"
-                            alt="Default Avatar">
+                            width="100" height="100" alt="Default Avatar">
                     </div>
                     <div *ngIf="user.avatar != null">
                         <p>Avatar: {{imageSelected}}</p>
-                        <img class="avatar" [src]="imageSrc || url+'get-avatar/'+user.avatar" alt="Avatar">
+                        <img class="avatar" [src]="imageSrc || url+'get-avatar/'+user.avatar" width="100" height="100" alt="Avatar">
                     </div>
                     <label for="file">Avatar</label>
                     <div class="field">
@@ -97,7 +97,7 @@
             <fa-icon class="btn-icon" [icon]="['fas', 'thumbs-up']"></fa-icon>
         </div>
         <div class="form-links">
-            <p><a routerLink="/user/">Edit User Preferences</a></p>
+            <p><a routerLink="/user/edit">Edit User Preferences</a></p>
         </div>
     </form>
 </div>

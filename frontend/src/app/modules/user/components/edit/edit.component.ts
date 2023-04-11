@@ -93,23 +93,13 @@ export class EditComponent implements OnInit, OnDestroy {
           Validators.email,
         ],
       ],
-      location: ['', [Validators.minLength(3), Validators.maxLength(64)]],
-      birthday: ['', [Validators.minLength(3), Validators.maxLength(64)]],
+      location: [null, [Validators.minLength(3), Validators.maxLength(64)]],
+      birthday: [null, [Validators.minLength(3), Validators.maxLength(64)]],
       avatar: [null, [Validators.minLength(3), Validators.maxLength(64)]],
     });
   }
 
   ngOnInit() {
-    // this.userService.getEdit().subscribe({
-    //   next: (res) => {
-    //     this.user = res.user;
-    //     this.loading = false;
-    //   },
-    //   error: (err) => {
-    //     this.loading = false;
-    //     console.log(err);
-    //   },
-    // });
     if (this.route.snapshot.data['response']) {
       this.user = this.route.snapshot.data['response'].user;
       this.loading = false;
