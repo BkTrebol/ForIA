@@ -54,8 +54,8 @@ class AuthController extends Controller
     function checkLogin(){
         $user = Auth::user();
 
-        return response()->json([
-            'logged' => $user ? true : false] 
+        return response()->json(
+            $user ? true : false
             ,200);
     }
 
