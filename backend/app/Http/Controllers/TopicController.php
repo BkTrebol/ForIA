@@ -41,7 +41,6 @@ class TopicController extends Controller
             "last_page" => $posts->lastPage(),
             "total" => $posts->total()
         ];
-        // TODO: USER-MAP:Id,nick,avatar,rol,created_at.
         if($posts->onFirstPage()){
             $response['topic'] = $topic->only('id','title','created_at','updated_at','content','user');
         } else {

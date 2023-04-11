@@ -80,7 +80,7 @@ Route::controller(AuthController::class)->prefix('auth')->group(function(){
     Route::post('/login','login');
     Route::post('/googleauth','googleAuth');
     Route::post('/googleconfirm','confirmGoogle');
-    Route::get('/checklogin','checkLogin');
+    Route::get('/check-login','checkLogin');
 });
 
 Route::controller(CategoryController::class)->prefix('category')->group(function(){
