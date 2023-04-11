@@ -14,7 +14,6 @@ export interface Category {
   image: string | null;
   music: string | null;
   can_post: string; //to boolena
-  // can_mod: string; //passar a boolean
   created_at: string;
   updated_at: string;
   last_post: Post;
@@ -27,5 +26,4 @@ export interface Post {
   user_id: number; //passar User amb (id, nick, avatar)
   content: string;
   created_at: string; //nomes passar un o l'altre (created o updated)
-  // updated_at: string;
 }

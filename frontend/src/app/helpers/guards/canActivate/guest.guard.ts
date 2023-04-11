@@ -23,9 +23,9 @@ export class GuestGuard {
     const isAuth = this._authService.user;
     if (!isAuth || isAuth === null) {
       // Provisional perquè no funcionava si recarregaves la pàgina
-      return this._authService.checkLogin().pipe(
+      return this._authService.isLogged().pipe(
         map((res) => {
-          if (!res || res === null) {
+          if (!res) {
             return true;
           } else {
             this.router.navigate(['/']);

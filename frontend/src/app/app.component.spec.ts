@@ -29,5 +29,6 @@ describe('AppComponent Test', () => {
 
   it(`should have property userIsAuthenticated to null`, () => {
     expect(app.userIsAuthenticated).toBe(null);
+    expect(app.loading).toBe(false);
   });
 });

@@ -5,11 +5,6 @@
     </a>
     <form>
         <input type="text" placeholder="Search">
-        <select name="type" id="type">
-            <option value="section">Section</option>
-            <option value="category">Category</option>
-            <option value="topic">Topic</option>
-        </select>
         <button type="submit">Search</button>
     </form>
     <nav *ngIf="userIsAuthenticated">
@@ -26,21 +21,16 @@
                     <span>{{userIsAuthenticated.userData.nick}}</span>
                 </a>
             </li>
-            <li><a routerLink="/user/edit/profile" routerLinkActive="active"><fa-icon
+            <li><a routerLink="/user/edit" routerLinkActive="active"><fa-icon
                         [icon]="['fas', 'edit']"></fa-icon><span>Edit</span></a></li>
-            <li><a routerLink="/user/edit/preferences" routerLinkActive="active"><fa-icon
-                        [icon]="['fas', 'gear']"></fa-icon><span>Preferences</span></a></li>
             <li><a href="javascript:void(0);" (click)="logout()"><fa-icon
                         [icon]="['fas', 'right-from-bracket']"></fa-icon><span>Logout</span></a></li>
         </ul>
     </nav>
     <nav *ngIf="!userIsAuthenticated">
         <ul>
-            <li><a routerLink="/user/edit/profile" routerLinkActive="active"><fa-icon
+            <li><a routerLink="/user/edit" routerLinkActive="active"><fa-icon
                         [icon]="['fas', 'edit']"></fa-icon><span>Edit</span></a>
-            </li>
-            <li><a routerLink="/test" routerLinkActive="active">
-                    <fa-icon [icon]="['fas', 'user']"></fa-icon><span>Test</span></a>
             </li>
         </ul>
         <ul>

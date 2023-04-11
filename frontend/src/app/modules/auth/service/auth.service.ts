@@ -14,6 +14,7 @@ import { ResetPassword } from 'src/app/models/reset-password';
 export class AuthService {
   private baseURL: string;
   private apiURL: string;
+  private apiAuthURL: string;
 
   private userSubject: BehaviorSubject<any>;
   public authData: Observable<{
@@ -24,6 +25,7 @@ export class AuthService {
   constructor(private http: HttpClient) {
     this.baseURL = Global.url;
     this.apiURL = Global.api;
+    this.apiAuthURL = Global.api + 'auth/';
 
     this.userSubject = new BehaviorSubject(null);
     this.authData = this.userSubject.asObservable();
@@ -35,24 +37,24 @@ export class AuthService {
 
   register(register: Register): Observable<any> {
     let params = JSON.stringify(register);
-    return this.http.post(`${this.apiURL}auth/register`, params);
+    return this.http.post(`${this.apiAuthURL}register`, params);
   }
 
   login(authData: AuthData): Observable<any> {
     let params = JSON.stringify(authData);
-    return this.http.post(`${this.apiURL}auth/login`, params).pipe(
+    return this.http.post(`${this.apiAuthURL}login`, params).pipe(
       concatMap((r) => {
-          return this.checkLogin().pipe(
-            map((checkR) => {
-              return r;
-            }),
-          );
+        return this.checkLogin().pipe(
+          map((checkR) => {
+            return r;
+          })
+        );
       })
     );
   }
 
   checkLogin(): Observable<any> {
-    return this.http.get(`${this.apiURL}auth/data`).pipe(
+    return this.http.get(`${this.apiAuthURL}data`).pipe(
       map((r) => {
         this.userSubject.next(r);
         return r;
@@ -71,17 +73,21 @@ export class AuthService {
     });
   }
 
+  isLogged(): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiAuthURL}check-login`)
+  }
+
   public get user() {
     return this.userSubject.value;
   }
 
   resetPassword(resetPassowrdData: ResetPassword): Observable<any> {
     let params = JSON.stringify(resetPassowrdData);
-    return this.http.post(`${this.apiURL}auth/reset-password`, params);
+    return this.http.post(`${this.apiAuthURL}reset-password`, params);
   }
 
   logout(): Observable<any> {
     this.userSubject.next(null);
-    return this.http.get(`${this.apiURL}auth/logout`);
+    return this.http.get(`${this.apiAuthURL}logout`);
   }
 }

@@ -137,7 +137,6 @@ describe('EditComponent Test', () => {
     expect(component.error).toBe('');
     expect(component.loading).toBe(false);
     expect(component.user).toEqual({
-      id: 0,
       nick: '',
       email: '',
       location: '',
