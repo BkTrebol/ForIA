@@ -53,7 +53,7 @@ class UserController extends Controller
             preg_match('/.*\/(.*(?:.png|.jpg|.jpeg|.gif|.svg))/',$avatar_path,$match);
             $user->avatar = $match[1];
         }
-        if ($request->deleteAvatar && $user->avatar){
+        if ($request->deleteAvatar == "true" && $user->avatar){
             if (Storage::disk('avatars')->exists($user->avatar)){
                 Storage::disk('avatars')->delete($user->avatar);
             }
