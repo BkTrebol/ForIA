@@ -162,6 +162,9 @@ $color-p-footer: $color-white-clear;
         fa-icon {
           margin-right: 12px;
         }
+        img {
+          margin-right: 12px;
+        };
         a {
           color: $color-gradient3;
           text-decoration: none;
@@ -177,6 +180,9 @@ $color-p-footer: $color-white-clear;
           &.active {
             color: $color-gradient1;
             // border-bottom: 3px solid $color-gradient1;
+          }
+          &.avatar{
+            @include row(space-between);
           }
         }
       }

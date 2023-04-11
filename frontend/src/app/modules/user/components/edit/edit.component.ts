@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/modules/user/service/user.service';
 import { EditUserProfile } from 'src/app/models/receive/edit-user-profile';
 import { Global } from 'src/app/environment/global';
+import { AuthService } from 'src/app/modules/auth/service/auth.service';
 
 @Component({
   selector: 'app-edit',
@@ -55,6 +56,7 @@ export class EditComponent implements OnInit, OnDestroy {
 
   constructor(
     private userService: UserService,
+    private _authService: AuthService,
     private router: Router,
     public route: ActivatedRoute
   ) {
@@ -62,7 +64,6 @@ export class EditComponent implements OnInit, OnDestroy {
     this.error = '';
     this.loading = true;
     this.user = {
-      id: 0,
       nick: '',
       email: '',
       location: '',
@@ -130,6 +131,7 @@ export class EditComponent implements OnInit, OnDestroy {
           next: (res) => {
             this.loading = false;
             this.router.navigate(['/user/profile']);
+            this._authService.autoAuthUser()
           },
           error: (err) => {
             this.loading = false;

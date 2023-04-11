@@ -54,7 +54,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       // can_mod: false,
       created_at: '',
       updated_at: '',
-      user: { id: 0, nick: '', roles: [], avatar: null },
+      user: { id: 0, nick: '', rol: '', avatar: null, created_at: '' },
     };
     this.can_post = false;
     this.can_edit = false;

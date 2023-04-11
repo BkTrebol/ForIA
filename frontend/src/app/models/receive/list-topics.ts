@@ -6,15 +6,19 @@ export interface ListTopic {
 export interface Category {
   id: number;
   title: string;
-  // maybe section
-  can_post: boolean; //canviar per can_edit o can_mod
+  can_post: boolean;
 }
 
 export interface Topic {
   id: number;
-  user_id: number; //Passar User (amb id, nick, avatar)
+  user_id: number; //Passar User (amb id, nick, avatar) USer
   title: string;
   description: string;
   created_at: string;
-  //afegir can_edit
+}
+
+interface User {
+  id: number;
+  nick: string;
+  avatar: string | null;
 }

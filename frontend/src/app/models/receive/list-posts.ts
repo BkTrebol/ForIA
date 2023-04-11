@@ -9,13 +9,12 @@ export interface ListPosts {
 export interface Category {
   id: number;
   title: string;
-  // maybe section
 }
 
 export interface Topic {
   id: number;
   title: string;
-  created_at: string; //un dels dos
+  created_at: string;
   updated_at: string;
   content: string | null;
   user: User;
@@ -24,19 +23,15 @@ export interface Topic {
 interface User {
   id: number;
   nick: string;
-//   email: string; //no
-//   location: string | null; //no
-//   birthday: string | null; //no
   avatar: string | null;
-  roles: string[];
-//   created_at: string; //no
-//   updated_at: string; //no
+  rol: string;
+  created_at: string;
 }
 
 export interface Post {
   id: number;
   content: string;
-  created_at: string; //nomes un
+  created_at: string;
   updated_at: string;
   can_edit: boolean;
   user: User;

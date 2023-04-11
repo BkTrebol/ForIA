@@ -32,7 +32,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this._authService.authData
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((r) => {
-        // console.log("init header r:", r);
         this.userIsAuthenticated = r;
       });
 
