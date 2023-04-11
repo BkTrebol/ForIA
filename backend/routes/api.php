@@ -38,8 +38,6 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::put('/password','changePassword');
         Route::get('/preference','getUserPreferences');
         Route::put('/preference','editUserPreference');
-
-        Route::get('{user}','profile');
     });
 
 
@@ -98,6 +96,7 @@ Route::controller(PollController::class)->prefix('poll')->group(function(){
 
 Route::controller(UserController::class)->prefix('user')->group(function(){
     Route::get('/get-avatar/{avatar}','getUserAvatar');
+    Route::get('/profile/{user}','profile');
 });
 
 

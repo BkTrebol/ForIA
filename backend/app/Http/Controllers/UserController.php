@@ -103,14 +103,18 @@ class UserController extends Controller
     }
 
     function profile(User $user){
-        $user = Auth::user();
-        $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
-
-        if ($isAdmin || $user->prefrences->allow_view_profile){
+        $viewer = Auth::user();
+        $roles = $viewer ? $viewer->roles : ['ROLE_GUEST'];
+        $isAdmin = count(collect($roles)->intersect(config('app.adminRoles'))) > 0;
+        if ($isAdmin || $user->preferences->allow_view_profile){
+            $user['can_pm'] = $user->preferences->allow_user_to_mp ? true : false;
+            return response()->json(
+                $user
+            ,200);
+        }else {
             return response()->json([
-                'user' => $user
-            ],200);
-
+                "message" => "Can't view user profile."
+            ],403);
         }
     }
 }

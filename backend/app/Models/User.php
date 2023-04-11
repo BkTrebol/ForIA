@@ -31,6 +31,7 @@ class User extends Authenticatable
         'birthday',
         'avatar',
         'google_auth',
+
     ];
 
     /**
@@ -44,7 +45,8 @@ class User extends Authenticatable
         'email_verified_at',
         'google_auth',
         'suspension',
-        'preferences'
+        'preferences',
+        'roles',
     ];
 
     /**
