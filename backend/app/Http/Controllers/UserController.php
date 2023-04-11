@@ -44,7 +44,7 @@ class UserController extends Controller
 
         $avatar = $request->file('avatar');
         if ($avatar){
-            if ($use->avatar){
+            if ($user->avatar){
                 if (Storage::disk('avatars')->exists($user->avatar)){
                     Storage::disk('avatars')->delete($user->avatar);
                 }
