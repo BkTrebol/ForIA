@@ -21,9 +21,9 @@ class UserController extends Controller
     }
 
     function getUserData(Request $request){
-        return response()->json([
-            'user' => $request->user()->only(['nick','email','location','birthday','avatar'])
-        ],200);
+        return response()->json(
+            $request->user()->only(['nick','email','location','birthday','avatar'])
+        ,200);
     }
 
     function editUserData(Request $request){

@@ -77,6 +77,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (r) this.router.navigate(['/']);
       });
     this._authService.getCSRF();
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
   }
 
   // Login the user
