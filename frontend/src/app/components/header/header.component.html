@@ -16,8 +16,12 @@
         <ul>
             <li class="dreta">
                 <a class="avatar" routerLink="/user/profile" routerLinkActive="active">
-                    <img [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+userIsAuthenticated.userData.nick"
+                    <img *ngIf="userIsAuthenticated.userData.avatar == null"
+                        [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+userIsAuthenticated.userData.nick"
                         alt="Default Avatar" width="40" height="40">
+                    <img *ngIf="userIsAuthenticated.userData.avatar != null"
+                        [src]="url+userIsAuthenticated.userData.avatar"
+                        alt="Avatar" width="40" height="40">
                     <span>{{userIsAuthenticated.userData.nick}}</span>
                 </a>
             </li>

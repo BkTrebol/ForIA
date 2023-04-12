@@ -3,5 +3,8 @@ export interface UserProfile {
   email: string;
   location: string;
   birthday: string;
-  deleteAvatar: boolean;
+  avatar: string | null;
+  role: string;
+  created_at: string;
+  updated_at: string;
 }

@@ -2,21 +2,18 @@
     <div class="card">
         <div class="card-user">
             <h2>User Data</h2>
-            <p>Id: {{user.id}}</p>
             <p>Nick: {{user.nick}}</p>
             <p>Email: {{user.email}}</p>
             <p>Location: {{user.location}}</p>
             <p>Birthday: {{user.birthday}}</p>
+            <!-- todo avatar img -->
             <p>Avatar: {{user.avatar}}</p>
-            <p>Roles:
-            <span *ngFor="let role of user.roles">{{role}}</span>
-            </p>
+            <p>Rol: {{user.role}}</p>
             <p>Created at: {{user.created_at | date}}</p>
             <p>Updated at: {{user.updated_at | date}}</p>
         </div>
-        <div class="card-preferences">
+        <!-- <div class="card-preferences">
             <h2>User Preferences</h2>
-            <p>Id User: {{preferences.id_user}}</p>
             <p>Sidebar: {{preferences.sidebar}}</p>
             <p>Filter Bad Words: {{preferences.filter_bad_words}}</p>
             <p>Allow View Profile: {{preferences.allow_view_profile}}</p>
@@ -24,6 +21,6 @@
             <p>Hide Online Presence: {{preferences.hide_online_presence}}</p>
             <p>Two Factor Authentication: {{preferences.two_fa}}</p>
             <p>Allow Music: {{preferences.allow_music}}</p>
-        </div>
+        </div> -->
     </div>
 </div>

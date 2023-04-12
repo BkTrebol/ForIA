@@ -183,6 +183,14 @@ $color-p-footer: $color-white-clear;
           }
           &.avatar{
             @include row(space-between);
+            padding: 0;
+            img {
+              border-radius: 50%;
+              object-fit: cover;
+              object-position: center;
+              width: 50px;
+              height: 50px;
+            }
           }
         }
       }
