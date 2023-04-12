@@ -16,7 +16,6 @@ export class UserService {
   constructor(private http: HttpClient) {
     this.apiUserURL = Global.api + 'user/';
     this.userPreferences = {
-      id_user: 0,
       sidebar: true,
       filter_bad_words: false,
       allow_view_profile: true,
@@ -31,39 +30,41 @@ export class UserService {
     return this.http.get(`${this.apiUserURL}edit`);
   }
 
-  getPreferences(): Observable<any> {
-    return this.http.get(`${this.apiUserURL}preference`);
+  getPreferences(): Observable<UserPreferences> {
+    return this.http.get<UserPreferences>(`${this.apiUserURL}preference`);
   }
 
   userCard(): Observable<any> {
     return this.http.get(`${this.apiUserURL}user-card`);
   }
 
-  editProfile(user: UserProfile, image: Array<File>): Observable<any> {
-    let headers: HttpHeaders;
-    let postData: string | FormData;
-    const isImage = image.length >= 0 ? typeof image[0] === 'object' : false;
-    // console.log('Service', user, 'is Image', isImage, typeof user.avatar);
-    if (isImage) {
-      headers = new HttpHeaders({
-        // 'Content-Type': 'multipart/form-data',
-        Accept: 'application/json',
-      });
-      postData = new FormData();
-      postData.append('nick', user.nick);
-      postData.append('email', user.email);
-      postData.append('location', user.location);
-      postData.append('birthday', user.birthday);
-      postData.append('avatar', image[0], image[0].name);
-    } else {
-      headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      });
-      postData = JSON.stringify(user);
-    }
+  editProfileWithImage(user: UserProfile, image: Array<File>): Observable<any> {
+    let postData: FormData;
+    let headers = new HttpHeaders({
+      // 'Content-Type': 'multipart/form-data',
+      Accept: 'application/json',
+    });
+    postData = new FormData();
+    postData.append('nick', user.nick);
+    postData.append('email', user.email);
+    postData.append('location', user.location ?? '');
+    postData.append('birthday', user.birthday ?? '');
+    postData.append('avatar', image[0], image[0].name);
+    postData.append('deleteAvatar', JSON.stringify(user.deleteAvatar));
     return this.http.post(`${this.apiUserURL}edit`, postData, {
-      headers: headers
+      headers: headers,
+    });
+  }
+
+  editProfile(user: UserProfile): Observable<any> {
+    let headers: HttpHeaders;
+    let params = JSON.stringify(user);
+    headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    });
+    return this.http.post(`${this.apiUserURL}edit`, params, {
+      headers: headers,
     });
   }
 }

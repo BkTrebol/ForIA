@@ -95,7 +95,8 @@ export class EditComponent implements OnInit, OnDestroy {
       ],
       location: [null, [Validators.minLength(3), Validators.maxLength(64)]],
       birthday: [null, [Validators.minLength(3), Validators.maxLength(64)]],
-      avatar: [null, [Validators.minLength(3), Validators.maxLength(64)]],
+      avatar: [null, []],
+      deleteAvatar: [false, []],
     });
   }
 
@@ -114,20 +115,38 @@ export class EditComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.error = '';
       delete this.formEditProfile.value.avatar;
-      this.userService
-        .editProfile(this.formEditProfile.value, this.filesToUpload)
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe({
-          next: (res) => {
-            this.loading = false;
-            this.router.navigate(['/user/profile']);
-            this._authService.autoAuthUser()
-          },
-          error: (err) => {
-            this.loading = false;
-            this.error = err.error.message;
-          },
-        });
+      // Miro is vol canviar l'imatge o no
+      if (this.filesToUpload.length == 0 || this.deleteAvatar?.value) {
+        this.userService
+          .editProfile(this.formEditProfile.value)
+          .pipe(takeUntil(this.unsubscribe$))
+          .subscribe({
+            next: (res) => {
+              this.loading = false;
+              this.router.navigate(['/user/profile']);
+              this._authService.autoAuthUser();
+            },
+            error: (err) => {
+              this.loading = false;
+              this.error = err.error.message;
+            },
+          });
+      } else {
+        this.userService
+          .editProfileWithImage(this.formEditProfile.value, this.filesToUpload)
+          .pipe(takeUntil(this.unsubscribe$))
+          .subscribe({
+            next: (res) => {
+              this.loading = false;
+              this.router.navigate(['/user/profile']);
+              this._authService.autoAuthUser();
+            },
+            error: (err) => {
+              this.loading = false;
+              this.error = err.error.message;
+            },
+          });
+      }
     } else {
       this.error = 'Invalid data in the Form';
     }
@@ -165,6 +184,9 @@ export class EditComponent implements OnInit, OnDestroy {
   }
   get avatar() {
     return this.formEditProfile.get('avatar');
+  }
+  get deleteAvatar() {
+    return this.formEditProfile.get('deleteAvatar');
   }
 
   ngOnDestroy(): void {

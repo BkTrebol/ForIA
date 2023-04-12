@@ -106,6 +106,29 @@
         .col-field {
           font-size: $size-p;
           @include col(space-between, 8px);
+          .check-avatar {
+            @include row(space-between, 32px);
+            label {
+              font-size: $size-p;
+              display: block;
+              margin-bottom: 8px;
+            }
+            .avatar {
+              width: 100px;
+              height: 100px;
+              border-radius: 50%;
+              object-fit: cover;
+              object-position: center;
+            }
+            .check-delete {
+              @include row(space-between, 16px);
+              font-size: $size-p;
+              input[type="checkbox"] {
+                transform: scale(1.5);
+                accent-color: $color-tertiary;
+              }
+            }
+          }
         }
         // For checkbox
         .row-field {
@@ -170,6 +193,11 @@
             @include row(space-between, 20px);
             .input {
               width: min(280px, 75vw);
+            }
+          }
+          .col-field {
+            .check-avatar {
+              @include col-center(space-between, 16px);
             }
           }
         }

@@ -4,6 +4,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../modules/auth/service/auth.service';
 import { User } from '../../models/user';
 import { UserPreferences } from '../../models/user-preferences';
+import { Global } from 'src/app/environment/global';
 
 @Component({
   selector: 'app-header',
@@ -19,12 +20,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public top: boolean;
   public canSmall: boolean;
+  public url: string;
 
   constructor(private _authService: AuthService, private router: Router) {
     this.unsubscribe$ = new Subject();
     this.userIsAuthenticated = null;
     this.top = false;
     this.canSmall = false;
+    this.url = Global.api + 'user/get-avatar/';
   }
 
   ngOnInit() {
