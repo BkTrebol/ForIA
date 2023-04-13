@@ -4,12 +4,16 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { EditComponent } from './components/edit/edit.component';
 
 import { EditProfileResolver } from 'src/app/helpers/resolvers/edit-profile.resolver';
+import { ShowProfileResolver } from 'src/app/helpers/resolvers/show-profile.resolver';
 
 const routes: Routes = [
   {
-    path: 'profile',
+    path: 'profile/:id',
     component: ProfileComponent,
     title: 'ForIA - User Profile',
+    resolve: {
+      response: ShowProfileResolver,
+    },
   },
   {
     path: 'edit',
@@ -24,6 +28,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [EditProfileResolver],
+  providers: [EditProfileResolver, ShowProfileResolver],
 })
 export class UserRoutingModule {}

@@ -5,7 +5,7 @@
     </div>
     <div class="list" *ngIf="!loading">
         <div class="list-header">
-            <h1>{{category.title}}</h1>
+            <h1>Category: {{category.title}}</h1>
             <a routerLink="/topic/create">Create new Topic</a>
         </div>
         <div class="list-body">
@@ -13,8 +13,8 @@
                 <li *ngFor="let topic of topics" routerLink="/topic/{{topic.id}}">
                     <div class="title">
                         <div>
-                            <h2>{{topic.title}}</h2>
-                            <h3>{{topic.user_id}}</h3>
+                            <h2>Topic: {{topic.title}}</h2>
+                            <h3 routerLink="/user/profile/{{topic.user.id}}">By {{topic.user.nick}}</h3>
                         </div>
                         <div class="row">
                             <div class="buttons">

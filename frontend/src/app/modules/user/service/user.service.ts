@@ -2,41 +2,33 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Global } from '../../../environment/global';
-import { UserPreferences } from '../../../models/user-preferences';
+// import { UserPreferences } from '../../../models/user-preferences';
 import { EditUserProfile } from 'src/app/models/receive/edit-user-profile';
-import { UserProfile } from 'src/app/models/send/user-profile';
+import { UserProfile } from 'src/app/models/send/public-user-profile';
+import { PublicUserProfile } from 'src/app/models/receive/user-profile';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   private apiUserURL: string;
-  public userPreferences: UserPreferences;
 
   constructor(private http: HttpClient) {
     this.apiUserURL = Global.api + 'user/';
-    this.userPreferences = {
-      sidebar: true,
-      filter_bad_words: false,
-      allow_view_profile: true,
-      allow_users_to_mp: true,
-      hide_online_presence: false,
-      two_fa: false,
-      allow_music: false,
-    };
   }
 
+  //EditUserProfile fet
   getEdit(): Observable<any> {
     return this.http.get(`${this.apiUserURL}edit`);
   }
 
-  getPreferences(): Observable<UserPreferences> {
-    return this.http.get<UserPreferences>(`${this.apiUserURL}preference`);
+  getProfile(id: string): Observable<PublicUserProfile> {
+    return this.http.get<PublicUserProfile>(`${this.apiUserURL}profile/${id}`);
   }
 
-  userCard(): Observable<any> {
-    return this.http.get(`${this.apiUserURL}user-card`);
-  }
+  // getPreferences(): Observable<UserPreferences> {
+  //   return this.http.get<UserPreferences>(`${this.apiUserURL}preference`);
+  // }
 
   editProfileWithImage(user: UserProfile, image: Array<File>): Observable<any> {
     let postData: FormData;

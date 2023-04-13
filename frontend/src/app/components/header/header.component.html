@@ -14,7 +14,7 @@
                 </a></li>
         </ul>
         <ul>
-            <li class="dreta">
+            <!-- <li class="dreta">
                 <a class="avatar" routerLink="/user/profile" routerLinkActive="active">
                     <img *ngIf="userIsAuthenticated.userData.avatar == null"
                         [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+userIsAuthenticated.userData.nick"
@@ -24,11 +24,23 @@
                         alt="Avatar" width="40" height="40">
                     <span>{{userIsAuthenticated.userData.nick}}</span>
                 </a>
+            </li> -->
+            <li class=" dropdown">
+                <a class="avatar dropbtn" routerLink="/user/profile/{{userIsAuthenticated.userData.id}}" routerLinkActive="active">
+                    <img *ngIf="userIsAuthenticated.userData.avatar == null"
+                        [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+userIsAuthenticated.userData.nick" alt="Default Avatar"
+                        width="40" height="40">
+                    <img *ngIf="userIsAuthenticated.userData.avatar != null" [src]="url+userIsAuthenticated.userData.avatar"
+                        alt="Avatar" width="40" height="40">
+                    <span>{{userIsAuthenticated.userData.nick}}</span>
+                </a>
+                <div class="dropdown-content">
+                    <a routerLink="/user/profile/{{userIsAuthenticated.userData.id}}" routerLinkActive="active"><fa-icon [icon]="['fas', 'user']"></fa-icon><span>Profile</span></a>
+                    <a routerLink="/user/edit" routerLinkActive="active"><fa-icon [icon]="['fas', 'edit']"></fa-icon><span>Edit</span></a>
+                    <a href="javascript:void(0);" (click)="logout()"><fa-icon
+                            [icon]="['fas', 'right-from-bracket']"></fa-icon><span>Logout</span></a>
+                </div>
             </li>
-            <li><a routerLink="/user/edit" routerLinkActive="active"><fa-icon
-                        [icon]="['fas', 'edit']"></fa-icon><span>Edit</span></a></li>
-            <li><a href="javascript:void(0);" (click)="logout()"><fa-icon
-                        [icon]="['fas', 'right-from-bracket']"></fa-icon><span>Logout</span></a></li>
         </ul>
     </nav>
     <nav *ngIf="!userIsAuthenticated">

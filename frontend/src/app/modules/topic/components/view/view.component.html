@@ -28,11 +28,9 @@
                 <p>{{topic.created_at | date}}</p>
             </div>
         </div>
-
         <div class="posts">
             <div class="row post" *ngFor="let post of posts">
                 <div *ngIf="post.can_edit" class="edit-buttons">
-                    <!-- <button *ngIf="topic.can_edit">Edit</button> -->
                     <button type="button">Edit</button>
                     <button type="button">Delete</button>
                 </div>
@@ -46,7 +44,6 @@
                     <p> {{post.content}}</p>
                 </div>
             </div>
-
         </div>
         <div class="form">
             <form [formGroup]="formPost" (ngSubmit)="submitPost()">
@@ -86,6 +83,9 @@
         <!-- </div> -->
         <div class="list-footer">
             <button type="button" (click)="scrollToTop()">Back to top</button>
+            <div class="pagination">
+                <a routerLink="/topic/{{topic.id}}" [queryParams]="{page: i+1}" [class]="{'active': current_page == i+1}" *ngFor="let item of [].constructor(last_page); let i = index">{{i+1}}</a>
+            </div>
         </div>
     </div>
 </div>

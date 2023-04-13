@@ -1,26 +1,27 @@
 import { Injectable } from '@angular/core';
 import {
-  Router, Resolve,
+  Router,
+  Resolve,
   RouterStateSnapshot,
-  ActivatedRouteSnapshot
+  ActivatedRouteSnapshot,
 } from '@angular/router';
 import { Observable, catchError, map, of } from 'rxjs';
 import { UserService } from 'src/app/modules/user/service/user.service';
-import { EditUserProfile } from 'src/app/models/receive/edit-user-profile';
+import { PublicUserProfile } from 'src/app/models/receive/user-profile';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EditProfileResolver implements Resolve<boolean> {
-  constructor(
-    private userService: UserService,
-    private router: Router
-  ) {}
+export class ShowProfileResolver
+  implements Resolve<boolean | PublicUserProfile>
+{
+  constructor(private userService: UserService, private router: Router) {}
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean> {
-    return this.userService.getEdit().pipe(
+  ): Observable<boolean | PublicUserProfile> {
+    const id = route.paramMap.get('id') ?? '';
+    return this.userService.getProfile(id).pipe(
       map((res) => {
         if (res) {
           return res;

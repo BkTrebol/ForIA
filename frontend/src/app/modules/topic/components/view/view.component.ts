@@ -17,6 +17,9 @@ import { Category, Topic, Post } from 'src/app/models/receive/list-posts';
 export class ViewComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public loading: boolean;
+  public last_page: number;
+  public current_page: number;
+  public total: number;
   public category: Category;
   // public topic: Topic;
   public topic: Topic;
@@ -41,6 +44,9 @@ export class ViewComponent implements OnInit, OnDestroy {
   ) {
     this.unsubscribe$ = new Subject();
     this.loading = true;
+    this.last_page = 1;
+    this.current_page = 1;
+    this.total = 1;
     this.category = {
       id: 0,
       title: '',
@@ -75,6 +81,9 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.route.snapshot.data['response']) {
+      console.log(this.route.snapshot.data['response']);
+      this.last_page = this.route.snapshot.data['response'].last_page;
+      this.current_page = this.route.snapshot.data['response'].current_page;
       this.category = this.route.snapshot.data['response'].category;
       this.topic = this.route.snapshot.data['response'].topic;
       this.posts = this.route.snapshot.data['response'].posts;
@@ -85,38 +94,25 @@ export class ViewComponent implements OnInit, OnDestroy {
       this.loading = false;
       this.router.navigate(['/category']);
     }
-    // this.topicService
-    //   .posts(this.id)
-    //   .pipe(takeUntil(this.unsubscribe$))
-    //   .subscribe({
-    //     next: (res) => {
-    //       this.category = res.category;
-    //       this.topic = res.topic;
-    //       this.posts = res.posts;
-    //       this.can_post = res.can_post;
-    //       this.can_edit = res.can_edit;
-    //       this.loading = false;
-    //       console.log(this.posts)
-    //     },
-    //     error: (err) => {
-    //       console.log(err);
-    //       this.loading = false;
-    //     },
-    //   });
   }
 
   submitPost() {
     let obj = { content: this.content?.value, topic_id: this.topic.id };
     console.log('submit post', obj);
     this.topicService.createPost(obj).subscribe({
-      next: res => {
-        console.log(res);
-
+      next: (res) => {
+        // console.log(res);
+        this.topicService.posts(this.topic.id.toString(), this.current_page.toString()).subscribe({
+          next: (res) => {
+            console.log(res);
+            this.posts = res.posts;
+          },
+        });
       },
-      error: err => {
+      error: (err) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
 
   get content() {

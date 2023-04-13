@@ -11,7 +11,7 @@ export interface Category {
 
 export interface Topic {
   id: number;
-  user_id: number; //Passar User (amb id, nick, avatar) USer
+  user: User;
   title: string;
   description: string;
   created_at: string;

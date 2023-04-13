@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Global } from '../../../environment/global';
-import { ListCategory } from 'src/app/models/receive/list-category';
+import { Forum } from 'src/app/models/receive/list-category';
 import { ListTopic } from 'src/app/models/receive/list-topics';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -14,8 +15,8 @@ export class CategoryService {
     this.apiCategoryURL = Global.api + 'category/';
   }
 
-  categories(): Observable<ListCategory> {
-    return this.http.get<ListCategory>(`${this.apiCategoryURL}`);
+  categories(): Observable<Forum> {
+    return this.http.get<Forum>(`${this.apiCategoryURL}`);
   }
 
   topics(id: string): Observable<ListTopic> {

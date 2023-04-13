@@ -16,8 +16,8 @@ export class TopicService {
     this.apiPostURL = Global.api + 'post/';
   }
 
-  posts(id: string): Observable<ListPosts> {
-    return this.http.get<ListPosts>(`${this.apiTopicURL}${id}`);
+  posts(id: string, page: string): Observable<ListPosts> {
+    return this.http.get<ListPosts>(`${this.apiTopicURL}${id}?page=${page}`);
   }
 
   createPost(obj: any): Observable<any> {

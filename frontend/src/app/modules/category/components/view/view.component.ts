@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CategoryService } from '../../service/category.service';
 import { Category, Topic } from 'src/app/models/receive/list-topics';
 
 @Component({
@@ -17,7 +16,6 @@ export class ViewComponent implements OnInit, OnDestroy {
   public audioUrl: string;
 
   constructor(
-    private categoryService: CategoryService,
     public route: ActivatedRoute,
     public router: Router
   ) {
@@ -26,8 +24,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.category = {
       id: 0,
       title: '',
-      // section: '',
-      can_post: false // can_mod: '',
+      can_post: false
     };
     this.topics = [];
     this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';
@@ -35,26 +32,15 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.route.snapshot.data['response']) {
+      console.log(this.route.snapshot.data['response']);
       this.category = this.route.snapshot.data['response'].category;
       this.topics = this.route.snapshot.data['response'].topics;
+      //TODO pagination
       this.loading = false;
     } else {
       this.loading = false;
       this.router.navigate(['/category']);
     }
-    // this.categoryService
-    //   .topics(this.id)
-    //   .pipe(takeUntil(this.unsubscribe$))
-    //   .subscribe({
-    //     next: (res) => {
-    //       this.topics = res.topics;
-    //       this.loading = false;
-    //     },
-    //     error: (err) => {
-    //       console.log(err);
-    //       this.loading = false;
-    //     },
-    //   });
   }
 
   playAudio() {

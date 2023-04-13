@@ -7,19 +7,23 @@
         <div class="list-header">
             <h1>FORIA</h1>
             <!-- <a *ngIf="" routerLink="/category/create">Create new Category</a> -->
+            <!-- routerLink="/category/{{category.id}}" -->
         </div>
         <div class="list-body">
             <ul>
-                <li *ngFor="let category of categories" routerLink="/category/{{category.id}}">
-                    <div class="title">
-                        <div>
-                            <h2>{{category.title}}</h2>
-                            <h3>{{category.section}}</h3>
-                        </div>
-                    </div>
-                    <p>{{category.description}}</p>
-                    <img *ngIf="category.image != null" src="{{category.image}}" alt="{{category.image}}">
-                    <!-- <a routerLink="/category/{{category.id}}">View</a> -->
+                <li *ngFor="let section of forum">
+                    <h1>Section: {{section.name}}</h1>
+                    <ul>
+                        <li *ngFor="let category of section.categories">
+                            <div class="title">
+                                <div>
+                                    <h2 routerLink="/category/{{category.id}}">Category: {{category.title}}</h2>
+                                </div>
+                            </div>
+                            <p>{{category.description}}</p>
+                            <img *ngIf="category.image != null" src="{{category.image}}" alt="{{category.image}}">
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>

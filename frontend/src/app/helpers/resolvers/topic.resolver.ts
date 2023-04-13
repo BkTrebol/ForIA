@@ -18,7 +18,9 @@ export class TopicResolver implements Resolve<boolean | ListPosts> {
     state: RouterStateSnapshot
   ): Observable<boolean | ListPosts> {
     const id = route.paramMap.get('id') ?? '';
-    return this.topicService.posts(id).pipe(
+    const page = route.params['page'] ?? '1';
+
+    return this.topicService.posts(id, page).pipe(
       map((res) => {
         if (res) {
           return res;

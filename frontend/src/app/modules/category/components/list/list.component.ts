@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { CategoryService } from '../../service/category.service';
-import { Section, Category } from '../../../../models/receive/list-category'
+import { Forum } from '../../../../models/receive/list-category'
 
 @Component({
   selector: 'app-list',
@@ -11,35 +11,28 @@ import { Section, Category } from '../../../../models/receive/list-category'
 export class ListComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public loading: boolean;
-  public sections: Section;
-  public categories: Category[];
+  public forum: Forum;
 
   constructor(private categoryService: CategoryService) {
     this.unsubscribe$ = new Subject();
-    this.loading = false; //true
-    this.sections = { '': []};
-    this.categories = [];
+    this.loading = true;
+    this.forum = []
   }
 
   ngOnInit() {
-    // this.categoryService
-    //   .categories()
-    //   .pipe(takeUntil(this.unsubscribe$))
-    //   .subscribe({
-    //     next: (res) => {
-    //       let cat = res.categories;
-    //       // console.log("Cat", cat);
-    //       Object.keys(cat).forEach((section: any) => {
-    //         this.categories.push(cat[section][0]);
-    //       });
-    //       // this.categories = res;
-    //       this.loading = false;
-    //     },
-    //     error: (err) => {
-    //       console.log(err);
-    //       this.loading = false;
-    //     },
-    //   });
+    this.categoryService
+      .categories()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (res) => {
+          this.forum = res;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.log(err);
+          this.loading = false;
+        },
+      });
   }
 
   scrollToTop() {
