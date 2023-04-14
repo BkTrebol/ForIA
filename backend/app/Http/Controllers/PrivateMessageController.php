@@ -52,7 +52,7 @@ class PrivateMessageController extends Controller
         if(!$posts->hasMorePages()){
             $response['topic'] = $pm->load('user:id,nick,avatar,rol')->only('id','title','created_at','updated_at','content','user');
         } else {
-            $reseponse['topic'] = $pm->only('id','title');
+            $response['topic'] = $pm->only('id','title');
         }
 
         return response()->json($response,200);
