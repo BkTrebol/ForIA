@@ -21,6 +21,6 @@ export class PrivateMessageService {
     }
 
     getMessage(id:string):Observable<PrivateMessage>{
-      return this.http.get<PrivateMessage>(this.apiPrivateMessageURL);
+      return this.http.get<PrivateMessage>(this.apiPrivateMessageURL+id);
     }
 }

@@ -106,7 +106,7 @@ class AuthController extends Controller
             }}
 
             $user = User::create([
-                'nick' => $name,
+                'nick' => $nick,
                 'email' => $payload['email'],
                 'google_auth'=> true,
                 'avatar' => $payload['picture'],
