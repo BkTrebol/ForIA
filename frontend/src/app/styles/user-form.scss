@@ -154,6 +154,11 @@
         color: transparent;
       }
     }
+    // Login with google
+    .google {
+      width: 300px;
+      @include center();
+    }
     // Links in the form
     .form-links {
       @include col(space-around, 16px);

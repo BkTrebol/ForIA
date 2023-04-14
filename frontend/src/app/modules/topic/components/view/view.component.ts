@@ -21,9 +21,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   public current_page: number;
   public total: number;
   public category: Category;
-  // public topic: Topic;
   public topic: Topic;
-  // public posts: Array<Post>;
   public posts: Post[];
   public can_post: boolean;
   public can_edit: boolean;
@@ -54,10 +52,8 @@ export class ViewComponent implements OnInit, OnDestroy {
     };
     this.topic = {
       id: 0,
-      // user_id: 0,
       title: '',
       content: '', // description: '',
-      // can_mod: false,
       created_at: '',
       updated_at: '',
       user: { id: 0, nick: '', rol: '', avatar: null, created_at: '' },
@@ -81,7 +77,6 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.route.snapshot.data['response']) {
-      console.log(this.route.snapshot.data['response']);
       this.last_page = this.route.snapshot.data['response'].last_page;
       this.current_page = this.route.snapshot.data['response'].current_page;
       this.category = this.route.snapshot.data['response'].category;
@@ -96,23 +91,71 @@ export class ViewComponent implements OnInit, OnDestroy {
     }
   }
 
+  changePage(page: number) {
+    this.topicService
+      .posts(this.topic.id.toString(), page.toString())
+      .subscribe({
+        next: (res) => {
+          this.posts = res.posts;
+          this.last_page = res.last_page;
+          this.current_page = res.current_page;
+          this.category = res.category;
+          this.topic = res.topic;
+          this.posts = res.posts;
+          this.can_post = res.can_post;
+          this.can_edit = res.can_edit;
+        },
+      });
+  }
+
   submitPost() {
-    let obj = { content: this.content?.value, topic_id: this.topic.id };
-    console.log('submit post', obj);
-    this.topicService.createPost(obj).subscribe({
-      next: (res) => {
-        // console.log(res);
-        this.topicService.posts(this.topic.id.toString(), this.current_page.toString()).subscribe({
+    if (this.formPost.valid) {
+      const post = { content: this.content?.value, topic_id: this.topic.id };
+      this.topicService
+        .createPost(post)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
           next: (res) => {
-            console.log(res);
-            this.posts = res.posts;
+            this.topicService
+              .posts(this.topic.id.toString(), this.current_page.toString())
+              .pipe(takeUntil(this.unsubscribe$))
+              .subscribe({
+                next: (res) => {
+                  console.log(res);
+                  this.posts = res.posts;
+                },
+                error: (err) => {
+                  console.log(err);
+                },
+              });
+          },
+          error: (err) => {
+            console.log(err);
           },
         });
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    } else {
+      console.log("Post invalid");
+    }
+  }
+
+  deletePost(id: number) {
+    this.topicService
+      .deletePost(id.toString())
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (res) => {
+          this.topicService
+            .posts(this.topic.id.toString(), this.current_page.toString())
+            .subscribe({
+              next: (res) => {
+                this.posts = res.posts;
+              },
+            });
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 
   get content() {
@@ -127,7 +170,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
   scrollToTop() {
-    window.scroll(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   ngOnDestroy(): void {

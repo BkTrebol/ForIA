@@ -27,12 +27,14 @@ export class AppComponent implements OnInit, OnDestroy {
     userPreferences: UserPreferences;
   } | null;
   public loading: boolean;
+  public currentTheme: string;
 
   constructor(private _authService: AuthService, private router: Router) {
     this.unsubscribe$ = new Subject();
     this.userIsAuthenticated = null;
     this.loading = false;
     this._authService.autoAuthUser();
+    this.currentTheme = localStorage.getItem('theme') ?? '';
   }
 
   ngOnInit() {
@@ -61,6 +63,13 @@ export class AppComponent implements OnInit, OnDestroy {
         this.loading = false;
       }
     });
+
+    // Set Theme
+    if (this.currentTheme == 'dark') {
+      document.body.classList.toggle('dark-theme');
+    } else if (this.currentTheme == 'light') {
+      document.body.classList.toggle('light-theme');
+    }
   }
 
   ngOnDestroy(): void {

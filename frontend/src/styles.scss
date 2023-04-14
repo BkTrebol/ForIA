@@ -13,3 +13,37 @@
   font-family: "Sans";
   src: url("./assets/fonts/OpenSans.ttf");
 }
+
+// body {
+//   --text-color: #000;
+//   --bg: #FFF;
+// }
+// body.dark-theme {
+//   --text-color: #eee;
+//   --bg: #111;
+// }
+
+// @media (prefers-color-scheme: dark) {
+//   /* defaults to dark theme */
+//   body {
+//     --text-color: #eee;
+//     --bg: #111;
+//   }
+//   body.light-theme {
+//     --text-color: #000;
+//     --bg: #FFF;
+//   }
+// }
+
+// body {
+//   .page-container {
+//     .header,
+//     .footer {
+//       background-color: var(--bg);
+//       color: var(--text-color);
+//     }
+//   }
+//   .page-loading {
+//     background-color: var(--bg) !important;
+//   }
+// }

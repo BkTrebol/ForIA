@@ -6,13 +6,11 @@
   @return rgba($hex, $o);
 }
 
-//@extend .class //example
-
 @function set-text-color($color) {
   @if (lightness($color) > 40%) {
-    @return #000;
+    @return $color-black-clear;
   } @else {
-    @return #fff;
+    @return $color-white-clear;
   }
 }
 
