@@ -18,19 +18,18 @@ export class TopicResolver implements Resolve<boolean | ListPosts> {
     state: RouterStateSnapshot
   ): Observable<boolean | ListPosts> {
     const id = route.paramMap.get('id') ?? '';
-    const page = route.params['page'] ?? '1';
-
+    const page = route.queryParams['page'] ?? '1';
     return this.topicService.posts(id, page).pipe(
       map((res) => {
         if (res) {
           return res;
         } else {
-          this.router.navigate(['/category']); //Provisional (fer /category/2/topic/3)
+          this.router.navigate(['/']); //Provisional (fer /category/2/topic/3)
           return false;
         }
       }),
       catchError((err) => {
-        this.router.navigate(['/category']);
+        this.router.navigate(['/']);
         return of(false);
       })
     );

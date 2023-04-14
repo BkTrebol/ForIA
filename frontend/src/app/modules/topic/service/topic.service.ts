@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Global } from '../../../environment/global';
 import { ListPosts } from 'src/app/models/receive/list-posts';
+import { CreatePost } from 'src/app/models/send/create-post';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +21,12 @@ export class TopicService {
     return this.http.get<ListPosts>(`${this.apiTopicURL}${id}?page=${page}`);
   }
 
-  createPost(obj: any): Observable<any> {
-    let params = JSON.stringify(obj);
+  createPost(post: CreatePost): Observable<any> {
+    let params = JSON.stringify(post);
     return this.http.post(`${this.apiPostURL}`, params);
+  }
+
+  deletePost(id: string): Observable<any> {
+    return this.http.delete(`${this.apiPostURL}${id}`);
   }
 }

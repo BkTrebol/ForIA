@@ -21,6 +21,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public top: boolean;
   public canSmall: boolean;
   public url: string;
+  public prefersDarkScheme: MediaQueryList;
+  public theme: string;
 
   constructor(private _authService: AuthService, private router: Router) {
     this.unsubscribe$ = new Subject();
@@ -28,6 +30,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.top = false;
     this.canSmall = false;
     this.url = Global.api + 'user/get-avatar/';
+    this.prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    this.theme = localStorage.getItem('theme') ?? '';
   }
 
   ngOnInit() {
@@ -58,6 +62,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       }
     });
+
+    if (this.theme === '') {
+      this.theme = this.prefersDarkScheme.matches ? 'light' : 'dark';
+    }
   }
 
   // For changing the nav height on scroll
@@ -75,6 +83,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.top = false;
       }
     };
+  }
+
+  // Change the Theme
+  changeTheme(): void {
+    if (this.prefersDarkScheme.matches) {
+      document.body.classList.toggle('light-theme');
+      this.theme = document.body.classList.contains('light-theme')
+        ? 'light'
+        : 'dark';
+    } else {
+      document.body.classList.toggle('dark-theme');
+      this.theme = document.body.classList.contains('dark-theme')
+        ? 'dark'
+        : 'light';
+    }
+    localStorage.setItem('theme', this.theme);
   }
 
   // Logout the user

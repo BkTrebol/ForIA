@@ -4,7 +4,6 @@
 // FUNCTIONS
 @import "./mixins";
 
-
 /*
 SIMPLE - visual elements & nº options (no super simple)
 
@@ -76,8 +75,6 @@ No changes
 }
 
 // * Footer container
-$color-bg-footer: $color-black-clear;
-$color-p-footer: $color-white-clear;
 .footer {
   @include row(space-around);
   position: absolute;
@@ -85,8 +82,22 @@ $color-p-footer: $color-white-clear;
   height: $height-footer;
   bottom: 0;
   left: 0;
-  color: $color-p-footer;
-  background-color: $color-bg-footer;
+  // Dark theme
+  &.dark {
+    color: $color-white-clear;
+    background-color: $color-black-clear;
+    a {
+      @include a-link($color-gradient3, $color-gradient2, $color-gradient1);
+    }
+  }
+  // Light theme
+  &.light {
+    color: $color-black-clear;
+    background-color: $color-white-clear;
+    a {
+      @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
+    }
+  }
   p {
     font-family: $font-text;
     font-size: $size-p;
@@ -96,23 +107,18 @@ $color-p-footer: $color-white-clear;
   }
   .icons-footer {
     @include row(space-around);
-    & a {
-      padding: 10px;
+    a {
       cursor: pointer;
-      color: $color-gradient3;
+      padding: 10px;
       font-size: $size-icon-footer;
       &:hover {
-        animation: upAnimation .5s ease-in-out;
-        color: $color-gradient2;
-      }
-      &:active {
-        color: $color-gradient1;
+        animation: upAnimation 0.5s ease-in-out;
       }
     }
   }
-   // Responsive for tablet
+  // Responsive for tablet
   @include tablet {
-    .icons-footer a{
+    .icons-footer a {
       padding: 8px;
     }
   }
@@ -129,7 +135,7 @@ $color-p-footer: $color-white-clear;
 // * Header container
 .header {
   z-index: 10;
-  top:0;
+  top: 0;
   position: sticky;
   @include row(flex-start, 50px);
   padding: 0 32px;
@@ -164,24 +170,19 @@ $color-p-footer: $color-white-clear;
         }
         img {
           margin-right: 12px;
-        };
+        }
         a {
           color: $color-gradient3;
           text-decoration: none;
           font-weight: bold;
           padding-bottom: 5px;
-          // fa-icon {
-          //   display: none;
-          // }
           &:hover {
             color: $color-gradient2;
-            // border-bottom: 3px solid $color-gradient2;
           }
           &.active {
             color: $color-gradient1;
-            // border-bottom: 3px solid $color-gradient1;
           }
-          &.avatar{
+          &.avatar {
             @include row(space-between);
             padding: 0;
             img {
@@ -190,6 +191,22 @@ $color-p-footer: $color-white-clear;
               object-position: center;
               width: 50px;
               height: 50px;
+            }
+          }
+        }
+        button {
+          cursor: pointer;
+          font-size: $size-subtitle;
+          background-color: transparent;
+          border: none;
+          color: $color-white-clear;
+          &:hover {
+            color: $color-secondary;
+          }
+          &.dark {
+            color: $color-black-clear;
+            &:hover {
+              color: $color-grey-clear;
             }
           }
         }
@@ -215,17 +232,16 @@ $color-p-footer: $color-white-clear;
     @include row(flex-start, 20px);
     padding: 0 10px;
     nav ul {
-        @include row(flex-star, 20px);
-        li {
-          fa-icon {
-            margin-right: 6px;
-          }
-          // Myabe do a navbar with only icons
-          // a span {
-          //   @include no;
-          // }
+      @include row(flex-star, 20px);
+      li {
+        fa-icon {
+          margin-right: 6px;
         }
-
+        // Myabe do a navbar with only icons
+        // a span {
+        //   @include no;
+        // }
+      }
     }
   }
 }
@@ -241,7 +257,7 @@ $color-p-footer: $color-white-clear;
       height: 18px;
     }
   }
-  nav ul{
+  nav ul {
     font-size: $size-subtitle-small;
   }
 }
@@ -254,9 +270,14 @@ $color-p-footer: $color-white-clear;
   z-index: 11;
   width: 100vw;
   height: 100vh;
-  background-color: $color-black;
-  // background-color: $color-opacity;
-  // backdrop-filter: blur(10px);
+  // Dark theme
+  &.dark {
+    background-color: $color-black;
+  }
+  // Light theme
+  &.light {
+    background-color: $color-white;
+  }
   color: $color-primary;
   transition: all 1s ease;
   @include center;
@@ -265,6 +286,29 @@ $color-p-footer: $color-white-clear;
     animation: gir 5s linear infinite;
   }
 }
+
+// @media (prefers-color-scheme: dark) {
+//   .header {
+//     background-color: $color-black-clear;
+//   }
+//   .footer {
+//     color: $color-p-footer;
+//     background-color: $color-bg-footer;
+//   }
+// }
+
+// @media (prefers-color-scheme: light) {
+//   .header {
+//     background-color: $color-white-clear;
+//   }
+//   .footer {
+//     color: $color-black-clear;
+//     background-color: $color-white-clear;
+//     .icons-footer a {
+//       @include a-link($color-shades1, $color-shades2, $color-shades3);
+//     }
+//   }
+// }
 
 // Animation logoIA
 @keyframes gir {
@@ -278,7 +322,7 @@ $color-p-footer: $color-white-clear;
 
 // Animation icons footer
 @keyframes upAnimation {
-  50%{
+  50% {
     transform: scale(1.15);
   }
 }

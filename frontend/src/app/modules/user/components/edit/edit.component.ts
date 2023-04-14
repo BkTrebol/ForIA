@@ -102,7 +102,7 @@ export class EditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.route.snapshot.data['response']) {
-      this.user = this.route.snapshot.data['response'].user;
+      this.user = this.route.snapshot.data['response'];
       this.loading = false;
     } else {
       this.loading = false;

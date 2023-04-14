@@ -1,9 +1,12 @@
 export interface ListPosts {
-    can_edit: boolean;
-    can_post: boolean;
-    category: Category;
-    topic: Topic;
-    posts: Post[];
+  can_edit: boolean;
+  can_post: boolean;
+  category: Category;
+  topic: Topic;
+  posts: Post[];
+  current_page: number;
+  last_page: number;
+  total: number;
 }
 
 export interface Category {
