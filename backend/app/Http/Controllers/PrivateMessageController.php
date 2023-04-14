@@ -18,7 +18,7 @@ class PrivateMessageController extends Controller
         $pms = PrivateMessage::where('user_id', $user->id)->orWhere('user2_id', $user->id)->paginate(1);
         return response()->json([
             "messages" => $pms->map(function($pm) use($user){
-                $topic =  Topic::find($pm->topic_id);
+                $topic =  Topic::find($pm->topic_id)->load('user:id,nick')->only('id','title','description','user','created_at');
                 return $topic;
             }),
             "current_page" => $pms->currentPage(),
@@ -43,14 +43,14 @@ class PrivateMessageController extends Controller
         $posts = $pm->posts()->with('user')->paginate(10);
         $response = [
             'posts' => $posts->map(function($post){
-                return $post->only('id','content','created_at','updated_at','user');
+                return $post->load('user:id,nick,avatar,rol')->only('id','content','created_at','updated_at','user');
             }),
             "current_page" => $posts->currentPage(),
             "last_page" => $posts->lastPage(),
             "total" => $posts->total()
         ];
         if(!$posts->hasMorePages()){
-            $response['topic'] = $pm->only('id','title','created_at','updated_at','content','user');
+            $response['topic'] = $pm->load('user:id,nick,avatar,rol')->only('id','title','created_at','updated_at','content','user');
         } else {
             $reseponse['topic'] = $pm->only('id','title');
         }
@@ -70,6 +70,7 @@ class PrivateMessageController extends Controller
         $topic = Topic::create([
             'category_id' => config('app.pmCategory'),
             'title' => $request->title,
+            'description' => $request->description,
             'content' => $request->content,
             'user_id' => $user->id,
             'can_view' => 'NONE',

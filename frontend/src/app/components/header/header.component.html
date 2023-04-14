@@ -29,7 +29,7 @@
                     <span>{{userIsAuthenticated.userData.nick}}</span>
                 </a>
                 <div class="dropdown-content">
-                    <a routerLink="/message/list" routerLinkActive="active">
+                    <a routerLink="/private-message" routerLinkActive="active">
                         <fa-icon [icon]="['fas', 'message']"></fa-icon><span>Messages</span>
                     </a>
                     <a routerLink="/user/profile/{{userIsAuthenticated.userData.id}}" routerLinkActive="active"><fa-icon
