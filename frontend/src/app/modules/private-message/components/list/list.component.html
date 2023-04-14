@@ -1,1 +1,21 @@
-<p>list works!</p>
+<div class="list-page">
+    <div class="list">
+        <div class="list-header">
+            <h1>Private Messages</h1>
+
+        </div>
+        <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
+        <div class="pm-list" *ngIf="!loading">
+            <ng-container *ngIf="privateMessageList">
+                <div class="message" *ngFor="let pm of privateMessageList.messages">
+                    <div class="message-body">
+                        <div><a routerLink="{{pm.id}}">{{pm.title}}</a></div>
+                        <div  *ngIf="pm.description">{{pm.description}}</div>
+                        <div><a class="user-link" routerLink="/user/profile/{{pm.user.id}}">{{pm.user.nick}}</a> -
+                            {{pm.created_at | date}}</div>
+                    </div>
+                    <div class="message-checkbox"><input type="checkbox" (click)="deletePm(pm.id)"></div>
+                </div>
+            </ng-container>
+        </div>
+    </div>

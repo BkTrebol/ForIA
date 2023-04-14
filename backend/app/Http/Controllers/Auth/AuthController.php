@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Google_Client;
 use Carbon\Carbon;
 
 use App\Models\User;
@@ -86,26 +87,37 @@ class AuthController extends Controller
         $id_token = $request->credential;
         $client = new Google_Client(['client_id' => config('app.GOOGLE_CLIENT_ID')]);  // Specify the CLIENT_ID of the app that accesses the backend
         $payload = $client->verifyIdToken($id_token);
-
+        // dd($payload);
         if (!$payload) {
             return redirect()->away('http://localhost:4200/auth/login');
         } else{
           $userid = $payload['sub'];
           $user = User::where('email', $payload['email'])->first();
           if (!$user){
+            $nick = explode(' ',$payload['given_name'])[0];
+            $tempNick = $nick;
+            $validNick = false;
+            while (!$validNick){
+            if(User::where('nick',$tempNick)->first()){
+                $tempNick .= fake()->numberBetween(1000,9999);
+            } else{
+                $nick = $tempNick;
+                $validNick = true;
+            }}
+
             $user = User::create([
-                'name' => $payload['name'],
+                'nick' => $name,
                 'email' => $payload['email'],
                 'google_auth'=> true,
                 'avatar' => $payload['picture'],
                 'email_verified_at' => now(),
             ]);
+            // Auth::login($user);
         }
             if(Carbon::parse($user->suspension)->isFuture()){
                 return redirect()->away('http://bing.com/');
             }
-
-          if($user->goole_auth){
+          if($user->google_auth ){
             Auth::login($user);
             return redirect()->away('http://localhost:4200/');
           } else{
