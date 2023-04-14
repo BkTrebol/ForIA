@@ -20,7 +20,7 @@ export class PrivateMessageService {
       return this.http.get<ListPm>(this.apiPrivateMessageURL)
     }
 
-    getMessage(id:string):Observable<PrivateMessage>{
-      return this.http.get<PrivateMessage>(this.apiPrivateMessageURL+id);
+    getMessage(id:string,page:number):Observable<PrivateMessage>{
+      return this.http.get<PrivateMessage>(`${this.apiPrivateMessageURL}${id}?page=${page}`);
     }
 }
