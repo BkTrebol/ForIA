@@ -5,6 +5,7 @@ import { AuthService } from '../../modules/auth/service/auth.service';
 import { User } from '../../models/user';
 import { UserPreferences } from '../../models/user-preferences';
 import { Global } from 'src/app/environment/global';
+import { ThemeService } from 'src/app/helpers/services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -24,7 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public prefersDarkScheme: MediaQueryList;
   public theme: string;
 
-  constructor(private _authService: AuthService, private router: Router) {
+  constructor(private _authService: AuthService, private router: Router, private themeService: ThemeService) {
     this.unsubscribe$ = new Subject();
     this.userIsAuthenticated = null;
     this.top = false;
@@ -63,9 +64,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     });
 
+    // Set default theme
     if (this.theme === '') {
       this.theme = this.prefersDarkScheme.matches ? 'light' : 'dark';
     }
+    this.themeService.changeTheme(this.theme);
   }
 
   // For changing the nav height on scroll
@@ -99,6 +102,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         : 'light';
     }
     localStorage.setItem('theme', this.theme);
+    this.themeService.changeTheme(this.theme)
   }
 
   // Logout the user

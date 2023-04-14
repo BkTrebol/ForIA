@@ -26,13 +26,38 @@
 .list-page {
   @include center;
   padding: 64px;
+  // Dark theme
+  &.dark {
+    .list {
+      background-color: $color-primary1;
+      color: $color-white-clear;
+      .list-body ul li {
+        background-color: $color-black-grey;
+      }
+    }
+    a {
+      @include a-link($color-gradient4, $color-gradient5, $color-gradient6);
+    }
+  }
+  // Light theme
+  &.light {
+    .list {
+      background-color: $color-white-clear;
+      color: $color-black-clear;
+      .list-body ul li {
+        background-color: $color-grey-clear;
+      }
+    }
+    a {
+      @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
+    }
+  }
   .list {
     min-width: 1200px;
     background-color: $color-primary1;
     color: $color-white-clear;
     padding: 32px 64px;
     font-family: $font-text;
-    // border-radius: 24px;
     .list-header {
       @include row(space-between);
       padding-bottom: 16px;
@@ -67,7 +92,11 @@
             }
           }
           a {
-            @include a-link($color-gradient4, $color-gradient5, $color-gradient6);
+            @include a-link(
+              $color-gradient4,
+              $color-gradient5,
+              $color-gradient6
+            );
           }
           &:hover {
             cursor: pointer;
@@ -77,7 +106,7 @@
     }
     .list-footer {
       padding-top: 16px;
-      button{
+      button {
         cursor: pointer;
         // @include btn1($color-secondary)
       }

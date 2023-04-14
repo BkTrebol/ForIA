@@ -68,9 +68,11 @@
                     <div class="check-avatar">
                         <div>
                             <label for="file">Avatar</label>
-                            <img *ngIf="(user.avatar != null || imageSrc != '') && !deleteAvatar?.value" class="avatar"
-                                [src]="imageSrc || url+'get-avatar/'+user.avatar" width="100" height="100" alt="Avatar">
-
+                            <img *ngIf="(user.avatar != null || imageSrc != '') && !deleteAvatar?.value && (user.avatar | avatarUrl)" class="avatar"
+                                [src]="imageSrc || user.avatar" width="100" height="100" alt="Google Avatar">
+                            <img *ngIf="(user.avatar != null || imageSrc != '') && !deleteAvatar?.value && !(user.avatar | avatarUrl)" class="avatar"
+                                [src]="imageSrc || url+'get-avatar/'+user.avatar" width="100" height="100"
+                                alt="Avatar">
                             <img *ngIf="(user.avatar == null && imageSrc == '') || deleteAvatar?.value" class="avatar"
                                 [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+user.nick" width="100"
                                 height="100" alt="Default Avatar">
@@ -82,6 +84,7 @@
                     </div>
                     <p *ngIf="!deleteAvatar?.value && imageSrc != ''">{{imageSelected}}</p>
                     <p *ngIf="deleteAvatar?.value || (imageSrc == '' && user.avatar==null)">Default Avatar</p>
+                    <p *ngIf="!deleteAvatar?.value && imageSrc == '' && user.avatar != null && (user.avatar | avatarUrl)">Google Avatar</p>
                     <div class="field">
                         <input type="file" accept="image/*" (change)="fileChangeEvent($event)"
                             (change)="readURL($event);" id="file" formControlName="avatar" class="input">

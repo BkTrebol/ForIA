@@ -1,4 +1,4 @@
-<header class="header" [ngClass]="{'small': top}">
+<header class="header {{theme}}" [ngClass]="{'small': top}">
     <a class="logo" routerLink="/">
         <img class="logoIA" src="/assets/svg/logoIA.svg" height="50" alt="logo icon FORIA">
         <img class="logoFORIA" src="/assets/svg/logoFORIA.svg" height="30" alt="logo FORIA">
@@ -24,7 +24,9 @@
                     <img *ngIf="userIsAuthenticated.userData.avatar == null"
                         [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+userIsAuthenticated.userData.nick"
                         alt="Default Avatar" width="40" height="40">
-                    <img *ngIf="userIsAuthenticated.userData.avatar != null"
+                    <img *ngIf="userIsAuthenticated.userData.avatar != null && (userIsAuthenticated.userData.avatar | avatarUrl)"
+                        [src]="userIsAuthenticated.userData.avatar" alt="Avatar" width="40" height="40">
+                    <img *ngIf="userIsAuthenticated.userData.avatar != null && !(userIsAuthenticated.userData.avatar | avatarUrl)"
                         [src]="url+userIsAuthenticated.userData.avatar" alt="Avatar" width="40" height="40">
                     <span>{{userIsAuthenticated.userData.nick}}</span>
                 </a>

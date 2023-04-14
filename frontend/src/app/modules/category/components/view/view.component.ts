@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Category, Topic } from 'src/app/models/receive/list-topics';
+import { ThemeService } from 'src/app/helpers/services/theme.service';
 
 @Component({
   selector: 'app-view',
@@ -14,20 +15,23 @@ export class ViewComponent implements OnInit, OnDestroy {
   public category: Category;
   public topics: Topic[];
   public audioUrl: string;
+  public theme: string;
 
   constructor(
     public route: ActivatedRoute,
-    public router: Router
+    public router: Router,
+    private themeService: ThemeService
   ) {
     this.unsubscribe$ = new Subject();
     this.loading = true;
     this.category = {
       id: 0,
       title: '',
-      can_post: false
+      can_post: false,
     };
     this.topics = [];
     this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';
+    this.theme = localStorage.getItem('theme') ?? 'dark';
   }
 
   ngOnInit() {
@@ -39,8 +43,13 @@ export class ViewComponent implements OnInit, OnDestroy {
       this.loading = false;
     } else {
       this.loading = false;
-      this.router.navigate(['/category']);
+      this.router.navigate(['/']);
     }
+    this.themeService.theme
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((t) => {
+        this.theme = t;
+      });
   }
 
   playAudio() {
