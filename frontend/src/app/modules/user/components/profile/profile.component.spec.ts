@@ -3,6 +3,7 @@ import { ProfileComponent } from './profile.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -14,6 +15,7 @@ describe('ProfileComponent', () => {
         HttpClientTestingModule,
         FontAwesomeTestingModule,
         ReactiveFormsModule,
+        RouterTestingModule,
       ],
       declarations: [ProfileComponent],
     }).compileComponents();

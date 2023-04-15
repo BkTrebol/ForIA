@@ -5,6 +5,7 @@ import {
   NonNullableFormBuilder,
   FormGroup,
   AbstractControl,
+  ValidationErrors,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, first, takeUntil } from 'rxjs';
@@ -22,7 +23,7 @@ function passwordMatchValidator(control: AbstractControl) {
     confirmPassword?.setErrors(errors);
     return { passwordMismatch: true };
   } else {
-    let errors = confirmPassword?.errors ?? [];
+    let errors: ValidationErrors = confirmPassword?.errors ?? [];
     delete errors['mismatch'];
     confirmPassword?.setErrors(Object.keys(errors).length == 0 ? null : errors);
     return null;

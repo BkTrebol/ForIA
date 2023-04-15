@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   constructor(
     private userSerivce: UserService,
     private authService: AuthService,
-    public route: ActivatedRoute,
+    private route: ActivatedRoute,
     private router: Router
   ) {
     this.unsubscribe$ = new Subject();

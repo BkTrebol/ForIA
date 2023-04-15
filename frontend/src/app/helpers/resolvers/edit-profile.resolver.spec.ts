@@ -1,13 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
+
 import { EditProfileResolver } from './edit-profile.resolver';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('EditProfileResolver', () => {
   let resolver: EditProfileResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
+      imports: [HttpClientTestingModule],
     });
     resolver = TestBed.inject(EditProfileResolver);
   });

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, filter, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   Validators,
@@ -8,7 +8,7 @@ import {
   FormGroup,
 } from '@angular/forms';
 import { TopicService } from '../../service/topic.service';
-import { Category, Topic, Post } from 'src/app/models/receive/list-posts';
+import { ListPosts, Category, Topic, Post } from 'src/app/models/receive/list-posts';
 @Component({
   selector: 'app-view',
   templateUrl: './view.component.html',
@@ -37,8 +37,8 @@ export class ViewComponent implements OnInit, OnDestroy {
   };
   constructor(
     private topicService: TopicService,
-    public route: ActivatedRoute,
-    public router: Router
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.unsubscribe$ = new Subject();
     this.loading = true;
@@ -48,12 +48,11 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.category = {
       id: 0,
       title: '',
-      // section: '',
     };
     this.topic = {
       id: 0,
       title: '',
-      content: '', // description: '',
+      content: '',
       created_at: '',
       updated_at: '',
       user: { id: 0, nick: '', rol: '', avatar: null, created_at: '' },
@@ -94,9 +93,11 @@ export class ViewComponent implements OnInit, OnDestroy {
   changePage(page: number) {
     this.topicService
       .posts(this.topic.id.toString(), page.toString())
+      .pipe(takeUntil(this.unsubscribe$))
+      .pipe(filter((res: ListPosts) => res.posts.length > 0)) //test
       .subscribe({
         next: (res) => {
-          this.posts = res.posts;
+          this.total = res.total;
           this.last_page = res.last_page;
           this.current_page = res.current_page;
           this.category = res.category;
@@ -134,7 +135,7 @@ export class ViewComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      console.log("Post invalid");
+      console.log('Post invalid');
     }
   }
 

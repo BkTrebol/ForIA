@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { SharedModule } from 'src/app/modules/share.module';
 
 // Check if the button .btn-send is disabled or not
 function checkBtn(is: boolean, fixture: ComponentFixture<EditComponent>) {
@@ -24,6 +25,7 @@ describe('EditComponent Test', () => {
         RouterTestingModule,
         FontAwesomeTestingModule,
         ReactiveFormsModule,
+        SharedModule,
       ],
       declarations: [EditComponent],
     }).compileComponents();

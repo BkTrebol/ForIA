@@ -13,7 +13,7 @@ describe('ViewComponent', () => {
       imports: [
         HttpClientTestingModule,
         FontAwesomeTestingModule,
-        RouterTestingModule.withRoutes([]),
+        RouterTestingModule//.withRoutes([]),
       ],
       declarations: [ViewComponent],
     }).compileComponents();

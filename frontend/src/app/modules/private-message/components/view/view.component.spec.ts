@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewComponent } from './view.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ViewComponent', () => {
   let component: ViewComponent;
@@ -8,9 +11,13 @@ describe('ViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ViewComponent ]
-    })
-    .compileComponents();
+      imports: [
+        HttpClientTestingModule,
+        FontAwesomeTestingModule,
+        RouterTestingModule
+      ],
+      declarations: [ViewComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ViewComponent);
     component = fixture.componentInstance;

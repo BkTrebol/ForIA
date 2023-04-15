@@ -1,13 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
+
 import { TopicResolver } from './topic.resolver';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('TopicResolver', () => {
   let resolver: TopicResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
+      imports: [HttpClientTestingModule],
     });
     resolver = TestBed.inject(TopicResolver);
   });

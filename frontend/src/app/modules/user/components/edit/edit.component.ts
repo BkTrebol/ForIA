@@ -58,7 +58,7 @@ export class EditComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private _authService: AuthService,
     private router: Router,
-    public route: ActivatedRoute
+    private route: ActivatedRoute
   ) {
     this.unsubscribe$ = new Subject();
     this.error = '';
