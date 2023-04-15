@@ -1,4 +1,3 @@
-
 <div class="form-page">
     <form [formGroup]="formLogin" (ngSubmit)="submit()" class="form-container">
         <h2>Login</h2>
@@ -52,6 +51,11 @@
             <fa-icon class="btn-icon" [icon]="['fas', 'thumbs-up']"></fa-icon>
         </div>
         <div class="google">
+            <div class="line">
+                <hr>
+                <p>or</p>
+                <hr>
+            </div>
             <div id="g_id_onload"
                 data-client_id="659899542369-75udpfmm6ekm5kk6lescibk4u55jlj0c.apps.googleusercontent.com"
                 data-context="signin" data-ux_mode="popup" data-login_uri="http://localhost:8000/api/auth/googleauth"
@@ -62,6 +66,7 @@
             </div>
         </div>
         <div class="form-links">
+            <hr>
             <p>Forgot your password? <a routerLink="/auth/reset-password">Reset Password</a></p>
             <p>New user? <a routerLink="/auth/register">Register</a></p>
         </div>

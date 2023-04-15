@@ -8,12 +8,111 @@
 .form-page {
   @include center;
   padding: 64px;
+  // Dark theme
+  &.dark {
+    .form-container {
+      background-color: $color-black-opacity;
+      color: $color-white-clear;
+      .fields {
+        .group .field {
+          .input {
+            color: $color-white-clear;
+            background-color: opacity($color-black, 0.4);
+          }
+          .input.ng-valid + .icon {
+            color: $color-shades1;
+          }
+          .date {
+            background: opacity($color-black, 0.4);
+            color: $color-white-clear;
+            &::-webkit-calendar-picker-indicator {
+              filter: invert(100%);
+            }
+          }
+          .row-field {
+            input[type="checkbox"] {
+              accent-color: $color-shades1;
+            }
+          }
+        }
+        .btn-field .btn-send {
+          @include btn($color-shades1, 20%);
+        }
+        .google .line hr {
+          border-color: $color-white-clear;
+        }
+        .form-links {
+          hr {
+            border-color: $color-white-clear;
+          }
+          a {
+            @include a-link(
+              $color-gradient4,
+              $color-gradient3,
+              $color-gradient2
+            );
+          }
+        }
+      }
+    }
+    .form-container.ng-valid .btn-field .btn-icon {
+      color: $color-shades1;
+    }
+  }
+  // Light theme
+  &.light {
+    .form-container {
+      background-color: $color-white-opacity;
+      color: $color-black-clear;
+      .fields {
+        .group .field {
+          .input {
+            color: $color-black-clear;
+            background-color: opacity($color-white, 0.4);
+          }
+          .input.ng-valid + .icon {
+            color: $color-primary;
+          }
+          .date {
+            background: opacity($color-white, 0.4);
+            color: $color-black-clear;
+          }
+          .row-field {
+            input[type="checkbox"] {
+              accent-color: $color-primary;
+            }
+          }
+        }
+        .btn-field .btn-send {
+          @include btn($color-primary, 20%);
+        }
+        .google .line hr {
+          border-color: $color-black-clear;
+        }
+        .form-links {
+          hr {
+            border-color: $color-black-clear;
+          }
+          a {
+            @include a-link(
+              $color-gradient5,
+              $color-gradient6,
+              $color-gradient4
+            );
+          }
+        }
+      }
+    }
+    .form-container.ng-valid .btn-field .btn-icon {
+      color: $color-primary;
+    }
+  }
   .form-container {
     // Space that separate the items of the form
     @include col(space-around, 40px);
-    background: $color-opacity;
+    // background: $color-opacity;
     backdrop-filter: blur(16px);
-    color: $color-white-clear;
+    // color: $color-white-clear;
     padding: 32px 64px;
     border-radius: 24px;
     font-family: $font-text;
@@ -68,9 +167,9 @@
             font-size: $size-p;
             padding: 16px;
             border: none;
-            color: $color-white-clear;
+            // color: $color-white-clear;
             border-radius: 8px;
-            background-color: opacity($color-black, 0.4);
+            // background-color: opacity($color-black, 0.4);
             &:focus {
               outline: $color-grey-clear solid thin;
             }
@@ -86,17 +185,10 @@
           .input.ng-invalid.ng-touched + .icon {
             color: $color-tertiary;
           }
-          .input.ng-valid + .icon {
-            color: $color-shades1;
-          }
-          // For date input
-          .date {
-            background: opacity($color-black, 0.4);
-            color: $color-white-clear;
-            &::-webkit-calendar-picker-indicator {
-              filter: invert(100%);
-            }
-          }
+          // .input.ng-valid + .icon {
+          //   color: $color-shades1;
+          // }
+
           // Border red for invalid input
           // .input.ng-invalid.ng-touched {
           //   outline: $color-tertiary solid thin;
@@ -157,11 +249,27 @@
     // Login with google
     .google {
       width: 300px;
-      @include center();
+      @include col-center(space-between, 8px);
+      .line {
+        width: 100%;
+        margin-bottom: 8px;
+        @include row(center, 8px);
+        hr {
+          width: 100%;
+          border-color: $color-white-clear;
+          border-radius: 8px;
+        }
+      }
     }
     // Links in the form
     .form-links {
       @include col(space-around, 16px);
+      hr {
+        width: 100%;
+        border-color: $color-white-clear;
+        border-radius: 8px;
+        margin-bottom: 12px;
+      }
       a {
         cursor: pointer;
         color: $color-gradient4;
@@ -206,6 +314,12 @@
             }
           }
         }
+      }
+      .google {
+        width: min(280px, 75vw);
+      }
+      .form-links {
+        width: min(280px, 75vw);
       }
       .btn-field {
         // Space between the button and the icon

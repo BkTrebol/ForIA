@@ -11,15 +11,12 @@ import { EditUserProfile } from 'src/app/models/receive/edit-user-profile';
 @Injectable({
   providedIn: 'root',
 })
-export class EditProfileResolver implements Resolve<boolean> {
-  constructor(
-    private userService: UserService,
-    private router: Router
-  ) {}
+export class EditProfileResolver implements Resolve<boolean | EditUserProfile> {
+  constructor(private userService: UserService, private router: Router) {}
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean> {
+  ): Observable<boolean | EditUserProfile> {
     return this.userService.getEdit().pipe(
       map((res) => {
         if (res) {

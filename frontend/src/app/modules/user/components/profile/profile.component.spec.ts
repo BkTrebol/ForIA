@@ -4,6 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { SharedModule } from 'src/app/modules/share.module';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -16,6 +17,7 @@ describe('ProfileComponent', () => {
         FontAwesomeTestingModule,
         ReactiveFormsModule,
         RouterTestingModule,
+        SharedModule,
       ],
       declarations: [ProfileComponent],
     }).compileComponents();

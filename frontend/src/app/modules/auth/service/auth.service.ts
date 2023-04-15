@@ -13,7 +13,6 @@ import { ResetPassword } from 'src/app/models/reset-password';
 })
 export class AuthService {
   private baseURL: string;
-  private apiURL: string;
   private apiAuthURL: string;
 
   private userSubject: BehaviorSubject<any>;
@@ -24,7 +23,6 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     this.baseURL = Global.url;
-    this.apiURL = Global.api;
     this.apiAuthURL = Global.api + 'auth/';
 
     this.userSubject = new BehaviorSubject(null);

@@ -1,44 +1,46 @@
 // COLORS
 
-$color-primary: #0CF25D;
-$color-secondary: #FF9537;
-$color-tertiary: #FF697D;
-$color-quart: #00B1FF;
+$color-primary: #0cf25d;
+$color-secondary: #ff9537;
+$color-tertiary: #ff697d;
+$color-quart: #00b1ff;
 
-$color-shades1: #00C12E;
+$color-shades1: #00c12e;
 $color-shades2: #009200;
 $color-shades3: #006400;
-$color-shades4: #003A00;
+$color-shades4: #003a00;
 
-$color-gradient1: #00DE9A;
-$color-gradient2: #00C5CF;
-$color-gradient3: #00A9F4;
-$color-gradient4: #0089FC;
-$color-gradient5: #0063E5;
+$color-gradient1: #00de9a;
+$color-gradient2: #00c5cf;
+$color-gradient3: #00a9f4;
+$color-gradient4: #0089fc;
+$color-gradient5: #0063e5;
 $color-gradient6: #8c4dde;
 
 $color-primary1: #034159;
 $color-primary2: #025951;
-$color-primary3: #02735E;
-$color-primary4: #038C3E;
+$color-primary3: #02735e;
+$color-primary4: #038c3e;
 
-$color-grey-dark: #3D4A3D;
-$color-grey-clear: #A0AFA0;
+$color-grey-dark: #3d4a3d;
+$color-grey-clear: #a0afa0;
 
 $color-black: #000;
-$color-white: #FFF;
+$color-white: #fff;
 $color-black-clear: #111;
-$color-white-clear: #EEE;
-$color-opacity: rgba($color-black-clear, .5);
+$color-white-clear: #eee;
+$color-black-opacity: rgba($color-black-clear, 0.5);
+$color-white-opacity: rgba($color-white-clear, 0.5);
+
 $color-black-grey: #222;
 
 // Letter
-$color-title: $color-secondary;
-$color-subtitle: $color-shades2;
-$color-p: $color-white;
-$color-a: $color-gradient1;
-$color-a-hover: $color-gradient2;
-$color-a-active: $color-gradient3;
+// $color-title: $color-secondary;
+// $color-subtitle: $color-shades2;
+// $color-p: $color-white;
+// $color-a: $color-gradient1;
+// $color-a-hover: $color-gradient2;
+// $color-a-active: $color-gradient3;
 // $color-bg-input: opacity($color-black, 0.6);
 // Messages
 $color-error: $color-tertiary;
@@ -79,7 +81,7 @@ $font-btn: "Roboto";
 // Examples
 
 $font-weights: (
-    "regular": 400,
-    "medium": 500,
-    "bold": 700
-)
+  "regular": 400,
+  "medium": 500,
+  "bold": 700,
+);

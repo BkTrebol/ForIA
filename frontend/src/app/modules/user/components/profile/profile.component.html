@@ -7,10 +7,13 @@
             <p>Email: {{user.email}}</p>
             <p>Location: {{user.location}}</p>
             <p>Birthday: {{user.birthday}}</p>
-            <img *ngIf="user.avatar != null && user.avatar != ''" class="avatar"
+            <img *ngIf="user.avatar != null && user.avatar != '' && !(user.avatar | avatarUrl)" class="avatar"
                 [src]="url+user.avatar" width="100" height="100" alt="Avatar">
-            <img *ngIf="user.avatar == null" class="avatar"
-                [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+user.nick" width="100" height="100" alt="Default Avatar">
+            <img *ngIf="user.avatar == null || user.avatar == ''" class="avatar"
+                [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+user.nick" width="100" height="100"
+                alt="Default Avatar">
+            <img *ngIf="user.avatar != null && user.avatar != '' && (user.avatar | avatarUrl)" class="avatar"
+                [src]="user.avatar" width="100" height="100" alt="Google Avatar">
             <p>Rol: {{user.rol}}</p>
             <p>Created at: {{user.created_at | date}}</p>
             <p>Updated at: {{user.updated_at | date}}</p>

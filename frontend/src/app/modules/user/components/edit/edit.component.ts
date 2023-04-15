@@ -11,6 +11,7 @@ import { UserService } from 'src/app/modules/user/service/user.service';
 import { EditUserProfile } from 'src/app/models/receive/edit-user-profile';
 import { Global } from 'src/app/environment/global';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
+import { ThemeService } from 'src/app/helpers/services/theme.service';
 
 @Component({
   selector: 'app-edit',
@@ -19,9 +20,11 @@ import { AuthService } from 'src/app/modules/auth/service/auth.service';
 })
 export class EditComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
+  public theme: string;
   public error: string;
   public loading: boolean;
   public user: EditUserProfile;
+  public userId: string;
   public filesToUpload: Array<File>;
   public imageSelected: string;
   public imageSrc: string;
@@ -58,9 +61,11 @@ export class EditComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private _authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private themeService: ThemeService
   ) {
     this.unsubscribe$ = new Subject();
+    this.theme = localStorage.getItem('theme') ?? 'dark';
     this.error = '';
     this.loading = true;
     this.user = {
@@ -70,6 +75,7 @@ export class EditComponent implements OnInit, OnDestroy {
       birthday: '',
       avatar: '',
     };
+    this.userId = this._authService.user?.userData.id;
     this.filesToUpload = [];
     this.imageSelected = '';
     this.imageSrc = '';
@@ -106,8 +112,13 @@ export class EditComponent implements OnInit, OnDestroy {
       this.loading = false;
     } else {
       this.loading = false;
-      this.router.navigate(['/user/profile']);
+      this.router.navigate(['/user/profile/' + this.userId]);
     }
+    this.themeService.theme
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((t) => {
+        this.theme = t;
+      });
   }
 
   submit(): void {
@@ -115,7 +126,7 @@ export class EditComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.error = '';
       delete this.formEditProfile.value.avatar;
-      // Miro is vol canviar l'imatge o no
+      // Miro si vol canviar l'imatge o no
       if (this.filesToUpload.length == 0 || this.deleteAvatar?.value) {
         this.userService
           .editProfile(this.formEditProfile.value)
@@ -123,7 +134,7 @@ export class EditComponent implements OnInit, OnDestroy {
           .subscribe({
             next: (res) => {
               this.loading = false;
-              this.router.navigate(['/user/profile']);
+              this.router.navigate(['/user/profile/' + this.userId]);
               this._authService.autoAuthUser();
             },
             error: (err) => {
@@ -138,7 +149,7 @@ export class EditComponent implements OnInit, OnDestroy {
           .subscribe({
             next: (res) => {
               this.loading = false;
-              this.router.navigate(['/user/profile']);
+              this.router.navigate(['/user/profile/' + this.userId]);
               this._authService.autoAuthUser();
             },
             error: (err) => {
@@ -159,7 +170,6 @@ export class EditComponent implements OnInit, OnDestroy {
 
   //* Mostra la imatge seleccionada
   readURL(event: any) {
-    // console.log(event.target.files[0]);
     if (event.target.files && event.target.files[0]) {
       this.imageSelected = event.target.files[0].name;
       const reader = new FileReader();

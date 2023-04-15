@@ -18,8 +18,8 @@ export class ViewComponent implements OnInit, OnDestroy {
   public theme: string;
 
   constructor(
-    public route: ActivatedRoute,
-    public router: Router,
+    private route: ActivatedRoute,
+    private router: Router,
     private themeService: ThemeService
   ) {
     this.unsubscribe$ = new Subject();
