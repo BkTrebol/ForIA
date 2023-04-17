@@ -178,8 +178,8 @@
             }
             }
             .last-post {
-              @include b;
-              @include row(space-between);
+              // @include b;
+              @include row(space-between, 16px);
             }
           }
           a {
