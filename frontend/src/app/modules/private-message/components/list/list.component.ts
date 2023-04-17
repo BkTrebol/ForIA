@@ -13,6 +13,7 @@ export class ListComponent implements OnInit {
   public loading: boolean = true;
 
   constructor(
+
     private privateMessageService: PrivateMessageService
   ){  }
 
@@ -20,6 +21,7 @@ export class ListComponent implements OnInit {
     this.privateMessageService.getList()
     .subscribe({
       next: (r) => {
+        console.log(r)
         this.privateMessageList = r;
         this.loading = false;
       },

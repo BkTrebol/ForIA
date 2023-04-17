@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Global } from 'src/app/environment/global';
-import { ListPm, PrivateMessage } from 'src/app/models/receive/list-pm';
+import { ListPm, PrivateMessage, newPrivateMessage, replyToPrivateMessage } from 'src/app/models/receive/list-pm';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +26,16 @@ export class PrivateMessageService {
 
     getUserList(search:string):Observable<any>{
       return this.http.get<any>(`${Global.api}user/list/${search}`);
+    }
+    getTopic(id:number):Observable<any>{
+      return this.http.get<any>((`${this.apiPrivateMessageURL}topic/${id}`))
+    }
+
+    sendMessage(message:newPrivateMessage):Observable<any>{
+      return this.http.post(`${this.apiPrivateMessageURL}new/`,message)
+    }
+
+    replyMessage(message:replyToPrivateMessage):Observable<any>{
+    return this.http.post(`${this.apiPrivateMessageURL}`,message)
     }
 }

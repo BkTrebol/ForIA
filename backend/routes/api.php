@@ -67,6 +67,7 @@ Route::middleware('auth:sanctum')->group(function(){
     // PrivateMEssage
     Route::controller(PrivateMessageController::class)->prefix('pm')->group(function(){
         Route::get('/','getMessages');
+        Route::get('/topic/{topic}','getTopicData');
         Route::get('/{pm}','getPrivateMessage');
         Route::post('/new','newPrivateMessage');
         Route::post('/','sendMessage');

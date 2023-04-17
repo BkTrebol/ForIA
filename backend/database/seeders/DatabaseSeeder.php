@@ -29,12 +29,20 @@ class DatabaseSeeder extends Seeder
             'section' => 'none',
             'can_view' => 'ROLE_GOD',
         ]);
-        Category::factory()->count(3)->create();
-        Topic::factory()->count(5)->create();
-        PrivateMessage::factory()->count(5)->create();
-        Post::factory()->count(20)->create();
+        Category::factory()->count(2)->create([
+            'section' => 'Welcome',
+        ]);
+        Category::factory()->count(3)->create([
+            'section' => 'HOLITA',
+        ]);
+        Category::factory()->count(4)->create([
+            'section' => 'Cuatro',
+        ]);
+        Topic::factory()->count(15)->create();
+        // PrivateMessage::factory()->count(5)->create();
+        Post::factory()->count(45)->create();
         Poll::factory()->count(3)->create();
-        PollOption::factory()->count(9)->create();
+        PollOption::factory()->count(10)->create();
         PollAnswer::factory()->count(40)->create();
         
 

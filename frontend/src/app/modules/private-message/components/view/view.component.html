@@ -6,9 +6,9 @@
         </div>
         <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div *ngIf="!loading">
+            <button routerLink="/private-message/reply/{{topicId}}">Reply</button>
             <ng-container *ngIf="privateMessage">
                 <div *ngFor="let post of privateMessage.posts">
-
                     <ng-container *ngTemplateOutlet="message; context: {post: post}"></ng-container>
                 </div>
                 <div *ngIf="privateMessage.topic.hasOwnProperty('content')">
@@ -16,15 +16,18 @@
                     <ng-container *ngTemplateOutlet="message; context:{post: privateMessage.topic}"></ng-container>
                 </div>
                 <div class="list-footer">
-                    <button type="button" (click)="scrollToTop()">Back to top</button>
+                    <button routerLink="/private-message/reply/{{topicId}}" type="button">Reply</button> <button
+                        type="button" (click)="scrollToTop()">Back to top</button>
                     <div class="pagination">
-                        <a routerLink="/private-message/{{privateMessage.topic.id}}" [queryParams]="{page: i+1}" (click)="changePage(i+1)"
+                        <a href="javascript:void(0)" (click)="changePage(i+1)"
                             [class]="{'active': privateMessage.current_page == i+1}"
                             *ngFor="let item of [].constructor(privateMessage.last_page); let i = index">{{i+1}}</a>
                     </div>
                 </div>
             </ng-container>
-            
+            <br>
+
+
         </div>
     </div>
 </div>
@@ -36,12 +39,12 @@
             <p>From: <a routerLink="/user/profile/{{post.user.id}}">{{post.user.nick}}</a> on {{post.created_at | date}}
             </p>
             <hr>
-            <p class="content">
-                {{post.content}}
+            <p class="content" [innerHTML]="post.content">
+                
             </p>
         </div>
         <div class="avatar">
-            <img [src]="apiUrl+post.user.avatar" class="avatar">
+            <img [src]="apiUrl+post.user.avatar">
             <a routerLink="/user/profile/{{post.user.id}}">{{post.user.nick}}</a>
             <p>{{post.user.role}}</p>
         </div>

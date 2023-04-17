@@ -22,7 +22,7 @@ class CategoryController extends Controller
            $abc['categories'] = $section->map(function($category) use($roles){
         $post = $category->lastPost;
         if ($post){
-            $category['can_post'] = in_array($category->can_post,$roles);
+            // $category['can_post'] = in_array($category->can_post,$roles);
             $category['lastPost'] = [
                     'created_at' => $post->created_at,
                     'topic' => [

@@ -1,1 +1,16 @@
-<p>reply works!</p>
+
+<div class="list-page">
+    <div class="list">
+        <div class="list-header">
+            <h1>Reply to {{topicTitle}}</h1>
+        </div>
+        <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
+        <div class="new-pm" *ngIf="!loading">
+            
+            <div class="editor">
+                <angular-editor  [(ngModel)]="message.content" [config]="editorConfig"></angular-editor>
+            </div>
+            <input type="submit" class="btn btn-primary" (click)="onSubmit()">
+        </div>
+    </div>
+</div>
