@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ViewComponent } from './view.component';
+import { SharedModule } from 'src/app/modules/share.module';
 
 describe('ViewComponent', () => {
   let component: ViewComponent;
@@ -13,7 +14,8 @@ describe('ViewComponent', () => {
       imports: [
         HttpClientTestingModule,
         FontAwesomeTestingModule,
-        RouterTestingModule//.withRoutes([]),
+        RouterTestingModule,
+        SharedModule
       ],
       declarations: [ViewComponent],
     }).compileComponents();

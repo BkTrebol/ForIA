@@ -9,6 +9,8 @@ import {
 } from '@angular/forms';
 import { TopicService } from '../../service/topic.service';
 import { ListPosts, Category, Topic, Post } from 'src/app/models/receive/list-posts';
+import { ThemeService } from 'src/app/helpers/services/theme.service';
+
 @Component({
   selector: 'app-view',
   templateUrl: './view.component.html',
@@ -35,10 +37,13 @@ export class ViewComponent implements OnInit, OnDestroy {
       maxlength: 'Max Length is 255',
     },
   };
+  public theme: string;
+
   constructor(
     private topicService: TopicService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private themeService: ThemeService
   ) {
     this.unsubscribe$ = new Subject();
     this.loading = true;
@@ -72,6 +77,7 @@ export class ViewComponent implements OnInit, OnDestroy {
         ],
       ],
     });
+    this.theme = themeService.getTheme();
   }
 
   ngOnInit() {
@@ -86,8 +92,13 @@ export class ViewComponent implements OnInit, OnDestroy {
       this.loading = false;
     } else {
       this.loading = false;
-      this.router.navigate(['/category']);
+      this.router.navigate(['/']);
     }
+    this.themeService.theme
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((t) => {
+        this.theme = t;
+      });
   }
 
   changePage(page: number) {

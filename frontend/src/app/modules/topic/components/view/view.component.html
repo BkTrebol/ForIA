@@ -1,71 +1,75 @@
-<div class="list-page">
+<div class="list-page {{theme}}">
     <div class="loading" *ngIf="loading">
         <fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon>
         <p>Loading ...</p>
     </div>
     <div class="list" *ngIf="!loading">
         <div class="list-header">
-            <h1><a routerLink="/category/{{category.id}}">Category: {{category.title}}</a></h1>
+            <h1><a routerLink="/category/{{category.id}}">{{category.title}}</a></h1>
             <h2>Topic: {{topic.title}}</h2>
             <a *ngIf="can_post" routerLink="/topic/create">Create new Post</a>
-            <!-- <a *ngIf="can_edit" routerLink="/topic/edit/{{topic.id}}">Edit</a> -->
         </div>
-        <!-- <div class="list-body"> -->
-        <div *ngIf="topic.user" class="topic">
-            <div *ngIf="can_edit" class="edit-buttons">
-                <!-- <button *ngIf="topic.can_edit">Edit</button> -->
-                <button type="button">Edit</button>
-                <button type="button">Delete</button>
-            </div>
-            <div class="user-card">
-                {{topic.user.nick}}
-                {{topic.user.rol}}
-                <!-- {{topic.user.location}}
-                    {{topic.user.birthday}} -->
-            </div>
-            <div class="topic-body">
-                <p>{{topic.content}}</p>
-                <p>{{topic.created_at | date}}</p>
-            </div>
-        </div>
-        <div class="posts">
-            <div class="row post" *ngFor="let post of posts">
-                <div *ngIf="post.can_edit" class="edit-buttons">
+        <div class="list-body">
+            <div *ngIf="topic.user" class="topic">
+                <div *ngIf="can_edit" class="edit-buttons">
+                    <!-- <button *ngIf="topic.can_edit">Edit</button> -->
                     <button type="button">Edit</button>
-                    <button type="button" (click)="deletePost(post.id)">Delete</button>
+                    <button type="button">Delete</button>
                 </div>
                 <div class="user-card">
-                    {{post.user.nick}}
-                    {{post.user.rol}}
-                    <!-- {{post.user.location}}
-                    {{post.user.birthday | date}} -->
+                    <app-avatar [user]="topic.user"></app-avatar>
+                    <div class="text">
+                        <a routerLink="/user/profile/{{topic.user.id}}">{{topic.user.nick}}</a>
+                        <small>{{topic.user.rol}}</small>
+                    </div>
                 </div>
-                <div class="post-body">
-                    <p> {{post.content}}</p>
+                <div class="topic-body">
+                    <p>{{topic.content}}</p>
+                    <p>{{topic.created_at | date}}</p>
                 </div>
             </div>
-        </div>
-        <div class="form">
-            <form [formGroup]="formPost" (ngSubmit)="submitPost()">
-                <div>
-                <textarea formControlName="content" required cols="30" rows="10"></textarea>
-                <div class="message-block" *ngIf="!content?.valid && content?.touched">
-                    <ng-container *ngFor="let validation of validationMessagesPost.content | keyvalue">
-                        <div *ngIf="content?.errors?.[validation.key]">
-                            <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{ validation.value }}
+            <div class="posts">
+                <div class="row post" *ngFor="let post of posts">
+                    <div *ngIf="post.can_edit" class="edit-buttons">
+                        <button type="button">Edit</button>
+                        <button type="button" (click)="deletePost(post.id)">Delete</button>
+                    </div>
+                    <div class="user-card">
+                        <app-avatar [user]="post.user"></app-avatar>
+                        <div class="text">
+                            <a routerLink="/user/profile/{{post.user.id}}">{{post.user.nick}}</a>
+                            <small>{{post.user.rol}}</small>
                         </div>
-                    </ng-container>
+                    </div>
+                    <div class="post-body">
+                        <p> {{post.content}}</p>
+                    </div>
                 </div>
-                </div>
-                <button [disabled]="!formPost.valid" type="submit">
-                    Post
-                </button>
-            </form>
+            </div>
+            <div class="form">
+                <form [formGroup]="formPost" (ngSubmit)="submitPost()">
+                    <div>
+                        <textarea formControlName="content" required cols="30" rows="10"></textarea>
+                        <div class="message-block" *ngIf="!content?.valid && content?.touched">
+                            <ng-container *ngFor="let validation of validationMessagesPost.content | keyvalue">
+                                <div *ngIf="content?.errors?.[validation.key]">
+                                    <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{ validation.value }}
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <button [disabled]="!formPost.valid" type="submit">
+                        Post
+                    </button>
+                </form>
+            </div>
         </div>
         <div class="list-footer">
             <button type="button" (click)="scrollToTop()">Back to top</button>
             <div class="pagination">
-                <a routerLink="/topic/{{topic.id}}" [queryParams]="{page: i+1}" (click)="changePage(i+1)" [class]="{'active': current_page == i+1}" *ngFor="let item of [].constructor(last_page); let i = index">{{i+1}}</a>
+                <a routerLink="/topic/{{topic.id}}" [queryParams]="{page: i+1}" (click)="changePage(i+1)"
+                    [class]="{'active': current_page == i+1}"
+                    *ngFor="let item of [].constructor(last_page); let i = index">{{i+1}}</a>
             </div>
         </div>
     </div>

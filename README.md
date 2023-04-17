@@ -15,7 +15,7 @@ ngOnDestroy
 # Tests
 
 ## Angular
-TOTAL: 92 SUCCESS
+TOTAL: 94 SUCCESS
 
 ## Laravel
 2
