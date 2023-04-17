@@ -18,10 +18,24 @@ class PrivateMessageFactory extends Factory
      */
     public function definition(): array
     {
+        $user1 = User::inRandomOrder()->first();
+        $user2 = User::where('id', '<>', $user1->id)->inRandomOrder()->first();
+        $users = [$user1->id,$user2->id];
+        $topic = Topic::create([
+            'user_id' => $user1->id,
+            'category_id' => 1,
+            'title' => 'Private Message from'.$user1->nick." to ".$user2->nick,
+        ])->afterCreating(function (Topic $top){
+            Post::factory()->count(rand(1,6))->create([
+                'topic_id' => $top->id,
+                'user_id' => $users[$faker->numberBetween(1,2)],
+            ]);
+        });
         return [
-            'topic_id' => $this->faker->unique()->randomElement(Topic::pluck('id')),
-            'user_id' => $this->faker->randomElement(User::pluck('id')),
-            'user2_id' => $this->faker->randomElement(User::pluck('id'))
+            'topic_id' => $topic->id,
+            'user_id' => $user1,
+            'user2_id' => $user2,
+            
         ];
     }
 }

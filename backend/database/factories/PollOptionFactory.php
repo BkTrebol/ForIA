@@ -17,7 +17,7 @@ class PollOptionFactory extends Factory
     public function definition(): array
     {
         return [
-            'option' => fake()->sentence(),
+            'option' => fake()->sentence(2),
             'poll_id' => $this->faker->randomElement(Poll::pluck('id'))
         ];
     }

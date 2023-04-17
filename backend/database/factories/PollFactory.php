@@ -18,7 +18,7 @@ class PollFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->word(),
+            'name' => fake()->sentence(3),
             'finish_date' => fake()->dateTimeBetween('now', '+1 month'),
             'topic_id' => $this->faker->randomElement(Topic::pluck('id')),
         ];
