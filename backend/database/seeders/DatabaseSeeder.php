@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
         );
         User::factory()->create(
             [
-            'email' => 'weolcome@mod.com',
+            'email' => 'welcome@mod.com',
             'roles' => ['MOD_WELCOME','ROLE_USER','ROLE_GUEST']
             ]
         );
@@ -186,7 +186,7 @@ class DatabaseSeeder extends Seeder
 
         // PollOption::factory()->count(10)->create();
         // PollAnswer::factory()->count(40)->create();
-        
+
         // PrivateMessage::factory()->count(5)->create();
 
 

@@ -9,20 +9,13 @@ import { SharedModule } from '../share.module';
 import { ViewComponent } from './components/view/view.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 
-
-
 @NgModule({
-  declarations: [
-    CreateComponent,
-    ListComponent,
-    ReplyComponent,
-    ViewComponent,
-  ],
+  declarations: [CreateComponent, ListComponent, ReplyComponent, ViewComponent],
   imports: [
     CommonModule,
     PrivateMessageRoutingModule,
     SharedModule,
-    AngularEditorModule
-  ]
+    AngularEditorModule,
+  ],
 })
-export class PrivateMessageModule { }
+export class PrivateMessageModule {}

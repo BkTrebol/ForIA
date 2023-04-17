@@ -170,12 +170,17 @@
               }
             }
           }
-          .desc {
-            padding: 8px;
-          }
-          .last-post {
-            @include b;
-            @include row(space-between)
+          .categories {
+            @include row(space-between);
+            .cateogry {
+              h2 {
+              text-decoration: underline;
+            }
+            }
+            .last-post {
+              @include b;
+              @include row(space-between);
+            }
           }
           a {
             @include a-link(
