@@ -65,7 +65,7 @@ export class EditComponent implements OnInit, OnDestroy {
     private themeService: ThemeService
   ) {
     this.unsubscribe$ = new Subject();
-    this.theme = localStorage.getItem('theme') ?? 'dark';
+    this.theme = this.themeService.getTheme();
     this.error = '';
     this.loading = true;
     this.user = {

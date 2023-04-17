@@ -13,11 +13,17 @@
     .form-container {
       background-color: $color-black-opacity;
       color: $color-white-clear;
-      .fields {
-        .group .field {
+      .fields .group {
+        .field {
           .input {
             color: $color-white-clear;
             background-color: opacity($color-black, 0.4);
+            &:focus {
+              outline: $color-grey-clear solid thin;
+            }
+            &::placeholder {
+              color: $color-grey-clear;
+            }
           }
           .input.ng-valid + .icon {
             color: $color-shades1;
@@ -29,29 +35,25 @@
               filter: invert(100%);
             }
           }
-          .row-field {
-            input[type="checkbox"] {
-              accent-color: $color-shades1;
-            }
+        }
+        .row-field {
+          input[type="checkbox"] {
+            accent-color: $color-shades1;
           }
         }
-        .btn-field .btn-send {
-          @include btn($color-shades1, 20%);
-        }
-        .google .line hr {
+      }
+      .btn-field .btn-send {
+        @include btn($color-shades1, 20%);
+      }
+      .google .line hr {
+        border-color: $color-white-clear;
+      }
+      .form-links {
+        hr {
           border-color: $color-white-clear;
         }
-        .form-links {
-          hr {
-            border-color: $color-white-clear;
-          }
-          a {
-            @include a-link(
-              $color-gradient4,
-              $color-gradient3,
-              $color-gradient2
-            );
-          }
+        a {
+          @include a-link($color-gradient4, $color-gradient3, $color-gradient2);
         }
       }
     }
@@ -64,11 +66,17 @@
     .form-container {
       background-color: $color-white-opacity;
       color: $color-black-clear;
-      .fields {
-        .group .field {
+      .fields .group {
+        .field {
           .input {
             color: $color-black-clear;
             background-color: opacity($color-white, 0.4);
+            &:focus {
+              outline: $color-grey-dark solid thin;
+            }
+            &::placeholder {
+              color: $color-grey-dark;
+            }
           }
           .input.ng-valid + .icon {
             color: $color-primary;
@@ -77,29 +85,25 @@
             background: opacity($color-white, 0.4);
             color: $color-black-clear;
           }
-          .row-field {
-            input[type="checkbox"] {
-              accent-color: $color-primary;
-            }
+        }
+        .row-field {
+          input[type="checkbox"] {
+            accent-color: $color-primary;
           }
         }
-        .btn-field .btn-send {
-          @include btn($color-primary, 20%);
-        }
-        .google .line hr {
+      }
+      .btn-field .btn-send {
+        @include btn($color-primary, 20%);
+      }
+      .google .line hr {
+        border-color: $color-black-clear;
+      }
+      .form-links {
+        hr {
           border-color: $color-black-clear;
         }
-        .form-links {
-          hr {
-            border-color: $color-black-clear;
-          }
-          a {
-            @include a-link(
-              $color-gradient5,
-              $color-gradient6,
-              $color-gradient4
-            );
-          }
+        a {
+          @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
         }
       }
     }
@@ -167,15 +171,7 @@
             font-size: $size-p;
             padding: 16px;
             border: none;
-            // color: $color-white-clear;
             border-radius: 8px;
-            // background-color: opacity($color-black, 0.4);
-            &:focus {
-              outline: $color-grey-clear solid thin;
-            }
-            &::placeholder {
-              color: $color-grey-clear;
-            }
             // For autocomplete default properties
             &:-webkit-autofill,
             &:-webkit-autofill:focus {
@@ -229,7 +225,6 @@
           @include row(space-between, 16px);
           input[type="checkbox"] {
             transform: scale(1.5);
-            accent-color: $color-shades1;
           }
         }
       }
@@ -256,7 +251,6 @@
         @include row(center, 8px);
         hr {
           width: 100%;
-          border-color: $color-white-clear;
           border-radius: 8px;
         }
       }
@@ -266,16 +260,11 @@
       @include col(space-around, 16px);
       hr {
         width: 100%;
-        border-color: $color-white-clear;
         border-radius: 8px;
         margin-bottom: 12px;
       }
       a {
         cursor: pointer;
-        color: $color-gradient4;
-        &:hover {
-          color: $color-gradient3;
-        }
       }
     }
   }

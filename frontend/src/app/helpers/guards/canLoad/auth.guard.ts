@@ -21,14 +21,18 @@ export class AuthGuard implements CanLoad {
       return this._authService.isLogged().pipe(
         map((res) => {
           if (!res) {
-            this.router.navigate(['/auth/login']);
+            this.router.navigate(['/auth/login'], {
+              queryParams: { returnUrl: segments.join('/') },
+            });
             return false;
           } else {
             return true;
           }
         }),
         catchError((err) => {
-          this.router.navigate(['/auth/login']);
+          this.router.navigate(['/auth/login'], {
+            queryParams: { returnUrl: segments.join('/') },
+          });
           return of(false);
         })
       );

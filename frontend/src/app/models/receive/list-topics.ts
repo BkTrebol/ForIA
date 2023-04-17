@@ -1,6 +1,9 @@
 export interface ListTopic {
   category: Category;
   topics: Topic[];
+  total: number;
+  current_page: number;
+  last_page: number;
 }
 
 export interface Category {

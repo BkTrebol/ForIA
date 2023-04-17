@@ -97,6 +97,10 @@ No changes
     a {
       @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
     }
+    img {
+      -webkit-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.2));
+      filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.2));
+    }
   }
   p {
     font-family: $font-text;
@@ -264,8 +268,17 @@ No changes
       height: 18px;
     }
   }
-  nav ul {
+  nav ul li {
+    button {
+      font-size: $size-subtitle-small;
+    }
     font-size: $size-subtitle-small;
+    a.avatar {
+      img {
+        width: 30px;
+        height: 30px;
+      }
+    }
   }
 }
 

@@ -11,6 +11,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { Register } from 'src/app/models/register';
 import { AuthService } from '../../service/auth.service';
+import { ThemeService } from 'src/app/helpers/services/theme.service';
 
 // Custom Validator
 function passwordMatchValidator(control: AbstractControl) {
@@ -37,6 +38,7 @@ function passwordMatchValidator(control: AbstractControl) {
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
+  public theme: string;
   public error: string;
   public loading: boolean;
   public canShow: boolean;
@@ -70,8 +72,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
     },
   };
 
-  constructor(private _authService: AuthService, private router: Router) {
+  constructor(
+    private _authService: AuthService,
+    private router: Router,
+    private themeService: ThemeService
+  ) {
     this.unsubscribe$ = new Subject();
+    this.theme = this.themeService.getTheme();
     this.error = '';
     this.loading = false;
     this.canShow = false;
@@ -128,6 +135,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
         if (r) this.router.navigate(['/']);
       });
     this._authService.getCSRF();
+    this.themeService.theme
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((t) => {
+        this.theme = t;
+      });
   }
 
   // Register the User

@@ -19,7 +19,7 @@ export class CategoryService {
     return this.http.get<Forum>(`${this.apiCategoryURL}`);
   }
 
-  topics(id: string): Observable<ListTopic> {
-    return this.http.get<ListTopic>(`${this.apiCategoryURL}${id}`);
+  topics(id: string, page: string): Observable<ListTopic> {
+    return this.http.get<ListTopic>(`${this.apiCategoryURL}${id}?page=${page}`);
   }
 }

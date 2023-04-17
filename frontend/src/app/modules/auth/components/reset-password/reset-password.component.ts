@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { Subject, first, takeUntil } from 'rxjs';
 import { ResetPassword } from 'src/app/models/reset-password';
 import { AuthService } from '../../service/auth.service';
+import { ThemeService } from 'src/app/helpers/services/theme.service';
 
 // Custom Validator
 function passwordMatchValidator(control: AbstractControl) {
@@ -40,6 +41,7 @@ function passwordMatchValidator(control: AbstractControl) {
 })
 export class ResetPasswordComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
+  public theme: string;
   public error: string;
   public errorEmail: string;
   public loading: boolean;
@@ -79,14 +81,19 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     },
   };
 
-  constructor(private _authService: AuthService, private router: Router) {
+  constructor(
+    private _authService: AuthService,
+    private router: Router,
+    private themeService: ThemeService
+  ) {
     this.unsubscribe$ = new Subject();
+    this.theme = themeService.getTheme();
     this.error = '';
     this.errorEmail = '';
     this.loading = false;
     this.canShowOld = false;
     this.canShow = false;
-    this.canShowConf = false
+    this.canShowConf = false;
     this.email = '';
     this.emailSend = false;
     this.resetPasswordData = {
@@ -135,17 +142,23 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this._authService.authData
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((r) => {
         if (r) this.router.navigate(['/']);
       });
     this._authService.getCSRF();
+
+    this.themeService.theme
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((t) => {
+        this.theme = t;
+      });
   }
 
   // Send email
-  sendEmail() {
+  sendEmail(): void {
     if (this.formSendEmail.valid) {
       console.log('Sending email');
       this.emailSend = true;
@@ -224,7 +237,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     return this.formResetPassword.get('password_confirmation');
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

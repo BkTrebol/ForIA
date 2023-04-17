@@ -1,22 +1,50 @@
-<div class="card-container">
+<div class="card-container {{theme}}">
     <div class="card">
         <div class="card-user">
-            <h2>User Data</h2>
-            <button *ngIf="user.can_pm">Send Message</button>
-            <p>Nick: {{user.nick}}</p>
-            <p>Email: {{user.email}}</p>
-            <p>Location: {{user.location}}</p>
-            <p>Birthday: {{user.birthday}}</p>
-            <img *ngIf="user.avatar != null && user.avatar != '' && !(user.avatar | avatarUrl)" class="avatar"
-                [src]="url+user.avatar" width="100" height="100" alt="Avatar">
-            <img *ngIf="user.avatar == null || user.avatar == ''" class="avatar"
-                [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+user.nick" width="100" height="100"
-                alt="Default Avatar">
-            <img *ngIf="user.avatar != null && user.avatar != '' && (user.avatar | avatarUrl)" class="avatar"
-                [src]="user.avatar" width="100" height="100" alt="Google Avatar">
-            <p>Rol: {{user.rol}}</p>
-            <p>Created at: {{user.created_at | date}}</p>
-            <p>Updated at: {{user.updated_at | date}}</p>
+            <div class="card-header">
+                <div class="title">
+                    <img *ngIf="user.avatar != null && user.avatar != '' && !(user.avatar | avatarUrl)" class="avatar"
+                        [src]="url+user.avatar" width="100" height="100" alt="Avatar">
+                    <img *ngIf="user.avatar != null && user.avatar != '' && (user.avatar | avatarUrl)" class="avatar"
+                        [src]="user.avatar" width="100" height="100" alt="Google Avatar">
+                    <img *ngIf="user.avatar == null || user.avatar == ''" class="avatar"
+                        [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+user.nick" width="100" height="100"
+                        alt="Default Avatar">
+                    <div class="text">
+                        <h1>@{{user.nick}}</h1>
+                        <h3>
+                            <fa-icon class="icon" [icon]="['fas', 'users']"></fa-icon>
+                            <span>{{user.rol}}</span>
+                        </h3>
+                    </div>
+                </div>
+                <div class="btns">
+                    <a *ngIf="user.can_pm" routerLink="/private-message/{{user.id}}">Send Message</a>
+                    <a *ngIf="user.id.toString() == userId" routerLink="/user/edit/">Edit Profile</a>
+                </div>
+            </div>
+            <div class="data">
+                <fa-icon class="icon" [icon]="['fas', 'envelope']"></fa-icon>
+                <p>{{user.email}}</p>
+            </div>
+            <div class="data" *ngIf="user.location">
+                <fa-icon class="icon" [icon]="['fas', 'location-dot']"></fa-icon>
+                <p>{{user.location}}</p>
+            </div>
+            <div class="data" *ngIf="user.birthday">
+                <fa-icon class="icon" [icon]="['fas', 'cake-candles']"></fa-icon>
+                <p>{{user.birthday}}</p>
+            </div>
+            <div class="card-footer">
+                <div class="data">
+                    <fa-icon class="icon" [icon]="['fas', 'calendar-days']"></fa-icon>
+                    <p>Created at: {{user.created_at | date}}</p>
+                </div>
+                <div class="data" *ngIf="user.created_at != user.updated_at">
+                    <fa-icon class="icon" [icon]="['fas', 'clock']"></fa-icon>
+                    <p>Updated at: {{user.updated_at | date}}</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

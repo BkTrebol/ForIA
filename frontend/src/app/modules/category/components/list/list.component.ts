@@ -22,7 +22,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this.unsubscribe$ = new Subject();
     this.loading = true;
     this.forum = [];
-    this.theme = localStorage.getItem('theme') ?? 'dark';
+    this.theme = this.themeService.getTheme();
   }
 
   ngOnInit() {
@@ -48,7 +48,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   scrollToTop() {
-    window.scroll(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   ngOnDestroy(): void {

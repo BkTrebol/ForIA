@@ -33,6 +33,11 @@
         </div>
         <div class="list-footer">
             <button type="button" (click)="scrollToTop()">Back to top</button>
+            <div class="pagination">
+                <a routerLink="/category/{{category.id}}" [queryParams]="{page: i+1}" (click)="changePage(i+1)"
+                    [class]="{'active': current_page == i+1}"
+                    *ngFor="let item of [].constructor(last_page); let i = index">{{i+1}}</a>
+            </div>
         </div>
     </div>
 </div>
