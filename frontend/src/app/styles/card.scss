@@ -170,6 +170,13 @@
               }
             }
           }
+          .desc {
+            padding: 8px;
+          }
+          .last-post {
+            @include b;
+            @include row(space-between)
+          }
           a {
             @include a-link(
               $color-gradient4,

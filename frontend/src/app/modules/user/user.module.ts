@@ -7,14 +7,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { EditComponent } from './components/edit/edit.component';
 
 @NgModule({
-  declarations: [
-    ProfileComponent,
-    EditComponent,
-  ],
-  imports: [
-    CommonModule,
-    UserRoutingModule,
-    SharedModule
-  ]
+  declarations: [ProfileComponent, EditComponent],
+  imports: [CommonModule, UserRoutingModule, SharedModule],
 })
-export class UserModule { }
+export class UserModule {}

@@ -150,12 +150,24 @@ No changes
     a {
       @include a-link($color-gradient3, $color-gradient2, $color-gradient1);
     }
+    button {
+      color: $color-white-clear;
+      &:hover {
+        color: $color-secondary;
+      }
+    }
   }
   // Light theme
   &.light {
     background-color: $color-white-clear;
     a {
       @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
+    }
+    button {
+      color: $color-grey-dark;
+      &:hover {
+        color: $color-black-clear;
+      }
     }
   }
   .logo {
@@ -189,19 +201,14 @@ No changes
           margin-right: 12px;
         }
         a {
-          // color: $color-gradient3;
           text-decoration: none;
           font-weight: bold;
           padding-bottom: 5px;
           &.avatar {
             @include row(space-between);
             padding: 0;
-            img {
-              border-radius: 50%;
-              object-fit: cover;
-              object-position: center;
-              width: 50px;
-              height: 50px;
+            span {
+              margin-left: 12px;
             }
           }
         }
@@ -210,16 +217,6 @@ No changes
           font-size: $size-subtitle;
           background-color: transparent;
           border: none;
-          color: $color-white-clear;
-          &:hover {
-            color: $color-secondary;
-          }
-          &.dark {
-            color: $color-grey-dark;
-            &:hover {
-              color: $color-black-clear;
-            }
-          }
         }
       }
     }
@@ -273,12 +270,6 @@ No changes
       font-size: $size-subtitle-small;
     }
     font-size: $size-subtitle-small;
-    a.avatar {
-      img {
-        width: 30px;
-        height: 30px;
-      }
-    }
   }
 }
 

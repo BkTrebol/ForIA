@@ -9,7 +9,6 @@ export interface Category {
   title: string;
   description: string;
   image: null | string;
-  can_post: boolean;
   lastPost: {
     created_at: string;
     topic: {

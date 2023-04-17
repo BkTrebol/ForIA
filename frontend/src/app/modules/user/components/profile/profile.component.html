@@ -3,13 +3,7 @@
         <div class="card-user">
             <div class="card-header">
                 <div class="title">
-                    <img *ngIf="user.avatar != null && user.avatar != '' && !(user.avatar | avatarUrl)" class="avatar"
-                        [src]="url+user.avatar" width="100" height="100" alt="Avatar">
-                    <img *ngIf="user.avatar != null && user.avatar != '' && (user.avatar | avatarUrl)" class="avatar"
-                        [src]="user.avatar" width="100" height="100" alt="Google Avatar">
-                    <img *ngIf="user.avatar == null || user.avatar == ''" class="avatar"
-                        [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+user.nick" width="100" height="100"
-                        alt="Default Avatar">
+                    <app-avatar [user]="user" [width]="'100'" [height]="'100'"></app-avatar>
                     <div class="text">
                         <h1>@{{user.nick}}</h1>
                         <h3>

@@ -16,7 +16,7 @@
                         [icon]="['fas', 'vial']"></fa-icon><span>Topic3</span></a>
             </li>
             <li>
-                <button type="button" [class]="{'dark': theme=='light'}" (click)="changeTheme()"><fa-icon
+                <button type="button" (click)="changeTheme()"><fa-icon
                         [icon]="['fas', theme=='light' ? 'moon': 'sun']"></fa-icon></button>
             </li>
         </ul>
@@ -24,13 +24,8 @@
             <li class="dropdown">
                 <a class="avatar dropbtn" routerLink="/user/profile/{{userIsAuthenticated.userData.id}}"
                     routerLinkActive="active">
-                    <img *ngIf="userIsAuthenticated.userData.avatar == null"
-                        [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+userIsAuthenticated.userData.nick"
-                        alt="Default Avatar" width="40" height="40">
-                    <img *ngIf="userIsAuthenticated.userData.avatar != null && (userIsAuthenticated.userData.avatar | avatarUrl)"
-                        [src]="userIsAuthenticated.userData.avatar" alt="Avatar" width="40" height="40">
-                    <img *ngIf="userIsAuthenticated.userData.avatar != null && !(userIsAuthenticated.userData.avatar | avatarUrl)"
-                        [src]="url+userIsAuthenticated.userData.avatar" alt="Avatar" width="40" height="40">
+                    <app-avatar [user]="userIsAuthenticated.userData" [width]="top? '30': '50'"
+                        [height]="top? '30': '50'"></app-avatar>
                     <span>{{userIsAuthenticated.userData.nick}}</span>
                 </a>
                 <div class="dropdown-content">
@@ -53,7 +48,7 @@
                         [icon]="['fas', 'newspaper']"></fa-icon><span>News</span></a>
             </li>
             <li>
-                <button type="button" [class]="{'dark': theme=='light'}" (click)="changeTheme()"><fa-icon
+                <button type="button" (click)="changeTheme()"><fa-icon
                         [icon]="['fas', theme=='light' ? 'moon': 'sun']"></fa-icon></button>
             </li>
         </ul>
