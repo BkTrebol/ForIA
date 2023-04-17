@@ -5,6 +5,7 @@ import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 // Extra (icons)
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AvatarUrlPipe } from '../helpers/pipes/avatar-url.pipe';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [AvatarUrlPipe],
@@ -14,6 +15,7 @@ import { AvatarUrlPipe } from '../helpers/pipes/avatar-url.pipe';
     HttpClientModule,
     HttpClientXsrfModule,
     FontAwesomeModule,
+    NgSelectModule,
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
   ],
   providers: [],
@@ -24,6 +26,7 @@ import { AvatarUrlPipe } from '../helpers/pipes/avatar-url.pipe';
     HttpClientXsrfModule,
     FontAwesomeModule,
     AvatarUrlPipe,
+    NgSelectModule,
   ],
 })
 export class SharedModule {}

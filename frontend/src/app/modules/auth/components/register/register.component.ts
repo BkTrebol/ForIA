@@ -144,6 +144,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             this.router.navigate(['/user/profile']);
           },
           error: (err) => {
+            console.log(err)
             this.loading = false;
             // Message error
             this.error = err.error.message.split('.')[0];

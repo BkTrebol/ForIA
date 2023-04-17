@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Google_Client;
 use Carbon\Carbon;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Support\Facades\Notification;
 
 use App\Models\User;
 
@@ -43,11 +45,15 @@ class AuthController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
          ]);
 
-        User::create([
+        $user = User::create([
             'nick' => $request->nick,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        if (!$user->hasVerifiedEmail()) {
+            $user->notify(new VerifyEmail(['url' => 'http://localhost:4200/auth/login']));
+        }
+        Auth::login($user);
 
     return response()->json(['message' => 'User created successfully'],201);
     }
@@ -63,11 +69,19 @@ class AuthController extends Controller
     function userData(Request $request){
         $user = Auth::user();
         $preferences = Auth::user()->preferences->only('sidebar','allow_music');
+        $user['isAdmin'] = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
+        $user['isVerified'] = $user->email_verified_at != null;
 
         return response()->json([
             'userData'=> $user,
             'userPreferences' => $preferences,
         ],200);
+    }
+
+    function resendVerification(Request $request){
+        if (!$user->hasVerifiedEmail()) {
+            $user->notify(new VerifyEmail(['url' => 'http://localhost:4200/auth/login']));
+        }
     }
 
     function googleAuth(Request $request){
@@ -135,8 +149,8 @@ class AuthController extends Controller
             if($user->email_verified_at == null){
                 $user->email_verified_at = now();
             }
-
             $user->update();
+            Auth::login($user);
             return response()->json([
                 'message' => 'Account linked to Google account successfully',
             ],200);

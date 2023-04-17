@@ -1,1 +1,30 @@
-<p>create works!</p>
+
+<div class="list-page">
+    <div class="list">
+        <div class="list-header">
+            <h1>New Message</h1>
+        </div>
+        <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
+        <div class="new-pm" *ngIf="!loading">
+            <div class="user-search">
+                <!-- <input *ngIf="userList.length == 0" type="text" name="user" (keyup.enter)="onSearch()" [(ngModel)]="search">  -->
+                <ng-select
+                [placeholder]="'User'"
+                [items]="userList$ | async"
+                class="select"
+                bindLabel="nick"
+                bindValue="nick"
+                [(ngModel)]="user"
+                class="select">
+                </ng-select>
+            </div>
+            <div class="title">
+                <input type="text" placeholder="title" [(ngModel)]="title">
+            </div>
+            <div class="editor">
+                <angular-editor  [(ngModel)]="content" [config]="editorConfig"></angular-editor>
+            </div>
+            <input type="submit" class="btn btn-primary" (click)="onSubmit()">
+        </div>
+    </div>
+</div>

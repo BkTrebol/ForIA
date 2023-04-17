@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CategoryController;
@@ -38,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::put('/password','changePassword');
         Route::get('/preference','getUserPreferences');
         Route::put('/preference','editUserPreference');
+        Route::get('/list/{search?}','getUserList');
     });
 
 
@@ -73,9 +75,21 @@ Route::middleware('auth:sanctum')->group(function(){
 });
 
 // Public routes.
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    $user = $request->user();
+    $roles = $user->roles;
+    array_push($roles,'ROLE_USER');
+    $user->roles = $roles;
+    $user->save();    
+    return redirect()->away('http://localhost:4200');
+})->middleware(['auth:sanctum','signed'])->name('verification.verify');
+
+
 Route::controller(AuthController::class)->prefix('auth')->group(function(){
     Route::post('/register','register');
-    Route::post('/login','login');
+    Route::post('/login','login')->name('login');
     Route::post('/googleauth','googleAuth');
     Route::post('/googleconfirm','confirmGoogle');
     Route::get('/check-login','checkLogin');

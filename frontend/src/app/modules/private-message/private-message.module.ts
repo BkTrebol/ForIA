@@ -7,6 +7,7 @@ import { ListComponent } from './components/list/list.component';
 import { ReplyComponent } from './components/reply/reply.component';
 import { SharedModule } from '../share.module';
 import { ViewComponent } from './components/view/view.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 
 
@@ -21,6 +22,7 @@ import { ViewComponent } from './components/view/view.component';
     CommonModule,
     PrivateMessageRoutingModule,
     SharedModule,
+    AngularEditorModule
   ]
 })
 export class PrivateMessageModule { }

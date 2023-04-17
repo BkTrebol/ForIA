@@ -128,4 +128,12 @@ class UserController extends Controller
             ],403);
         }
     }
+
+    function getUserList(string $search=""){
+        $user = Auth::user();
+
+        return response()->json(
+            User::where("id",'<>',$user->id)->where('nick','like','%' . $search . '%')->get(['id','nick'])
+        );
+    }
 }

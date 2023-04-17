@@ -21,19 +21,20 @@ class CategoryController extends Controller
         $categories = Category::get()->whereIn('can_view', $roles)->groupBy('section')->map(function($section,$sectionName)use($roles){
            $abc['categories'] = $section->map(function($category) use($roles){
         $post = $category->lastPost;
-        $category['can_post'] = in_array($category->can_post,$roles);
-        $category['lastPost'] = [
-                'created_at' => $post->created_at,
-                'topic' => [
-                    'id' => $post->topic->id,
-                    'title' => $post->topic->title,
-                ],
-                'user' =>[
-                    'id' => $post->user->id,
-                    'nick' =>$post->user->nick,
-                    'avatar' => $post->user->avatar,
-                ]
-                ];
+        if ($post){
+            $category['can_post'] = in_array($category->can_post,$roles);
+            $category['lastPost'] = [
+                    'created_at' => $post->created_at,
+                    'topic' => [
+                        'id' => $post->topic->id,
+                        'title' => $post->topic->title,
+                    ],
+                    'user' =>[
+                        'id' => $post->user->id,
+                        'nick' =>$post->user->nick,
+                        'avatar' => $post->user->avatar,
+                    ]
+                ];}
         return $category->only('id','title','lastPost','description','image','can_post');
             });
             $abc['name'] = $sectionName;

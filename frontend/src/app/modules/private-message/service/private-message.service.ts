@@ -23,4 +23,8 @@ export class PrivateMessageService {
     getMessage(id:string,page:number):Observable<PrivateMessage>{
       return this.http.get<PrivateMessage>(`${this.apiPrivateMessageURL}${id}?page=${page}`);
     }
+
+    getUserList(search:string):Observable<any>{
+      return this.http.get<any>(`${Global.api}user/list/${search}`);
+    }
 }

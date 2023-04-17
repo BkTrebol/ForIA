@@ -14,6 +14,8 @@ use App\Models\Category;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+ 
+
 
 Route::get('/', function () {
     return view('welcome');
