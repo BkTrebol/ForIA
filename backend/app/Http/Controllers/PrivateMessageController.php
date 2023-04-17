@@ -19,6 +19,7 @@ class PrivateMessageController extends Controller
         return response()->json([
             "messages" => $pms->map(function($pm) use($user){
                 $topic =  Topic::find($pm->topic_id)->load('user:id,nick')->only('id','title','description','user','created_at');
+                $topic['to'] = ['id' => $pm->user2_id,'nick' => $pm->user2->nick];
                 return $topic;
             }),
             "current_page" => $pms->currentPage(),
@@ -26,6 +27,16 @@ class PrivateMessageController extends Controller
             "total" => $pms->total()
         ]);
 
+    }
+
+    function getTopicData(Topic $topic){
+        $user = Auth::user();
+        $pm = PrivateMessage::where('topic_id', $topic->id)->first();
+        // dd($pm);
+        if($pm->user_id != $user->id && $pm->user2_id != $user->id)
+            return response()->json('Unauthorized',403);
+
+        return response()->json(['title' => $topic->title],200);
     }
 
     function getPrivateMessage(Topic $pm){
@@ -70,7 +81,6 @@ class PrivateMessageController extends Controller
         $topic = Topic::create([
             'category_id' => config('app.pmCategory'),
             'title' => $request->title,
-            'description' => $request->description,
             'content' => $request->content,
             'user_id' => $user->id,
             'can_view' => 'NONE',
