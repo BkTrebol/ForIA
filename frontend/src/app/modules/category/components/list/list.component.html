@@ -6,8 +6,7 @@
     <div class="list" *ngIf="!loading">
         <div class="list-header">
             <h1>FORIA</h1>
-            <!-- <a *ngIf="" routerLink="/category/create">Create new Category</a> -->
-            <!-- routerLink="/category/{{category.id}}" -->
+            <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
         </div>
         <div class="list-body">
             <ul>
@@ -16,12 +15,21 @@
                     <ul>
                         <li *ngFor="let category of section.categories">
                             <div class="title">
-                                <div>
-                                    <h2 routerLink="/category/{{category.id}}">Category: {{category.title}}</h2>
-                                </div>
+                                <h2 routerLink="/category/{{category.id}}">Category: {{category.title}}</h2>
+                                <a *ngIf="category.can_post" routerLink="/topic/create">Create new Topic</a>
                             </div>
+                            <div class="desc">
                             <p>{{category.description}}</p>
-                            <img *ngIf="category.image != null" src="{{category.image}}" alt="{{category.image}}">
+                            <img *ngIf="category.image" src="{{category.image}}" alt="Image of {{category.title}}">
+                            </div>
+                            <div class="last-post">
+                                <div class="user">
+                                    <img src="" alt="">
+                                    <h4 routerLink="/user/profile/{{category.lastPost.user.nick}}">{{category.lastPost.user.nick}}</h4>
+                                </div>
+                                <h3 routerLink="/topic/{{category.lastPost.topic.id}}">{{category.lastPost.topic.title}}</h3>
+                                <h5>{{category.lastPost.created_at | date}}</h5>
+                            </div>
                         </li>
                     </ul>
                 </li>

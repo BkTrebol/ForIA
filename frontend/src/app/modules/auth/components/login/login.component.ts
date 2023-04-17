@@ -9,6 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthData } from 'src/app/models/auth-data';
 import { AuthService } from '../../service/auth.service';
+import { ThemeService } from 'src/app/helpers/services/theme.service';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ import { AuthService } from '../../service/auth.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
+  public theme: string;
   public error: string;
   public loading: boolean;
   public canShow: boolean;
@@ -40,9 +42,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private _authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private themeService: ThemeService
   ) {
     this.unsubscribe$ = new Subject();
+    this.theme = this.themeService.getTheme();
     this.error = '';
     this.loading = false;
     this.canShow = false;
@@ -77,6 +81,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (r) this.router.navigate(['/']);
       });
     this._authService.getCSRF();
+    this.themeService.theme
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((t) => {
+        this.theme = t;
+      });
     const script = document.createElement('script');
     script.src = 'https://accounts.google.com/gsi/client';
     script.async = true;
@@ -95,11 +104,12 @@ export class LoginComponent implements OnInit, OnDestroy {
           next: (res) => {
             this.error = '';
             this.loading = false;
-            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-            this.router.navigateByUrl(returnUrl);
+            this.router.navigateByUrl(
+              this.route.snapshot.queryParams['returnUrl'] || '/'
+            );
           },
           error: (err) => {
-            console.log("Err (login ts):", err);
+            console.log('Err (login ts):', err);
             this.loading = false;
             this.error = err.error.message;
             this.formLogin.controls['password'].reset();

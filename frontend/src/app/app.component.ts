@@ -1,6 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import {
+  ActivationEnd,
+  ActivationStart,
+  ChildActivationEnd,
+  ChildActivationStart,
   GuardsCheckEnd,
   GuardsCheckStart,
   NavigationCancel,
@@ -14,7 +18,7 @@ import {
 import { AuthService } from './modules/auth/service/auth.service';
 import { User } from './models/user';
 import { UserPreferences } from './models/user-preferences';
-
+import { ThemeService } from 'src/app/helpers/services/theme.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -27,14 +31,18 @@ export class AppComponent implements OnInit, OnDestroy {
     userPreferences: UserPreferences;
   } | null;
   public loading: boolean;
-  public currentTheme: string;
+  public theme: string;
 
-  constructor(private _authService: AuthService, private router: Router) {
+  constructor(
+    private _authService: AuthService,
+    private router: Router,
+    private themeService: ThemeService
+  ) {
     this.unsubscribe$ = new Subject();
     this.userIsAuthenticated = null;
     this.loading = false;
     this._authService.autoAuthUser();
-    this.currentTheme = localStorage.getItem('theme') ?? '';
+    this.theme = themeService.getTheme();
   }
 
   ngOnInit() {
@@ -49,7 +57,9 @@ export class AppComponent implements OnInit, OnDestroy {
       if (
         event instanceof GuardsCheckStart ||
         event instanceof NavigationStart ||
-        event instanceof ResolveStart
+        event instanceof ResolveStart ||
+        event instanceof ChildActivationStart ||
+        event instanceof ActivationStart
       ) {
         this.loading = true;
       }
@@ -58,18 +68,20 @@ export class AppComponent implements OnInit, OnDestroy {
         event instanceof NavigationEnd ||
         event instanceof NavigationCancel ||
         event instanceof NavigationError ||
-        event instanceof ResolveEnd
+        event instanceof ResolveEnd ||
+        event instanceof ChildActivationEnd ||
+        event instanceof ActivationEnd
       ) {
         this.loading = false;
       }
     });
 
     // Set Theme
-    if (this.currentTheme == 'dark') {
-      document.body.classList.toggle('dark-theme');
-    } else if (this.currentTheme == 'light') {
-      document.body.classList.toggle('light-theme');
-    }
+    this.themeService.theme
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((t) => {
+        this.theme = t;
+      });
   }
 
   ngOnDestroy(): void {

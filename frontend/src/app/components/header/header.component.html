@@ -12,6 +12,9 @@
             <li><a routerLink="/category/2" routerLinkActive="active"><fa-icon
                         [icon]="['fas', 'newspaper']"></fa-icon><span>News</span></a>
             </li>
+            <li><a routerLink="/topic/3" routerLinkActive="active"><fa-icon
+                        [icon]="['fas', 'vial']"></fa-icon><span>Topic3</span></a>
+            </li>
             <li>
                 <button type="button" [class]="{'dark': theme=='light'}" (click)="changeTheme()"><fa-icon
                         [icon]="['fas', theme=='light' ? 'moon': 'sun']"></fa-icon></button>
@@ -48,6 +51,10 @@
         <ul>
             <li><a routerLink="/category/2" routerLinkActive="active"><fa-icon
                         [icon]="['fas', 'newspaper']"></fa-icon><span>News</span></a>
+            </li>
+            <li>
+                <button type="button" [class]="{'dark': theme=='light'}" (click)="changeTheme()"><fa-icon
+                        [icon]="['fas', theme=='light' ? 'moon': 'sun']"></fa-icon></button>
             </li>
         </ul>
         <ul>

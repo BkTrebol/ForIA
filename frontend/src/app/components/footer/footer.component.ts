@@ -13,7 +13,7 @@ export class FooterComponent implements OnInit , OnDestroy {
 
   constructor(private themeService: ThemeService) {
     this.unsubscribe$ = new Subject();
-    this.theme = localStorage.getItem('theme') ?? 'dark';
+    this.theme = themeService.getTheme();
   }
 
   ngOnInit(): void {

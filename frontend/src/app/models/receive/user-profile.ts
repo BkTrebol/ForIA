@@ -1,4 +1,5 @@
 export interface PublicUserProfile {
+  id: number
   nick: string;
   email: string;
   location: string;

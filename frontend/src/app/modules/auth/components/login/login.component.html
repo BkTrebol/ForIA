@@ -1,4 +1,4 @@
-<div class="form-page">
+<div class="form-page {{theme}}">
     <form [formGroup]="formLogin" (ngSubmit)="submit()" class="form-container">
         <h2>Login</h2>
         <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}</h3>

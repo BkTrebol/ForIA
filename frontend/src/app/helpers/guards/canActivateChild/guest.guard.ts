@@ -26,11 +26,11 @@ export class GuestGuard implements CanActivateChild {
     if (!isAuth || isAuth === null) {
       return this._authService.isLogged().pipe(
         map((res) => {
-          if (!res) {
-            return true;
-          } else {
+          if (res) {
             this.router.navigate(['/']);
             return false;
+          } else {
+            return true;
           }
         }),
         catchError((err) => {

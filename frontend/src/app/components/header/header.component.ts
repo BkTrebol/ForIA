@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../modules/auth/service/auth.service';
 import { User } from '../../models/user';
@@ -22,20 +22,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public top: boolean;
   public canSmall: boolean;
   public url: string;
-  public prefersDarkScheme: MediaQueryList;
   public theme: string;
 
-  constructor(private _authService: AuthService, private router: Router, private themeService: ThemeService) {
+  constructor(
+    private _authService: AuthService,
+    private router: Router,
+    private themeService: ThemeService
+  ) {
     this.unsubscribe$ = new Subject();
     this.userIsAuthenticated = null;
     this.top = false;
     this.canSmall = false;
     this.url = Global.api + 'user/get-avatar/';
-    this.prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-    this.theme = localStorage.getItem('theme') ?? '';
+    this.theme = this.themeService.getTheme();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this._authService.authData
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((r) => {
@@ -45,30 +47,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // Function that change the nav height on scroll
     this.small();
     // Only in some pages
-    this.router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        if (
-          [
-            '/auth/login',
-            '/auth/register',
-            '/auth/reset-password',
-            '/user/edit',
-            '/user/profile',
-            '/user/preferences',
-          ].includes(event.url)
-        ) {
-          this.canSmall = false;
-        } else {
-          this.canSmall = true;
-        }
+    this.router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((_) => {
+      if (
+        [
+          '/auth/login',
+          '/auth/register',
+          '/auth/reset-password',
+          '/user/edit',
+          '/user/profile',
+        ].includes(this.router.url)
+      ) {
+        this.canSmall = false;
+      } else {
+        this.canSmall = true;
       }
     });
 
     // Set default theme
-    if (this.theme === '') {
-      this.theme = this.prefersDarkScheme.matches ? 'light' : 'dark';
-    }
-    this.themeService.changeTheme(this.theme);
+    this.themeService.theme
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((t) => {
+        this.theme = t;
+      });
   }
 
   // For changing the nav height on scroll
@@ -90,19 +90,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   // Change the Theme
   changeTheme(): void {
-    if (this.prefersDarkScheme.matches) {
-      document.body.classList.toggle('light-theme');
-      this.theme = document.body.classList.contains('light-theme')
-        ? 'light'
-        : 'dark';
-    } else {
-      document.body.classList.toggle('dark-theme');
-      this.theme = document.body.classList.contains('dark-theme')
-        ? 'dark'
-        : 'light';
-    }
-    localStorage.setItem('theme', this.theme);
-    this.themeService.changeTheme(this.theme)
+    this.theme = this.theme == 'dark' ? 'light' : 'dark';
+    this.themeService.changeTheme(this.theme);
   }
 
   // Logout the user

@@ -21,7 +21,8 @@ export class CategoryResolver implements Resolve<boolean | ListTopic> {
     state: RouterStateSnapshot
   ): Observable<boolean | ListTopic> {
     const id = route.paramMap.get('id') ?? '';
-    return this.categoryService.topics(id).pipe(
+    const page = route.queryParams['page'] ?? '1';
+    return this.categoryService.topics(id, page).pipe(
       map((res) => {
         if (res) {
           return res;
