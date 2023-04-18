@@ -75,6 +75,10 @@ export class ViewComponent implements OnInit, OnDestroy {
           this.topics = res.topics;
           //can_post?
         },
+
+        complete: () => {
+          this.loading = false;
+        }
       });
   }
 

@@ -8,7 +8,12 @@ import {
   FormGroup,
 } from '@angular/forms';
 import { TopicService } from '../../service/topic.service';
-import { ListPosts, Category, Topic, Post } from 'src/app/models/receive/list-posts';
+import {
+  ListPosts,
+  Category,
+  Topic,
+  Post,
+} from 'src/app/models/receive/list-posts';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 
 @Component({
@@ -33,7 +38,6 @@ export class ViewComponent implements OnInit, OnDestroy {
   public validationMessagesPost = {
     content: {
       required: "The Post can't be empty",
-      minlength: 'Min Length is 3',
       maxlength: 'Max Length is 255',
     },
   };
@@ -68,32 +72,17 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';
     this.formBuilderNonNullable = new FormBuilder().nonNullable;
     this.formPost = this.formBuilderNonNullable.group({
-      content: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(255),
-        ],
-      ],
+      content: ['', [Validators.required, Validators.maxLength(255)]],
     });
     this.theme = themeService.getTheme();
   }
 
   ngOnInit() {
-    if (this.route.snapshot.data['response']) {
-      this.last_page = this.route.snapshot.data['response'].last_page;
-      this.current_page = this.route.snapshot.data['response'].current_page;
-      this.category = this.route.snapshot.data['response'].category;
-      this.topic = this.route.snapshot.data['response'].topic;
-      this.posts = this.route.snapshot.data['response'].posts;
-      this.can_post = this.route.snapshot.data['response'].can_post;
-      this.can_edit = this.route.snapshot.data['response'].can_edit;
-      this.loading = false;
-    } else {
-      this.loading = false;
-      this.router.navigate(['/']);
-    }
+    this.getData(
+      this.route.snapshot.paramMap.get('id') ?? '',
+      this.route.snapshot.queryParams['page'] ?? '1'
+    );
+
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((t) => {
@@ -101,15 +90,13 @@ export class ViewComponent implements OnInit, OnDestroy {
       });
   }
 
-  changePage(page: number) {
-    console.log("changePage", page);
+  getData(id: string, page: string) {
     this.topicService
-      .posts(this.topic.id.toString(), page.toString())
+      .posts(id, page)
       .pipe(takeUntil(this.unsubscribe$))
-      // .pipe(filter((res: ListPosts) => res.posts.length > 0)) //test
       .subscribe({
         next: (res) => {
-          console.log("res", res);
+          this.scrollToTop();
           this.total = res.total;
           this.last_page = res.last_page;
           this.current_page = res.current_page;
@@ -118,8 +105,39 @@ export class ViewComponent implements OnInit, OnDestroy {
           this.posts = res.posts;
           this.can_post = res.can_post;
           this.can_edit = res.can_edit;
+          if (this.posts.length == 0) {
+            this.loading = true;
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { page: this.last_page },
+              queryParamsHandling: 'merge',
+            });
+            this.getData(this.topic.id.toString(), this.last_page.toString());
+          } else if (this.current_page != 1) {
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { page: this.current_page },
+              queryParamsHandling: 'merge',
+            });
+            this.loading = false;
+          } else {
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { page: null },
+              queryParamsHandling: 'merge',
+            });
+            this.loading = false;
+          }
+        },
+        error: (err) => {
+          this.loading = false;
+          console.log(err);
         },
       });
+  }
+
+  changePage(page: number) {
+    this.getData(this.topic.id.toString(), page.toString());
   }
 
   submitPost() {

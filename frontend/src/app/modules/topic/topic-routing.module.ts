@@ -3,8 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { CreateComponent } from './components/create/create.component';
 import { ViewComponent } from './components/view/view.component';
 
-import { TopicResolver } from 'src/app/helpers/resolvers/topic.resolver';
-
 const routes: Routes = [
   {
     path: 'create',
@@ -15,15 +13,17 @@ const routes: Routes = [
     path: ':id',
     component: ViewComponent,
     title: 'ForIA',
-    resolve: {
-      response: TopicResolver,
-    },
+  },
+  {
+    path: '',
+    redirectTo: '/', //TODO error page
+    pathMatch: 'full',
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [TopicResolver],
+  providers: [],
 })
 export class TopicRoutingModule {}

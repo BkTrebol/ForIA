@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 // App
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Includes
 import { HeaderComponent } from './components/header/header.component';
@@ -28,6 +29,7 @@ import { SharedModule } from './modules/share.module';
     AppRoutingModule,
     HttpClientModule,
     FontAwesomeModule,
+    BrowserAnimationsModule,
     SharedModule,
   ],
   providers: [

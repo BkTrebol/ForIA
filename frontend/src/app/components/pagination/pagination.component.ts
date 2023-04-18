@@ -10,21 +10,22 @@ export class PaginationComponent {
   @Input('current_page') current_page: number;
   @Input('last_page') last_page: number;
 
-  @Output('changePage') changePage= new EventEmitter<number>();
+  @Output('changePage') changePage;
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
   ) {
     this.current_page = 1;
     this.last_page = 1;
+    this.changePage = new EventEmitter<number>();
   }
 
-  onChangePage(value: number){
-    this.changePage.emit(value);
+  onChangePage(newPage: number){
+    this.changePage.emit(newPage);
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { page: value },
+      queryParams: { page: newPage },
       queryParamsHandling: 'merge',
     });
   }

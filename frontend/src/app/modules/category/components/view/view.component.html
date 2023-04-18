@@ -13,15 +13,15 @@
                 <li *ngFor="let topic of topics" routerLink="/topic/{{topic.id}}">
                     <div class="title">
                         <div>
-                            <h2>Topic: {{topic.title}}</h2>
+                            <h2>{{topic.title}}</h2>
                             <h3 routerLink="/user/profile/{{topic.user.id}}">By {{topic.user.nick}}</h3>
+                            <app-avatar [user]="topic.user"></app-avatar>
                         </div>
                         <div class="row">
-                            <div class="buttons">
-                                <!-- <button *ngIf="topic.can_edit">Edit</button> -->
+                            <!-- <div class="buttons" *ngIf="topic.can_edit">
                                 <button type="button">Edit</button>
                                 <button type="button">Delete</button>
-                            </div>
+                            </div> -->
                             <p>{{topic.created_at | date}}</p>
                         </div>
                     </div>
