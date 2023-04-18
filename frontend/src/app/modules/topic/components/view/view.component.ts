@@ -102,12 +102,14 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
   changePage(page: number) {
+    console.log("changePage", page);
     this.topicService
       .posts(this.topic.id.toString(), page.toString())
       .pipe(takeUntil(this.unsubscribe$))
-      .pipe(filter((res: ListPosts) => res.posts.length > 0)) //test
+      // .pipe(filter((res: ListPosts) => res.posts.length > 0)) //test
       .subscribe({
         next: (res) => {
+          console.log("res", res);
           this.total = res.total;
           this.last_page = res.last_page;
           this.current_page = res.current_page;

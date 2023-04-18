@@ -6,7 +6,7 @@
     <div class="list" *ngIf="!loading">
         <div class="list-header">
             <h1><a routerLink="/category/{{category.id}}">{{category.title}}</a></h1>
-            <h2>Topic: {{topic.title}}</h2>
+            <h2>{{topic.title}}</h2>
             <a *ngIf="can_post" routerLink="/topic/create">Create new Post</a>
         </div>
         <div class="list-body">
@@ -66,11 +66,7 @@
         </div>
         <div class="list-footer">
             <button type="button" (click)="scrollToTop()">Back to top</button>
-            <div class="pagination">
-                <a routerLink="/topic/{{topic.id}}" [queryParams]="{page: i+1}" (click)="changePage(i+1)"
-                    [class]="{'active': current_page == i+1}"
-                    *ngFor="let item of [].constructor(last_page); let i = index">{{i+1}}</a>
-            </div>
+            <app-pagination [current_page]="current_page" [last_page]="last_page" (changePage)="changePage(1)"></app-pagination>
         </div>
     </div>
 </div>

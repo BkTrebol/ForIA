@@ -9,9 +9,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
 import { AvatarUrlPipe } from '../helpers/pipes/avatar-url.pipe';
 import { AvatarComponent } from '../components/avatar/avatar.component';
+import { PaginationComponent } from '../components/pagination/pagination.component';
 
 @NgModule({
-  declarations: [AvatarUrlPipe, AvatarComponent],
+  declarations: [AvatarUrlPipe, AvatarComponent, PaginationComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -20,6 +21,7 @@ import { AvatarComponent } from '../components/avatar/avatar.component';
     HttpClientXsrfModule,
     FontAwesomeModule,
     NgSelectModule,
+    // PaginationComponent,
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
   ],
   providers: [],
@@ -31,6 +33,7 @@ import { AvatarComponent } from '../components/avatar/avatar.component';
     FontAwesomeModule,
     AvatarUrlPipe,
     AvatarComponent,
+    PaginationComponent,
     NgSelectModule,
   ],
 })
