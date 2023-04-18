@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 <div class="topic-body">
-                    <p>{{topic.content}}</p>
+                    <p [innerHTML]="topic.content"></p>
                     <p>{{topic.created_at | date}}</p>
                 </div>
             </div>
@@ -42,11 +42,11 @@
                         </div>
                     </div>
                     <div class="post-body">
-                        <p> {{post.content}}</p>
+                        <p [innerHTML]="post.content"> </p>
                     </div>
                 </div>
             </div>
-            <div class="form">
+            <!-- <div class="form">
                 <form [formGroup]="formPost" (ngSubmit)="submitPost()">
                     <div>
                         <textarea formControlName="content" required cols="30" rows="10"></textarea>
@@ -62,7 +62,18 @@
                         Post
                     </button>
                 </form>
+            </div> -->
+            <div class="editor-parent" *ngIf="can_post">
+                <div *ngIf="error != ''" class="error">
+                    {{error}}
+                </div>
+                <div class="editor {{theme}}">
+                    <angular-editor  id="editor" [(ngModel)]="content" [config]="editorConfig"></angular-editor>
+                </div>
+                <input type="submit" [disabled]="content.length == 0 || content.length > 10_000" class="btn btn-primary" (click)="onSubmit()">
+
             </div>
+
         </div>
         <div class="list-footer">
             <button type="button" (click)="scrollToTop()">Back to top</button>

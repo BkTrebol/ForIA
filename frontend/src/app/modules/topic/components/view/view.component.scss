@@ -26,3 +26,23 @@
 
 //loading skeleton
 
+.editor{
+  width:50rem;
+
+  &.light{
+    color:black;
+    background-color: #a0afa0;
+  }
+
+  &.dark{
+    color:white;
+    background-color: #222;
+  }
+
+}
+
+
+.editor-parent{
+  display:grid;
+  place-content: center;
+}
