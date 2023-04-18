@@ -100,17 +100,7 @@ class DatabaseSeeder extends Seeder
             )
         )->create([
             'section' => 'GPT',
-        ])
-        // ->afterCreating(function (Category $category){
-        //     Topic::factory()->count(rand(1,6))->create([
-        //         'category_id' => $category->id,
-        //     ])->afterCreating(function (Topic $topic){
-        //         Post::factory()->count(rand(1,6))->create([
-        //             'topic_id' => $topic->id,
-        //         ]);
-        //     });
-        // })
-        ;
+        ]);
 
         Category::factory()->has(
             Topic::factory()
@@ -121,17 +111,7 @@ class DatabaseSeeder extends Seeder
             )
         )->count(4)->create([
             'section' => 'Imagenes',
-        ])
-        // ->afterCreating(function (Category $category){
-        //     Topic::factory()->count(rand(1,6))->create([
-        //         'category_id' => $category->id,
-        //     ])->afterCreating(function (Topic $topic){
-        //         Post::factory()->count(rand(1,6))->create([
-        //             'topic_id' => $topic->id,
-        //         ]);
-        //     });
-        // })
-        ;
+        ]);
 
         Category::factory()->has(
             Topic::factory()
@@ -155,17 +135,7 @@ class DatabaseSeeder extends Seeder
         )->count(1)->create([
             'title' => 'PostPagination',
             'section' => 'Offtopic',
-        ])
-        // ->afterCreating(function (Category $category){
-        //     Topic::factory()->count(rand(15,25))->create([
-        //         'category_id' => $category->id,
-        //     ])->afterCreating(function (Topic $topic){
-        //         Post::factory()->count(rand(1,6))->create([
-        //             'topic_id' => $topic->id,
-        //         ]);
-        //     });
-        // })
-        ;
+        ]);
 
 
 
@@ -178,10 +148,6 @@ class DatabaseSeeder extends Seeder
                 $option->answers()->saveMany(Factory::factoryForModel(PollAnswer::class)->count(rand(0, 10))->make(['user_id' => rand(1, 10)]));
             });
 
-            // $poll->options()->saveMany(factory(PollOption::class, rand(2, 5))->make());
-            // $poll->options->each(function ($option) use ($poll) {
-            //     $option->pollAnswers()->saveMany(factory(PollAnswer::class, rand(0, 10))->make(['user_id' => rand(1, 10)]));
-            // });
         });
 
         // PollOption::factory()->count(10)->create();
