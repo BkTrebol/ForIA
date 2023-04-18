@@ -40,11 +40,11 @@
             </p>
             <hr>
             <p class="content" [innerHTML]="post.content">
-                
+
             </p>
         </div>
         <div class="avatar">
-            <img [src]="apiUrl+post.user.avatar">
+            <app-avatar [user]="post.user"></app-avatar>
             <a routerLink="/user/profile/{{post.user.id}}">{{post.user.nick}}</a>
             <p>{{post.user.role}}</p>
         </div>

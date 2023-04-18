@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReplyComponent } from './reply.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('ReplyComponent', () => {
   let component: ReplyComponent;
@@ -8,9 +13,16 @@ describe('ReplyComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReplyComponent ]
-    })
-    .compileComponents();
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        FontAwesomeTestingModule,
+        AngularEditorModule,
+        ReactiveFormsModule,
+        FormsModule,
+      ],
+      declarations: [ReplyComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ReplyComponent);
     component = fixture.componentInstance;

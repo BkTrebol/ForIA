@@ -99,10 +99,44 @@
     .list {
       background-color: $color-primary1;
       color: $color-white-clear;
-      .list-body ul li {
-        background-color: $color-black-grey;
-        a {
-          @include a-link($color-gradient4, $color-gradient5, $color-gradient6);
+      .user-card {
+        .text{
+          a{
+            @include a-link(
+              $color-gradient4,
+              $color-gradient5,
+              $color-gradient6
+            );
+          }
+        }
+      }
+      .list-header {
+        h1 {
+          a {
+            @include a-link(
+              $color-gradient4,
+              $color-gradient5,
+              $color-gradient6
+            );
+          }
+        }
+      }
+      .list-body {
+        .topic {
+          background-color: $color-black-grey;
+        }
+        .post {
+          background-color: $color-black-grey;
+        }
+        ul li {
+          background-color: $color-black-grey;
+          a {
+            @include a-link(
+              $color-gradient4,
+              $color-gradient5,
+              $color-gradient6
+            );
+          }
         }
       }
     }
@@ -114,12 +148,46 @@
   // Light theme
   &.light {
     .list {
-      background-color: $color-primary4;
+      background-color: $color-primary3;
       color: $color-black-clear;
-      .list-body ul li {
-        background-color: $color-grey-clear;
-        a {
-          @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
+      .user-card {
+        .text{
+          a{
+            @include a-link(
+              $color-gradient6,
+              $color-gradient5,
+              $color-gradient4
+            );
+          }
+        }
+      }
+      .list-header {
+        h1 {
+          a {
+            @include a-link(
+              $color-gradient6,
+              $color-gradient5,
+              $color-gradient4
+            );
+          }
+        }
+      }
+      .list-body {
+        .topic {
+          background-color: $color-grey-clear;
+        }
+        .post {
+          background-color: $color-grey-clear;
+        }
+        ul li {
+          background-color: $color-grey-clear;
+          a {
+            @include a-link(
+              $color-gradient6,
+              $color-gradient5,
+              $color-gradient4
+            );
+          }
         }
       }
     }
@@ -130,10 +198,14 @@
   }
   .list {
     width: 1200px;
-    background-color: $color-primary1;
-    color: $color-white-clear;
     padding: 32px 64px;
     font-family: $font-text;
+    .user-card {
+      @include col(space-between);
+      .text {
+        @include col(space-between);
+      }
+    }
     .list-header {
       padding-bottom: 16px;
       h1 {
@@ -170,12 +242,17 @@
               }
             }
           }
-          .desc {
-            padding: 8px;
-          }
-          .last-post {
-            @include b;
-            @include row(space-between)
+          .categories {
+            @include row(space-between);
+            .cateogry {
+              h2 {
+                text-decoration: underline;
+              }
+            }
+            .last-post {
+              // @include b;
+              @include row(space-between, 16px);
+            }
           }
           a {
             @include a-link(

@@ -11,7 +11,7 @@
                     <div class="message-body">
                         <div><a routerLink="{{pm.id}}">{{pm.title}}</a></div>
                         <div *ngIf="pm.description">{{pm.description}}</div>
-                        <div><a class="user-link" routerLink="/user/profile/{{pm.user.id}}">{{pm.user.nick}}</a> to 
+                        <div><a class="user-link" routerLink="/user/profile/{{pm.user.id}}">{{pm.user.nick}}</a> to
                             <a class="user-link" routerLink="/user/profile/{{pm.to.id}}">{{pm.to.nick}}</a> -
                             {{pm.created_at | date}}</div>
                     </div>

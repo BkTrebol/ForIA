@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public url: string;
   public theme: string;
   public userId: string;
+
   constructor(
     private userSerivce: UserService,
     private authService: AuthService,
@@ -60,7 +61,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     if (this.route.snapshot.data['response']) {
       this.user = this.route.snapshot.data['response'];
     } else {
-      this.router.navigate(['/user/profile']);
+      this.router.navigate(['/']);
     }
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))

@@ -11,13 +11,11 @@
         <div class="list-body">
             <ul>
                 <li *ngFor="let section of forum">
-                    <h1>Section: {{section.name}}</h1>
+                    <h1>{{section.name}}</h1>
                     <ul>
-                        <li *ngFor="let category of section.categories">
-                            <div class="title">
-                                <h2 routerLink="/category/{{category.id}}">Category: {{category.title}}</h2>
-                            </div>
-                            <div class="desc">
+                        <li *ngFor="let category of section.categories" class="categories">
+                            <div class="cateogry">
+                                <h2 routerLink="/category/{{category.id}}">{{category.title}}</h2>
                                 <p>{{category.description}}</p>
                                 <img *ngIf="category.image" src="{{category.image}}" alt="Image of {{category.title}}">
                             </div>
@@ -25,7 +23,7 @@
                                 <div class="user">
                                     <app-avatar [user]="category.lastPost.user" [width]="'50'"
                                         [height]="'50'"></app-avatar>
-                                    <h4 routerLink="/user/profile/{{category.lastPost.user.nick}}">
+                                    <h4 routerLink="/user/profile/{{category.lastPost.user.id}}">
                                         {{category.lastPost.user.nick}}</h4>
                                 </div>
                                 <div>

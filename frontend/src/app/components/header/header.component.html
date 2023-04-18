@@ -9,11 +9,11 @@
     </form>
     <nav *ngIf="userIsAuthenticated">
         <ul>
-            <li><a routerLink="/category/2" routerLinkActive="active"><fa-icon
+            <li><a routerLink="/category/3" routerLinkActive="active"><fa-icon
                         [icon]="['fas', 'newspaper']"></fa-icon><span>News</span></a>
             </li>
-            <li><a routerLink="/topic/3" routerLinkActive="active"><fa-icon
-                        [icon]="['fas', 'vial']"></fa-icon><span>Topic3</span></a>
+            <li><a routerLink="/topic/1" routerLinkActive="active"><fa-icon
+                        [icon]="['fas', 'vial']"></fa-icon><span>Topic1</span></a>
             </li>
             <li>
                 <button type="button" (click)="changeTheme()"><fa-icon
@@ -44,8 +44,11 @@
     </nav>
     <nav *ngIf="!userIsAuthenticated">
         <ul>
-            <li><a routerLink="/category/2" routerLinkActive="active"><fa-icon
+            <li><a routerLink="/category/3" routerLinkActive="active"><fa-icon
                         [icon]="['fas', 'newspaper']"></fa-icon><span>News</span></a>
+            </li>
+            <li><a routerLink="/topic/1" routerLinkActive="active"><fa-icon
+                        [icon]="['fas', 'vial']"></fa-icon><span>Topic1</span></a>
             </li>
             <li>
                 <button type="button" (click)="changeTheme()"><fa-icon

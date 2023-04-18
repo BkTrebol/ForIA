@@ -32,7 +32,8 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/data','userData');
         Route::get('/logout','logout');
     });
-    //User Routes.
+
+    // User Routes.
     Route::controller(UserController::class)->prefix('user')->group(function(){
         Route::get('/edit','getUserData');
         Route::post('/edit','editUserData');
@@ -41,7 +42,6 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::put('/preference','editUserPreference');
         Route::get('/list/{search?}','getUserList');
     });
-
 
     // Topic routes.
     Route::controller(TopicController::class)->prefix('topic')->group(function(){
@@ -64,7 +64,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::put('/vote/{option}','vote');
     });
 
-    // PrivateMEssage
+    // PrivateMessage
     Route::controller(PrivateMessageController::class)->prefix('pm')->group(function(){
         Route::get('/','getMessages');
         Route::get('/topic/{topic}','getTopicData');
@@ -72,7 +72,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::post('/new','newPrivateMessage');
         Route::post('/','sendMessage');
     });
-    
+
 });
 
 // Public routes.
@@ -83,7 +83,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     $roles = $user->roles;
     array_push($roles,'ROLE_USER');
     $user->roles = $roles;
-    $user->save();    
+    $user->save();
     return redirect()->away('http://localhost:4200');
 })->middleware(['auth:sanctum','signed'])->name('verification.verify');
 
@@ -105,6 +105,7 @@ Route::controller(CategoryController::class)->prefix('category')->group(function
 Route::controller(TopicController::class)->prefix('topic')->group(function(){
     Route::get('/{topic}','viewTopic');
 });
+
 Route::controller(PollController::class)->prefix('poll')->group(function(){
     Route::get('/{poll}','getVotes');
 });
@@ -116,16 +117,16 @@ Route::controller(UserController::class)->prefix('user')->group(function(){
 
 
 
-
 // Testing Routes.
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 Route::get('/checklogin', function (){
     $user = Auth::user();
 
     return response()->json([
-        'logged' => $user ? true : false] 
+        'logged' => $user ? true : false]
         ,200);
 });
 
@@ -134,12 +135,12 @@ Route::get('holi',function(Request $request) {
         'nick' => ['required', 'string', 'max:255'],
         'password' => ['required', 'string', 'min:8'],
         'email' => ['required', 'string', 'max:255'],
-    ], 
+    ],
     );
 });
 
 Route::get('testing/{post}', function(Post $post){
     $topic = Topic::find($post->topic_id);
-   
+
     return response()->json(['post' => $topic->posts->count() ]);
 });

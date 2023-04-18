@@ -1,0 +1,5 @@
+<div class="pagination">
+  <a routerLink="/" queryParams="{page: i+1}" (click)="changePage(i+1)"
+  [class]="{'active': current_page == i+1}"
+    *ngFor="let item of [].constructor(last_page); let i = index">{{i+1}}</a>
+</div>

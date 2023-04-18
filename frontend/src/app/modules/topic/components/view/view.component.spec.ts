@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ViewComponent } from './view.component';
+import { SharedModule } from 'src/app/modules/share.module';
 
 describe('ViewComponent test', () => {
   let component: ViewComponent;
@@ -14,8 +15,9 @@ describe('ViewComponent test', () => {
       imports: [
         HttpClientTestingModule,
         FontAwesomeTestingModule,
-        RouterTestingModule,//.withRoutes([]),
+        RouterTestingModule,
         ReactiveFormsModule,
+        SharedModule
       ],
       declarations: [ViewComponent],
     }).compileComponents();

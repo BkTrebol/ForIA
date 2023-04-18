@@ -1,50 +1,56 @@
-.topic,.post{
-    display:flex;
-    border: 2px solid black;
-    margin-bottom: 2rem;
-    padding:1em;
+.topic,
+.post {
+  display: flex;
+  border: 2px solid black;
+  margin-bottom: 2rem;
+  padding: 1em;
 }
 
-
-.user-card{
-    padding:1em;
-    max-width: 100px;
-    word-break: break-all;
-    display:flex;
-    border-right: 2px solid black;
+.post-body, .topic-body {
+  padding: 8px;
 }
 
-.edit-buttons{
-    margin-left: auto;
-    order:5;
+.user-card {
+  // padding: 1em;
+  max-width: 120px;
+  word-break: break-all;
+  display: flex;
+  border-right: 2px solid black;
 }
 
-.pagination {
-  display: inline-block;
+.edit-buttons {
+  margin-left: auto;
+  order: 5;
 }
 
-.pagination a {
-  color: white;
-  float: left;
-  padding: 8px 16px;
-  text-decoration: none;
-  border: 1px solid #ddd;
-}
+// .pagination {
+//   display: inline-block;
+// }
 
-.pagination a.active {
-  background-color: #4CAF50;
-  color: white;
-  border: 1px solid #4CAF50;
-}
+// .pagination a {
+//   color: white;
+//   float: left;
+//   padding: 8px 16px;
+//   text-decoration: none;
+//   border: 1px solid #ddd;
+// }
 
-.pagination a:hover:not(.active) {background-color: #ddd;}
+// .pagination a.active {
+//   background-color: #4caf50;
+//   color: white;
+//   border: 1px solid #4caf50;
+// }
 
-.pagination a:first-child {
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-}
+// .pagination a:hover:not(.active) {
+//   background-color: #ddd;
+// }
 
-.pagination a:last-child {
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
+// .pagination a:first-child {
+//   border-top-left-radius: 5px;
+//   border-bottom-left-radius: 5px;
+// }
+
+// .pagination a:last-child {
+//   border-top-right-radius: 5px;
+//   border-bottom-right-radius: 5px;
+// }
