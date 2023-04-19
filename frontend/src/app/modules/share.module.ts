@@ -10,13 +10,21 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // Pipes
 import { AvatarUrlPipe } from '../helpers/pipes/avatar-url.pipe';
 
+// Directives
+import { SkeletonDirective } from '../helpers/directives/skeleton.directive';
+
 // Components
 import { AvatarComponent } from '../components/avatar/avatar.component';
 import { PaginationComponent } from '../components/pagination/pagination.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [AvatarUrlPipe, AvatarComponent, PaginationComponent],
+  declarations: [
+    AvatarUrlPipe,
+    AvatarComponent,
+    PaginationComponent,
+    SkeletonDirective,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -38,6 +46,7 @@ import { RouterModule } from '@angular/router';
     AvatarUrlPipe,
     AvatarComponent,
     PaginationComponent,
+    SkeletonDirective,
     NgSelectModule,
     RouterModule,
   ],

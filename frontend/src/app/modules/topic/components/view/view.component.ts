@@ -119,7 +119,7 @@ export class ViewComponent implements OnInit, OnDestroy {
               queryParams: { page: this.current_page },
               queryParamsHandling: 'merge',
             });
-            this.loading = false;
+            this.loading = true;
           } else {
             this.router.navigate([], {
               relativeTo: this.route,

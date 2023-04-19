@@ -1,7 +1,36 @@
 <div class="list-page {{theme}}">
     <div class="loading" *ngIf="loading">
-        <fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon>
+        <!-- <fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> -->
         <p>Loading ...</p>
+        <p *skeleton="loading;
+                        height: '20px';
+                        width: '600px'">
+            {{ category.title }}
+        </p>
+        <section class="flex">
+
+            <ng-container *skeleton="loading;
+                                   repeat: 5;
+                                   className: 'mb-2';
+                                   height: '100px';">
+
+                <div *ngFor="let num of [1,2, 3]">
+                    {{ num }}
+                </div>
+
+            </ng-container>
+        </section>
+        <ng-container *skeleton="loading;
+                                 repeat: 5;
+                                 className: 'm-2';
+                                 height: '30px';
+                                 width: 'rand'">
+
+            <div *ngFor="let num of [1,2, 3, 4, 5]">
+                {{ num }}
+            </div>
+
+        </ng-container>
     </div>
     <div class="list" *ngIf="!loading">
         <div class="list-header">
