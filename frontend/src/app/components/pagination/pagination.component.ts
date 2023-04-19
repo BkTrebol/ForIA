@@ -26,9 +26,12 @@ export class PaginationComponent {
     this.changePage = new EventEmitter<number>();
   }
 
-  onChangePage(newPage: number) {
+  onChangePage(newPage: number,event:any=null) {
+
+    if(newPage == 0 || newPage == this.current_page) return;
+
     this.changePage.emit(newPage);
-    this.pagination.innerHTML = '...'
+    if(event) event.target.blur();
     console.log(this.pagination)
     this.router.navigate([], {
       relativeTo: this.route,
@@ -39,18 +42,19 @@ export class PaginationComponent {
 
   onKeyDown(event: KeyboardEvent) {
     let target = event.target as HTMLLinkElement;
-  
+
     const keyCode = event.code;
     if (
       +event.key > this.last_page ||
-      +`${target.textContent}${event.key}` > this.last_page
+      +`${target.textContent}${event.key}` > this.last_page ||
+      event.key == '0' && target.textContent == ''
     ) {
       event.preventDefault();
     }
 
-
+    
     if (
-      (keyCode < 'Digit1' || keyCode > 'Digit9') &&
+      (!/\d/.test(event.key)) &&
       keyCode !== 'Enter' &&
       keyCode !== 'Backspace' &&
       keyCode !== 'Delete'
