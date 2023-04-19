@@ -5,39 +5,38 @@
     </div>
     <div class="list" *ngIf="!loading">
         <div class="list-header">
-            <h1>Category: {{category.title}}</h1>
-            <a routerLink="/topic/create">Create new Topic</a>
+            <h1>{{category.title}}</h1>
+            <a *ngIf="category.can_post" routerLink="/topic/create">Create new Topic</a>
         </div>
         <div class="list-body">
             <ul>
-                <li *ngFor="let topic of topics" routerLink="/topic/{{topic.id}}">
-                    <div class="title">
-                        <div>
-                            <h2>{{topic.title}}</h2>
-                            <h3 routerLink="/user/profile/{{topic.user.id}}">By {{topic.user.nick}}</h3>
-                            <app-avatar [user]="topic.user"></app-avatar>
+                <li class="topic" *ngFor="let topic of topics">
+                    <div class="user-card">
+                        <app-avatar [user]="topic.user"></app-avatar>
+                        <div class="text">
+                            <a routerLink="/user/profile/{{topic.user.id}}">{{topic.user.nick}}</a>
+                            <small>{{topic.user.rol}}</small>
                         </div>
-                        <div class="row">
-                            <!-- <div class="buttons" *ngIf="topic.can_edit">
-                                <button type="button">Edit</button>
-                                <button type="button">Delete</button>
-                            </div> -->
+                    </div>
+                    <div class="topic-body" routerLink="/topic/{{topic.id}}">
+                        <h2>{{topic.title}}</h2>
+                        <p>{{topic.description}}</p>
+                        <div class="topic-footer">
+                            <p>11 posts (3h ago)</p>
                             <p>{{topic.created_at | date}}</p>
                         </div>
                     </div>
-                    <p>{{topic.description}}</p>
-                    <p>11 posts (3h ago)</p>
-                    <!-- <a routerLink="/topic/{{topic.id}}">View</a> -->
+                    <!-- <div *ngIf="topic.can_edit" class="edit-buttons">
+                        <button type="button">Edit</button>
+                        <button type="button" (click)="deleteTopic(topic.id)">Delete</button>
+                    </div> -->
                 </li>
             </ul>
         </div>
         <div class="list-footer">
-            <button type="button" (click)="scrollToTop()">Back to top</button>
-            <div class="pagination">
-                <a routerLink="/category/{{category.id}}" [queryParams]="{page: i+1}" (click)="changePage(i+1)"
-                    [class]="{'active': current_page == i+1}"
-                    *ngFor="let item of [].constructor(last_page); let i = index">{{i+1}}</a>
-            </div>
+            <!-- <button type="button" (click)="scrollToTop()">Back to top</button> -->
+            <app-pagination [current_page]="current_page" [last_page]="last_page"
+                (changePage)="changePage($event)"></app-pagination>
         </div>
     </div>
 </div>

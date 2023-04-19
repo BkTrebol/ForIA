@@ -6,16 +6,6 @@ import { Component, ElementRef } from '@angular/core';
     class: 'pulse',
   },
   template: ``,
-  // styles: [
-  //   `
-  //     :host {
-  //       display: block;
-  //       width: var(--skeleton-rect-width);
-  //       height: var(--skeleton-rect-height);
-  //       background: rgb(239, 241, 246) no-repeat;
-  //     }
-  //   `,
-  // ],
   styleUrls: ['./rect-ske.component.scss']
 })
 export class RectSkeComponent {

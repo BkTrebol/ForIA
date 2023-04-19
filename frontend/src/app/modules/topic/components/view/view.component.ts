@@ -1,19 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, filter, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  Validators,
-  FormBuilder,
-  NonNullableFormBuilder,
-  FormGroup,
-} from '@angular/forms';
 import { TopicService } from '../../service/topic.service';
-import {
-  ListPosts,
-  Category,
-  Topic,
-  Post,
-} from 'src/app/models/receive/list-posts';
+import { Category, Topic, Post } from 'src/app/models/receive/list-posts';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
@@ -34,20 +23,14 @@ export class ViewComponent implements OnInit, OnDestroy {
   public can_post: boolean;
   public can_edit: boolean;
   public audioUrl: string;
-  // public formPost: FormGroup;
-  // public formBuilderNonNullable: NonNullableFormBuilder;
-  public content: string = "";
-  public error: string = "";
-  public editorConfig: AngularEditorConfig = {
-    minHeight: '200px',
-    editable: true,
-
-  }
-  public validationMessagesPost = {
+  public content: string;
+  public error: string;
+  public editorConfig: AngularEditorConfig;
+  public validationMessagesPost: {
     content: {
-      required: "The Post can't be empty",
-      maxlength: 'Max Length is 255',
-    },
+      required: string;
+      maxlength: string;
+    };
   };
   public theme: string;
 
@@ -78,10 +61,18 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.can_edit = false;
     this.posts = [];
     this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';
-    // this.formBuilderNonNullable = new FormBuilder().nonNullable;
-    // this.formPost = this.formBuilderNonNullable.group({
-    //   content: ['', [Validators.required, Validators.maxLength(255)]],
-    // });
+    this.content = '';
+    this.error = '';
+    this.editorConfig = {
+      minHeight: '200px',
+      editable: true,
+    };
+    this.validationMessagesPost = {//TODo no fa falta
+      content: {
+        required: "The Post can't be empty",
+        maxlength: 'Max Length is 255',
+      },
+    };
     this.theme = themeService.getTheme();
   }
 
@@ -127,7 +118,7 @@ export class ViewComponent implements OnInit, OnDestroy {
               queryParams: { page: this.current_page },
               queryParamsHandling: 'merge',
             });
-            this.loading = true;
+            this.loading = false;
           } else {
             this.router.navigate([], {
               relativeTo: this.route,
@@ -152,14 +143,14 @@ export class ViewComponent implements OnInit, OnDestroy {
     if (this.content.length == 0) {
       this.error = "Post can't be empty";
       return;
-    }
-    if (this.content.length > 10_000) {
-      this.error = "Post can't be longer than 10000 characters";
+    } else if (this.content.length > 10_000) {
+      this.error = "Post can't be longer than 10.000 characters";
       return;
     }
 
-    const post = { content: this.content, topic_id: this.topic.id }
-    this.topicService.createPost(post)
+    const post = { content: this.content, topic_id: this.topic.id };
+    this.topicService
+      .createPost(post)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
@@ -179,38 +170,8 @@ export class ViewComponent implements OnInit, OnDestroy {
         error: (err) => {
           console.log(err);
         },
-      })
+      });
   }
-
-  // submitPost() {
-  //   if (this.formPost.valid) {
-  //     const post = { content: this.content?.value, topic_id: this.topic.id };
-  //     this.topicService
-  //       .createPost(post)
-  //       .pipe(takeUntil(this.unsubscribe$))
-  //       .subscribe({
-  //         next: (res) => {
-  //           this.topicService
-  //             .posts(this.topic.id.toString(), this.current_page.toString())
-  //             .pipe(takeUntil(this.unsubscribe$))
-  //             .subscribe({
-  //               next: (res) => {
-  //                 console.log(res);
-  //                 this.posts = res.posts;
-  //               },
-  //               error: (err) => {
-  //                 console.log(err);
-  //               },
-  //             });
-  //         },
-  //         error: (err) => {
-  //           console.log(err);
-  //         },
-  //       });
-  //   } else {
-  //     console.log('Post invalid');
-  //   }
-  // }
 
   deletePost(id: number) {
     this.topicService
@@ -231,10 +192,6 @@ export class ViewComponent implements OnInit, OnDestroy {
         },
       });
   }
-
-  // get content() {
-  //   return this.formPost.get('content');
-  // }
 
   playAudio() {
     let audio = new Audio();

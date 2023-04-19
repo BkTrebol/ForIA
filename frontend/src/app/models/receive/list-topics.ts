@@ -1,3 +1,5 @@
+import { UserCard } from '../common/user-card';
+
 export interface ListTopic {
   category: Category;
   topics: Topic[];
@@ -14,14 +16,8 @@ export interface Category {
 
 export interface Topic {
   id: number;
-  user: User;
+  user: UserCard;
   title: string;
   description: string;
   created_at: string;
-}
-
-interface User {
-  id: number;
-  nick: string;
-  avatar: string | null;
 }

@@ -1,4 +1,11 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -12,17 +19,14 @@ export class PaginationComponent {
 
   @Output('changePage') changePage;
 
-  // @ViewChild('paginationLink')pagLink:ElementRef;
-  constructor(
-    private router: Router,
-    public route: ActivatedRoute,
-  ) {
+  // @ViewChild('paginationLink') pagLink:ElementRef;
+  constructor(private router: Router, public route: ActivatedRoute) {
     this.current_page = 1;
     this.last_page = 1;
     this.changePage = new EventEmitter<number>();
   }
 
-  onChangePage(newPage: number){
+  onChangePage(newPage: number) {
     this.changePage.emit(newPage);
     this.router.navigate([], {
       relativeTo: this.route,
@@ -33,26 +37,31 @@ export class PaginationComponent {
 
   onKeyDown(event: KeyboardEvent) {
     let target = event.target as HTMLLinkElement;
-    const keyCode = event.code
-    if(+event.key > this.last_page || +`${target.textContent}${event.key}` > this.last_page){
+    const keyCode = event.code;
+    if (
+      +event.key > this.last_page ||
+      +`${target.textContent}${event.key}` > this.last_page
+    ) {
       event.preventDefault();
     }
 
-    if ((keyCode < 'Digit1' || keyCode > 'Digit9')
-    && keyCode !== 'Enter' && keyCode !== 'Backspace'  && keyCode !== 'Delete') {
+    if (
+      (keyCode < 'Digit1' || keyCode > 'Digit9') &&
+      keyCode !== 'Enter' &&
+      keyCode !== 'Backspace' &&
+      keyCode !== 'Delete'
+    ) {
       event.preventDefault();
     }
   }
 
-  onFocus(event:FocusEvent){
+  onFocus(event: FocusEvent) {
     let target = event.target as HTMLLinkElement;
     target.textContent = '';
-
   }
 
-  onBlur(event:FocusEvent){
+  onBlur(event: FocusEvent) {
     let target = event.target as HTMLLinkElement;
     target.textContent = '...';
-
   }
 }

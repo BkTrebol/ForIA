@@ -100,8 +100,8 @@
       background-color: $color-primary1;
       color: $color-white-clear;
       .user-card {
-        .text{
-          a{
+        .text {
+          a {
             @include a-link(
               $color-gradient4,
               $color-gradient5,
@@ -151,8 +151,8 @@
       background-color: $color-primary3;
       color: $color-black-clear;
       .user-card {
-        .text{
-          a{
+        .text {
+          a {
             @include a-link(
               $color-gradient6,
               $color-gradient5,
@@ -201,9 +201,12 @@
     padding: 32px 64px;
     font-family: $font-text;
     .user-card {
+      padding: 16px;
+      border-right: 2px solid $color-black;
       @include col(space-between);
       .text {
         @include col(space-between);
+        word-break: break-all;
       }
     }
     .list-header {
@@ -220,28 +223,58 @@
       }
     }
     .list-body {
+      margin-bottom: 16px;
+      .topic,
+      .post {
+        @include row(flex-start);
+        border: 2px solid $color-black;
+        margin-bottom: 16px;
+        .post-body,
+        .topic-body {
+          padding: 16px;
+          position: relative;
+          height: 100%;
+          width: 100%;
+          @include b;
+          .topic-footer {
+            padding: 8px;
+            bottom: 0;
+            right: 0;
+            position: absolute;
+          }
+        }
+        .edit-buttons {
+          margin-left: auto;
+          order: 5;
+        }
+      }
+      .editor-parent {
+        display: grid;
+        place-content: center;
+        .error {
+          font-size: $size-text;
+          color: $color-tertiary;
+          text-align: center;
+        }
+        .editor {
+          &.light {
+            color: black;
+            background-color: #a0afa0;
+          }
+          &.dark {
+            color: white;
+            background-color: #222;
+          }
+        }
+      }
       ul {
         font-family: $font-text;
         list-style: none;
         li {
-          padding: 16px;
-          background-color: $color-black-grey;
-          margin-bottom: 8px;
-          .title {
-            @include flex(row, flex-start, space-between);
-            h2 {
-              text-decoration: underline;
-            }
-            .row {
-              @include row(space-between, 16px);
-              .buttons {
-                @include row(space-between, 16px);
-                button {
-                  cursor: pointer;
-                }
-              }
-            }
-          }
+          // padding: 16px;
+          // background-color: $color-black-grey;
+          // margin-bottom: 8px;
+
           .categories {
             @include row(space-between);
             .cateogry {
@@ -268,7 +301,8 @@
       }
     }
     .list-footer {
-      padding-top: 16px;
+      @include row(center);
+      padding-top: 32px;
       button {
         cursor: pointer;
         // @include btn1($color-secondary)

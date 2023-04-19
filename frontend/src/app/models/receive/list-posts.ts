@@ -1,3 +1,5 @@
+import { UserCard } from '../common/user-card';
+
 export interface ListPosts {
   can_edit: boolean;
   can_post: boolean;
@@ -20,15 +22,7 @@ export interface Topic {
   created_at: string;
   updated_at: string;
   content: string | null;
-  user: User;
-}
-
-interface User {
-  id: number;
-  nick: string;
-  avatar: string | null;
-  rol: string;
-  created_at: string;
+  user: UserCard;
 }
 
 export interface Post {
@@ -37,5 +31,5 @@ export interface Post {
   created_at: string;
   updated_at: string;
   can_edit: boolean;
-  user: User;
+  user: UserCard;
 }

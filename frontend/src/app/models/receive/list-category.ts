@@ -1,3 +1,5 @@
+import { UserCard } from '../common/user-card';
+
 export type Forum = Section[];
 export interface Section {
   categories: Category[];
@@ -15,12 +17,6 @@ export interface Category {
       id: number;
       title: string;
     };
-    user: User;
+    user: UserCard;
   };
-}
-
-interface User {
-  id: number;
-  nick: string;
-  avatar: null | string;
 }
