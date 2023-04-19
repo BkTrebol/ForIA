@@ -5,7 +5,7 @@
         <p *skeleton="loading;
                         height: '20px';
                         width: '600px'">
-            {{ category.title }}
+            {{ listPosts.category.title }}
         </p>
         <section class="flex">
 
@@ -34,30 +34,30 @@
     </div>
     <div class="list" *ngIf="!loading">
         <div class="list-header">
-            <h1><a routerLink="/category/{{category.id}}">{{category.title}}</a></h1>
-            <h2>{{topic.title}}</h2>
-            <a *ngIf="can_post" routerLink="/post/create">Create new Post</a>
+            <h1><a routerLink="/category/{{listPosts.category.id}}">{{listPosts.category.title}}</a></h1>
+            <h2>{{listPosts.topic.title}}</h2>
+            <a *ngIf="listPosts.can_post" routerLink="/post/create">Create new Post</a>
         </div>
         <div class="list-body">
-            <div *ngIf="topic.user" class="topic">
-                <div *ngIf="can_edit" class="edit-buttons">
+            <div *ngIf="listPosts.topic.user" class="topic">
+                <div *ngIf="listPosts.can_edit" class="edit-buttons">
                     <button type="button">Edit</button>
                     <button type="button">Delete</button>
                 </div>
                 <div class="user-card">
-                    <app-avatar [user]="topic.user"></app-avatar>
+                    <app-avatar [user]="listPosts.topic.user"></app-avatar>
                     <div class="text">
-                        <a routerLink="/user/profile/{{topic.user.id}}">{{topic.user.nick}}</a>
-                        <small>{{topic.user.rol}}</small>
+                        <a routerLink="/user/profile/{{listPosts.topic.user.id}}">{{listPosts.topic.user.nick}}</a>
+                        <small>{{listPosts.topic.user.rol}}</small>
                     </div>
                 </div>
                 <div class="topic-body">
-                    <p [innerHTML]="topic.content"></p>
-                    <p>{{topic.created_at | date}}</p>
+                    <p [innerHTML]="listPosts.topic.content"></p>
+                    <p>{{listPosts.topic.created_at | date}}</p>
                 </div>
             </div>
             <div class="posts">
-                <div class="row post" *ngFor="let post of posts">
+                <div class="row post" *ngFor="let post of listPosts.posts">
                     <div class="user-card">
                         <app-avatar [user]="post.user"></app-avatar>
                         <div class="text">
@@ -74,7 +74,7 @@
                     </div>
                 </div>
             </div>
-            <div class="editor-parent" *ngIf="!can_post">
+            <div class="editor-parent" *ngIf="listPosts.can_post">
                 <div class="editor {{theme}}">
                     <angular-editor  id="editor" [(ngModel)]="content" [config]="editorConfig"></angular-editor>
                 </div>
@@ -86,7 +86,7 @@
         </div>
         <div class="list-footer">
             <!-- <button type="button" (click)="scrollToTop()">Back to top</button> -->
-            <app-pagination [current_page]="current_page" [last_page]="last_page"
+            <app-pagination [current_page]="listPosts.current_page" [last_page]="listPosts.last_page"
                 (changePage)="changePage($event)"></app-pagination>
         </div>
     </div>

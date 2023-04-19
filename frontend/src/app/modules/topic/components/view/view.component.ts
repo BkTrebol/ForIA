@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TopicService } from '../../service/topic.service';
-import { Category, Topic, Post } from 'src/app/models/receive/list-posts';
+import { Category, Topic, Post, ListPosts } from 'src/app/models/receive/list-posts';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
@@ -14,14 +14,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 export class ViewComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public loading: boolean;
-  public last_page: number;
-  public current_page: number;
-  public total: number;
-  public category: Category;
-  public topic: Topic;
-  public posts: Post[];
-  public can_post: boolean;
-  public can_edit: boolean;
+  public listPosts:ListPosts;
   public audioUrl: string;
   public content: string;
   public error: string;
@@ -40,26 +33,41 @@ export class ViewComponent implements OnInit, OnDestroy {
     private router: Router,
     private themeService: ThemeService
   ) {
+    this.listPosts ={
+      can_edit: false,
+      can_post: false,
+      category: {
+        id:0,
+        title:'',
+      },
+      topic: {
+        id:0,
+        title:'',
+        created_at:'',
+        updated_at:'',
+        content:'',
+        user:{
+          id:0,
+          nick:'',
+          avatar:'',
+          rol:'',
+          created_at:'',
+        },
+        },
+      posts: [],
+      poll: {
+        can_vote: false,
+        finish_date:new Date(),
+        id:0,
+        name:'',
+        options:[],
+      },
+      current_page: 1,
+      last_page: 1,
+      total: 1,
+    }
     this.unsubscribe$ = new Subject();
     this.loading = true;
-    this.last_page = 1;
-    this.current_page = 1;
-    this.total = 1;
-    this.category = {
-      id: 0,
-      title: '',
-    };
-    this.topic = {
-      id: 0,
-      title: '',
-      content: '',
-      created_at: '',
-      updated_at: '',
-      user: { id: 0, nick: '', rol: '', avatar: null, created_at: '' },
-    };
-    this.can_post = false;
-    this.can_edit = false;
-    this.posts = [];
     this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';
     this.content = '';
     this.error = '';
@@ -96,37 +104,32 @@ export class ViewComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.scrollToTop();
-          this.total = res.total;
-          this.last_page = res.last_page;
-          this.current_page = res.current_page;
-          this.category = res.category;
-          this.topic = res.topic;
-          this.posts = res.posts;
-          this.can_post = res.can_post;
-          this.can_edit = res.can_edit;
-          if (this.posts.length == 0) {
-            this.loading = true;
-            this.router.navigate([], {
-              relativeTo: this.route,
-              queryParams: { page: this.last_page },
-              queryParamsHandling: 'merge',
-            });
-            this.getData(this.topic.id.toString(), this.last_page.toString());
-          } else if (this.current_page != 1) {
-            this.router.navigate([], {
-              relativeTo: this.route,
-              queryParams: { page: this.current_page },
-              queryParamsHandling: 'merge',
-            });
-            this.loading = false;
-          } else {
-            this.router.navigate([], {
-              relativeTo: this.route,
-              queryParams: { page: null },
-              queryParamsHandling: 'merge',
-            });
-            this.loading = false;
-          }
+          this.listPosts = res;
+          this.loading = false;
+          
+          // if (this.listPosts.posts.length == 0) {
+          //   this.loading = true;
+          //   this.router.navigate([], {
+          //     relativeTo: this.route,
+          //     queryParams: { page: this.listPosts.last_page },
+          //     queryParamsHandling: 'merge',
+          //   });
+          //   this.getData(this.listPosts.topic.id.toString(), this.listPosts.last_page.toString());
+          // } else if (this.listPosts.current_page != 1) {
+          //   this.router.navigate([], {
+          //     relativeTo: this.route,
+          //     queryParams: { page: this.listPosts.current_page },
+          //     queryParamsHandling: 'merge',
+          //   });
+          //   this.loading = false;
+          // } else {
+          //   this.router.navigate([], {
+          //     relativeTo: this.route,
+          //     queryParams: { page: null },
+          //     queryParamsHandling: 'merge',
+          //   });
+          //   this.loading = false;
+          // }
         },
         error: (err) => {
           this.loading = false;
@@ -136,7 +139,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
   changePage(page: number) {
-    this.getData(this.topic.id.toString(), page.toString());
+    this.getData(this.listPosts.topic.id.toString(), page.toString());
   }
 
   onSubmit() {
@@ -148,24 +151,25 @@ export class ViewComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const post = { content: this.content, topic_id: this.topic.id };
+    const post = { content: this.content, topic_id: this.listPosts.topic.id };
     this.topicService
       .createPost(post)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          this.topicService
-            .posts(this.topic.id.toString(), this.current_page.toString())
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe({
-              next: (res) => {
-                console.log(res);
-                this.posts = res.posts;
-              },
-              error: (err) => {
-                console.log(err);
-              },
-            });
+          this.getData(this.listPosts.topic.id.toString(), this.listPosts.current_page.toString())
+          // this.topicService
+          //   .posts(this.listPosts.topic.id.toString(), this.listPosts.current_page.toString())
+          //   .pipe(takeUntil(this.unsubscribe$))
+          //   .subscribe({
+          //     next: (res) => {
+          //       console.log(res);
+          //       this.listPosts = res;
+          //     },
+          //     error: (err) => {
+          //       console.log(err);
+          //     },
+          //   });
         },
         error: (err) => {
           console.log(err);
@@ -179,13 +183,14 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          this.topicService
-            .posts(this.topic.id.toString(), this.current_page.toString())
-            .subscribe({
-              next: (res) => {
-                this.posts = res.posts;
-              },
-            });
+          this.getData(this.listPosts.topic.id.toString(),this.listPosts.current_page.toString());
+          // this.topicService
+          //   .posts(this.listPosts.topic.id.toString(), this.listPosts.current_page.toString())
+          //   .subscribe({
+          //     next: (res) => {
+          //       this.listPosts = res
+          //     },
+          //   });
         },
         error: (err) => {
           console.log(err);

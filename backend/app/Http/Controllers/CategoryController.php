@@ -54,6 +54,7 @@ class CategoryController extends Controller
                 'message' => 'Unauthorized'],403);
         }
         $topics = $category->topics()->whereIn('can_view', $roles)->paginate(config('app.pagination.category'));
+
         return response()->json([
             'category' => [
                 'id' => $category->id,
@@ -62,7 +63,8 @@ class CategoryController extends Controller
                 
             'topics'=>$topics->map(function($topic){
                 $topic['last_post'] = $topic->last_post->load('user:avatar,nick,id')->only('user','created_at');
-                return $topic->load('user:id,nick,avatar')->only('id','user','title','description','created_at','last_post');
+                $topic['last_page'] = ceil($topic->posts->count()/config('app.pagination.topic'));
+                return $topic->load('user:id,nick,avatar')->only('id','user','title','description','created_at','last_post','last_page');
             }),
             "current_page" => $topics->currentPage(),
             "last_page" => $topics->lastPage(),

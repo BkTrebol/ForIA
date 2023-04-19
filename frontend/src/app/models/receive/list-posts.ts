@@ -6,11 +6,23 @@ export interface ListPosts {
   category: Category;
   topic: Topic;
   posts: Post[];
+  poll: Poll;
   current_page: number;
   last_page: number;
   total: number;
 }
+export interface Poll{
+  can_vote: boolean;
+  finish_date:Date;
+  id:number;
+  name:string;
+  options:Array<PollOption>;
+}
 
+interface PollOption{
+  id:number;
+  option:string;
+}
 export interface Category {
   id: number;
   title: string;
