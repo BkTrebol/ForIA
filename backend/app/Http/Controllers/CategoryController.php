@@ -61,7 +61,8 @@ class CategoryController extends Controller
                 'can_post' => in_array($category->can_post,$roles)],
                 
             'topics'=>$topics->map(function($topic){
-                return $topic->load('user:id,nick,avatar')->only('id','user','title','description','created_at');
+                $topic['last_post'] = $topic->last_post->load('user:avatar,nick,id')->only('user','created_at');
+                return $topic->load('user:id,nick,avatar')->only('id','user','title','description','created_at','last_post');
             }),
             "current_page" => $topics->currentPage(),
             "last_page" => $topics->lastPage(),

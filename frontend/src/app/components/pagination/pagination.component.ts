@@ -29,6 +29,7 @@ export class PaginationComponent {
   onChangePage(newPage: number) {
     this.changePage.emit(newPage);
     this.pagination.innerHTML = '...'
+    console.log(this.pagination)
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { page: newPage },
