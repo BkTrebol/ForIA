@@ -128,6 +128,16 @@
         .post {
           background-color: $color-black-grey;
         }
+        .topics {
+          background-color: $color-black-grey;
+          border: 2px solid $color-black;
+          .topic-info {
+            border-right: 2px solid $color-black;
+            .topic-user {
+              border-right: 2px solid $color-black;
+            }
+          }
+        }
         ul li {
           background-color: $color-black-grey;
           a {
@@ -143,6 +153,18 @@
     .loading {
       background-color: $color-black-clear;
       color: $color-white-clear;
+    }
+    @include tablet() {
+      .list {
+        .list-body {
+          .topics {
+            .topic-info {
+              border-bottom: 2px solid $color-black;
+              border-right: none;
+            }
+          }
+        }
+      }
     }
   }
   // Light theme
@@ -179,6 +201,16 @@
         .post {
           background-color: $color-grey-clear;
         }
+        .topics {
+          background-color: $color-black-grey;
+          border: 2px solid $color-white;
+          .topic-info {
+            border-right: 2px solid $color-white;
+            .topic-user {
+              border-right: 2px solid $color-white;
+            }
+          }
+        }
         ul li {
           background-color: $color-grey-clear;
           a {
@@ -195,11 +227,26 @@
       background-color: $color-white-clear;
       color: $color-black-clear;
     }
+    @include tablet() {
+      .list {
+        .list-body {
+          .topics {
+            .topic-info {
+              border-bottom: 2px solid $color-white;
+              border-right: none;
+            }
+          }
+        }
+      }
+    }
   }
   .list {
     width: 1200px;
     padding: 32px 64px;
     font-family: $font-text;
+    [ng-reflect-router-link] {
+      cursor: pointer;
+    }
     .user-card {
       padding: 16px;
       border-right: 2px solid $color-black;
@@ -223,38 +270,37 @@
       }
     }
     .list-body {
-      margin-bottom: 16px;
       .topics {
-        @include flex(row, flex-start, flex-start);
-        border: 2px solid $color-black;
+        @include flex(row, center, space-between);
         margin-bottom: 16px;
-        .topic-user {
-          width: 70%;
-          padding: 16px;
-          border-right: 2px solid $color-black;
-          @include flex(row, center, flex-start, 16px);
-          .title {
-            @include col(space-between);
-            h2 {
-              cursor: pointer;
-            }
-            p {
-              word-break: break-all;
-            }
-            .text {
-              @include row(space-between, 16px);
+        .topic-info {
+          flex: 1;
+          @include row(space-between);
+          .topic-user {
+            flex: 1;
+            padding: 16px;
+            @include flex(row, center, flex-start, 16px);
+            .topic-body {
+              @include col(space-between, 8px);
+              .title {
+                p {
+                  word-break: break-word;
+                }
+              }
+              .text {
+                @include row(space-between, 16px);
+              }
             }
           }
-        }
-        .topic-stats {
-          width: 10%;
-          padding: 16px;
-          @include col(space-between, 8px);
+          .topic-stats {
+            width: 100px;
+            padding: 16px;
+            @include col(center, 8px);
+          }
         }
         .last-post {
-          width: 20%;
+          width: 220px;
           padding: 16px;
-          border-left: 2px solid $color-black;
           @include flex(row, flex-end, flex-end, 16px);
           .text {
             @include flex(column, flex-end, flex-end, 8px);
@@ -262,7 +308,6 @@
           }
         }
       }
-
       .topic,
       .post {
         @include flex(row, flex-start, flex-start);
@@ -358,10 +403,6 @@
     .list-footer {
       @include row(center);
       padding-top: 32px;
-      button {
-        cursor: pointer;
-        // @include btn1($color-secondary)
-      }
     }
   }
   .loading {
@@ -376,6 +417,21 @@
     .list {
       width: 800px;
       padding: 32px;
+      .list-body {
+        .topics {
+          @include flex(column, flex-start, space-between);
+          .topic-info {
+            width: 100%;
+          }
+          .last-post {
+            flex-direction: row-reverse;
+            padding: 8px 16px;
+            .text {
+              @include flex(column, flex-start, flex-start, 8px);
+            }
+          }
+        }
+      }
     }
   }
   // Responsive for mobile
@@ -387,6 +443,39 @@
       .list-header {
         img {
           height: 75px;
+        }
+      }
+    }
+  }
+  // Responsive for mini
+  @include mini() {
+    padding: 16px;
+    .list {
+      width: 80vw;
+      padding: 16px;
+      .list-header {
+        h1 {
+          word-break: break-all;
+        }
+        img {
+          height: 60px;
+        }
+      }
+      .list-body {
+        .topics {
+          .topic-info {
+            word-break: break-all;
+            .topic-user{
+              .topic-body{
+                .text {
+                  @include col(space-between, 8px);
+                }
+              }
+            }
+            .topic-stats {
+              display: none;
+            }
+          }
         }
       }
     }

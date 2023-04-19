@@ -141,6 +141,11 @@
   gap: $gap;
 }
 
+@mixin sha($x: -15px, $y:-10px) {
+  -webkit-filter: drop-shadow($x $y 1px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow($x $y 1px rgba(0, 0, 0, 0.2));
+}
+
 // Responsive
 @mixin mobile() {
   @media (max-width: $size-mobile) {
@@ -150,6 +155,12 @@
 
 @mixin tablet() {
   @media (max-width: $size-tablet) {
+    @content;
+  }
+}
+
+@mixin mini() {
+  @media (max-width: $size-mini) {
     @content;
   }
 }

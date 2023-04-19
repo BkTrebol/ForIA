@@ -96,10 +96,10 @@ No changes
     background-color: $color-white-clear;
     a {
       @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
+      @include sha(-10px, -10px);
     }
     img {
-      -webkit-filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.2));
-      filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.2));
+      @include sha;
     }
   }
   p {
@@ -182,7 +182,7 @@ No changes
       cursor: pointer;
     }
     &:hover .logoIA {
-      animation: gir 5s cubic-bezier(0.37, 0.6, 0.82, 0.66) infinite;
+      animation: gir 4s cubic-bezier(0.37, 0.6, 0.82, 0.66) infinite;
     }
   }
   nav {
@@ -289,7 +289,6 @@ No changes
   &.light {
     background-color: $color-white-clear;
   }
-  transition: all 1s ease;
   @include center;
   img {
     height: 400px;
@@ -313,17 +312,6 @@ No changes
     transform: scale(1.15);
   }
 }
-
-// Fonts provisional
-// h1,
-// label {
-//   font-family: $font-titles;
-// }
-// p,
-// h2,
-// input {
-//   font-family: $font-text;
-// }
 
 // Utilities
 .b {
