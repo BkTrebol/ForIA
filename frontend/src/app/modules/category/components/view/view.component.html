@@ -36,7 +36,7 @@
                         <div class="text">
                             <a routerLink="/user/profile/{{topic.last_post.user.id}}">{{topic.last_post.user.nick}}</a>
                             <small><a routerLink="/topic/{{topic.id}}"
-                                    [queryParams]="{'page': topic.last_page}">{{topic.last_post.created_at | date}}</a>
+                                    [queryParams]="{'page': topic.last_page}" fragment="last">{{topic.last_post.created_at | date}}</a>
                             </small>
                         </div>
                         <app-avatar [user]="topic.last_post.user" width="75" height="75"></app-avatar>

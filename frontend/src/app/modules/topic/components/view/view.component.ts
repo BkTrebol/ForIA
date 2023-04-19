@@ -2,7 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TopicService } from '../../service/topic.service';
-import { Category, Topic, Post, ListPosts } from 'src/app/models/receive/list-posts';
+import {
+  Category,
+  Topic,
+  Post,
+  ListPosts,
+} from 'src/app/models/receive/list-posts';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
@@ -14,7 +19,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 export class ViewComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public loading: boolean;
-  public listPosts:ListPosts;
+  public listPosts: ListPosts;
   public audioUrl: string;
   public content: string;
   public error: string;
@@ -33,39 +38,39 @@ export class ViewComponent implements OnInit, OnDestroy {
     private router: Router,
     private themeService: ThemeService
   ) {
-    this.listPosts ={
+    this.listPosts = {
       can_edit: false,
       can_post: false,
       category: {
-        id:0,
-        title:'',
+        id: 0,
+        title: '',
       },
       topic: {
-        id:0,
-        title:'',
-        created_at:'',
-        updated_at:'',
-        content:'',
-        user:{
-          id:0,
-          nick:'',
-          avatar:'',
-          rol:'',
-          created_at:'',
+        id: 0,
+        title: '',
+        created_at: '',
+        updated_at: '',
+        content: '',
+        user: {
+          id: 0,
+          nick: '',
+          avatar: '',
+          rol: '',
+          created_at: '',
         },
-        },
+      },
       posts: [],
       poll: {
         can_vote: false,
-        finish_date:new Date(),
-        id:0,
-        name:'',
-        options:[],
+        finish_date: new Date(),
+        id: 0,
+        name: '',
+        options: [],
       },
       current_page: 1,
       last_page: 1,
       total: 1,
-    }
+    };
     this.unsubscribe$ = new Subject();
     this.loading = true;
     this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';
@@ -75,7 +80,8 @@ export class ViewComponent implements OnInit, OnDestroy {
       minHeight: '200px',
       editable: true,
     };
-    this.validationMessagesPost = {//TODo no fa falta
+    this.validationMessagesPost = {
+      //TODo no fa falta
       content: {
         required: "The Post can't be empty",
         maxlength: 'Max Length is 255',
@@ -103,10 +109,20 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          this.scrollToTop();
+          // this.scrollToTop();
           this.listPosts = res;
           this.loading = false;
-          
+          if (this.route.snapshot.fragment == 'last') {
+              setTimeout(() => {
+                window.scrollTo({
+                  top: document.body.scrollHeight,
+                  behavior: 'smooth',
+                });
+              }, 100);
+          } else {
+            this.scrollToTop();
+          };
+
           // if (this.listPosts.posts.length == 0) {
           //   this.loading = true;
           //   this.router.navigate([], {
@@ -157,7 +173,10 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          this.getData(this.listPosts.topic.id.toString(), this.listPosts.current_page.toString())
+          this.getData(
+            this.listPosts.topic.id.toString(),
+            this.listPosts.current_page.toString()
+          );
           // this.topicService
           //   .posts(this.listPosts.topic.id.toString(), this.listPosts.current_page.toString())
           //   .pipe(takeUntil(this.unsubscribe$))
@@ -183,7 +202,10 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          this.getData(this.listPosts.topic.id.toString(),this.listPosts.current_page.toString());
+          this.getData(
+            this.listPosts.topic.id.toString(),
+            this.listPosts.current_page.toString()
+          );
           // this.topicService
           //   .posts(this.listPosts.topic.id.toString(), this.listPosts.current_page.toString())
           //   .subscribe({

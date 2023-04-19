@@ -60,7 +60,7 @@ export class ViewComponent implements OnInit, OnDestroy {
         this.theme = t;
       });
   }
-  //TODO quna entres (ngoninit) i page = last page va al final
+
   changePage(page: number) {
     this.categoryService
       .topics(this.category.id.toString(), page.toString())
