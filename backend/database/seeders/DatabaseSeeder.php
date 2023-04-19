@@ -130,7 +130,7 @@ class DatabaseSeeder extends Seeder
             ->count(1)
             ->has(
                 Post::factory()
-                    ->count(rand(30,40))
+                    ->count(100)
             )
         )->count(1)->create([
             'title' => 'PostPagination',

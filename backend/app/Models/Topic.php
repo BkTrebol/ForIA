@@ -36,7 +36,9 @@ class Topic extends Model
         return $this->hasMany(Post::class)->orderBy('created_at','asc');
     }
 
-
+    public function last_post(){
+        return $this->hasOne(Post::class)->orderBy('created_at','desc');
+    }
     public function user(){
         return $this->belongsTo(User::class,'user_id');
     }

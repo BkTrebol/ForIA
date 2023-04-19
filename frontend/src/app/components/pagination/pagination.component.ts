@@ -18,7 +18,7 @@ export class PaginationComponent {
   @Input('last_page') last_page: number;
 
   @Output('changePage') changePage;
-
+  @ViewChild('pagination3') pagination:any;
   // @ViewChild('paginationLink') pagLink:ElementRef;
   constructor(private router: Router, public route: ActivatedRoute) {
     this.current_page = 1;
@@ -28,6 +28,8 @@ export class PaginationComponent {
 
   onChangePage(newPage: number) {
     this.changePage.emit(newPage);
+    this.pagination.innerHTML = '...'
+    console.log(this.pagination)
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { page: newPage },
@@ -37,6 +39,7 @@ export class PaginationComponent {
 
   onKeyDown(event: KeyboardEvent) {
     let target = event.target as HTMLLinkElement;
+  
     const keyCode = event.code;
     if (
       +event.key > this.last_page ||
@@ -44,6 +47,7 @@ export class PaginationComponent {
     ) {
       event.preventDefault();
     }
+
 
     if (
       (keyCode < 'Digit1' || keyCode > 'Digit9') &&
