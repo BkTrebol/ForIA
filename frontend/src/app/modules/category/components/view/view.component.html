@@ -12,24 +12,27 @@
             <ul>
                 <li class="topics" *ngFor="let topic of topics">
                     <div class="topic-user">
-                        <app-avatar [user]="topic.user"></app-avatar>
+                        <app-avatar [user]="topic.user" width="75" height="75"></app-avatar>
                         <div class="title">
                             <h2 routerLink="/topic/{{topic.id}}">{{topic.title}}</h2>
+                            <p>{{topic.description}}</p>
                             <div class="text">
                                 <a routerLink="/user/profile/{{topic.user.id}}">{{topic.user.nick}}</a>
-                                <small>{{topic.created_at | date}}</small>
+                                <small routerLink="/topic/{{topic.id}}" [queryParams]="{'page': topic.last_page}">{{topic.created_at | date}}</small>
                             </div>
                         </div>
+
                     </div>
                     <div class="topic-stats">
                         <p>11 posts</p>
+                        <p>1 poll</p>
                     </div>
                     <div class="last-post">
-                        <app-avatar [user]="topic.lastPost.user"></app-avatar>
                         <div class="text">
-                            <a routerLink="/user/profile/{{topic.lastPost.user.id}}">{{topic.lastPost.user.nick}}</a>
-                            <small>{{topic.lastPost.created_at}}</small>
+                            <a routerLink="/user/profile/{{topic.last_post.user.id}}">{{topic.last_post.user.nick}}</a>
+                            <small>{{topic.last_post.created_at | date}}</small>
                         </div>
+                        <app-avatar [user]="topic.last_post.user" width="75" height="75"></app-avatar>
                     </div>
                 </li>
             </ul>

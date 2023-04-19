@@ -20,7 +20,9 @@ export interface Topic {
   title: string;
   description: string;
   created_at: string;
-  lastPost: {
+  last_page: number;
+  last_post: {
+    id: number;
     created_at: string;
     user: UserCard;
   };

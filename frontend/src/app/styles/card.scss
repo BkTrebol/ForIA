@@ -225,30 +225,40 @@
     .list-body {
       margin-bottom: 16px;
       .topics {
-        @include flex(row, flex-start, start);
+        @include flex(row, flex-start, flex-start);
+        border: 2px solid $color-black;
         margin-bottom: 16px;
         .topic-user {
+          width: 70%;
           padding: 16px;
           border-right: 2px solid $color-black;
-          @include row(space-between);
+          @include flex(row, center, flex-start, 16px);
           .title {
             @include col(space-between);
-            .text {
-              @include row(space-between);
+            h2 {
+              cursor: pointer;
+            }
+            p {
               word-break: break-all;
+            }
+            .text {
+              @include row(space-between, 16px);
             }
           }
         }
         .topic-stats {
-          @include col(space-between);
+          width: 10%;
+          padding: 16px;
+          @include col(space-between, 8px);
         }
         .last-post {
+          width: 20%;
           padding: 16px;
           border-left: 2px solid $color-black;
-          @include col(space-between);
+          @include flex(row, flex-end, flex-end, 16px);
           .text {
-            @include col(space-between);
-            word-break: break-all;
+            @include flex(column, flex-end, flex-end, 8px);
+            padding-bottom: 8px;
           }
         }
       }
@@ -339,9 +349,9 @@
               $color-gradient6
             );
           }
-          &:hover {
-            cursor: pointer;
-          }
+          // &:hover {
+          //   cursor: pointer;
+          // }
         }
       }
     }

@@ -44,7 +44,6 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.route.snapshot.data['response']) {
-      console.log(this.route.snapshot.data['response']);
       this.category = this.route.snapshot.data['response'].category;
       this.topics = this.route.snapshot.data['response'].topics;
       this.total = this.route.snapshot.data['response'].total;
