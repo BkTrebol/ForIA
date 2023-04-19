@@ -224,19 +224,64 @@
     }
     .list-body {
       margin-bottom: 16px;
+      .topics {
+        @include flex(row, flex-start, start);
+        margin-bottom: 16px;
+        .topic-user {
+          padding: 16px;
+          border-right: 2px solid $color-black;
+          @include row(space-between);
+          .title {
+            @include col(space-between);
+            .text {
+              @include row(space-between);
+              word-break: break-all;
+            }
+          }
+        }
+        .topic-stats {
+          @include col(space-between);
+        }
+        .last-post {
+          padding: 16px;
+          border-left: 2px solid $color-black;
+          @include col(space-between);
+          .text {
+            @include col(space-between);
+            word-break: break-all;
+          }
+        }
+      }
+
       .topic,
       .post {
-        @include row(flex-start);
+        @include flex(row, flex-start, flex-start);
         border: 2px solid $color-black;
+        margin: 0;
+        padding: 0;
         margin-bottom: 16px;
         .post-body,
         .topic-body {
+          margin: 0;
+          padding: 0;
           padding: 16px;
           position: relative;
-          height: 100%;
+          height: 100%; //163px;
           width: 100%;
-          @include b;
+          // @include b;
           .topic-footer {
+            padding: 8px;
+            bottom: 0;
+            right: 0;
+            position: absolute;
+          }
+          // .post-header {
+          //   padding: 8px;
+          //   top: 0;
+          //   left: 0;
+          //   position: absolute;
+          // }
+          .post-header {
             padding: 8px;
             bottom: 0;
             right: 0;

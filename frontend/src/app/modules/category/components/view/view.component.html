@@ -10,26 +10,27 @@
         </div>
         <div class="list-body">
             <ul>
-                <li class="topic" *ngFor="let topic of topics">
-                    <div class="user-card">
+                <li class="topics" *ngFor="let topic of topics">
+                    <div class="topic-user">
                         <app-avatar [user]="topic.user"></app-avatar>
+                        <div class="title">
+                            <h2 routerLink="/topic/{{topic.id}}">{{topic.title}}</h2>
+                            <div class="text">
+                                <a routerLink="/user/profile/{{topic.user.id}}">{{topic.user.nick}}</a>
+                                <small>{{topic.created_at | date}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="topic-stats">
+                        <p>11 posts</p>
+                    </div>
+                    <div class="last-post">
+                        <app-avatar [user]="topic.lastPost.user"></app-avatar>
                         <div class="text">
-                            <a routerLink="/user/profile/{{topic.user.id}}">{{topic.user.nick}}</a>
-                            <small>{{topic.user.rol}}</small>
+                            <a routerLink="/user/profile/{{topic.lastPost.user.id}}">{{topic.lastPost.user.nick}}</a>
+                            <small>{{topic.lastPost.created_at}}</small>
                         </div>
                     </div>
-                    <div class="topic-body" routerLink="/topic/{{topic.id}}">
-                        <h2>{{topic.title}}</h2>
-                        <p>{{topic.description}}</p>
-                        <div class="topic-footer">
-                            <p>11 posts (3h ago)</p>
-                            <p>{{topic.created_at | date}}</p>
-                        </div>
-                    </div>
-                    <!-- <div *ngIf="topic.can_edit" class="edit-buttons">
-                        <button type="button">Edit</button>
-                        <button type="button" (click)="deleteTopic(topic.id)">Delete</button>
-                    </div> -->
                 </li>
             </ul>
         </div>

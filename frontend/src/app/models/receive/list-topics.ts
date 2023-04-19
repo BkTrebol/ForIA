@@ -20,4 +20,8 @@ export interface Topic {
   title: string;
   description: string;
   created_at: string;
+  lastPost: {
+    created_at: string;
+    user: UserCard;
+  };
 }

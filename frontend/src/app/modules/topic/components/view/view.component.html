@@ -52,12 +52,14 @@
                     </div>
                 </div>
                 <div class="topic-body">
+                    <div class="topic-header">
+                        <p>{{topic.created_at | date}}</p>
+                    </div>
                     <p [innerHTML]="topic.content"></p>
-                    <p>{{topic.created_at | date}}</p>
                 </div>
             </div>
             <div class="posts">
-                <div class="row post" *ngFor="let post of posts">
+                <div class="post" *ngFor="let post of posts">
                     <div class="user-card">
                         <app-avatar [user]="post.user"></app-avatar>
                         <div class="text">
@@ -66,7 +68,13 @@
                         </div>
                     </div>
                     <div class="post-body">
+                        <div class="post-header">
+                            <p>{{post.created_at | date}}</p>
+                        </div>
                         <p [innerHTML]="post.content"></p>
+                        <div *ngIf="post.created_at != post.updated_at" class="post-footer">
+                            <p>{{post.created_at | date}}</p>
+                        </div>
                     </div>
                     <div *ngIf="post.can_edit" class="edit-buttons">
                         <button type="button">Edit</button>
