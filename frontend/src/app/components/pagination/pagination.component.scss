@@ -13,9 +13,16 @@
 
 .pagination a.active {
   cursor: default;
+  pointer-events: none;
   background-color: #4caf50;
   color: white;
   border: 1px solid #4caf50;
+}
+.pagination a.active-alt {
+  cursor: default;
+  pointer-events: none;
+  color: #5c5c5c;
+  border: 1px solid #5c5c5c;
 }
 
 .pagination a:hover:not(.active) {

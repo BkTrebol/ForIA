@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -12,6 +12,7 @@ export class PaginationComponent {
 
   @Output('changePage') changePage;
 
+  // @ViewChild('paginationLink')pagLink:ElementRef;
   constructor(
     private router: Router,
     public route: ActivatedRoute,
@@ -28,5 +29,30 @@ export class PaginationComponent {
       queryParams: { page: newPage },
       queryParamsHandling: 'merge',
     });
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    let target = event.target as HTMLLinkElement;
+    const keyCode = event.code
+    if(+event.key > this.last_page || +`${target.textContent}${event.key}` > this.last_page){
+      event.preventDefault();
+    }
+
+    if ((keyCode < 'Digit1' || keyCode > 'Digit9')
+    && keyCode !== 'Enter' && keyCode !== 'Backspace'  && keyCode !== 'Delete') {
+      event.preventDefault();
+    }
+  }
+
+  onFocus(event:FocusEvent){
+    let target = event.target as HTMLLinkElement;
+    target.textContent = '';
+
+  }
+
+  onBlur(event:FocusEvent){
+    let target = event.target as HTMLLinkElement;
+    target.textContent = '...';
+
   }
 }
