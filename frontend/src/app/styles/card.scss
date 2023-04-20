@@ -180,6 +180,17 @@
             }
           }
         }
+        .section {
+          legend {
+            color: $color-white-clear;
+          }
+          fieldset {
+            border: 1px solid $color-primary;
+          }
+          fieldset:has(> ul.ocult) {
+            border-top: 1px solid $color-primary;
+          }
+        }
         .editor-parent {
           .editor {
             color: $color-white;
@@ -198,6 +209,18 @@
           .topics {
             .topic-user {
               border-right: none;
+            }
+          }
+        }
+      }
+    }
+    @include mobile() {
+      .list {
+        .list-body {
+          .categories {
+            .category {
+              border-right: none;
+              border-bottom: 2px solid $color-black;
             }
           }
         }
@@ -225,7 +248,7 @@
   // Light theme
   &.light {
     .list {
-      background-color: opacity($color-primary4, 0.95);
+      background-color: opacity($color-white-clear, 0.95);
       color: $color-black-clear;
       .user-card {
         .text {
@@ -308,6 +331,17 @@
             }
           }
         }
+        .section {
+          legend {
+            color: $color-black-clear;
+          }
+          fieldset {
+            border: 1px solid $color-quart;
+          }
+          fieldset:has(> ul.ocult) {
+            border-top: 1px solid $color-quart;
+          }
+        }
         .editor-parent {
           .editor {
             color: $color-black;
@@ -326,6 +360,18 @@
           .topics {
             .topic-user {
               border-right: none;
+            }
+          }
+        }
+      }
+    }
+    @include mobile() {
+      .list {
+        .list-body {
+          .categories {
+            .category {
+              border-right: none;
+              border-bottom: 2px solid $color-white;
             }
           }
         }
@@ -372,11 +418,22 @@
         text-align: center;
         font-family: $font-text;
         font-size: 50px;
+        text-decoration: underline;
+      }
+      h2 {
+        font-size: 40px;
+      }
+      p {
+        text-align: center;
+        font-size: 20px;
       }
       img {
         display: block;
         margin: 8px auto;
         height: 100px;
+      }
+      .option-btns {
+        @include row(flex-end);
       }
     }
     .list-body {
@@ -391,17 +448,12 @@
         }
         fieldset {
           padding: 0px 16px;
-          border: 1px solid $color-primary;
           margin-bottom: 16px;
         }
         fieldset:has(> ul.ocult) {
           border: none;
-          border-bottom: 1px solid $color-primary;
-          border-right: 1px solid $color-primary;
         }
         legend {
-          // background-color: $color-black-clear;
-          color: $color-white-clear;
           padding: 0px 16px;
           margin: 0;
         }
@@ -441,7 +493,7 @@
             }
             .text {
               @include col(space-between, 16px);
-              .primer{
+              .primer {
                 @include row(space-between, 8px);
               }
               .petit {
@@ -616,6 +668,16 @@
             display: none;
           }
         }
+        .categories {
+          flex-direction: column;
+          .last-post {
+            width: 100%;
+            padding: 4px 8px;
+            .text {
+              @include flex(row, flex-end, flex-end, 12px);
+            }
+          }
+        }
       }
     }
   }
@@ -635,9 +697,10 @@
       }
       .list-body {
         .categories {
-          flex-direction: column;
-          .last-post {
-            width: 100%;
+          .category {
+            p {
+              display: none;
+            }
           }
         }
         .topics {

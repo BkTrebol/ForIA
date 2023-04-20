@@ -96,7 +96,7 @@ No changes
     background-color: $color-white-clear;
     a {
       @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
-      @include sha(-10px, -10px);
+      @include sha(-8px, -8px);
     }
     img {
       @include sha;

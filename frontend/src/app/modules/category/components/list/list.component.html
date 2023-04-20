@@ -6,11 +6,15 @@
     <div class="list" *ngIf="!loading">
         <div class="list-header">
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
+            <p>A forum about <b>IA</b></p>
+            <div class="option-btns">
+                <button type="button" (click)="toogleSections()">{{allSections ? 'Revel Sections':
+                    'Ocult Sections'}}</button>
+            </div>
         </div>
         <div class="list-body">
             <ul>
                 <li *ngFor="let section of forum" class="section">
-                    <!-- <h1>{{section.name}}</h1> -->
                     <fieldset>
                         <legend>
                             <h1 (click)="toggle(section.name)">{{section.name}}</h1>
@@ -19,6 +23,7 @@
                             <li *ngFor="let category of section.categories" class="categories">
                                 <div class="category" routerLink="/category/{{category.id}}">
                                     <h2>{{category.title}}</h2>
+                                    <!-- mostrar numero de topics? -->
                                     <p>{{category.description}}</p>
                                     <img *ngIf="category.image" src="{{category.image}}"
                                         alt="Image of {{category.title}}">

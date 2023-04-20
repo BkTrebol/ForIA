@@ -34,7 +34,7 @@
     </div>
     <div class="list" *ngIf="!loading">
         <div class="list-header">
-            <h1><a routerLink="/category/{{listPosts.category.id}}">{{listPosts.category.title}}</a></h1>
+            <h1 routerLink="/category/{{listPosts.category.id}}">{{listPosts.category.title}}</h1>
             <h2>{{listPosts.topic.title}}</h2>
             <a *ngIf="listPosts.can_post" routerLink="/post/create">Create new Post</a>
         </div>

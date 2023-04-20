@@ -109,43 +109,43 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          // this.scrollToTop();
           this.listPosts = res;
           this.loading = false;
           if (this.route.snapshot.fragment == 'last') {
-              setTimeout(() => {
-                window.scrollTo({
-                  top: document.body.scrollHeight,
-                  behavior: 'smooth',
-                });
-              }, 100);
+            setTimeout(() => {
+              window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth',
+              });
+            }, 100);
           } else {
             this.scrollToTop();
-          };
+          }
 
-          // if (this.listPosts.posts.length == 0) {
-          //   this.loading = true;
-          //   this.router.navigate([], {
-          //     relativeTo: this.route,
-          //     queryParams: { page: this.listPosts.last_page },
-          //     queryParamsHandling: 'merge',
-          //   });
-          //   this.getData(this.listPosts.topic.id.toString(), this.listPosts.last_page.toString());
-          // } else if (this.listPosts.current_page != 1) {
-          //   this.router.navigate([], {
-          //     relativeTo: this.route,
-          //     queryParams: { page: this.listPosts.current_page },
-          //     queryParamsHandling: 'merge',
-          //   });
-          //   this.loading = false;
-          // } else {
-          //   this.router.navigate([], {
-          //     relativeTo: this.route,
-          //     queryParams: { page: null },
-          //     queryParamsHandling: 'merge',
-          //   });
-          //   this.loading = false;
-          // }
+          if (this.listPosts.posts.length == 0) {
+            this.loading = true;
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { page: this.listPosts.last_page },
+              queryParamsHandling: 'merge',
+            });
+            this.getData(
+              this.listPosts.topic.id.toString(),
+              this.listPosts.last_page.toString()
+            );
+          } else {
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: {
+                page:
+                  this.listPosts.current_page == 1
+                    ? null
+                    : this.listPosts.current_page,
+              },
+              queryParamsHandling: 'merge',
+            });
+            this.loading = false;
+          }
         },
         error: (err) => {
           this.loading = false;
@@ -177,18 +177,6 @@ export class ViewComponent implements OnInit, OnDestroy {
             this.listPosts.topic.id.toString(),
             this.listPosts.current_page.toString()
           );
-          // this.topicService
-          //   .posts(this.listPosts.topic.id.toString(), this.listPosts.current_page.toString())
-          //   .pipe(takeUntil(this.unsubscribe$))
-          //   .subscribe({
-          //     next: (res) => {
-          //       console.log(res);
-          //       this.listPosts = res;
-          //     },
-          //     error: (err) => {
-          //       console.log(err);
-          //     },
-          //   });
         },
         error: (err) => {
           console.log(err);
@@ -206,13 +194,6 @@ export class ViewComponent implements OnInit, OnDestroy {
             this.listPosts.topic.id.toString(),
             this.listPosts.current_page.toString()
           );
-          // this.topicService
-          //   .posts(this.listPosts.topic.id.toString(), this.listPosts.current_page.toString())
-          //   .subscribe({
-          //     next: (res) => {
-          //       this.listPosts = res
-          //     },
-          //   });
         },
         error: (err) => {
           console.log(err);

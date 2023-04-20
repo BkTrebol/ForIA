@@ -14,6 +14,7 @@ export class ListComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public forum: Forum;
   public ocults: { [key: string]: boolean };
+  public allSections: boolean;
   public theme: string;
 
   constructor(
@@ -24,6 +25,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.forum = [];
     this.ocults = {};
+    this.allSections = false;
     this.theme = this.themeService.getTheme();
   }
 
@@ -36,7 +38,7 @@ export class ListComponent implements OnInit, OnDestroy {
           this.forum = res;
           this.loading = false;
           this.forum.forEach((section) => {
-            this.ocults[section.name] = false
+            this.ocults[section.name] = false;
           });
         },
         error: (err) => {
@@ -54,6 +56,13 @@ export class ListComponent implements OnInit, OnDestroy {
 
   toggle(nom: string) {
     this.ocults[nom] = !this.ocults[nom];
+  }
+
+  toogleSections() {
+    this.allSections = !this.allSections;
+    for (let nom in this.ocults) {
+      this.ocults[nom] = this.allSections;
+    }
   }
 
   scrollToTop() {
