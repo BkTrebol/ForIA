@@ -19,17 +19,27 @@
                                 <p>{{topic.description}}</p>
                             </div>
                             <div class="text">
-                                <a routerLink="/user/profile/{{topic.user.id}}">{{topic.user.nick}}</a>
-                                <small>{{topic.created_at | date}}</small>
+                                <div class="primer">
+                                    <a routerLink="/user/profile/{{topic.user.id}}">{{topic.user.nick}}</a>
+                                    <small>{{topic.created_at | date}}</small>
+                                </div>
+                                <div class="petit">
+                                    <span class="mostrar-petit">3 <fa-icon [icon]="['fas', 'message']"></fa-icon></span>
+                                    <div class="mostrar-dos">
+                                        <a
+                                            routerLink="/user/profile/{{topic.last_post.user.id}}">{{topic.last_post.user.nick}}</a>
+                                        <small><a routerLink="/topic/{{topic.id}}"
+                                                [queryParams]="{'page': topic.last_page}"
+                                                fragment="last">{{topic.last_post.created_at | date}}</a>
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="topic-info">
                         <div class="topic-stats">
-                            <p>3 posts</p>
-                            <a routerLink="/topic/{{topic.id}}">1 poll</a>
-                            <!-- <p>11 post<span *ngIf="topic.posts.length != 1">s</span></p> -->
-                            <!-- <a *ngIf="topic.poll" routerLink="/topic/{{topic.id}}">1 poll</a> -->
+                            <p>{{topic.posts}} post<span *ngIf="topic.posts != 1">s</span></p>
                         </div>
                         <div class="last-post">
                             <div class="text">

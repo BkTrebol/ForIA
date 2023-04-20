@@ -197,7 +197,6 @@
         .list-body {
           .topics {
             .topic-user {
-              border-bottom: 2px solid $color-black;
               border-right: none;
             }
           }
@@ -207,12 +206,10 @@
     @include mini() {
       .list {
         .list-body {
-          .topics {
-            .topic-info {
-              .last-post {
-                border-top: 2px solid $color-black;
-                border-left: none;
-              }
+          .posts {
+            .user-card {
+              border-right: none;
+              border-bottom: 2px solid $color-black;
             }
           }
           .categories {
@@ -328,7 +325,6 @@
         .list-body {
           .topics {
             .topic-user {
-              border-bottom: 2px solid $color-white;
               border-right: none;
             }
           }
@@ -338,12 +334,10 @@
     @include mini() {
       .list {
         .list-body {
-          .topics {
-            .topic-info {
-              .last-post {
-                border-top: 2px solid $color-white;
-                border-left: none;
-              }
+          .posts {
+            .user-card {
+              border-right: none;
+              border-bottom: 2px solid $color-white;
             }
           }
           .categories {
@@ -439,13 +433,29 @@
           padding: 16px;
           @include flex(row, center, flex-start, 16px);
           .topic-body {
-            @include col(space-between, 8px);
+            @include col(space-between, 4px);
             .title {
               p {
                 word-break: break-word;
               }
             }
             .text {
+              @include col(space-between, 16px);
+              .primer{
+                @include row(space-between, 8px);
+              }
+              .petit {
+                @include row(space-between, 16px);
+                .mostrar-petit {
+                  display: none;
+                  fa-icon {
+                    margin-left: 4px;
+                  }
+                }
+                .mostrar-dos {
+                  display: none;
+                }
+              }
               @include row(space-between, 16px);
             }
           }
@@ -480,7 +490,7 @@
           border-right: 2px solid $color-black;
           @include col(space-between);
           .text {
-            @include col(space-between);
+            @include col(space-between, 8px);
             word-break: break-all;
           }
         }
@@ -491,20 +501,20 @@
           justify-content: space-between;
           .post-body {
             .post-header {
-              padding: 16px;
+              padding: 16px 16px 0 16px;
               @include row(space-between);
               .edit-buttons {
                 @include row(space-between, 16px);
               }
             }
             .content {
-              padding: 0px 16px;
+              padding: 16px;
             }
           }
           .post-footer {
             display: flex;
             justify-content: flex-end;
-            padding: 16px;
+            padding: 0 16px 16px 16px;
           }
         }
       }
@@ -537,14 +547,30 @@
       padding: 32px;
       .list-body {
         .topics {
-          @include flex(column, flex-start, space-between);
           .topic-user {
-            width: 100%;
+            .topic-body {
+              @include col(space-between, 0px);
+              .title {
+                p {
+                  display: none;
+                }
+              }
+              .text {
+                @include col(space-between, 4px);
+                .petit {
+                  .mostrar-petit {
+                    display: inline;
+                  }
+                }
+              }
+            }
           }
           .topic-info {
-            width: 100%;
+            .topic-stats {
+              display: none;
+            }
             .last-post {
-              width: 100%;
+              flex: 1;
               padding: 8px 16px;
               .text {
                 @include flex(column, flex-start, flex-start, 8px);
@@ -569,6 +595,26 @@
       .list-header {
         img {
           height: 75px;
+        }
+      }
+      .list-body {
+        .topics {
+          .topic-user {
+            padding: 8px 16px;
+            .topic-body {
+              .text {
+                .petit {
+                  .mostrar-dos {
+                    display: inline;
+                    @include row(space-between, 8px);
+                  }
+                }
+              }
+            }
+          }
+          .topic-info {
+            display: none;
+          }
         }
       }
     }
@@ -598,33 +644,14 @@
           .topic-user {
             .topic-body {
               word-break: break-all;
-              .title {
-                p {
-                  display: none;
-                }
-              }
-              .text {
-                @include col(space-between, 8px);
-              }
-            }
-          }
-          .topic-info {
-            @include col(space-between, 8px);
-            .topic-stats {
-              width: 100%;
-              @include col-center(center, 8px);
             }
           }
         }
         .posts {
-          .post-main {
-            .post-body {
-              .post-header {
-                .edit-buttons {
-                  @include col(space-between, 8px);
-                }
-              }
-            }
+          flex-direction: column;
+          .user-card {
+            padding: 8px;
+            @include row(flex-start, 16px);
           }
         }
       }

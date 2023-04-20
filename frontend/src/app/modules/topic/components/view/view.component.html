@@ -51,14 +51,14 @@
                     <div class="post-body">
                         <div class="post-header">
                             <p>{{listPosts.topic.created_at | date}}</p>
-                            <div *ngIf="!listPosts.can_edit" class="edit-buttons">
+                            <div *ngIf="listPosts.can_edit" class="edit-buttons">
                                 <button type="button">Edit</button>
                                 <button type="button">Delete</button>
                             </div>
                         </div>
                         <p class="content" [innerHTML]="listPosts.topic.content"></p>
                     </div>
-                    <div *ngIf="listPosts.topic.created_at == listPosts.topic.updated_at" class="post-footer">
+                    <div *ngIf="listPosts.topic.created_at != listPosts.topic.updated_at" class="post-footer">
                         <p>{{listPosts.topic.updated_at | date}}</p>
                     </div>
                 </div>
@@ -75,19 +75,19 @@
                     <div class="post-body">
                         <div class="post-header">
                             <p>{{post.created_at | date}}</p>
-                            <div *ngIf="!post.can_edit" class="edit-buttons">
+                            <div *ngIf="post.can_edit" class="edit-buttons">
                                 <button type="button">Edit</button>
                                 <button type="button" (click)="deletePost(post.id)">Delete</button>
                             </div>
                         </div>
                         <p class="content" [innerHTML]="post.content"></p>
                     </div>
-                    <div *ngIf="post.created_at == post.updated_at" class="post-footer">
+                    <div *ngIf="post.created_at != post.updated_at" class="post-footer">
                         <p>{{post.updated_at | date}}</p>
                     </div>
                 </div>
             </div>
-            <div class="editor-parent" *ngIf="!listPosts.can_post">
+            <div class="editor-parent" *ngIf="listPosts.can_post">
                 <div class="editor">
                     <angular-editor id="editor" [(ngModel)]="content" [config]="editorConfig"></angular-editor>
                 </div>

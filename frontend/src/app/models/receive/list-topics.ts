@@ -21,6 +21,7 @@ export interface Topic {
   description: string;
   created_at: string;
   last_page: number;
+  posts: number;
   last_post: {
     id: number;
     created_at: string;
