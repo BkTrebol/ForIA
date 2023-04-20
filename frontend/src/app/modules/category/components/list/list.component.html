@@ -5,35 +5,45 @@
     </div>
     <div class="list" *ngIf="!loading">
         <div class="list-header">
-            <h1>FORIA</h1>
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
         </div>
         <div class="list-body">
             <ul>
-                <li *ngFor="let section of forum">
-                    <h1>{{section.name}}</h1>
-                    <ul>
-                        <li *ngFor="let category of section.categories" class="categories">
-                            <div class="cateogry">
-                                <h2 routerLink="/category/{{category.id}}">{{category.title}}</h2>
-                                <p>{{category.description}}</p>
-                                <img *ngIf="category.image" src="{{category.image}}" alt="Image of {{category.title}}">
-                            </div>
-                            <div class="last-post" *ngIf="category.lastPost">
-                                <div class="user">
-                                    <app-avatar [user]="category.lastPost.user" [width]="'50'"
-                                        [height]="'50'"></app-avatar>
-                                    <h4 routerLink="/user/profile/{{category.lastPost.user.id}}">
-                                        {{category.lastPost.user.nick}}</h4>
+                <li *ngFor="let section of forum" class="section">
+                    <!-- <h1>{{section.name}}</h1> -->
+                    <fieldset>
+                        <legend>
+                            <h1 (click)="toggle(section.name)">{{section.name}}</h1>
+                        </legend>
+                        <ul [ngClass]="{'ocult': ocults[section.name]}">
+                            <li *ngFor="let category of section.categories" class="categories">
+                                <div class="category" routerLink="/category/{{category.id}}">
+                                    <h2>{{category.title}}</h2>
+                                    <p>{{category.description}}</p>
+                                    <img *ngIf="category.image" src="{{category.image}}"
+                                        alt="Image of {{category.title}}">
                                 </div>
-                                <div>
-                                    <h3 routerLink="/topic/{{category.lastPost.topic.id}}">
-                                        {{category.lastPost.topic.title}}</h3>
-                                    <h5>{{category.lastPost.created_at | date}}</h5>
+                                <div class="last-post" *ngIf="category.lastPost">
+                                    <div class="text">
+                                        <h3><a routerLink="/topic/{{category.lastPost.topic.id}}"
+                                                [queryParams]="{'page': category.lastPost.created_at}" fragment="last">
+                                                {{ (category.lastPost.topic.title.length > 8) ?
+                                                (category.lastPost.topic.title |
+                                                slice:0:8)+'...':(category.lastPost.topic.title)}}</a></h3>
+                                        <h4>
+                                            <a
+                                                routerLink="/user/profile/{{category.lastPost.user.id}}">{{category.lastPost.user.nick}}</a>
+                                        </h4>
+                                        <h5>{{category.lastPost.created_at | date}}</h5>
+                                    </div>
+                                    <div class="user">
+                                        <app-avatar [user]="category.lastPost.user" [width]="'75'"
+                                            [height]="'75'"></app-avatar>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </fieldset>
                 </li>
             </ul>
         </div>

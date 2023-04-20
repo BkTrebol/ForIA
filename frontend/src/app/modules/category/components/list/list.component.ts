@@ -13,6 +13,7 @@ export class ListComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public loading: boolean;
   public forum: Forum;
+  public ocults: { [key: string]: boolean };
   public theme: string;
 
   constructor(
@@ -22,6 +23,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this.unsubscribe$ = new Subject();
     this.loading = true;
     this.forum = [];
+    this.ocults = {};
     this.theme = this.themeService.getTheme();
   }
 
@@ -33,6 +35,9 @@ export class ListComponent implements OnInit, OnDestroy {
         next: (res) => {
           this.forum = res;
           this.loading = false;
+          this.forum.forEach((section) => {
+            this.ocults[section.name] = false
+          });
         },
         error: (err) => {
           console.log(err);
@@ -45,6 +50,10 @@ export class ListComponent implements OnInit, OnDestroy {
       .subscribe((t) => {
         this.theme = t;
       });
+  }
+
+  toggle(nom: string) {
+    this.ocults[nom] = !this.ocults[nom];
   }
 
   scrollToTop() {

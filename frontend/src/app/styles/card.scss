@@ -162,6 +162,24 @@
             }
           }
         }
+        .categories {
+          background-color: $color-black-grey;
+          border: 2px solid $color-black;
+          .category {
+            border-right: 2px solid $color-black;
+          }
+          .last-post {
+            .text {
+              a {
+                @include a-link(
+                  $color-gradient4,
+                  $color-gradient5,
+                  $color-gradient6
+                );
+              }
+            }
+          }
+        }
         .editor-parent {
           .editor {
             color: $color-white;
@@ -195,6 +213,12 @@
                 border-top: 2px solid $color-black;
                 border-left: none;
               }
+            }
+          }
+          .categories {
+            .category {
+              border-right: none;
+              border-bottom: 2px solid $color-black;
             }
           }
         }
@@ -269,6 +293,24 @@
             }
           }
         }
+        .categories {
+          background-color: $color-grey-clear;
+          border: 2px solid $color-white;
+          .category {
+            border-right: 2px solid $color-white;
+          }
+          .last-post {
+            .text {
+              a {
+                @include a-link(
+                  $color-gradient6,
+                  $color-gradient5,
+                  $color-gradient4
+                );
+              }
+            }
+          }
+        }
         .editor-parent {
           .editor {
             color: $color-black;
@@ -302,6 +344,12 @@
                 border-top: 2px solid $color-white;
                 border-left: none;
               }
+            }
+          }
+          .categories {
+            .category {
+              border-right: none;
+              border-bottom: 2px solid $color-white;
             }
           }
         }
@@ -338,6 +386,51 @@
       }
     }
     .list-body {
+      .section {
+        list-style: none;
+        h1 {
+          margin-bottom: 8px;
+          cursor: pointer;
+        }
+        .ocult {
+          display: none;
+        }
+        fieldset {
+          padding: 0px 16px;
+          border: 1px solid $color-primary;
+          margin-bottom: 16px;
+        }
+        fieldset:has(> ul.ocult) {
+          border: none;
+          border-bottom: 1px solid $color-primary;
+          border-right: 1px solid $color-primary;
+        }
+        legend {
+          // background-color: $color-black-clear;
+          color: $color-white-clear;
+          padding: 0px 16px;
+          margin: 0;
+        }
+      }
+      .categories {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 16px;
+        .category {
+          padding: 16px;
+          flex: 1;
+          @include col(flex-start, 8px);
+        }
+        .last-post {
+          width: 220px;
+          padding: 16px;
+          @include flex(row, center, flex-end, 16px);
+          .text {
+            @include flex(column, flex-end, flex-end, 8px);
+          }
+        }
+      }
       .topics {
         display: flex;
         margin-bottom: 16px;
@@ -410,7 +503,7 @@
           }
           .post-footer {
             display: flex;
-            justify-content: end;
+            justify-content: flex-end;
             padding: 16px;
           }
         }
@@ -422,38 +515,6 @@
           font-size: $size-text;
           color: $color-tertiary;
           text-align: center;
-        }
-      }
-      ul {
-        font-family: $font-text;
-        list-style: none;
-        li {
-          // padding: 16px;
-          // background-color: $color-black-grey;
-          // margin-bottom: 8px;
-
-          .categories {
-            @include row(space-between);
-            .cateogry {
-              h2 {
-                text-decoration: underline;
-              }
-            }
-            .last-post {
-              // @include b;
-              @include row(space-between, 16px);
-            }
-          }
-          a {
-            @include a-link(
-              $color-gradient4,
-              $color-gradient5,
-              $color-gradient6
-            );
-          }
-          // &:hover {
-          //   cursor: pointer;
-          // }
         }
       }
     }
@@ -527,6 +588,12 @@
         }
       }
       .list-body {
+        .categories {
+          flex-direction: column;
+          .last-post {
+            width: 100%;
+          }
+        }
         .topics {
           .topic-user {
             .topic-body {
