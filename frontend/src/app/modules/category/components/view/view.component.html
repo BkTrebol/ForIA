@@ -5,7 +5,7 @@
     </div>
     <div class="list" *ngIf="!loading">
         <div class="list-header">
-            <h1>{{category.title}}</h1>
+            <h1>{{category.title | ucwords}}</h1>
             <a *ngIf="category.can_post" routerLink="/topic/create">Create new Topic</a>
         </div>
         <div class="list-body">
@@ -15,7 +15,7 @@
                         <app-avatar [user]="topic.user" width="75" height="75"></app-avatar>
                         <div class="topic-body">
                             <div class="title" routerLink="/topic/{{topic.id}}">
-                                <h2>{{topic.title}}</h2>
+                                <h2>{{topic.title | ucfirst}}</h2>
                                 <p>{{topic.description}}</p>
                             </div>
                             <div class="text">
@@ -30,7 +30,7 @@
                                             routerLink="/user/profile/{{topic.last_post.user.id}}">{{topic.last_post.user.nick}}</a>
                                         <small><a routerLink="/topic/{{topic.id}}"
                                                 [queryParams]="{'page': topic.last_page}"
-                                                fragment="last">{{topic.last_post.created_at | date}}</a>
+                                                fragment="last">{{topic.last_post.created_at | toDate | timeAgo | short}}</a>
                                         </small>
                                     </div>
                                 </div>
@@ -46,7 +46,7 @@
                                 <a
                                     routerLink="/user/profile/{{topic.last_post.user.id}}">{{topic.last_post.user.nick}}</a>
                                 <small><a routerLink="/topic/{{topic.id}}" [queryParams]="{'page': topic.last_page}"
-                                        fragment="last">{{topic.last_post.created_at | date}}</a>
+                                        fragment="last">{{topic.last_post.created_at | toDate | timeAgo | short}}</a>
                                 </small>
                             </div>
                             <app-avatar [user]="topic.last_post.user" width="75" height="75"></app-avatar>

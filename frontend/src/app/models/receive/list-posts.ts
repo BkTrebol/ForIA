@@ -11,17 +11,17 @@ export interface ListPosts {
   last_page: number;
   total: number;
 }
-export interface Poll{
+export interface Poll {
   can_vote: boolean;
-  finish_date:Date;
-  id:number;
-  name:string;
-  options:Array<PollOption>;
+  finish_date: Date;
+  id: number;
+  name: string;
+  options: Array<PollOption>;
 }
 
-interface PollOption{
-  id:number;
-  option:string;
+interface PollOption {
+  id: number;
+  option: string;
 }
 export interface Category {
   id: number;

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, map, takeUntil } from 'rxjs';
 import { CategoryService } from '../../service/category.service';
 import { Forum } from '../../../../models/receive/list-category'
 import { ThemeService } from 'src/app/helpers/services/theme.service';
@@ -37,9 +37,6 @@ export class ListComponent implements OnInit, OnDestroy {
         next: (res) => {
           this.forum = res;
           this.loading = false;
-          this.forum.forEach((section) => {
-            this.ocults[section.name] = false;
-          });
         },
         error: (err) => {
           console.log(err);
