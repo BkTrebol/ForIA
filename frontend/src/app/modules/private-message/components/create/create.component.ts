@@ -34,6 +34,7 @@ export class CreateComponent implements OnInit, OnDestroy {
       recipient: NaN,
       title: '',
       content: '',
+      thread_id:0,
     };
     this.editorConfig = {
       height: '200px',

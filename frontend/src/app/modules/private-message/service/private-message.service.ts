@@ -5,8 +5,8 @@ import { Global } from 'src/app/environment/global';
 import {
   ListPm,
   PrivateMessage,
+  PrivateMessageList,
   newPrivateMessage,
-  replyToPrivateMessage,
 } from 'src/app/models/receive/list-pm';
 
 @Injectable({
@@ -19,12 +19,15 @@ export class PrivateMessageService {
     this.apiPrivateMessageURL = Global.api + 'pm/';
   }
 
-  getList(): Observable<ListPm> {
-    return this.http.get<ListPm>(this.apiPrivateMessageURL);
+  getReceived(): Observable<ListPm> {
+    return this.http.get<ListPm>(this.apiPrivateMessageURL+'received/');
+  }
+  getSent(): Observable<ListPm> {
+    return this.http.get<ListPm>(this.apiPrivateMessageURL+'sent/');
   }
 
-  getMessage(id: string, page: number): Observable<PrivateMessage> {
-    return this.http.get<PrivateMessage>(
+  getMessage(id: string, page: number): Observable<PrivateMessageList> {
+    return this.http.get<PrivateMessageList>(
       `${this.apiPrivateMessageURL}${id}?page=${page}`
     );
   }
@@ -41,7 +44,4 @@ export class PrivateMessageService {
     return this.http.post(`${this.apiPrivateMessageURL}new/`, message);
   }
 
-  replyMessage(message: replyToPrivateMessage): Observable<any> {
-    return this.http.post(`${this.apiPrivateMessageURL}`, message);
-  }
 }

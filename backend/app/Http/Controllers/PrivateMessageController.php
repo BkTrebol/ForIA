@@ -18,9 +18,8 @@ class PrivateMessageController extends Controller
         $received = PrivateMessage::where('receiver_id',$user->id)->where(function($query) use ($user) {
             $query->where('deleted_by', '<>', $user->id)
                   ->orWhereNull('deleted_by');
-        })
+        })->with('sender:id,nick')
         ->orderBy('created_at','desc')->select('id','sender_id','title','created_at')->paginate(10);
-
 
         return response()->json([
                 "messages" => $received->items(),
@@ -35,7 +34,7 @@ class PrivateMessageController extends Controller
         $sent = PrivateMessage::where('sender_id',$user->id)->where(function($query) use ($user) {
             $query->where('deleted_by', '<>', $user->id)
                   ->orWhereNull('deleted_by');
-        })
+        })->with('receiver:id,nick')
         ->orderBy('created_at','desc')->select(['id','receiver_id','title','created_at'])->paginate(10);
 
         return response()->json([
@@ -46,15 +45,6 @@ class PrivateMessageController extends Controller
         ]);
     }
 
-    // function getTopicData(Topic $topic){
-    //     $user = Auth::user();
-    //     $pm = PrivateMessage::where('topic_id', $topic->id)->first();
-    //     // dd($pm);
-    //     if($pm->user_id != $user->id && $pm->user2_id != $user->id)
-    //         return response()->json('Unauthorized',403);
-
-    //     return response()->json(['title' => $topic->title],200);
-    // }
 
     function getPrivateMessage(PrivateMessage $pm){
         $user = Auth::user();
@@ -70,10 +60,18 @@ class PrivateMessageController extends Controller
             $pm->viewed = true;
             $pm->save();
         }
-        $thread = PrivateMessage::where('thread_id',$pm->thread_id)->orderBy('created_at','desc')->paginate(10);
+
+        $thread = PrivateMessage::where('thread_id',$pm->thread_id)->with('sender:id,nick,avatar')
+        ->orderBy('created_at','desc')->paginate(10);
+        $pm->load('sender:nick,id,avatar,rol');
+        $recipient = $user->id == $pm->receiver_id ? $pm->sender_id : $pm->receiver_id;
+        if($thread->currentPage() != 1){
+            $pm = $pm->only('id','receiver_id','sender_id','thread_id','sender','title');
+        };
         $response = [
             "message" => $pm,
             "thread" => $thread->items(),
+            "recipient" => $recipient,
             "current_page" => $thread->currentPage(),
             "last_page" => $thread->lastPage(),
             "total" => $thread->total()
@@ -105,7 +103,10 @@ class PrivateMessageController extends Controller
             ->where(function ($query) use ($user) {
                 $query->where('receiver_id', $user->id)
                       ->orWhere('sender_id', $user->id);
-          })
+          })->where(function ($query) use ($request) {
+            $query->where('receiver_id', $request->recipient)
+                  ->orWhere('sender_id',  $request->recipient);
+      })
             ->first()){
                 return response()->json([
                     "message" => "Unauthorized"
