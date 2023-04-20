@@ -39,11 +39,7 @@
             <a *ngIf="listPosts.can_post" routerLink="/post/create">Create new Post</a>
         </div>
         <div class="list-body">
-            <div *ngIf="listPosts.topic.user" class="topic">
-                <div *ngIf="listPosts.can_edit" class="edit-buttons">
-                    <button type="button">Edit</button>
-                    <button type="button">Delete</button>
-                </div>
+            <div *ngIf="listPosts.topic.user" class="posts">
                 <div class="user-card">
                     <app-avatar [user]="listPosts.topic.user"></app-avatar>
                     <div class="text">
@@ -51,49 +47,52 @@
                         <small>{{listPosts.topic.user.rol}}</small>
                     </div>
                 </div>
-                <div class="topic-body">
-                    <div class="topic-header">
-                        <p>{{listPosts.topic.created_at | date}}</p>
+                <div class="post-main">
+                    <div class="post-body">
+                        <div class="post-header">
+                            <p>{{listPosts.topic.created_at | date}}</p>
+                            <div *ngIf="!listPosts.can_edit" class="edit-buttons">
+                                <button type="button">Edit</button>
+                                <button type="button">Delete</button>
+                            </div>
+                        </div>
+                        <p class="content" [innerHTML]="listPosts.topic.content"></p>
                     </div>
-                    <p [innerHTML]="listPosts.topic.content"></p>
+                    <div *ngIf="listPosts.topic.created_at == listPosts.topic.updated_at" class="post-footer">
+                        <p>{{listPosts.topic.updated_at | date}}</p>
+                    </div>
                 </div>
             </div>
-            <!-- <div class="posts">
-                <div class="post" *ngFor="let post of listPosts.posts">
-
-                    <p [innerHTML]="listPosts.topic.content"></p>
-                    <p>{{listPosts.topic.created_at | date}}</p>
-                </div>
-            </div> -->
-            <div class="posts">
-                <div class="row post" *ngFor="let post of listPosts.posts">
-                    <div class="user-card">
-                        <app-avatar [user]="post.user"></app-avatar>
-                        <div class="text">
-                            <a routerLink="/user/profile/{{post.user.id}}">{{post.user.nick}}</a>
-                            <small>{{post.user.rol}}</small>
-                        </div>
+            <div class="posts" *ngFor="let post of listPosts.posts">
+                <div class="user-card">
+                    <app-avatar [user]="post.user"></app-avatar>
+                    <div class="text">
+                        <a routerLink="/user/profile/{{post.user.id}}">{{post.user.nick}}</a>
+                        <small>{{post.user.rol}}</small>
                     </div>
+                </div>
+                <div class="post-main">
                     <div class="post-body">
                         <div class="post-header">
                             <p>{{post.created_at | date}}</p>
+                            <div *ngIf="!post.can_edit" class="edit-buttons">
+                                <button type="button">Edit</button>
+                                <button type="button" (click)="deletePost(post.id)">Delete</button>
+                            </div>
                         </div>
-                        <p [innerHTML]="post.content"></p>
-                        <div *ngIf="post.created_at != post.updated_at" class="post-footer">
-                            <p>{{post.created_at | date}}</p>
-                        </div>
+                        <p class="content" [innerHTML]="post.content"></p>
                     </div>
-                    <div *ngIf="post.can_edit" class="edit-buttons">
-                        <button type="button">Edit</button>
-                        <button type="button" (click)="deletePost(post.id)">Delete</button>
+                    <div *ngIf="post.created_at == post.updated_at" class="post-footer">
+                        <p>{{post.updated_at | date}}</p>
                     </div>
                 </div>
             </div>
-            <div class="editor-parent" *ngIf="listPosts.can_post">
-                <div class="editor {{theme}}">
-                    <angular-editor  id="editor" [(ngModel)]="content" [config]="editorConfig"></angular-editor>
+            <div class="editor-parent" *ngIf="!listPosts.can_post">
+                <div class="editor">
+                    <angular-editor id="editor" [(ngModel)]="content" [config]="editorConfig"></angular-editor>
                 </div>
-                <input type="submit" [disabled]="content.length == 0 || content.length > 10_000" class="btn btn-primary" (click)="onSubmit()">
+                <input type="submit" [disabled]="content.length == 0 || content.length > 10_000" class="btn btn-primary"
+                    (click)="onSubmit()">
                 <div *ngIf="error != ''" class="error">
                     <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}
                 </div>
