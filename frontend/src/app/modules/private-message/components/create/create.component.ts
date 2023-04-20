@@ -3,6 +3,8 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { PrivateMessageService } from '../../service/private-message.service';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { newPrivateMessage } from 'src/app/models/receive/list-pm';
+import { ThemeService } from 'src/app/helpers/services/theme.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create',
@@ -18,8 +20,12 @@ export class CreateComponent implements OnInit, OnDestroy {
   public title?: string;
   public message: newPrivateMessage;
   public editorConfig: AngularEditorConfig;
-  
-  constructor(private privateMessageService: PrivateMessageService) {
+  public theme:string;
+  constructor(
+    private router: Router,
+    private themeService: ThemeService,
+    private privateMessageService: PrivateMessageService) {
+    this.theme = themeService.getTheme();
     this.unsubscribe$ = new Subject();
     this.loading = false;
     this.content = '';
@@ -37,6 +43,11 @@ export class CreateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userList$ = this.privateMessageService.getUserList(this.user ?? '');
+    this.themeService.theme
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe((t) => {
+      this.theme = t;
+    });
   }
 
   onSubmit() {
@@ -44,7 +55,7 @@ export class CreateComponent implements OnInit, OnDestroy {
       .sendMessage(this.message)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: (r) => console.log(r),
+        next: (r) => this.router.navigate([`/private-message/${r.topic}}`]),
         error: (e) => console.log(e),
       });
   }

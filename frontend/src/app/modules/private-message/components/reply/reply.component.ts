@@ -4,6 +4,7 @@ import { PrivateMessageService } from '../../service/private-message.service';
 import { replyToPrivateMessage } from 'src/app/models/receive/list-pm';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { ThemeService } from 'src/app/helpers/services/theme.service';
 
 @Component({
   selector: 'app-reply',
@@ -16,12 +17,14 @@ export class ReplyComponent implements OnInit, OnDestroy{
   public message: replyToPrivateMessage;
   public topicTitle: string;
   public editorConfig: AngularEditorConfig;
-
+  public theme:string;
   constructor(
+    private themeService: ThemeService,
     private privateMessageService: PrivateMessageService,
     private ActivatedRoute: ActivatedRoute,
     private router: Router
   ) {
+    this.theme = themeService.getTheme();
     this.unsubscribe$ = new Subject();
     this.loading = false;
     this.topicTitle = '';
@@ -35,6 +38,7 @@ export class ReplyComponent implements OnInit, OnDestroy{
     };
   }
   ngOnInit(): void {
+
     this.ActivatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((params: ParamMap) => {
@@ -45,7 +49,14 @@ export class ReplyComponent implements OnInit, OnDestroy{
           },
         });
       });
+
+      this.themeService.theme
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((t) => {
+        this.theme = t;
+      });
   }
+
 
   onSubmit() {
     console.log(this.message.content);

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PrivateMessageService } from '../../service/private-message.service';
 import { ListPm } from 'src/app/models/receive/list-pm';
 import { Subject, takeUntil } from 'rxjs';
+import { ThemeService } from 'src/app/helpers/services/theme.service';
 
 @Component({
   selector: 'app-list',
@@ -12,10 +13,14 @@ export class ListComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public privateMessageList?: ListPm;
   public loading: boolean;
-
-  constructor(private privateMessageService: PrivateMessageService) {
+  public theme:string;
+  constructor(
+    private themeService: ThemeService,
+    private privateMessageService: PrivateMessageService
+    ) {
     this.unsubscribe$ = new Subject();
     this.loading = true;
+    this.theme = themeService.getTheme();
   }
 
   ngOnInit() {
@@ -32,6 +37,12 @@ export class ListComponent implements OnInit, OnDestroy {
           console.log(e);
           this.loading = false;
         },
+      });
+
+      this.themeService.theme
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((t) => {
+        this.theme = t;
       });
   }
 

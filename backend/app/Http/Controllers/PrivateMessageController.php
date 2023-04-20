@@ -11,60 +11,73 @@ use App\Models\Topic;
 use App\Models\Post;
 
 class PrivateMessageController extends Controller
-{
-    function getMessages(){
+{   
+    
+    function getMessagesReceived(){
         $user = Auth::user();
+        $received = PrivateMessage::where('receiver_id',$user->id)->where(function($query) use ($user) {
+            $query->where('deleted_by', '<>', $user->id)
+                  ->orWhereNull('deleted_by');
+        })
+        ->orderBy('created_at','desc')->select('id','sender_id','title','created_at')->paginate(10);
 
-        $pms = PrivateMessage::where('user_id', $user->id)->orWhere('user2_id', $user->id)->paginate(1);
+
         return response()->json([
-            "messages" => $pms->map(function($pm) use($user){
-                $topic =  Topic::find($pm->topic_id)->load('user:id,nick')->only('id','title','description','user','created_at');
-                $topic['to'] = ['id' => $pm->user2_id,'nick' => $pm->user2->nick];
-                return $topic;
-            }),
-            "current_page" => $pms->currentPage(),
-            "last_page" => $pms->lastPage(),
-            "total" => $pms->total()
+                "messages" => $received->items(),
+                "current_page" => $received->currentPage(),
+                "last_page" => $received->lastPage(),
+                "total" => $received->total(),
         ]);
+    }
+    function getMessagesSent(){
+        $user = Auth::user();
 
+        $sent = PrivateMessage::where('sender_id',$user->id)->where(function($query) use ($user) {
+            $query->where('deleted_by', '<>', $user->id)
+                  ->orWhereNull('deleted_by');
+        })
+        ->orderBy('created_at','desc')->select(['id','receiver_id','title','created_at'])->paginate(10);
+
+        return response()->json([
+                "messages" => $sent->items(),
+                "current_page" => $sent->currentPage(),
+                "last_page" => $sent->lastPage(),
+                "total" => $sent->total(),
+        ]);
     }
 
-    function getTopicData(Topic $topic){
+    // function getTopicData(Topic $topic){
+    //     $user = Auth::user();
+    //     $pm = PrivateMessage::where('topic_id', $topic->id)->first();
+    //     // dd($pm);
+    //     if($pm->user_id != $user->id && $pm->user2_id != $user->id)
+    //         return response()->json('Unauthorized',403);
+
+    //     return response()->json(['title' => $topic->title],200);
+    // }
+
+    function getPrivateMessage(PrivateMessage $pm){
         $user = Auth::user();
-        $pm = PrivateMessage::where('topic_id', $topic->id)->first();
-        // dd($pm);
-        if($pm->user_id != $user->id && $pm->user2_id != $user->id)
-            return response()->json('Unauthorized',403);
-
-        return response()->json(['title' => $topic->title],200);
-    }
-
-    function getPrivateMessage(Topic $pm){
-        $user = Auth::user();
-        $isPm = PrivateMessage::where('topic_id',$pm->id)->where(function($query)use($user){
-            $query->where('user_id',$user->id)->orWhere('user2_id',$user->id);
-        })->exists();
-
-        if (!$isPm){
+        // $valid = PrivateMessage::where('receiver_id',$user->id)->orWhere('sender_id',$user->id);
+        $valid = $pm->receiver_id == $user->id || $pm->sender_id == $user->id;
+        if (!$valid){
             return response()->json([
                 "message" => "Unauthorized"
             ],403);
         }
 
-        $posts = $pm->posts()->with('user')->paginate(10);
-        $response = [
-            'posts' => $posts->map(function($post){
-                return $post->load('user:id,nick,avatar,rol')->only('id','content','created_at','updated_at','user');
-            }),
-            "current_page" => $posts->currentPage(),
-            "last_page" => $posts->lastPage(),
-            "total" => $posts->total()
-        ];
-        if(!$posts->hasMorePages()){
-            $response['topic'] = $pm->load('user:id,nick,avatar,rol')->only('id','title','created_at','updated_at','content','user');
-        } else {
-            $response['topic'] = $pm->only('id','title');
+        if($user->id == $pm->receiver_id){
+            $pm->viewed = true;
+            $pm->save();
         }
+        $thread = PrivateMessage::where('thread_id',$pm->thread_id)->orderBy('created_at','desc')->paginate(10);
+        $response = [
+            "message" => $pm,
+            "thread" => $thread->items(),
+            "current_page" => $thread->currentPage(),
+            "last_page" => $thread->lastPage(),
+            "total" => $thread->total()
+        ];
 
         return response()->json($response,200);
     }
@@ -78,25 +91,33 @@ class PrivateMessageController extends Controller
             "recipient" => ["required","exists:users,id","not_in:$user->id"],
         ]);
 
-        $topic = Topic::create([
-            'category_id' => config('app.pmCategory'),
+        $newMessage =
+        [
+            'sender_id' => $user->id,
+            'receiver_id' => $request->recipient,
             'title' => $request->title,
             'content' => $request->content,
-            'user_id' => $user->id,
-            'can_view' => 'NONE',
-            'can_post' => 'NONE',
-        ]);
+        ];
 
-        $pm = PrivateMessage::create([
-            'topic_id' => $topic->id,
-            'user_id' => $user->id,
-            'user2_id' => $request->recipient
-        ]);
+        if($request->thread_id){
+            $newMessage['thread_id'] = $request->thread_id;
+            if(!PrivateMessage::where('thread_id', $request->thread_id)
+            ->where(function ($query) use ($user) {
+                $query->where('receiver_id', $user->id)
+                      ->orWhere('sender_id', $user->id);
+          })
+            ->first()){
+                return response()->json([
+                    "message" => "Unauthorized"
+                ],403);
+            };
+        };
+
+        $pm = PrivateMessage::create($newMessage);
 
         return response()->json([
             'message' => "Private message created successfully",
-            'pm' => $pm,
-            'topic' => $topic,
+            'id' => $pm->id,
         ],200);
     }
 

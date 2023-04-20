@@ -50,9 +50,15 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        if (!$user->hasVerifiedEmail()) {
-            $user->notify(new VerifyEmail(['url' => 'http://localhost:4200/auth/login']));
+        if(env('APP_DEBUG')==true){
+            $roles = $user->roles;
+            $roles = array_push($roles,'ROLE_USER');
+        } else{
+            if (!$user->hasVerifiedEmail()) {
+                $user->notify(new VerifyEmail(['url' => 'http://localhost:4200/auth/login']));
+            }
         }
+
         Auth::login($user);
 
     return response()->json(['message' => 'User created successfully'],201);

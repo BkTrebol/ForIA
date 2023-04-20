@@ -66,11 +66,12 @@ Route::middleware('auth:sanctum')->group(function(){
 
     // PrivateMessage
     Route::controller(PrivateMessageController::class)->prefix('pm')->group(function(){
-        Route::get('/','getMessages');
-        Route::get('/topic/{topic}','getTopicData');
+        Route::get('/received','getMessagesReceived');
+        Route::get('/sent','getMessagesSent');
+        // Route::get('/topic/{topic}','getTopicData');
         Route::get('/{pm}','getPrivateMessage');
         Route::post('/new','newPrivateMessage');
-        Route::post('/','sendMessage');
+        // Route::post('/','sendMessage');
     });
 
 });
