@@ -32,7 +32,7 @@ $color-white-clear: #eee;
 $color-black-opacity: rgba($color-black-clear, 0.5);
 $color-white-opacity: rgba($color-white-clear, 0.5);
 
-$color-black-grey: #222;
+$color-black-grey: #333;
 
 // Letter
 // $color-title: $color-secondary;
@@ -62,7 +62,7 @@ $size-icon-form: 25px;
 $height-header: 80px;
 $height-header-small: $height-header - 40px;
 $height-footer: 100px;
-$height-footer-mobile: $height-footer + 120px;
+$height-footer-mobile: $height-footer + 150px;
 
 $height-subtract: $height-header + $height-footer;
 $height-subtract-mobile: $height-header + $height-footer-mobile;

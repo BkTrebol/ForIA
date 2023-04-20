@@ -20,8 +20,8 @@ const routes: Routes = [
     path: 'user',
     loadChildren: () =>
       import('./modules/user/user.module').then((m) => m.UserModule),
-    canLoad: [AuthGuard],
-    canActivateChild: [AuthChildGuard],
+    // canLoad: [AuthGuard],
+    // canActivateChild: [AuthChildGuard],
   },
   {
     path: 'private-message',

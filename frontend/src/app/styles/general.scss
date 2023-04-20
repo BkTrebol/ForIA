@@ -239,6 +239,9 @@ No changes
   @include mobile() {
     @include row(flex-start, 20px);
     padding: 0 10px;
+    form {
+      display: none;
+    }
     nav ul {
       @include row(flex-star, 20px);
       li {
@@ -249,6 +252,18 @@ No changes
         // a span {
         //   @include no;
         // }
+      }
+    }
+  }
+  @include mini(){
+    nav ul {
+      li {
+        fa-icon {
+          margin-right: 12px;
+        }
+        a span {
+          @include no;
+        }
       }
     }
   }
