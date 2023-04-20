@@ -28,7 +28,6 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'User suspended.'
             ],403);
-
         }
         return response()->json([
             "message" => "Logged in successfully.",

@@ -10,30 +10,34 @@ export interface ListPm {
 interface ShortPrivateMessage {
   id: number;
   title: string;
-  description: string;
   created_at: Date;
-  to: { id: number; nick: string };
-  user: { id: number; nick: string };
+  receiver?: { id: number; nick: string };
+  sender?: { id: number; nick: string };
 }
 
-export interface PrivateMessage {
-  id: string;
-  title: string;
-  description: string;
-  posts: Array<Post>;
-  topic: Topic;
+export interface PrivateMessageList{
+  message: PrivateMessage;
+  thread: Array<PrivateMessage>;
+  recipient:number;
   current_page: number;
   last_page: number;
   total: number;
 }
 
-export interface newPrivateMessage {
-  recipient: number;
+export interface PrivateMessage {
+  id: string;
   title: string;
-  content: string;
+  content:string;
+  sender_id: number;
+  receiver_id: number;
+  sender:{id:number,nick:string,avatar:string}
+  thread_id:number;
 }
 
-export interface replyToPrivateMessage {
-  topic_id: number;
+export interface newPrivateMessage {
+  recipient?: number;
+  title: string;
   content: string;
+  thread_id?:number;
 }
+

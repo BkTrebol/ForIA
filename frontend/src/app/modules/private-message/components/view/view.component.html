@@ -1,28 +1,40 @@
-<div class="list-page">
+<div class="list-page {{theme}}">
     <div class="list">
         <div class="list-header">
             <h1 *ngIf="loading">Private Message</h1>
-            <h1 *ngIf="!loading">{{privateMessage?.topic?.title}}</h1>
+            <!-- <h1 *ngIf="!loading">{{privateMessage?.message?.title}}</h1> -->
         </div>
         <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div *ngIf="!loading">
-            <button routerLink="/private-message/reply/{{topicId}}">Reply</button>
-            <ng-container *ngIf="privateMessage">
-                <div *ngFor="let post of privateMessage.posts">
-                    <ng-container *ngTemplateOutlet="message; context: {post: post}"></ng-container>
+            <button routerLink="/private-message/reply/{{pmId}}">Reply</button>
+            <ng-container *ngIf="privateMessageList">
+                <div *ngIf="privateMessageList.message.hasOwnProperty('content')">
+                    <ng-container *ngTemplateOutlet="message; context:{pm: privateMessageList.message}"></ng-container>
+                    <h3>Historial de missatges</h3>
+                    <hr/><br>
                 </div>
-                <div *ngIf="privateMessage.topic.hasOwnProperty('content')">
 
-                    <ng-container *ngTemplateOutlet="message; context:{post: privateMessage.topic}"></ng-container>
+                <div *ngFor="let pm of privateMessageList.thread">
+                    <ng-container *ngTemplateOutlet="message; context: {pm: pm}"></ng-container>
                 </div>
-                <div class="list-footer">
-                    <button routerLink="/private-message/reply/{{topicId}}" type="button">Reply</button> <button
-                        type="button" (click)="scrollToTop()">Back to top</button>
-                    <div class="pagination">
-                        <a href="javascript:void(0)" (click)="changePage(i+1)"
-                            [class]="{'active': privateMessage.current_page == i+1}"
-                            *ngFor="let item of [].constructor(privateMessage.last_page); let i = index">{{i+1}}</a>
+
+                <div class="editor-parent">
+                    <div class="editor">
+                        <input type="text" [(ngModel)]="reply.title">
+                        <angular-editor id="editor" [(ngModel)]="reply.content" [config]="editorConfig"></angular-editor>
                     </div>
+                    <input type="submit" [disabled]="reply.content.length == 0 || reply.content.length > 10_000" class="btn btn-primary"
+                        (click)="onSubmit()">
+                    <div *ngIf="error != ''" class="error">
+                        <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}
+                    </div>
+                </div>
+
+                <div class="list-footer">
+                   <app-pagination [current_page]="privateMessageList.current_page" [last_page]="privateMessageList.last_page"
+                   (changePage)="changePage($event)">
+
+                   </app-pagination>
                 </div>
             </ng-container>
             <br>
@@ -32,21 +44,20 @@
     </div>
 </div>
 
-<ng-template #message let-post="post">
+<ng-template #message let-pm="pm">
     <div class="post">
         <div class="body">
-            <h5>{{privateMessage?.topic?.title}}</h5>
-            <p>From: <a routerLink="/user/profile/{{post.user.id}}">{{post.user.nick}}</a> on {{post.created_at | date}}
+            <h5>{{pm.title}}</h5>
+            <p>From: <a routerLink="/user/profile/{{pm.sender.id}}">{{pm.sender.nick}}</a> on {{pm.created_at | date}}
             </p>
             <hr>
-            <p class="content" [innerHTML]="post.content">
-
+            <p class="content" [innerHTML]="pm.content">
             </p>
         </div>
         <div class="avatar">
-            <app-avatar [user]="post.user"></app-avatar>
-            <a routerLink="/user/profile/{{post.user.id}}">{{post.user.nick}}</a>
-            <p>{{post.user.role}}</p>
+            <app-avatar [user]="pm.sender"></app-avatar>
+            <a routerLink="/user/profile/{{pm.sender.id}}">{{pm.sender.nick}}</a>
+            <p>{{pm.sender.role}}</p>
         </div>
     </div>
 </ng-template>

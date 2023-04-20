@@ -64,7 +64,8 @@ class CategoryController extends Controller
             'topics'=>$topics->map(function($topic){
                 $topic['last_post'] = $topic->last_post->load('user:avatar,nick,id')->only('user','created_at');
                 $topic['last_page'] = ceil($topic->posts->count()/config('app.pagination.topic'));
-                return $topic->load('user:id,nick,avatar')->only('id','user','title','description','created_at','last_post','last_page');
+                $topic['posts'] = $topic->posts->count();
+                return $topic->load('user:id,nick,avatar')->only('id','posts','user','title','description','created_at','last_post','last_page');
             }),
             "current_page" => $topics->currentPage(),
             "last_page" => $topics->lastPage(),

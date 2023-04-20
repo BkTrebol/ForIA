@@ -11,7 +11,8 @@ import { ThemeService } from 'src/app/helpers/services/theme.service';
 })
 export class ListComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
-  public privateMessageList?: ListPm;
+  public receivedMessages?: ListPm;
+  public sentMessages?: ListPm;
   public loading: boolean;
   public theme:string;
   constructor(
@@ -25,12 +26,26 @@ export class ListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.privateMessageService
-      .getList()
+      .getReceived()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r) => {
           console.log(r);
-          this.privateMessageList = r;
+          this.receivedMessages = r;
+          this.loading = false;
+        },
+        error: (e) => {
+          console.log(e);
+          this.loading = false;
+        },
+      });
+      this.privateMessageService
+      .getSent()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (r) => {
+          console.log(r);
+          this.sentMessages = r;
           this.loading = false;
         },
         error: (e) => {
