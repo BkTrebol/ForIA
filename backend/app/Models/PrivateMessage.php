@@ -17,22 +17,37 @@ class PrivateMessage extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'topic_id',
-        'user_id',
-        'user2_id',
+        'sender_id',
+        'receiver_id',
+        'thread_id',
+        'content',
+        'title',
     ];
 
-    
-    public function user(){
-        return $this->belongsTo(User::class,'user_id');
+    protected $hidden = [
+        'viewed'
+    ];
+
+
+    public function sender(){
+        return $this->belongsTo(User::class,'sender_id');
     }
 
-    public function user2(){
-        return $this->belongsTo(User::class,'user2_id');
+    public function receiver(){
+        return $this->belongsTo(User::class,'receiver_id');
     }
 
-    public function topic()
+    protected static function boot()
     {
-        return $this->hasOne(Topic::class);
+        parent::boot();
+
+        static::saving(function ($message) {
+            if (empty($message->thread_id)) {
+                $lastMessage = PrivateMessage::latest()->first();
+                $message->thread_id = $lastMessage ? $lastMessage->thread_id + 1 : 1;
+            }
+        });
     }
+
+
 }

@@ -1,19 +1,6 @@
-<!-- <div class="pagination">
-  <ng-container *ngIf="current_page != 1">
-    <a (click)="onChangePage(1)">&lt;&lt;</a>
-    <a (click)="onChangePage(current_page-1)">&lt;</a>
-  </ng-container>
 
-  <a (click)="onChangePage(i+1)"
-  [class]="{'active': current_page == i+1}"
-    *ngFor="let item of [].constructor(last_page); let i = index">{{i+1}}</a>
-    <ng-container *ngIf="current_page != last_page">
-      <a (click)="onChangePage(current_page+1)">&gt;</a>
-      <a (click)="onChangePage(last_page)">&gt;&gt;</a>
-    </ng-container>
-</div> -->
 
-<div class="pagination">
+<div class="pagination" *ngIf="last_page != 1">
   <ng-container >
     <a (click)="onChangePage(1)" [class]="{'active-alt': current_page == 1}">&lt;&lt;</a>
     <a (click)="onChangePage(current_page-1)" [class]="{'active-alt': current_page == 1}">&lt;</a>
