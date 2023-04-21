@@ -18,11 +18,13 @@ class CategoryController extends Controller
         // Gets the categories that the user can view.
         $user = Auth::user();   
         $roles = $user ? $user->roles : ['ROLE_GUEST'];
-        $categories = Category::get()->whereIn('can_view', $roles)->groupBy('section')->map(function($section,$sectionName)use($roles){
+        $categories = Category::get()->whereIn('can_view', $roles)->groupBy('section')->map(
+            function($section,$sectionName)use($roles){
            $abc['categories'] = $section->map(function($category) use($roles){
         $post = $category->lastPost;
+        $category['topics'] = $category->topics->count();
         if ($post){
-            // $category['can_post'] = in_array($category->can_post,$roles);
+            $category['posts'] = $category->posts->count();
             $category['lastPost'] = [
                     'created_at' => $post->created_at,
                     'topic' => [
@@ -35,7 +37,7 @@ class CategoryController extends Controller
                         'avatar' => $post->user->avatar,
                     ]
                 ];}
-        return $category->only('id','title','lastPost','description','image','can_post');
+        return $category->only('id','title','lastPost','description','image','posts','topics');
             });
             $abc['name'] = $sectionName;
             return $abc;
