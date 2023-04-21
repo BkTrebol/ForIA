@@ -1,8 +1,58 @@
 <div class="list-page {{theme}}">
-    <div class="loading" *ngIf="loading">
-        <fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon>
-        <p>Loading ...</p>
+    <div class="list" *ngIf="loading">
+        <div class="list-header">
+            <h1><app-loading height="50px" width="250px"></app-loading></h1>
+            <a *ngIf="category.can_post" routerLink="/topic/create">Create new Topic</a>
+        </div>
+        <div class="list-body">
+            <ul>
+                <li class="topics" *ngFor="let _ of [0, 1, 2, 3]">
+                    <div class="topic-user">
+                        <app-loading height="75px" width="75px" appa="circle"></app-loading>
+                        <div class="topic-body">
+                            <div class="title">
+                                <h2><app-loading height="30px" width="200px"></app-loading></h2>
+                                <p><app-loading height="25px" width="100%"></app-loading></p>
+                            </div>
+                            <div class="text">
+                                <div class="primer">
+                                    <span><app-loading height="20px" width="80px"></app-loading></span>
+                                    <span><app-loading height="15px" width="70px"></app-loading></span>
+                                </div>
+                                <div class="petit">
+                                    <span class="mostrar-petit">3 <fa-icon [icon]="['fas', 'message']"></fa-icon></span>
+                                    <div class="mostrar-dos">
+                                        <span>
+                                            <app-loading height="20px" width="80px"></app-loading></span>
+                                        <small><app-loading height="15px" width="70px"></app-loading>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="topic-info">
+                        <div class="topic-stats">
+                            <p><app-loading height="25px" width="60px"></app-loading></p>
+                        </div>
+                        <div class="last-post">
+                            <div class="text">
+                                <a
+                                    ><app-loading height="20px" width="80px"></app-loading></a>
+                                <small><a><app-loading height="15px" width="70px"></app-loading></a>
+                                </small>
+                            </div>
+                            <app-loading height="75px" width="75px" appa="circle"></app-loading>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="list-footer">
+            <app-loading height="35px" width="180px"></app-loading>
+        </div>
     </div>
+
     <div class="list" *ngIf="!loading">
         <div class="list-header">
             <h1>{{category.title | capitalize}}</h1>

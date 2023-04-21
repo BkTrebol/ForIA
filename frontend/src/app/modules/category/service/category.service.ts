@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Global } from '../../../environment/global';
 import { Forum } from 'src/app/models/receive/list-category';
-import { ListTopic } from 'src/app/models/receive/list-topics';
+import { ListTopics } from 'src/app/models/receive/list-topics';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class CategoryService {
     return this.http.get<Forum>(`${this.apiCategoryURL}`);
   }
 
-  topics(id: string, page: string): Observable<ListTopic> {
-    return this.http.get<ListTopic>(`${this.apiCategoryURL}${id}?page=${page}`);
+  topics(id: string, page: string): Observable<ListTopics> {
+    return this.http.get<ListTopics>(`${this.apiCategoryURL}${id}?page=${page}`);
   }
 }

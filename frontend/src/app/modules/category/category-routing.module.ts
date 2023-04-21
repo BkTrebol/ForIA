@@ -11,9 +11,9 @@ const routes: Routes = [
     path: 'category/:id',
     component: ViewComponent,
     title: 'ForIA',
-    resolve: {
-      response: CategoryResolver,
-    },
+    // resolve: {
+    //   response: CategoryResolver,
+    // },
   },
   // { path: 'create/', component: CreateComponent, title: 'ForIA' },
 ];
