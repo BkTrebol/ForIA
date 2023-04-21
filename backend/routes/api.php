@@ -77,7 +77,6 @@ Route::middleware('auth:sanctum')->group(function(){
 });
 
 // Public routes.
-
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
     $user = $request->user();

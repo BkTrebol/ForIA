@@ -23,9 +23,12 @@ class PrivateMessageController extends Controller
 
         return response()->json([
                 "messages" => $received->items(),
-                "current_page" => $received->currentPage(),
-                "last_page" => $received->lastPage(),
-                "total" => $received->total(),
+                'page' => [
+                    "current" => $received->currentPage(),
+                    "last" => $received->lastPage(),
+                    "total" => $received->total(),
+                ]
+
         ]);
     }
     function getMessagesSent(){
@@ -39,9 +42,12 @@ class PrivateMessageController extends Controller
 
         return response()->json([
                 "messages" => $sent->items(),
-                "current_page" => $sent->currentPage(),
-                "last_page" => $sent->lastPage(),
-                "total" => $sent->total(),
+                'pages' => [
+                    "current" => $sent->currentPage(),
+                    "last" => $sent->lastPage(),
+                    "total" => $sent->total(),
+                ]
+
         ]);
     }
 
@@ -72,9 +78,11 @@ class PrivateMessageController extends Controller
             "message" => $pm,
             "thread" => $thread->items(),
             "recipient" => $recipient,
-            "current_page" => $thread->currentPage(),
-            "last_page" => $thread->lastPage(),
-            "total" => $thread->total()
+            'page' => [
+                "current" => $thread->currentPage(),
+                "last" => $thread->lastPage(),
+                "total" => $thread->total()
+            ]
         ];
 
         return response()->json($response,200);

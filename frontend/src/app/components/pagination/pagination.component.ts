@@ -16,6 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class PaginationComponent {
   @Input('current_page') current_page: number;
   @Input('last_page') last_page: number;
+  @Input('ignoreParams') ignoreParams:boolean = false;
 
   @Output('changePage') changePage;
   @ViewChild('pagination3') pagination:any;
@@ -32,12 +33,15 @@ export class PaginationComponent {
 
     this.changePage.emit(newPage);
     if(event) event.target.blur();
-    console.log(this.pagination)
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { page: newPage },
-      queryParamsHandling: 'merge',
-    });
+    // console.log(this.pagination)
+    if(!this.ignoreParams){
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { page: newPage },
+        queryParamsHandling: 'merge',
+      });
+    }
+
   }
 
   onKeyDown(event: KeyboardEvent) {

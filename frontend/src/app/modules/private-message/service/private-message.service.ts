@@ -19,11 +19,11 @@ export class PrivateMessageService {
     this.apiPrivateMessageURL = Global.api + 'pm/';
   }
 
-  getReceived(): Observable<ListPm> {
-    return this.http.get<ListPm>(this.apiPrivateMessageURL+'received/');
+  getReceived(page:number): Observable<ListPm> {
+    return this.http.get<ListPm>(`${this.apiPrivateMessageURL}received/?page=${page}`);
   }
-  getSent(): Observable<ListPm> {
-    return this.http.get<ListPm>(this.apiPrivateMessageURL+'sent/');
+  getSent(page:number): Observable<ListPm> {
+    return this.http.get<ListPm>(`${this.apiPrivateMessageURL}sent/?page=${page}`);
   }
 
   getMessage(id: string, page: number): Observable<PrivateMessageList> {

@@ -39,9 +39,11 @@ class TopicController extends Controller
                 return $post->load('user:id,nick,avatar,rol,created_at')->only('id','content','created_at','updated_at','can_edit','user');
             }),
             'poll' => $poll,
-            "current_page" => $posts->currentPage(),
-            "last_page" => $posts->lastPage(),
-            "total" => $posts->total()
+            'page' => [
+                "current" => $posts->currentPage(),
+                "last" => $posts->lastPage(),
+                "total" => $posts->total()
+            ],
         ];
         if($posts->onFirstPage()){
             $response['topic'] = $topic->only('id','title','created_at','updated_at','content','user');

@@ -69,9 +69,11 @@ class CategoryController extends Controller
                 $topic['posts'] = $topic->posts->count();
                 return $topic->load('user:id,nick,avatar')->only('id','posts','user','title','description','created_at','last_post','last_page');
             }),
-            "current_page" => $topics->currentPage(),
-            "last_page" => $topics->lastPage(),
-            "total" => $topics->total()
+            'page' => [
+                "current" => $topics->currentPage(),
+                "last" => $topics->lastPage(),
+                "total" => $topics->total()
+            ]
         ],200);
     }
 

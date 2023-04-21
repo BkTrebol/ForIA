@@ -2,20 +2,56 @@
     <div class="list">
         <div class="list-header">
             <h1>Private Messages</h1>
+            <div>
+                <button (click)="onShowReceived()">Received Messages</button>
+                <button (click)="onShowSent()">Sent Messages</button>
+            </div>
+
             <a routerLink="new">Nuevo</a>
         </div>
         <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="pm-list" *ngIf="!loading">
-            <ng-container *ngIf="receivedMessages">
-                <div class="message" *ngFor="let pm of receivedMessages.messages">
-                    <div class="message-body">
-                        <div><a routerLink="{{pm.id}}">{{pm.title}}</a></div>
-                        <div><a class="user-link" routerLink="/user/profile/{{pm.sender?.id}}">{{pm.sender?.nick}}</a> 
-                            {{pm.created_at | date}}</div>
+            <ng-container *ngIf="showReceived; else sentList">
+                <ng-container *ngIf="receivedMessages">
+                    <div class="message" *ngFor="let pm of receivedMessages.messages">
+                        <div class="message-body">
+                            <div><a routerLink="{{pm.id}}">{{pm.title}}</a></div>
+                            <div><a class="user-link" routerLink="/user/profile/{{pm.sender?.id}}">{{pm.sender?.nick}}</a> 
+                                {{pm.created_at | date}}</div>
+                        </div>
+                        <div class="message-checkbox"><input type="checkbox" (click)="deletePm(pm.id)"></div>
                     </div>
-                    <div class="message-checkbox"><input type="checkbox" (click)="deletePm(pm.id)"></div>
-                </div>
+                    
+                <div class="list-footer">
+                    <app-pagination [current_page]="receivedMessages.current_page" [last_page]="receivedMessages.last_page" [ignoreParams]="true"
+                    (changePage)="changeReceivedPage($event)">
+ 
+                    </app-pagination>
+                 </div>
+                </ng-container>
             </ng-container>
+
         </div>
     </div>
 </div>
+
+
+<ng-template class="pm-list" #sentList>
+    <ng-container *ngIf="sentMessages">
+        <div class="message" *ngFor="let pm of sentMessages.messages">
+            <div class="message-body">
+                <div><a routerLink="{{pm.id}}">{{pm.title}}</a></div>
+                <div><a class="user-link" routerLink="/user/profile/{{pm.receiver?.id}}">{{pm.receiver?.nick}}</a> 
+                    {{pm.created_at | date}}</div>
+            </div>
+            <div class="message-checkbox"><input type="checkbox" (click)="deletePm(pm.id)"></div>
+        </div>
+        
+        <div class="list-footer">
+            <app-pagination [current_page]="sentMessages.current_page" [last_page]="sentMessages.last_page" [ignoreParams]="true"
+            (changePage)="changeSentPage($event)">
+
+            </app-pagination>
+         </div>
+    </ng-container>
+</ng-template>
