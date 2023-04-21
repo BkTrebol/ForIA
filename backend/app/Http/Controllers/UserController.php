@@ -129,11 +129,15 @@ class UserController extends Controller
         }
     }
 
-    function getUserList(string $search=""){
+    function getUserList(){
         $user = Auth::user();
 
         return response()->json(
-            User::where("id",'<>',$user->id)->where('nick','like','%' . $search . '%')->get(['id','nick'])
+            User::where("id",'<>',$user->id)->whereHas('preferences', function($query){
+                $query->where('allow_user_to_mp',true);
+            })
+            
+            ->get(['id','nick'])
         );
     }
 }

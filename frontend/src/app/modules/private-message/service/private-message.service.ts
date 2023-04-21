@@ -32,8 +32,8 @@ export class PrivateMessageService {
     );
   }
 
-  getUserList(search: string): Observable<any> {
-    return this.http.get<any>(`${Global.api}user/list/${search}`);
+  getUserList(): Observable<any> {
+    return this.http.get<any>(`${Global.api}user/list/`);
   }
   
   getTopic(id: number): Observable<any> {

@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="list-footer">
-                   <app-pagination [current_page]="privateMessageList.current_page" [last_page]="privateMessageList.last_page"
+                   <app-pagination [current_page]="privateMessageList.page.current" [last_page]="privateMessageList.page.last"
                    (changePage)="changePage($event)">
 
                    </app-pagination>

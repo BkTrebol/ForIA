@@ -40,7 +40,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::put('/password','changePassword');
         Route::get('/preference','getUserPreferences');
         Route::put('/preference','editUserPreference');
-        Route::get('/list/{search?}','getUserList');
+        Route::get('/list','getUserList');
     });
 
     // Topic routes.

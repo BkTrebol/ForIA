@@ -24,9 +24,8 @@ class PrivateMessage extends Model
         'title',
     ];
 
-    protected $hidden = [
-        'viewed'
-    ];
+
+
 
 
     public function sender(){

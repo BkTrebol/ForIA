@@ -14,16 +14,20 @@
             <ng-container *ngIf="showReceived; else sentList">
                 <ng-container *ngIf="receivedMessages">
                     <div class="message" *ngFor="let pm of receivedMessages.messages">
-                        <div class="message-body">
-                            <div><a routerLink="{{pm.id}}">{{pm.title}}</a></div>
-                            <div><a class="user-link" routerLink="/user/profile/{{pm.sender?.id}}">{{pm.sender?.nick}}</a> 
-                                {{pm.created_at | date}}</div>
+                        <div style="display:flex;">
+                            <fa-icon [icon]="[pm.viewed ?'far' : 'fas', 'message']" ></fa-icon>
+                            <div class="message-body">
+                                <div><a routerLink="{{pm.id}}">{{pm.title}}</a></div>
+                                <div><a class="user-link" routerLink="/user/profile/{{pm.sender?.id}}">{{pm.sender?.nick}}</a> 
+                                    {{pm.created_at | date}}</div>
+                            </div>
+                            
                         </div>
                         <div class="message-checkbox"><input type="checkbox" (click)="deletePm(pm.id)"></div>
                     </div>
                     
                 <div class="list-footer">
-                    <app-pagination [current_page]="receivedMessages.current_page" [last_page]="receivedMessages.last_page" [ignoreParams]="true"
+                    <app-pagination [current_page]="receivedMessages.page.current" [last_page]="receivedMessages.page.last" [ignoreParams]="true"
                     (changePage)="changeReceivedPage($event)">
  
                     </app-pagination>
@@ -48,7 +52,7 @@
         </div>
         
         <div class="list-footer">
-            <app-pagination [current_page]="sentMessages.current_page" [last_page]="sentMessages.last_page" [ignoreParams]="true"
+            <app-pagination [current_page]="sentMessages.page.current" [last_page]="sentMessages.page.last" [ignoreParams]="true"
             (changePage)="changeSentPage($event)">
 
             </app-pagination>

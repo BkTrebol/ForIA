@@ -19,7 +19,7 @@ class PrivateMessageController extends Controller
             $query->where('deleted_by', '<>', $user->id)
                   ->orWhereNull('deleted_by');
         })->with('sender:id,nick')
-        ->orderBy('created_at','desc')->select('id','sender_id','title','created_at')->paginate(10);
+        ->orderBy('created_at','desc')->select(['id','sender_id','title','created_at','viewed'])->paginate(10);
 
         return response()->json([
                 "messages" => $received->items(),
@@ -42,7 +42,7 @@ class PrivateMessageController extends Controller
 
         return response()->json([
                 "messages" => $sent->items(),
-                'pages' => [
+                'page' => [
                     "current" => $sent->currentPage(),
                     "last" => $sent->lastPage(),
                     "total" => $sent->total(),
@@ -130,30 +130,28 @@ class PrivateMessageController extends Controller
         ],200);
     }
 
-    function sendMessage(Request $request){
-        $user = Auth::user();
+    // function sendMessage(Request $request){
+    //     $user = Auth::user();
 
-        $request->validate([
-            'topic_id' => ['required'],
-            'content' => ['required']
-         ]);
+    //     $request->validate([
+    //         'topic_id' => ['required'],
+    //         'content' => ['required']
+    //      ]);
 
-        $isPm = PrivateMessage::where('topic_id',$request->topic_id)->where(function($query)use($user){
-            $query->where('user_id',$user->id)->orWhere('user2_id',$user->id);
-        })->exists();
+    //     $isPm = PrivateMessage::where('topic_id',$request->topic_id)->where(function($query)use($user){
+    //         $query->where('user_id',$user->id)->orWhere('user2_id',$user->id);
+    //     })->exists();
 
-        if (!$isPm){
-            return response()->json([
-                "message" => "Unauthorized"
-            ],403);
-        } else{
-            Post::create([
-                'topic_id' => $request->topic_id,
-                'user_id' => $user->id,
-                'content' => $request->content
-            ],200);
-        }
-
-
-    }
+    //     if (!$isPm){
+    //         return response()->json([
+    //             "message" => "Unauthorized"
+    //         ],403);
+    //     } else{
+    //         Post::create([
+    //             'topic_id' => $request->topic_id,
+    //             'user_id' => $user->id,
+    //             'content' => $request->content
+    //         ],200);
+    //     }
+    // }
 }
