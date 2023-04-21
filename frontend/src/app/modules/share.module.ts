@@ -5,7 +5,7 @@ import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-
+import { NgbModule, NgbToast, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 // Extra (icons)
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 

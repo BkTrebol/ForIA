@@ -4,6 +4,7 @@ import { ListPm } from 'src/app/models/receive/list-pm';
 import { Subject, takeUntil } from 'rxjs';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastService } from 'src/app/helpers/services/toast.service';
 
 @Component({
   selector: 'app-list',
@@ -25,6 +26,7 @@ export class ListComponent implements OnInit, OnDestroy {
     private privateMessageService: PrivateMessageService,
     private route: ActivatedRoute,
     private router: Router,
+    private toastService: ToastService
     ) {
     this.receivedPage = this.route.snapshot.queryParams['page'] ?? 1;
     this.sentPage = this.route.snapshot.queryParams['spage'] ?? 1;

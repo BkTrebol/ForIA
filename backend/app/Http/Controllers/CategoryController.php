@@ -10,14 +10,14 @@ class CategoryController extends Controller
 {   
     function getCategoryList(){
         $user = Auth::user();
-        $roles = $user ? $user->roles : ['ROLE_GUEST'];
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
         return Category::whereIn('can_view', $roles)->select('id','title')->orderBy('section')->get();
     }
 
     function getCategories(){
         // Gets the categories that the user can view.
         $user = Auth::user();   
-        $roles = $user ? $user->roles : ['ROLE_GUEST'];
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
         $categories = Category::get()->whereIn('can_view', $roles)->groupBy('section')->map(
             function($section,$sectionName)use($roles){
            $abc['categories'] = $section->map(function($category) use($roles){

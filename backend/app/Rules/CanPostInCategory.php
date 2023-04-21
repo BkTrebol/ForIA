@@ -22,12 +22,12 @@ class CanPostInCategory implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {   
         $category = Category::find($value);
-
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
         if (!$category) {
             $fail('Category not found');
         } else{
             $user = Auth::user();            
-            if(!in_array($category->can_post, $user->roles) || !in_array($category->can_view, $user->roles)){
+            if(!in_array($category->can_post, $roles) || !in_array($category->can_view, $roles)){
                $fail('User not allowed');
             }
         }        

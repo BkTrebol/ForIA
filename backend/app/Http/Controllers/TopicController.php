@@ -17,7 +17,7 @@ class TopicController extends Controller
     function viewTopic(Topic $topic){
         // Returns the posts in a topic if the user can view the topic and its category.
         $user = Auth::user();
-        $roles = $user ? $user->roles : ['ROLE_GUEST'];
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
         if(!in_array($topic->category->can_view,$roles) || !in_array($topic->can_view,$roles) )
         return response()->json(['message' => "Unauthorized"],403);
         else
@@ -100,7 +100,7 @@ class TopicController extends Controller
 
     function getTopicData(Topic $topic){
         $user = Auth::user();
-        $roles = $user->roles;
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
         $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
         $isMod = in_array($topic->category->can_mod,$user->roles);
 

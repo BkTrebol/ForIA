@@ -18,7 +18,8 @@ class PostController extends Controller
          ]);
         $topic = Topic::find($request->topic_id);
         $user = Auth::user();
-        if (!in_array($topic->can_view,$user->roles) || !in_array($topic->category->can_view,$user->roles)){
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
+        if (!in_array($topic->can_view,$roles) || !in_array($topic->category->can_view,$roles)){
             return response()->json([
                 'message' => 'Unauthorized',
             ],403);

@@ -6,6 +6,7 @@ import { User } from '../../models/user';
 import { UserPreferences } from '../../models/user-preferences';
 import { Global } from 'src/app/environment/global';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
+import { ToastService } from 'src/app/helpers/services/toast.service';
 
 @Component({
   selector: 'app-header',
@@ -23,11 +24,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public canSmall: boolean;
   public url: string;
   public theme: string;
-
   constructor(
     private _authService: AuthService,
     private router: Router,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private toastService: ToastService
   ) {
     this.unsubscribe$ = new Subject();
     this.userIsAuthenticated = null;
@@ -90,6 +91,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   // Change the Theme
   changeTheme(): void {
+    this.toastService.showDanger('Holita');
     this.theme = this.theme == 'dark' ? 'light' : 'dark';
     this.themeService.changeTheme(this.theme);
   }
