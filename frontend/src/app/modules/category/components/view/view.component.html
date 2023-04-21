@@ -1,8 +1,7 @@
 <div class="list-page {{theme}}">
     <div class="list" *ngIf="loading">
         <div class="list-header">
-            <h1><app-loading height="50px" width="250px"></app-loading></h1>
-            <a *ngIf="category.can_post" routerLink="/topic/create">Create new Topic</a>
+            <span><app-loading height="53px" width="250px"></app-loading></span>
         </div>
         <div class="list-body">
             <ul>
@@ -55,12 +54,12 @@
 
     <div class="list" *ngIf="!loading">
         <div class="list-header">
-            <h1>{{category.title | capitalize}}</h1>
-            <a *ngIf="category.can_post" routerLink="/topic/create">Create new Topic</a>
+            <h1>{{listTopics.category.title | capitalize}}</h1>
+            <a *ngIf="listTopics.category.can_post" routerLink="/topic/create">Create new Topic</a>
         </div>
         <div class="list-body">
             <ul>
-                <li class="topics" *ngFor="let topic of topics">
+                <li class="topics" *ngFor="let topic of listTopics.topics">
                     <div class="topic-user">
                         <app-avatar [user]="topic.user" width="75" height="75"></app-avatar>
                         <div class="topic-body">
@@ -106,7 +105,7 @@
             </ul>
         </div>
         <div class="list-footer">
-            <app-pagination [current_page]="current_page" [last_page]="last_page"
+            <app-pagination [current_page]="listTopics.page.current" [last_page]="listTopics.page.current"
                 (changePage)="changePage($event)"></app-pagination>
         </div>
     </div>

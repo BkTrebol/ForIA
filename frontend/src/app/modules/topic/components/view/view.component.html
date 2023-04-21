@@ -116,7 +116,7 @@
             </div>
         </div>
         <div class="list-footer">
-            <app-pagination [current_page]="listPosts.current_page" [last_page]="listPosts.last_page"
+            <app-pagination [current_page]="listPosts.page.current" [last_page]="listPosts.page.last"
                 (changePage)="changePage($event)"></app-pagination>
         </div>
     </div>
