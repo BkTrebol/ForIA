@@ -1,8 +1,50 @@
 <div class="list-page {{theme}}">
-    <div class="loading" *ngIf="loading">
-        <fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon>
-        <p>Loading ...</p>
+    <div class="list" *ngIf="loading">
+        <div class="list-header">
+            <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
+            <p>A forum about <b>IA</b></p>
+            <div class="option-btns">
+                <button type="button" (click)="toogleSections()">{{allSections ? 'Revel Sections':
+                    'Ocult Sections'}}</button>
+            </div>
+        </div>
+        <div class="list-body">
+            <ul>
+                <li *ngFor="let _ of [0, 1]" class="section">
+                    <fieldset>
+                        <legend>
+                            <span><app-loading height="36px" width="200px"></app-loading></span>
+                        </legend>
+                        <ul>
+                            <li *ngFor="let _ of [0, 1]" class="categories">
+                                <div class="category" >
+                                    <h2><app-loading height="30px" width="500px"></app-loading></h2>
+                                    <p><app-loading height="50px" width="100%"></app-loading></p>
+                                </div>
+                                <div class="last-post">
+                                    <div class="text">
+                                        <h3><app-loading height="25px" width="80px"></app-loading>
+                                        </h3>
+                                        <h4>
+                                            <app-loading height="20px" width="90px"></app-loading>
+                                        </h4>
+                                        <h5><app-loading height="15px" width="70px"></app-loading></h5>
+                                    </div>
+                                    <div class="user">
+                                        <app-loading height="75px" width="75px" appa="circle"></app-loading>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </fieldset>
+                </li>
+            </ul>
+        </div>
+        <div class="list-footer">
+            <app-loading height="30px" width="100px"></app-loading>
+        </div>
     </div>
+
     <div class="list" *ngIf="!loading">
         <div class="list-header">
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
@@ -23,7 +65,6 @@
                             <li *ngFor="let category of section.categories" class="categories">
                                 <div class="category" routerLink="/category/{{category.id}}">
                                     <h2>{{category.title | capitalize}}</h2>
-                                    <!-- mostrar numero de topics? -->
                                     <p>{{category.description}}</p>
                                     <img *ngIf="category.image" src="{{category.image}}"
                                         alt="Image of {{category.title}}">

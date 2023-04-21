@@ -420,6 +420,10 @@
         font-size: 50px;
         text-decoration: underline;
       }
+      span {
+        text-align: center;
+        display: block;
+      }
       h2 {
         font-size: 40px;
       }
@@ -442,6 +446,9 @@
         h1 {
           margin-bottom: 8px;
           cursor: pointer;
+        }
+        span {
+          display: block;
         }
         .ocult {
           display: none;
@@ -467,6 +474,9 @@
           padding: 16px;
           flex: 1;
           @include col(flex-start, 8px);
+          p {
+            width: 100%;
+          }
         }
         .last-post {
           width: 230px;
@@ -485,15 +495,21 @@
           padding: 16px;
           @include flex(row, center, flex-start, 16px);
           .topic-body {
+            flex: 1;
             @include col(space-between, 4px);
             .title {
+              width: 100%;
               p {
                 word-break: break-word;
               }
             }
             .text {
-              @include col(space-between, 16px);
+              // @include col(space-between, 16px);
               .primer {
+                span{
+                  margin-top: -4px;
+                  margin-bottom: -16px;
+                }
                 @include row(space-between, 8px);
               }
               .petit {
@@ -508,7 +524,7 @@
                   display: none;
                 }
               }
-              @include row(space-between, 16px);
+              // @include row(space-between, 16px);
             }
           }
         }
@@ -540,7 +556,7 @@
         .user-card {
           padding: 16px;
           border-right: 2px solid $color-black;
-          @include col(space-between);
+          @include col(flex-start, 16px);
           .text {
             @include col(space-between, 8px);
             word-break: break-all;

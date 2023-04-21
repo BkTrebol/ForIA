@@ -1,7 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Category, Topic, ListTopic } from 'src/app/models/receive/list-topics';
+import {
+  Category,
+  Topic,
+  ListTopics,
+} from 'src/app/models/receive/list-topics';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { CategoryService } from '../../service/category.service';
 
@@ -20,6 +24,8 @@ export class ViewComponent implements OnInit, OnDestroy {
   public total: number;
   public audioUrl: string;
   public theme: string;
+
+  public listTopics: ListTopics;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,20 +46,28 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.total = 1;
     this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';
     this.theme = this.themeService.getTheme();
+
+    this.listTopics = {
+      category: {
+        id: 0,
+        title: '',
+        can_post: false,
+      },
+      topics: [],
+      page: {
+        total: 1,
+        current: 1,
+        last: 1,
+      }
+    };
   }
 
   ngOnInit() {
-    if (this.route.snapshot.data['response']) {
-      this.category = this.route.snapshot.data['response'].category;
-      this.topics = this.route.snapshot.data['response'].topics;
-      this.total = this.route.snapshot.data['response'].total;
-      this.last_page = this.route.snapshot.data['response'].last_page;
-      this.current_page = this.route.snapshot.data['response'].current_page;
-      this.loading = false;
-    } else {
-      this.loading = false;
-      this.router.navigate(['/']);
-    }
+    this.getData(
+      this.route.snapshot.paramMap.get('id') ?? '',
+      this.route.snapshot.queryParams['page'] ?? '1'
+    );
+
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((t) => {
@@ -61,25 +75,61 @@ export class ViewComponent implements OnInit, OnDestroy {
       });
   }
 
-  changePage(page: number) {
+  getData(id: string, page: string) {
     this.categoryService
-      .topics(this.category.id.toString(), page.toString())
+      .topics(id, page)
       .pipe(takeUntil(this.unsubscribe$))
-      .pipe(filter((res: ListTopic) => res.topics.length > 0)) //test
       .subscribe({
         next: (res) => {
-          this.total = res.total;
-          this.last_page = res.last_page;
-          this.current_page = res.current_page;
-          this.category = res.category;
-          this.topics = res.topics;
-          //can_post?
-        },
-
-        complete: () => {
+          console.log(res);
+          this.listTopics = res;
           this.loading = false;
-        }
+
+          if (this.route.snapshot.fragment == 'last') {
+            setTimeout(() => {
+              window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth',
+              });
+            }, 100);
+          } else {
+            this.scrollToTop();
+          }
+
+          if (this.listTopics.topics.length == 0) {
+            this.loading = true;
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { page: this.listTopics.page.last },
+              queryParamsHandling: 'merge',
+            });
+            this.getData(
+              this.listTopics.category.id.toString(),
+              this.listTopics.page.last.toString()
+            );
+          } else {
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: {
+                page:
+                  this.listTopics.page.current == 1
+                    ? null
+                    : this.listTopics.page.current,
+              },
+              queryParamsHandling: 'merge',
+            });
+            this.loading = false;
+          }
+        },
+        error: (err) => {
+          this.loading = false;
+          console.log(err);
+        },
       });
+  }
+
+  changePage(page: number) {
+    this.getData(this.listTopics.category.id.toString(), page.toString());
   }
 
   playAudio() {

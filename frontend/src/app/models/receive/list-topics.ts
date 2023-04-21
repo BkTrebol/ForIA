@@ -1,11 +1,10 @@
 import { UserCard } from '../common/user-card';
+import { Pages } from '../common/pages';
 
-export interface ListTopic {
+export interface ListTopics {
   category: Category;
   topics: Topic[];
-  total: number;
-  current_page: number;
-  last_page: number;
+  page: Pages;
 }
 
 export interface Category {

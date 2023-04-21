@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, map, takeUntil } from 'rxjs';
 import { CategoryService } from '../../service/category.service';
-import { Forum } from '../../../../models/receive/list-category'
+import { Forum } from '../../../../models/receive/list-category';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 
 @Component({
@@ -28,7 +28,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this.allSections = false;
     this.theme = this.themeService.getTheme();
   }
-
+  
   ngOnInit() {
     this.categoryService
       .categories()
@@ -36,10 +36,14 @@ export class ListComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.forum = res;
-          this.loading = false;
+          res.forEach(section => {
+            this.ocults[section.name] = false
+          })
         },
         error: (err) => {
           console.log(err);
+        },
+        complete: () => {
           this.loading = false;
         },
       });
