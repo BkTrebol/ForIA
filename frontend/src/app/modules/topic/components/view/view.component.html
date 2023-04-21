@@ -34,8 +34,8 @@
     </div>
     <div class="list" *ngIf="!loading">
         <div class="list-header">
-            <h1 routerLink="/category/{{listPosts.category.id}}">{{listPosts.category.title | ucwords}}</h1>
-            <h2>{{listPosts.topic.title | ucfirst}}</h2>
+            <h1 routerLink="/category/{{listPosts.category.id}}">{{listPosts.category.title | capitalize}}</h1>
+            <h2>{{listPosts.topic.title | capitalize}}</h2>
             <a *ngIf="listPosts.can_post" routerLink="/post/create">Create new Post</a>
         </div>
         <div class="list-body">

@@ -17,12 +17,12 @@
                 <li *ngFor="let section of forum" class="section">
                     <fieldset>
                         <legend>
-                            <h1 (click)="toggle(section.name)">{{section.name}}</h1>
+                            <h1 (click)="toggle(section.name)">{{section.name | capitalize}}</h1>
                         </legend>
                         <ul [ngClass]="{'ocult': ocults[section.name]}">
                             <li *ngFor="let category of section.categories" class="categories">
                                 <div class="category" routerLink="/category/{{category.id}}">
-                                    <h2>{{category.title | ucwords}}</h2>
+                                    <h2>{{category.title | capitalize}}</h2>
                                     <!-- mostrar numero de topics? -->
                                     <p>{{category.description}}</p>
                                     <img *ngIf="category.image" src="{{category.image}}"
@@ -34,12 +34,13 @@
                                                 [queryParams]="{'page': category.lastPost.created_at}" fragment="last">
                                                 {{ ((category.lastPost.topic.title.length > 8) ?
                                                 (category.lastPost.topic.title |
-                                                slice:0:8)+'...':(category.lastPost.topic.title)) | ucfirst}}</a></h3>
+                                                slice:0:8)+'...':(category.lastPost.topic.title)) | capitalize}}</a>
+                                        </h3>
                                         <h4>
                                             <a
                                                 routerLink="/user/profile/{{category.lastPost.user.id}}">{{category.lastPost.user.nick}}</a>
                                         </h4>
-                                        <h5>{{category.lastPost.created_at | toDate | timeAgo }}</h5>
+                                        <h5>{{category.lastPost.created_at | ago }}</h5>
                                     </div>
                                     <div class="user">
                                         <app-avatar [user]="category.lastPost.user" [width]="'75'"

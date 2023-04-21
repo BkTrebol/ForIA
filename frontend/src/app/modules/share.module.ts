@@ -10,10 +10,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // Pipes
 import {
   AvatarUrlPipe,
-  ToDatePipe,
-  Short,
 } from '../helpers/pipes/avatar-url.pipe';
-import { NgPipesModule } from 'ngx-pipes';
+import { TimeAgoPipe } from '../helpers/pipes/dates.pipe';
+import { CapitalizePipe } from '../helpers/pipes/text.pipe';
 
 // Directives
 import { SkeletonDirective } from '../helpers/directives/skeleton.directive';
@@ -26,8 +25,8 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [
     AvatarUrlPipe,
-    ToDatePipe,
-    Short,
+    TimeAgoPipe,
+    CapitalizePipe,
     AvatarComponent,
     PaginationComponent,
     SkeletonDirective,
@@ -41,7 +40,6 @@ import { RouterModule } from '@angular/router';
     FontAwesomeModule,
     NgSelectModule,
     RouterModule,
-    NgPipesModule,
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
   ],
   providers: [],
@@ -52,14 +50,13 @@ import { RouterModule } from '@angular/router';
     HttpClientXsrfModule,
     FontAwesomeModule,
     AvatarUrlPipe,
-    ToDatePipe,
-    Short,
+    TimeAgoPipe,
+    CapitalizePipe,
     AvatarComponent,
     PaginationComponent,
     SkeletonDirective,
     NgSelectModule,
     RouterModule,
-    NgPipesModule,
   ],
 })
 export class SharedModule {}
