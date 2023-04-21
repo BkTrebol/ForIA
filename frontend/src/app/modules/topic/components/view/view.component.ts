@@ -67,9 +67,11 @@ export class ViewComponent implements OnInit, OnDestroy {
         name: '',
         options: [],
       },
-      current_page: 1,
-      last_page: 1,
-      total: 1,
+      page: {
+        current: 1,
+        last: 1,
+        total: 1,
+      }
     };
     this.unsubscribe$ = new Subject();
     this.loading = true;
@@ -126,21 +128,21 @@ export class ViewComponent implements OnInit, OnDestroy {
             this.loading = true;
             this.router.navigate([], {
               relativeTo: this.route,
-              queryParams: { page: this.listPosts.last_page },
+              queryParams: { page: this.listPosts.page.last },
               queryParamsHandling: 'merge',
             });
             this.getData(
               this.listPosts.topic.id.toString(),
-              this.listPosts.last_page.toString()
+              this.listPosts.page.last.toString()
             );
           } else {
             this.router.navigate([], {
               relativeTo: this.route,
               queryParams: {
                 page:
-                  this.listPosts.current_page == 1
+                  this.listPosts.page.current == 1
                     ? null
-                    : this.listPosts.current_page,
+                    : this.listPosts.page.current,
               },
               queryParamsHandling: 'merge',
             });
@@ -175,7 +177,7 @@ export class ViewComponent implements OnInit, OnDestroy {
         next: (res) => {
           this.getData(
             this.listPosts.topic.id.toString(),
-            this.listPosts.current_page.toString()
+            this.listPosts.page.current.toString()
           );
         },
         error: (err) => {
@@ -192,7 +194,7 @@ export class ViewComponent implements OnInit, OnDestroy {
         next: (res) => {
           this.getData(
             this.listPosts.topic.id.toString(),
-            this.listPosts.current_page.toString()
+            this.listPosts.page.current.toString()
           );
         },
         error: (err) => {

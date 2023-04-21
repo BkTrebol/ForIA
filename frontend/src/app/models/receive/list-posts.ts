@@ -1,4 +1,5 @@
 import { UserCard } from '../common/user-card';
+import { Pages } from '../common/pages';
 
 export interface ListPosts {
   can_edit: boolean;
@@ -7,9 +8,7 @@ export interface ListPosts {
   topic: Topic;
   posts: Post[];
   poll: Poll;
-  current_page: number;
-  last_page: number;
-  total: number;
+  page: Pages;
 }
 export interface Poll {
   can_vote: boolean;
