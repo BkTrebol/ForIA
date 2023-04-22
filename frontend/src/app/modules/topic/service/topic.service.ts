@@ -26,7 +26,7 @@ export class TopicService {
     return this.http.post(`${this.apiPostURL}`, params);
   }
 
-  deletePost(id: string): Observable<any> {
-    return this.http.delete(`${this.apiPostURL}${id}`);
+  deletePost(id: string): Observable<{message: string}> {
+    return this.http.delete<{ message: string }>(`${this.apiPostURL}${id}`);
   }
 }

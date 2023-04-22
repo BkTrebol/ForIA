@@ -29,8 +29,8 @@ export class AuthService {
     this.authData = this.userSubject.asObservable();
   }
 
-  getCSRF(): Observable<any> {
-    return this.http.get<any>(`${this.baseURL}/sanctum/csrf-cookie`);
+  getCSRF(): Observable<void> {
+    return this.http.get<void>(`${this.baseURL}/sanctum/csrf-cookie`);
   }
 
   register(register: Register): Observable<any> {
@@ -72,7 +72,7 @@ export class AuthService {
   }
 
   isLogged(): Observable<boolean> {
-    return this.http.get<boolean>(`${this.apiAuthURL}check-login`)
+    return this.http.get<boolean>(`${this.apiAuthURL}check-login`);
   }
 
   public get user() {
@@ -84,8 +84,8 @@ export class AuthService {
     return this.http.post(`${this.apiAuthURL}reset-password`, params);
   }
 
-  logout(): Observable<any> {
+  logout(): Observable<{message: string}> {
     this.userSubject.next(null);
-    return this.http.get(`${this.apiAuthURL}logout`);
+    return this.http.get<{ message: string }>(`${this.apiAuthURL}logout`);
   }
 }

@@ -175,6 +175,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
+          this.content = '';
           this.getData(
             this.listPosts.topic.id.toString(),
             this.listPosts.page.current.toString()

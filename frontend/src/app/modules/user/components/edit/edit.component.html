@@ -1,6 +1,7 @@
 <div class="form-page {{theme}}">
-    <form [formGroup]="formEditProfile" (ngSubmit)="submit()" class="form-container">
+    <form *ngIf="view" [formGroup]="formEditProfile" (ngSubmit)="submit()" class="form-container">
         <h2>Edit Profile</h2>
+        <button type="button" (click)="toggleView()">Edit Preferences</button>
         <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}</h3>
         <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="fields">
@@ -68,11 +69,12 @@
                     <div class="check-avatar">
                         <div>
                             <label for="file">Avatar</label>
-                            <img *ngIf="(user.avatar != null || imageSrc != '') && !deleteAvatar?.value && (user.avatar | avatarUrl)" class="avatar"
-                                [src]="imageSrc || user.avatar" width="100" height="100" alt="Google Avatar">
-                            <img *ngIf="(user.avatar != null || imageSrc != '') && !deleteAvatar?.value && !(user.avatar | avatarUrl)" class="avatar"
-                                [src]="imageSrc || url+'get-avatar/'+user.avatar" width="100" height="100"
-                                alt="Avatar">
+                            <img *ngIf="(user.avatar != null || imageSrc != '') && !deleteAvatar?.value && (user.avatar | avatarUrl)"
+                                class="avatar" [src]="imageSrc || user.avatar" width="100" height="100"
+                                alt="Google Avatar">
+                            <img *ngIf="(user.avatar != null || imageSrc != '') && !deleteAvatar?.value && !(user.avatar | avatarUrl)"
+                                class="avatar" [src]="imageSrc || url+'get-avatar/'+user.avatar" width="100"
+                                height="100" alt="Avatar">
                             <img *ngIf="(user.avatar == null && imageSrc == '') || deleteAvatar?.value" class="avatar"
                                 [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+user.nick" width="100"
                                 height="100" alt="Default Avatar">
@@ -84,7 +86,9 @@
                     </div>
                     <p *ngIf="!deleteAvatar?.value && imageSrc != ''">{{imageSelected}}</p>
                     <p *ngIf="deleteAvatar?.value || (imageSrc == '' && user.avatar==null)">Default Avatar</p>
-                    <p *ngIf="!deleteAvatar?.value && imageSrc == '' && user.avatar != null && (user.avatar | avatarUrl)">Google Avatar</p>
+                    <p
+                        *ngIf="!deleteAvatar?.value && imageSrc == '' && user.avatar != null && (user.avatar | avatarUrl)">
+                        Google Avatar</p>
                     <div class="field">
                         <input type="file" accept="image/*" (change)="fileChangeEvent($event)"
                             (change)="readURL($event);" id="file" formControlName="avatar" class="input">
@@ -107,7 +111,69 @@
             <fa-icon class="btn-icon" [icon]="['fas', 'thumbs-up']"></fa-icon>
         </div>
         <div class="form-links">
-            <p><a routerLink="/user/edit">Edit User Preferences</a></p>
+            <p><a routerLink="/user/profile/{{userId}}">View Profile</a></p>
+        </div>
+    </form>
+    <form *ngIf="!view && !loading" [formGroup]="formEditPreferences" (ngSubmit)="editPreferences()" class="form-container">
+        <h2>Edit Preferences</h2>
+        <button type="button" (click)="toggleView()">Edit Profile</button>
+        <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
+        <div class="fields">
+            <div class="group">
+                <div class="row-field">
+                    <input type="checkbox" id="sidebar" [(ngModel)]="preferences.sidebar" formControlName="sidebar">
+                    <label for="sidebar">Sidebar</label>
+                </div>
+            </div>
+            <div class="group">
+                <div class="row-field">
+                    <input type="checkbox" id="filter_bad_words" [(ngModel)]="preferences.filter_bad_words" formControlName="filter_bad_words">
+                    <label for="filter_bad_words">Filter Bad Words</label>
+                </div>
+            </div>
+            <div class="group">
+                <div class="row-field">
+                    <input type="checkbox" id="allow_view_profile" [(ngModel)]="preferences.allow_view_profile"
+                        formControlName="allow_view_profile">
+                    <label for="allow_view_profile">Allow View Profile</label>
+                </div>
+            </div>
+            <div class="group">
+                <div class="row-field">
+                    <input type="checkbox" id="allow_users_to_mp" [(ngModel)]="preferences.allow_user_to_mp"
+                        formControlName="allow_user_to_mp">
+                    <label for="allow_user_to_mp">Allow User To Mp</label>
+                </div>
+            </div>
+            <div class="group">
+                <div class="row-field">
+                    <input type="checkbox" id="hide_online_presence" [(ngModel)]="preferences.hide_online_presence"
+                        formControlName="hide_online_presence">
+                    <label for="hide_online_presence">Hide Online Presence</label>
+                </div>
+            </div>
+            <div class="group">
+                <div class="row-field">
+                    <input type="checkbox" id="two_fa" [(ngModel)]="preferences.two_fa"
+                        formControlName="two_fa">
+                    <label for="two_fa">Two Fa</label>
+                </div>
+            </div>
+            <div class="group">
+                <div class="row-field">
+                    <input type="checkbox" id="allow_music" [(ngModel)]="preferences.allow_music" formControlName="allow_music">
+                    <label for="allow_music">Allow Music</label>
+                </div>
+            </div>
+        </div>
+        <div class="btn-field">
+            <button [disabled]="!formEditPreferences.valid" class="btn-send">
+                Edit Preferences
+            </button>
+            <fa-icon class="btn-icon" [icon]="['fas', 'thumbs-up']"></fa-icon>
+        </div>
+        <div class="form-links">
+            <p><a routerLink="/user/profile/{{userId}}">View Profile</a></p>
         </div>
     </form>
 </div>

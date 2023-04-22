@@ -12,6 +12,7 @@ import { EditUserProfile } from 'src/app/models/receive/edit-user-profile';
 import { Global } from 'src/app/environment/global';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
+import { UserPreferences } from 'src/app/models/user-preferences';
 
 @Component({
   selector: 'app-edit',
@@ -24,6 +25,7 @@ export class EditComponent implements OnInit, OnDestroy {
   public error: string;
   public loading: boolean;
   public user: EditUserProfile;
+  public preferences: UserPreferences;
   public userId: string;
   public filesToUpload: Array<File>;
   public imageSelected: string;
@@ -56,6 +58,9 @@ export class EditComponent implements OnInit, OnDestroy {
       maxlength: 'Max Length is 64',
     },
   };
+  public formEditPreferences: FormGroup;
+  public view: boolean;
+  public first: boolean;
 
   constructor(
     private userService: UserService,
@@ -74,6 +79,15 @@ export class EditComponent implements OnInit, OnDestroy {
       location: '',
       birthday: '',
       avatar: '',
+    };
+    this.preferences = {
+      sidebar: true,
+      filter_bad_words: false,
+      allow_view_profile: true,
+      allow_user_to_mp: true,
+      hide_online_presence: false,
+      two_fa: false,
+      allow_music: true,
     };
     this.userId = this._authService.user?.userData.id;
     this.filesToUpload = [];
@@ -104,9 +118,20 @@ export class EditComponent implements OnInit, OnDestroy {
       avatar: [null, []],
       deleteAvatar: [false, []],
     });
+    this.formEditPreferences = this.formBuilderNonNullable.group({
+      sidebar: [true, []],
+      filter_bad_words: [true, []],
+      allow_view_profile: [true, []],
+      allow_user_to_mp: [true, []],
+      hide_online_presence: [false, []],
+      two_fa: [false, []],
+      allow_music: [true, []],
+    });
+    this.view = true;
+    this.first = false;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.route.snapshot.data['response']) {
       this.user = this.route.snapshot.data['response'];
       this.loading = false;
@@ -164,12 +189,12 @@ export class EditComponent implements OnInit, OnDestroy {
   }
 
   //* Detecta quan es selecciona una imatge i l'afagei a la variables filesToUpload
-  fileChangeEvent(fileInput: any) {
+  fileChangeEvent(fileInput: any): void {
     this.filesToUpload = <Array<File>>fileInput.target.files;
   }
 
   //* Mostra la imatge seleccionada
-  readURL(event: any) {
+  readURL(event: any): void {
     if (event.target.files && event.target.files[0]) {
       this.imageSelected = event.target.files[0].name;
       const reader = new FileReader();
@@ -177,6 +202,73 @@ export class EditComponent implements OnInit, OnDestroy {
         this.imageSrc = e.target.result;
       };
       reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+  toggleView(): void {
+    this.view = !this.view;
+    if (!this.view && !this.first) {
+      this.getPref();
+      this.first = true;
+    }
+  }
+
+  getPref(): void {
+    this.loading = true;
+    this.userService
+      .getPreferences()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (res) => {
+          this.preferences = res;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+        complete: () => {
+          this.loading = false;
+        },
+      });
+  }
+
+  editPreferences(): void {
+    this.loading = true;
+
+    this.preferences.sidebar = this.preferences.sidebar ? true : false;
+    this.preferences.filter_bad_words = this.preferences.filter_bad_words
+      ? true
+      : false;
+    this.preferences.allow_view_profile = this.preferences.allow_view_profile
+      ? true
+      : false;
+    this.preferences.allow_user_to_mp = this.preferences.allow_user_to_mp
+      ? true
+      : false;
+    this.preferences.hide_online_presence = this.preferences
+      .hide_online_presence
+      ? true
+      : false;
+    this.preferences.two_fa = this.preferences.two_fa ? true : false;
+    this.preferences.allow_music = this.preferences.allow_music ? true : false;
+
+    if (this.formEditPreferences.valid) {
+      this.loading = true;
+      this.userService
+        .editPreferences(this.preferences)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: (res) => {
+            console.log(res);
+          },
+          error: (err) => {
+            console.log(err);
+          },
+          complete: () => {
+            this.loading = false;
+          },
+        });
+    } else {
+      this.error = 'Invalid data in the Form';
     }
   }
 
