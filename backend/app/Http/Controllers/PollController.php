@@ -25,6 +25,7 @@ class PollController extends Controller
             ],409);
         } else {
             PollAnswer::create([
+                'poll_id' => $option->poll_id,
                 'user_id' => $user->id,
                 'poll_option_id' => $option->id,
             ]);
@@ -45,9 +46,9 @@ class PollController extends Controller
             $option['votes'] = $option->answers->count();
             return $option->only('id','option','votes','voted');         
         });
-        return response()->json([
-            "poll" => $poll->only('id','name','finish_date','votes','options')
-        ],200);
+        return response()->json(
+            $poll->only('id','name','finish_date','votes','options')
+        ,200);
     }
 
     function closePoll(Poll $poll){

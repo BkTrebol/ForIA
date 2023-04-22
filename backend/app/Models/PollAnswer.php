@@ -19,6 +19,7 @@ class PollAnswer extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'poll_id',
         'poll_option_id',
         'user_id',
     ];
