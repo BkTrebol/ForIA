@@ -54,7 +54,7 @@ class AuthController extends Controller
             $roles = array_push($roles,'ROLE_USER');
         } else{
             if (!$user->hasVerifiedEmail()) {
-                $user->notify(new VerifyEmail(['url' => 'http://localhost:4200/auth/login']));
+                $user->notify(new VerifyEmail());
             }
         }
 
@@ -84,8 +84,9 @@ class AuthController extends Controller
     }
 
     function resendVerification(Request $request){
+        $user = Auth::user();
         if (!$user->hasVerifiedEmail()) {
-            $user->notify(new VerifyEmail(['url' => 'http://localhost:4200/auth/login']));
+            $user->notify(new VerifyEmail());
         }
     }
 
@@ -106,7 +107,7 @@ class AuthController extends Controller
         $id_token = $request->credential;
         $client = new Google_Client(['client_id' => config('app.GOOGLE_CLIENT_ID')]);  // Specify the CLIENT_ID of the app that accesses the backend
         $payload = $client->verifyIdToken($id_token);
-        // dd($payload);
+
         if (!$payload) {
             return redirect()->away('http://localhost:4200/auth/login');
         } else{

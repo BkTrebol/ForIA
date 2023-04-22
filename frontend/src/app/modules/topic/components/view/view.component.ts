@@ -111,8 +111,16 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
+          console.log(res);
           this.listPosts = res;
           this.loading = false;
+          if(parseInt(this.route.snapshot.queryParams['page'] ?? '1') != res.page.current){
+            this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { page: this.listPosts.page.current },
+            queryParamsHandling: 'merge',
+          });
+          };
           if (this.route.snapshot.fragment == 'last') {
             setTimeout(() => {
               window.scrollTo({
@@ -124,30 +132,30 @@ export class ViewComponent implements OnInit, OnDestroy {
             this.scrollToTop();
           }
 
-          if (this.listPosts.posts.length == 0) {
-            this.loading = true;
-            this.router.navigate([], {
-              relativeTo: this.route,
-              queryParams: { page: this.listPosts.page.last },
-              queryParamsHandling: 'merge',
-            });
-            this.getData(
-              this.listPosts.topic.id.toString(),
-              this.listPosts.page.last.toString()
-            );
-          } else {
-            this.router.navigate([], {
-              relativeTo: this.route,
-              queryParams: {
-                page:
-                  this.listPosts.page.current == 1
-                    ? null
-                    : this.listPosts.page.current,
-              },
-              queryParamsHandling: 'merge',
-            });
-            this.loading = false;
-          }
+          // if (this.listPosts.posts.length == 0) {
+          //   this.loading = true;
+          //   this.router.navigate([], {
+          //     relativeTo: this.route,
+          //     queryParams: { page: this.listPosts.page.last },
+          //     queryParamsHandling: 'merge',
+          //   });
+          //   this.getData(
+          //     this.listPosts.topic.id.toString(),
+          //     this.listPosts.page.last.toString()
+          //   );
+          // } else {
+          //   this.router.navigate([], {
+          //     relativeTo: this.route,
+          //     queryParams: {
+          //       page:
+          //         this.listPosts.page.current == 1
+          //           ? null
+          //           : this.listPosts.page.current,
+          //     },
+          //     queryParamsHandling: 'merge',
+          //   });
+          //   this.loading = false;
+          // }
         },
         error: (err) => {
           this.loading = false;

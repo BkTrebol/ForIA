@@ -56,6 +56,12 @@ class CategoryController extends Controller
                 'message' => 'Unauthorized'],403);
         }
         $topics = $category->topics()->whereIn('can_view', $roles)->paginate(config('app.pagination.category'));
+        $requestedPage = request()->input('page', 1);
+        if ($topics->lastPage() < $requestedPage) {
+            $topics = $category->topics()->whereIn('can_view', $roles)->paginate(config('app.pagination.category'),'*','page',$topics->lastPage());
+        } else if ($requestedPage <= 0) {
+            $topics = $category->topics()->whereIn('can_view', $roles)->paginate(config('app.pagination.category'),'*','page',1);
+        }
 
         return response()->json([
             'category' => [
