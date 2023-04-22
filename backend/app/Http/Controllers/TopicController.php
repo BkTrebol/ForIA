@@ -107,7 +107,7 @@ class TopicController extends Controller
 
         return response()->json([
             'message' => 'Topic created successfully',
-            'topic' => $topic,
+            'id' => $topic->id,
         ], 201);
     }
 

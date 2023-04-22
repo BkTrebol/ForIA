@@ -1,1 +1,34 @@
-<p>create works!</p>
+<div class="list-page {{theme}}">
+    <div class="list">
+        <div class="list-header">
+            
+            <p>Create new Post</p>
+        </div>
+        <div class="list-body">
+            <label for="title">Title</label><input id="title" type="text" [(ngModel)]="topic.title"><br>
+            <label for="description">Descripcion</label><input id="description" type="text" [(ngModel)]="topic.description">
+            <div class="editor-parent">
+                <div class="editor">
+                    <angular-editor id="editor" [(ngModel)]="topic.content" [config]="editorConfig"></angular-editor>
+                </div>
+                <input type="submit" [disabled]="topic.content.length == 0 || topic.content.length > 10_000" class="btn btn-primary"
+                    (click)="onSubmit()">
+                <div *ngIf="error != ''" class="error">
+                    <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}
+                </div>
+            </div>
+
+            <div class="add-poll">
+                <label for="poll-name">Poll</label><input type="text" id="poll-name" [(ngModel)]="topic.poll.name">
+                <div class="poll-options" >
+                    <div class="poll-option" *ngFor="let opt of pollOptions; index as i;">
+                        <label for="option-{{i}}">Option {{i+1}}</label><input type="text" id="option-{{i}}" [(ngModel)]="pollOptions[i].opt"><button (click)="onDeleteOption(i)">-</button>
+                    </div><button (click)="onAddOption()">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="list-footer">
+            
+        </div>
+    </div>
+</div>
