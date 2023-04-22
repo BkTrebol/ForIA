@@ -19,12 +19,12 @@ class CanPostInTopic implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $topic = Topic::find($value);
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
 
         if (!$topic) {
             $fail('Topic not found');
         } else{
             $user = Auth::user();            
+            $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
             if(!in_array($topic->can_post, $roles) || !in_array($topic->category->can_post,$roles) ||
             !in_array($topic->can_view, $roles) || !in_array($topic->category->can_view,$roles)
             ){
