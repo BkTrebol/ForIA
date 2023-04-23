@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ListComponent } from './list.component';
 import { SharedModule } from 'src/app/modules/share.module';
@@ -14,6 +15,7 @@ describe('ListComponent', () => {
         HttpClientTestingModule,
         FontAwesomeTestingModule,
         SharedModule,
+        RouterTestingModule,
       ],
       declarations: [ListComponent],
     }).compileComponents();

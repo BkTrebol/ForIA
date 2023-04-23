@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Global } from '../../../environment/global';
-// import { UserPreferences } from '../../../models/user-preferences';
+import { UserPreferences } from '../../../models/user-preferences';
 import { EditUserProfile } from 'src/app/models/receive/edit-user-profile';
 import { UserProfile } from 'src/app/models/send/public-user-profile';
 import { PublicUserProfile } from 'src/app/models/receive/user-profile';
@@ -17,23 +17,33 @@ export class UserService {
     this.apiUserURL = Global.api + 'user/';
   }
 
-  //EditUserProfile fet
-  getEdit(): Observable<any> {
-    return this.http.get(`${this.apiUserURL}edit`);
+  getEdit(): Observable<EditUserProfile> {
+    return this.http.get<EditUserProfile>(`${this.apiUserURL}edit`);
+  }
+
+  getPreferences(): Observable<UserPreferences> {
+    return this.http.get<UserPreferences>(`${this.apiUserURL}preference`);
   }
 
   getProfile(id: string): Observable<PublicUserProfile> {
     return this.http.get<PublicUserProfile>(`${this.apiUserURL}profile/${id}`);
   }
 
-  // getPreferences(): Observable<UserPreferences> {
-  //   return this.http.get<UserPreferences>(`${this.apiUserURL}preference`);
-  // }
+  editProfile(user: UserProfile): Observable<any> {
+    let headers: HttpHeaders;
+    let params = JSON.stringify(user);
+    headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    });
+    return this.http.post(`${this.apiUserURL}edit`, params, {
+      headers: headers,
+    });
+  }
 
   editProfileWithImage(user: UserProfile, image: Array<File>): Observable<any> {
     let postData: FormData;
     let headers = new HttpHeaders({
-      // 'Content-Type': 'multipart/form-data',
       Accept: 'application/json',
     });
     postData = new FormData();
@@ -48,15 +58,13 @@ export class UserService {
     });
   }
 
-  editProfile(user: UserProfile): Observable<any> {
-    let headers: HttpHeaders;
-    let params = JSON.stringify(user);
-    headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    });
-    return this.http.post(`${this.apiUserURL}edit`, params, {
-      headers: headers,
-    });
+  editPreferences(
+    preferences: UserPreferences
+  ): Observable<{ message: string }> {
+    let params = JSON.stringify(preferences);
+    return this.http.put<{ message: string }>(
+      `${this.apiUserURL}preference`,
+      params
+    );
   }
 }

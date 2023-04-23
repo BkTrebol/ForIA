@@ -5,6 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { SharedModule } from 'src/app/modules/share.module';
 
 describe('AppComponent Test', () => {
   let app: AppComponent;
@@ -16,6 +17,7 @@ describe('AppComponent Test', () => {
         RouterTestingModule,
         HttpClientTestingModule,
         FontAwesomeModule,
+        SharedModule,
       ],
       declarations: [AppComponent, HeaderComponent, FooterComponent],
     }).compileComponents();

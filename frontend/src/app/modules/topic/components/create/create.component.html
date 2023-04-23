@@ -1,18 +1,18 @@
 <div class="list-page {{theme}}">
     <div class="list">
         <div class="list-header">
-            
-            <p>Create new Post</p>
+            <h2>Create new Post</h2>
         </div>
         <div class="list-body">
             <label for="title">Title</label><input id="title" type="text" [(ngModel)]="topic.title"><br>
-            <label for="description">Descripcion</label><input id="description" type="text" [(ngModel)]="topic.description">
+            <label for="description">Descripcion</label><input id="description" type="text"
+                [(ngModel)]="topic.description">
             <div class="editor-parent">
                 <div class="editor">
                     <angular-editor id="editor" [(ngModel)]="topic.content" [config]="editorConfig"></angular-editor>
                 </div>
-                <input type="submit" [disabled]="topic.content.length == 0 || topic.content.length > 10_000" class="btn btn-primary"
-                    (click)="onSubmit()">
+                <input type="submit" [disabled]="topic.content.length == 0 || topic.content.length > 10_000"
+                    class="btn btn-primary" (click)="onSubmit()">
                 <div *ngIf="error != ''" class="error">
                     <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}
                 </div>
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="list-footer">
-            
+
         </div>
     </div>
 </div>

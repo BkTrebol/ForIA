@@ -120,6 +120,9 @@
             );
           }
         }
+        a {
+          @include a-link($color-gradient4, $color-gradient5, $color-gradient6);
+        }
       }
       .list-body {
         .posts {
@@ -270,6 +273,9 @@
               $color-gradient4
             );
           }
+        }
+        a {
+          @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
         }
       }
       .list-body {
@@ -439,6 +445,9 @@
       .option-btns {
         @include row(flex-end);
       }
+      .test {
+        @include row(space-between);
+      }
     }
     .list-body {
       .section {
@@ -463,6 +472,11 @@
         legend {
           padding: 0px 16px;
           margin: 0;
+          h1 {
+            fa-icon {
+              font-size: 25px;
+            }
+          }
         }
       }
       .categories {
@@ -505,7 +519,7 @@
             }
             .text {
               .primer {
-                span{
+                span {
                   margin-top: -4px;
                   margin-bottom: -16px;
                 }

@@ -3,6 +3,8 @@ import { Subject, map, takeUntil } from 'rxjs';
 import { CategoryService } from '../../service/category.service';
 import { Forum } from '../../../../models/receive/list-category';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastService } from 'src/app/helpers/services/toast.service';
 
 @Component({
   selector: 'app-list',
@@ -19,7 +21,10 @@ export class ListComponent implements OnInit, OnDestroy {
 
   constructor(
     private categoryService: CategoryService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private toastService: ToastService
   ) {
     this.unsubscribe$ = new Subject();
     this.loading = true;
@@ -28,7 +33,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this.allSections = false;
     this.theme = this.themeService.getTheme();
   }
-  
+
   ngOnInit() {
     this.categoryService
       .categories()
@@ -37,9 +42,9 @@ export class ListComponent implements OnInit, OnDestroy {
         next: (res) => {
           console.log(res)
           this.forum = res;
-          res.forEach(section => {
-            this.ocults[section.name] = false
-          })
+          res.forEach((section) => {
+            this.ocults[section.name] = false;
+          });
         },
         error: (err) => {
           console.log(err);
@@ -48,6 +53,16 @@ export class ListComponent implements OnInit, OnDestroy {
           this.loading = false;
         },
       });
+
+    if (this.route.snapshot.data['response']) {
+      setTimeout(() => {
+        this.toastService.show('Logged in with Google successfully');
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParamsHandling: 'merge',
+        });
+      });
+    }
 
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))

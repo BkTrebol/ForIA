@@ -22,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/', //TODO error page
+    redirectTo: '/error',
     pathMatch: 'full',
   },
 ];

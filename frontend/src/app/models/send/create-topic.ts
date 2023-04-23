@@ -1,9 +1,9 @@
-export interface Topic{
-    category_id:number,
-    title:string,
-    description: string,
-    content :string,
-    poll: Poll,
+export interface Topic {
+  category_id: number;
+  title: string;
+  description: string;
+  content: string;
+  poll: Poll;
 }
 
 export interface Poll{
@@ -12,7 +12,7 @@ export interface Poll{
     options:Array<PollOption>
 }
 
-interface PollOption{
-    option : string,
-    poll_id? :number,
+interface PollOption {
+  option: string;
+  poll_id?: number;
 }

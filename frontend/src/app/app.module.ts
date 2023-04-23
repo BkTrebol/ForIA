@@ -20,13 +20,14 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
+
 import { SharedModule } from './modules/share.module';
 import { NgbModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsContainer } from './components/toast/toast.component';
-
+import { ErrorComponent } from './components/error/error.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FooterComponent],
+  declarations: [AppComponent, HeaderComponent, FooterComponent, ErrorComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

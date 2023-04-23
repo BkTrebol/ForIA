@@ -59,7 +59,7 @@
                 <li *ngFor="let section of forum" class="section">
                     <fieldset>
                         <legend>
-                            <h1 (click)="toggle(section.name)">{{section.name | capitalize}}</h1>
+                            <h1 (click)="toggle(section.name)"><fa-icon [icon]="['fas', ocults[section.name] ? 'chevron-right': 'chevron-down']"></fa-icon> {{section.name | capitalize}}</h1>
                         </legend>
                         <ul [ngClass]="{'ocult': ocults[section.name]}">
                             <li *ngFor="let category of section.categories" class="categories">

@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { NgbModule, NgbToast, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToastsContainer } from '../components/toast/toast.component';
+
 // Extra (icons)
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -32,6 +34,7 @@ import { LoadingComponent } from '../components/loading/loading.component';
   ],
   imports: [
     CommonModule,
+    RouterModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -39,11 +42,12 @@ import { LoadingComponent } from '../components/loading/loading.component';
     FontAwesomeModule,
     NgxSkeletonLoaderModule,
     NgSelectModule,
-    RouterModule,
+    ToastsContainer,
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
   ],
   providers: [],
   exports: [
+    RouterModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -57,7 +61,7 @@ import { LoadingComponent } from '../components/loading/loading.component';
     PaginationComponent,
     LoadingComponent,
     NgSelectModule,
-    RouterModule,
+    ToastsContainer,
   ],
 })
 export class SharedModule {}

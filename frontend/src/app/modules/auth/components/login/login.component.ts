@@ -10,6 +10,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { AuthData } from 'src/app/models/auth-data';
 import { AuthService } from '../../service/auth.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
+import { ToastService } from 'src/app/helpers/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -43,7 +44,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private _authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private toastService: ToastService
   ) {
     this.unsubscribe$ = new Subject();
     this.theme = this.themeService.getTheme();
@@ -67,7 +69,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.minLength(8),
-          Validators.pattern('^[a-zA-Z0-9]+$'), //TODO change pattern more secure
+          Validators.pattern('^[a-zA-Z0-9_+-]+$'), //TODO change pattern more secure
         ],
       ],
       remember_me: [false, []],
@@ -107,6 +109,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.router.navigateByUrl(
               this.route.snapshot.queryParams['returnUrl'] || '/'
             );
+            this.toastService.show(res.message);
           },
           error: (err) => {
             console.log('Err (login ts):', err);

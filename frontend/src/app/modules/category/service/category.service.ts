@@ -21,10 +21,19 @@ export class CategoryService {
   }
 
   topics(id: string, page: string): Observable<ListTopics> {
-    return this.http.get<ListTopics>(`${this.apiCategoryURL}${id}?page=${page}`);
+    return this.http.get<ListTopics>(
+      `${this.apiCategoryURL}${id}?page=${page}`
+    );
   }
 
-  post(topic:Topic):Observable<any> {
-    return this.http.post<any>(`${Global.api}topic`,topic);
+  post(topic: Topic): Observable<any> {
+    let params: string;
+    if (topic.poll.options.length === 0) {
+      let { poll, ...newTopic } = topic
+      params = JSON.stringify(newTopic);
+    } else {
+      params = JSON.stringify(topic);
+    }
+    return this.http.post(`${Global.api}topic`, params);
   }
 }

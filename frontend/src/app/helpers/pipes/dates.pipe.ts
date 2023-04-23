@@ -18,8 +18,10 @@ export class TimeAgoPipe implements PipeTransform {
       return 'an hour ago';
     } else if (seconds < 86400) {
       return Math.floor(seconds / 3600) + ' h. ago';
+    } else if (seconds < 172800) {
+      return 'a day ago';
     } else {
-      return time.toLocaleString();
+      return time.toLocaleString().split(',')[0];
     }
   }
 }

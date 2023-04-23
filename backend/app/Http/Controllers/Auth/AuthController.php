@@ -49,8 +49,10 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
         if(env('APP_DEBUG')==true){
-            $roles = $user->roles;
+            // $roles = $user->roles;
+            $roles = User::find($user->id)->makeVisible(['roles'])->roles;
             $roles = array_push($roles,'ROLE_USER');
         } else{
             if (!$user->hasVerifiedEmail()) {
@@ -60,7 +62,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-    return response()->json(['message' => 'User created successfully'],201);
+        return response()->json(['message' => 'User created successfully'],201);
     }
 
     function checkLogin(){
@@ -103,7 +105,7 @@ class AuthController extends Controller
         if ($csrf_token_cookie != $csrf_token_body){
             return redirect()->away('http://localhost:4200/auth/login');
         }
-    
+
         $id_token = $request->credential;
         $client = new Google_Client(['client_id' => config('app.GOOGLE_CLIENT_ID')]);  // Specify the CLIENT_ID of the app that accesses the backend
         $payload = $client->verifyIdToken($id_token);
@@ -111,40 +113,40 @@ class AuthController extends Controller
         if (!$payload) {
             return redirect()->away('http://localhost:4200/auth/login');
         } else{
-          $userid = $payload['sub'];
-          $user = User::where('email', $payload['email'])->first();
-          if (!$user){
-            $nick = explode(' ',$payload['given_name'])[0];
-            $tempNick = $nick;
-            $validNick = false;
-            while (!$validNick){
-            if(User::where('nick',$tempNick)->first()){
-                $tempNick .= fake()->numberBetween(1000,9999);
-            } else{
-                $nick = $tempNick;
-                $validNick = true;
-            }}
+            $userid = $payload['sub'];
+            $user = User::where('email', $payload['email'])->first();
+            if (!$user){
+                $nick = explode(' ',$payload['given_name'])[0];
+                $tempNick = $nick;
+                $validNick = false;
+                while (!$validNick){
+                if(User::where('nick',$tempNick)->first()){
+                    $tempNick .= fake()->numberBetween(1000,9999);
+                } else{
+                    $nick = $tempNick;
+                    $validNick = true;
+                }}
 
-            $user = User::create([
-                'nick' => $nick,
-                'email' => $payload['email'],
-                'google_auth'=> true,
-                'avatar' => $payload['picture'],
-                'email_verified_at' => now(),
-            ]);
-            // Auth::login($user);
-        }
+                $user = User::create([
+                    'nick' => $nick,
+                    'email' => $payload['email'],
+                    'google_auth'=> true,
+                    'avatar' => $payload['picture'],
+                    'email_verified_at' => now(),
+                ]);
+                // Auth::login($user);
+            }
             if(Carbon::parse($user->suspension)->isFuture()){
                 return redirect()->away('http://bing.com/');
             }
-          if($user->google_auth ){
-            Auth::login($user);
-            return redirect()->away('http://localhost:4200/');
-          } else{
-            return redirect()->away('http://localhost:4200/auth/confirm/'.$user->email);
-          }
-       
-    } 
+            if($user->google_auth ){
+                Auth::login($user);
+                return redirect()->away('http://localhost:4200/#googleauth');
+            } else{
+                return redirect()->away('http://localhost:4200/auth/confirm/'.$user->email);
+            }
+
+        }
     }
 
     function confirmGoogle(Request $request){
@@ -176,7 +178,7 @@ class AuthController extends Controller
     }
 
     function logout(Request $request){
-        
+
         $request->user()->tokens()->delete();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

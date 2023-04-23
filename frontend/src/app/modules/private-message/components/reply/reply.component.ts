@@ -11,15 +11,15 @@ import { newPrivateMessage } from 'src/app/models/receive/list-pm';
   templateUrl: './reply.component.html',
   styleUrls: ['./reply.component.scss', '../../../../styles/card.scss'],
 })
-export class ReplyComponent implements OnInit, OnDestroy{
+export class ReplyComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public loading: boolean;
   public reply: newPrivateMessage;
   public editorConfig: AngularEditorConfig;
-  public theme:string;
-  public title:string;
-  public error:string;
-  public message_id:number;
+  public theme: string;
+  public title: string;
+  public error: string;
+  public message_id: number;
   constructor(
     private themeService: ThemeService,
     private privateMessageService: PrivateMessageService,
@@ -33,8 +33,8 @@ export class ReplyComponent implements OnInit, OnDestroy{
     this.title = '';
     this.error = '';
     this.reply = {
-      title:'',
-      recipient:0,
+      title: '',
+      recipient: 0,
       content: '',
       thread_id: 0,
     };
@@ -44,28 +44,31 @@ export class ReplyComponent implements OnInit, OnDestroy{
     };
   }
   ngOnInit(): void {
-
     this.ActivatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((params: ParamMap) => {
         this.message_id = parseInt(params.get('id') ?? '0');
-        this.privateMessageService.getThread(this.message_id).subscribe({
-          next: (r) => {
-            this.title = r.title;
-            this.reply.thread_id = r.thread_id;
-            this.reply.recipient = r.recipient;
-            this.reply.title = r.title.startsWith('Re: ') ? r.title :  `Re: ${r.title}`;
-          },
-        });
+        this.privateMessageService
+          .getThread(this.message_id)
+          .pipe(takeUntil(this.unsubscribe$))
+          .subscribe({
+            next: (r) => {
+              this.title = r.title;
+              this.reply.thread_id = r.thread_id;
+              this.reply.recipient = r.recipient;
+              this.reply.title = r.title.startsWith('Re: ')
+                ? r.title
+                : `Re: ${r.title}`;
+            },
+          });
       });
 
-      this.themeService.theme
+    this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((t) => {
         this.theme = t;
       });
   }
-
 
   onSubmit() {
     this.privateMessageService

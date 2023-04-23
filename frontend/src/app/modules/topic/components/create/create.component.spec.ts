@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
+import { SharedModule } from 'src/app/modules/share.module';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 import { CreateComponent } from './create.component';
 
 describe('CreateComponent', () => {
@@ -8,9 +12,15 @@ describe('CreateComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreateComponent ]
-    })
-    .compileComponents();
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        AngularEditorModule,
+        SharedModule,
+        FontAwesomeTestingModule,
+      ],
+      declarations: [CreateComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CreateComponent);
     component = fixture.componentInstance;

@@ -3,14 +3,14 @@ import { Pages } from '../common/pages';
 
 export interface ListPm {
   messages: Array<ShortPrivateMessage>;
-  page:Pages;
+  page: Pages;
 }
 
 interface ShortPrivateMessage {
   id: number;
   title: string;
   created_at: Date;
-  viewed?:boolean;
+  viewed?: boolean;
   receiver?: { id: number; nick: string };
   sender?: { id: number; nick: string };
 }
@@ -19,7 +19,7 @@ export interface PrivateMessageList {
   message: PrivateMessage;
   thread: Array<PrivateMessage>;
   recipient: number;
-  page:Pages;
+  page: Pages;
 }
 
 export interface PrivateMessage {

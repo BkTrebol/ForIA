@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 
 class UserController extends Controller
-{   
+{
 
     function getUserAvatar(String $avatar){
         if (Storage::disk('avatars')->exists($avatar)){
@@ -83,9 +83,8 @@ class UserController extends Controller
     }
 
     function getUserPreferences(Request $request){
-        return response()->json([
-            'preferences' => $request->user()->preferences
-        ],200);
+        return response()->json($request->user()->preferences
+        ,200);
     }
 
     function editUserPreference(Request $request){
@@ -108,9 +107,28 @@ class UserController extends Controller
             $preferences->two_fa = $request->two_fa;
             $preferences->update();
 
-            return response()->json([
-                'message' => 'Preferences edited successfully'
-            ],200);
+        $request->validate([
+            "sidebar" => ['boolean'],
+            "filter_bad_words" => ['boolean'],
+            "allow_view_profile" => ['boolean'],
+            "allow_user_to_mp" => ['boolean'],
+            "hide_online_presence" => ['boolean'],
+            "two_fa" => ['boolean'],
+            "allow_music"=> ['boolean'],
+        ]);
+
+        $preferences->sidebar = $request->sidebar;
+        $preferences->filter_bad_words = $request->filter_bad_words;
+        $preferences->allow_view_profile = $request->allow_view_profile;
+        $preferences->allow_user_to_mp = $request->allow_user_to_mp;
+        $preferences->hide_online_presence = $request->hide_online_presence;
+        $preferences->allow_music = $request->allow_music;
+        $preferences->two_fa = $request->two_fa;
+        $preferences->update();
+
+        return response()->json([
+            'message' => 'Preferences edited successfully'
+        ],200);
     }
 
     function profile(User $user){
