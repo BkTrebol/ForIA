@@ -5,7 +5,7 @@ import { ViewComponent } from './components/view/view.component';
 
 const routes: Routes = [
   {
-    path: 'create',
+    path: 'create/:id',
     component: CreateComponent,
     title: 'ForIA',
   },

@@ -72,13 +72,4 @@ class User extends Authenticatable
         return $this->hasMany(Posts::class);
     }
 
-    public function privateMessages(){
-        return $this->hasMany(PrivateMessage::class)->orWhere('private_messages.user2_id', $this->id);
-    }
-
-    public function privateTopics(){
-        return $this->hasManyThrough(Topic::class, PrivateMessage::class, 'user_id', 'id', 'id', 'topic_id')
-            ->orWhere('private_messages.user2_id', $this->id);
-    }
-
 }

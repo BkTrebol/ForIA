@@ -10,14 +10,14 @@ class CategoryController extends Controller
 {   
     function getCategoryList(){
         $user = Auth::user();
-        $roles = $user ? $user->roles : ['ROLE_GUEST'];
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
         return Category::whereIn('can_view', $roles)->select('id','title')->orderBy('section')->get();
     }
 
     function getCategories(){
         // Gets the categories that the user can view.
         $user = Auth::user();   
-        $roles = $user ? $user->roles : ['ROLE_GUEST'];
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
         $categories = Category::get()->whereIn('can_view', $roles)->groupBy('section')->map(
             function($section,$sectionName)use($roles){
            $abc['categories'] = $section->map(function($category) use($roles){
@@ -56,6 +56,12 @@ class CategoryController extends Controller
                 'message' => 'Unauthorized'],403);
         }
         $topics = $category->topics()->whereIn('can_view', $roles)->paginate(config('app.pagination.category'));
+        $requestedPage = request()->input('page', 1);
+        if ($topics->lastPage() < $requestedPage) {
+            $topics = $category->topics()->whereIn('can_view', $roles)->paginate(config('app.pagination.category'),'*','page',$topics->lastPage());
+        } else if ($requestedPage <= 0) {
+            $topics = $category->topics()->whereIn('can_view', $roles)->paginate(config('app.pagination.category'),'*','page',1);
+        }
 
         return response()->json([
             'category' => [

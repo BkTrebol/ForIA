@@ -21,6 +21,9 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { SharedModule } from './modules/share.module';
+import { NgbModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToastsContainer } from './components/toast/toast.component';
+
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent],
@@ -31,6 +34,9 @@ import { SharedModule } from './modules/share.module';
     FontAwesomeModule,
     BrowserAnimationsModule,
     SharedModule,
+    NgbModule,
+    NgbToastModule,
+    ToastsContainer
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true },

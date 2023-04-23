@@ -57,6 +57,23 @@
                 <a *ngIf="listPosts.can_post" routerLink="/post/create">Create new Post</a>
             </div>
         </div>
+        <div *ngIf="listPosts.poll && !showResults">
+            <h5>Poll: {{listPosts.poll.name}}</h5>
+            <div class="poll-options" *ngFor="let option of listPosts.poll.options">
+                <input type="radio" name="poll" id="option-{{option.id}}" [(ngModel)]="vote" [value]="option.id" class="option-radio">
+                <label for="option-{{option.id}}" class="option-label">{{option.option}}</label>
+            </div>
+            <button (click)="onVote()" [disabled]="vote == null">Vote</button> <button (click)="onShowPollResults()">Show results</button>
+        </div>
+        <div *ngIf="pollResults && showResults">
+            <h5>Poll: {{pollResults.name}}</h5>
+            
+            <div class="poll-vote" [class]="option.voted ? 'voted' : '' " *ngFor="let option of pollResults.options">
+                {{option.option}} : {{option.votes}} 
+            </div>
+        </div>
+
+
         <div class="list-body">
             <div *ngIf="listPosts.topic.user" class="posts">
                 <div class="user-card">

@@ -24,8 +24,9 @@ class CanPostInTopic implements ValidationRule
             $fail('Topic not found');
         } else{
             $user = Auth::user();            
-            if(!in_array($topic->can_post, $user->roles) || !in_array($topic->category->can_post,$user->roles) ||
-            !in_array($topic->can_view, $user->roles) || !in_array($topic->category->can_view,$user->roles)
+            $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
+            if(!in_array($topic->can_post, $roles) || !in_array($topic->category->can_post,$roles) ||
+            !in_array($topic->can_view, $roles) || !in_array($topic->category->can_view,$roles)
             ){
                $fail('User not allowed');
             }

@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('poll_answers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('poll_id')->onDelete('cascada')->constrained();
             $table->foreignId('poll_option_id')->onDelete('cascada')->constrained();
             $table->foreignId('user_id')->onDelete('cascade')->constrained();
             $table->timestamps();
+
+            $table->unique(['poll_id','user_id']);
         });
     }
 

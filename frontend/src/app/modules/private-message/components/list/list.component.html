@@ -12,8 +12,8 @@
         <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="pm-list" *ngIf="!loading">
             <ng-container *ngIf="showReceived; else sentList">
-                <ng-container *ngIf="receivedMessages">
-                    <div class="message" *ngFor="let pm of receivedMessages.messages">
+                <ng-container *ngIf="messages.received">
+                    <div class="message" *ngFor="let pm of messages.received.messages">
                         <div style="display:flex;">
                             <fa-icon [icon]="[pm.viewed ?'far' : 'fas', 'message']" ></fa-icon>
                             <div class="message-body">
@@ -27,7 +27,7 @@
                     </div>
                     
                 <div class="list-footer">
-                    <app-pagination [current_page]="receivedMessages.page.current" [last_page]="receivedMessages.page.last" [ignoreParams]="true"
+                    <app-pagination [current_page]="messages.received.page.current" [last_page]="messages.received.page.last" [ignoreParams]="true"
                     (changePage)="changeReceivedPage($event)">
  
                     </app-pagination>
@@ -41,8 +41,8 @@
 
 
 <ng-template class="pm-list" #sentList>
-    <ng-container *ngIf="sentMessages">
-        <div class="message" *ngFor="let pm of sentMessages.messages">
+    <ng-container *ngIf="messages.sent">
+        <div class="message" *ngFor="let pm of messages.sent.messages">
             <div class="message-body">
                 <div><a routerLink="{{pm.id}}">{{pm.title}}</a></div>
                 <div><a class="user-link" routerLink="/user/profile/{{pm.receiver?.id}}">{{pm.receiver?.nick}}</a> 
@@ -52,7 +52,7 @@
         </div>
         
         <div class="list-footer">
-            <app-pagination [current_page]="sentMessages.page.current" [last_page]="sentMessages.page.last" [ignoreParams]="true"
+            <app-pagination [current_page]="messages.sent.page.current" [last_page]="messages.sent.page.last" [ignoreParams]="true"
             (changePage)="changeSentPage($event)">
 
             </app-pagination>

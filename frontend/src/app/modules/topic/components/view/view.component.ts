@@ -7,6 +7,7 @@ import {
   Topic,
   Post,
   ListPosts,
+  Poll,
 } from 'src/app/models/receive/list-posts';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
@@ -24,6 +25,9 @@ export class ViewComponent implements OnInit, OnDestroy {
   public content: string;
   public error: string;
   public editorConfig: AngularEditorConfig;
+  public vote:number|null;
+  public showResults:boolean;
+  public pollResults?: Poll;
   public validationMessagesPost: {
     content: {
       required: string;
@@ -38,6 +42,8 @@ export class ViewComponent implements OnInit, OnDestroy {
     private router: Router,
     private themeService: ThemeService
   ) {
+    this.showResults = false;
+    this.vote = null;
     this.listPosts = {
       can_edit: false,
       can_post: false,
@@ -111,8 +117,16 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
+          console.log(res);
           this.listPosts = res;
           this.loading = false;
+          if(parseInt(this.route.snapshot.queryParams['page'] ?? '1') != res.page.current){
+            this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { page: this.listPosts.page.current },
+            queryParamsHandling: 'merge',
+          });
+          };
           if (this.route.snapshot.fragment == 'last') {
             setTimeout(() => {
               window.scrollTo({
@@ -124,30 +138,34 @@ export class ViewComponent implements OnInit, OnDestroy {
             this.scrollToTop();
           }
 
-          if (this.listPosts.posts.length == 0) {
-            this.loading = true;
-            this.router.navigate([], {
-              relativeTo: this.route,
-              queryParams: { page: this.listPosts.page.last },
-              queryParamsHandling: 'merge',
-            });
-            this.getData(
-              this.listPosts.topic.id.toString(),
-              this.listPosts.page.last.toString()
-            );
-          } else {
-            this.router.navigate([], {
-              relativeTo: this.route,
-              queryParams: {
-                page:
-                  this.listPosts.page.current == 1
-                    ? null
-                    : this.listPosts.page.current,
-              },
-              queryParamsHandling: 'merge',
-            });
-            this.loading = false;
+          if(res.poll){
+            this.checkPoll();
           }
+
+          // if (this.listPosts.posts.length == 0) {
+          //   this.loading = true;
+          //   this.router.navigate([], {
+          //     relativeTo: this.route,
+          //     queryParams: { page: this.listPosts.page.last },
+          //     queryParamsHandling: 'merge',
+          //   });
+          //   this.getData(
+          //     this.listPosts.topic.id.toString(),
+          //     this.listPosts.page.last.toString()
+          //   );
+          // } else {
+          //   this.router.navigate([], {
+          //     relativeTo: this.route,
+          //     queryParams: {
+          //       page:
+          //         this.listPosts.page.current == 1
+          //           ? null
+          //           : this.listPosts.page.current,
+          //     },
+          //     queryParamsHandling: 'merge',
+          //   });
+          //   this.loading = false;
+          // }
         },
         error: (err) => {
           this.loading = false;
@@ -210,6 +228,44 @@ export class ViewComponent implements OnInit, OnDestroy {
     audio.load();
     audio.play();
   }
+
+  checkPoll(){
+    if (this.listPosts.poll){
+      this.getVotes();
+      if(this.listPosts.poll.can_vote === false){
+        this.showResults = true;
+      }
+    }
+  }
+
+  getVotes(){
+    this.topicService.getPollVotes(this.listPosts.poll.id)
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe({
+      next:r => {console.log(r);this.pollResults = r},
+      error:e => console.log(e)
+    })
+  }
+
+  onShowPollResults(){
+    this.showResults = true;
+  }
+
+  onVote(){
+    if(this.vote){
+      this.topicService.vote(this.vote)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: r => {
+          this.showResults = true;
+          this.getVotes();
+        },
+        error: e => console.log(e)
+      })
+    }
+    
+
+    }
 
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });

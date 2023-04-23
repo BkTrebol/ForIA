@@ -40,6 +40,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       recipient:0,
       title:'',
       content:'',
+      thread_id:0,
     }
     this.error= '';
 
@@ -51,7 +52,6 @@ export class ViewComponent implements OnInit, OnDestroy {
       })
     ).subscribe({
       next: (r) => {
-        console.log(r)
         this.reply.title = r.message.title.startsWith('Re:') ?  r.message.title : 'Re: ' + r.message.title;
         this.reply.content= '';
         this.reply.thread_id = r.message.thread_id;

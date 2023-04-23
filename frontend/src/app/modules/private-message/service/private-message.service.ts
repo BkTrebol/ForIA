@@ -24,11 +24,16 @@ export class PrivateMessageService {
       `${this.apiPrivateMessageURL}received/?page=${page}`
     );
   }
-  
+
   getSent(page: number): Observable<ListPm> {
     return this.http.get<ListPm>(
       `${this.apiPrivateMessageURL}sent/?page=${page}`
     );
+  }
+
+  getMessages(rpage:number,spage:number): Observable<{received:ListPm,sent:ListPm}> {
+    console.log(`${this.apiPrivateMessageURL}?rpage=${rpage}&spage=${spage}`)
+    return this.http.get<{received:ListPm,sent:ListPm}>(`${this.apiPrivateMessageURL}?rpage=${rpage}&spage=${spage}`);
   }
 
   getMessage(id: string, page: number): Observable<PrivateMessageList> {
@@ -43,6 +48,10 @@ export class PrivateMessageService {
 
   getTopic(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiPrivateMessageURL}topic/${id}`);
+  }
+
+  getThread(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiPrivateMessageURL}reply/${id}`);
   }
 
   sendMessage(message: newPrivateMessage): Observable<any> {

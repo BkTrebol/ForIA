@@ -84,6 +84,13 @@ export class ViewComponent implements OnInit, OnDestroy {
           console.log(res);
           this.listTopics = res;
           this.loading = false;
+          if (parseInt(this.route.snapshot.queryParams['page'] ?? '1') != res.page.current) {
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { page: this.listTopics.page.current },
+              queryParamsHandling: 'merge',
+            });
+          }
 
           if (this.route.snapshot.fragment == 'last') {
             setTimeout(() => {
@@ -96,30 +103,30 @@ export class ViewComponent implements OnInit, OnDestroy {
             this.scrollToTop();
           }
 
-          if (this.listTopics.topics.length == 0) {
-            this.loading = true;
-            this.router.navigate([], {
-              relativeTo: this.route,
-              queryParams: { page: this.listTopics.page.last },
-              queryParamsHandling: 'merge',
-            });
-            this.getData(
-              this.listTopics.category.id.toString(),
-              this.listTopics.page.last.toString()
-            );
-          } else {
-            this.router.navigate([], {
-              relativeTo: this.route,
-              queryParams: {
-                page:
-                  this.listTopics.page.current == 1
-                    ? null
-                    : this.listTopics.page.current,
-              },
-              queryParamsHandling: 'merge',
-            });
-            this.loading = false;
-          }
+          // if (this.listTopics.topics.length == 0) {
+          //   this.loading = true;
+          //   this.router.navigate([], {
+          //     relativeTo: this.route,
+          //     queryParams: { page: this.listTopics.page.last },
+          //     queryParamsHandling: 'merge',
+          //   });
+          //   this.getData(
+          //     this.listTopics.category.id.toString(),
+          //     this.listTopics.page.last.toString()
+          //   );
+          // } else {
+          //   this.router.navigate([], {
+          //     relativeTo: this.route,
+          //     queryParams: {
+          //       page:
+          //         this.listTopics.page.current == 1
+          //           ? null
+          //           : this.listTopics.page.current,
+          //     },
+          //     queryParamsHandling: 'merge',
+          //   });
+          //   this.loading = false;
+          // }
         },
         error: (err) => {
           this.loading = false;

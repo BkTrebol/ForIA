@@ -143,12 +143,29 @@ class DatabaseSeeder extends Seeder
         // Post::factory()->count(45)->create();
         Poll::factory()->count(5)->create()
         ->each(function ($poll){
-            $poll->options()->saveMany(Factory::factoryForModel(PollOption::class)->count(rand(2, 5))->make());
-            $poll->options->each(function ($option) use ($poll) {
-                $option->answers()->saveMany(Factory::factoryForModel(PollAnswer::class)->count(rand(0, 10))->make(['user_id' => rand(1, 10)]));
-            });
+            $users = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+            shuffle($users);
 
+            for($i = 0; $i < rand(2,5);$i++){
+                PollOption::factory()->create([
+                    'poll_id' => $poll->id,
+                ]);
+            }
+            $poll->options->each(function ($option) use ($users,$poll) {
+                for ($i = 0; $i < rand(5,9); $i++){
+                    if(count($users) == 0) break;
+                    $user = array_pop($users);
+                    if($poll->voted($user)) continue;
+                    PollAnswer::factory()->create([
+                        'poll_id' => $poll->id,
+                        'poll_option_id' => $option->id,
+                        'user_id' => $user,
+                    ]);
+                }
+            });
         });
+                    // $poll->options()->saveMany(Factory::factoryForModel(PollOption::class)->count(rand(2, 5))->make());
+        // $option->answers()->save(Factory::factoryForModel(PollAnswer::class)->count(rand(0, 2))->make(['user_id' => rand(1, 10)]));
 
         // PollOption::factory()->count(10)->create();
         // PollAnswer::factory()->count(40)->create();
