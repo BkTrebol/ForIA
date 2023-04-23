@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public canSmall: boolean;
   public url: string;
   public theme: string;
+  
   constructor(
     private _authService: AuthService,
     private router: Router,

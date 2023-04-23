@@ -1,26 +1,25 @@
-@import 'bootstrap/scss/bootstrap';
-@import 'bootstrap/scss/close';
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap/scss/close";
 
-
-.toast-body{
-    display:flex;
-    justify-content: space-between;
-    margin:0;
-    padding:0;
+.toast-body {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
 }
-.btn-close {
 
-    position: relative;
-    top: -0.5rem;
-    right: -0.5rem;
-    padding: 0.25rem 0.5rem;
-    margin: 0;
-    background-color: transparent;
-    border: 0;
-    z-index: 100;
-  }
-  
-  .btn-close:hover {
-    color: #000;
-    opacity: .75;
-  }
+.btn-close {
+  position: relative;
+  top: -0.5rem;
+  right: -0.5rem;
+  padding: 0.25rem 0.5rem;
+  margin: 0;
+  background-color: transparent;
+  border: 0;
+  z-index: 100;
+}
+
+.btn-close:hover {
+  color: #000;
+  opacity: 0.75;
+}
