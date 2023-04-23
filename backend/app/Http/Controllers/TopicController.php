@@ -20,6 +20,9 @@ class TopicController extends Controller
         // Returns the posts in a topic if the user can view the topic and its category.
         $user = Auth::user();
         $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
+        $isAdmin = count(collect($roles)->intersect(config('app.adminRoles'))) > 0;
+        $isMod = in_array($topic->category->can_mod, $roles);
+        
         if (!in_array($topic->category->can_view, $roles) || !in_array($topic->can_view, $roles)) {
             return response()->json(['message' => "Unauthorized"], 403);
         }
@@ -33,17 +36,18 @@ class TopicController extends Controller
             } else if ($requestedPage <= 0) {
                 $posts = $topic->load('user:id,nick,avatar,rol,created_at')->posts()->paginate(config('app.pagination.topic'),'*','page',1);
             }
-            // $posts = $topic->load('user:id,nick,avatar,rol,created_at')->posts()->onPage($page)->paginate(config('app.pagination.topic'));
-
+ 
         $poll = $topic->poll()->with(['options'])->first();
         if ($poll) {
             $poll['can_vote'] = !$user ? false :
                 !$poll->voted($user->id) && ($poll->finish_date == null || $poll->finish_date > now());
+            $poll['can_edit'] = ($poll->answers->count() == 0 && $user->id == $topic->user_id) || $isAdmin || $isMod;
         }
 
         $response = [
             'can_edit' => in_array($topic->category->can_mod, $roles) || ($user && $topic->user_id == $user->id),
             'can_post' => in_array($topic->can_post, $roles),
+            'can_poll' => $poll == null && ($user->id == $topic->user_id || $isAdmin || $isMod),
             'category' => $topic->category->only('id', 'title'),
 
             'posts' => $posts->map(function ($post) {
@@ -124,12 +128,9 @@ class TopicController extends Controller
             ], 403);
         }
         $topic['can_edit'] = $topic->posts->count() == 0;
-        if ($topic->poll) {
-            $topic->load('poll.options');
-            $topic->poll['can_edit'] = $topic->poll->answers->count() == 0 || $isAdmin || $isMod;
-        }
+
         return response()->json([
-            "topic" => $topic->only('id', 'title', 'description', 'content', 'category_id', 'poll', 'can_edit')
+            "topic" => $topic->only('id', 'title', 'description', 'content', 'category_id', 'can_edit')
         ]);
     }
 
@@ -146,47 +147,6 @@ class TopicController extends Controller
         $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
         $isMod = in_array($topic->category->can_mod, $user->roles);
         // Edits/Creates poll if exists in request.
-        if ($request->has('poll')) {
-            $request->validate([
-                'poll.name' => ['required', 'min:3', 'max:50'],
-                'poll.options' => ['required', 'array', 'min:2', 'max:10'],
-                'poll.options.*' => ['array', 'min:1', 'max:2'],
-                'poll.options.*.option' => ['required', 'string']
-            ]);
-            // Checks if either the user has special permissions or the topic has a poll with votes.
-            if ($topic->poll && $topic->poll->answers->count() != 0 && !$isAdmin && !$isMod) {
-                return response()->json([
-                    'message' => 'Unauthorized',
-                ], 403);
-            }
-
-            $poll = Poll::updateOrCreate(
-                [
-                    'id' => $topic->poll->id ?? Null,
-                ],
-                [
-                    'topic_id' => $topic->id,
-                    'name' => $request->poll['name'],
-                    'finish_date' => $request->poll['finish_date'] ?? Null,
-                ]
-            );
-
-            $currentOptions = $poll->options()->pluck('option', 'id')->toArray();
-            foreach ($request->poll['options'] as $option) {
-                if (isset($option['id'])) {
-                    PollOption::where('id', $option['id'])->update([
-                        'option' => $option['option'],
-                    ]);
-                    unset($currentOptions[$option['id']]);
-                } else {
-                    PollOption::create([
-                        'option' => $option['option'],
-                        'poll_id' => $poll->id,
-                    ]);
-                }
-            }
-            PollOption::whereIn('id', array_keys($currentOptions))->delete();
-        }
 
         // Checks if user owns the topic or can edit it.
         if (!$isMod && !$isAdmin && ($user->id != $topic->user->id || $topic->posts->count() > 0)) {

@@ -29,6 +29,16 @@ export class AuthService {
     this.authData = this.userSubject.asObservable();
   }
 
+  // ADMIN
+  getUserList(): Observable<any> {
+    return this.http.get<any>(`${Global.api}user/publiclist/`);
+  }
+  
+  // ADMIN
+  changeUser(user:number): Observable<any>{
+    return this.http.get<any>(`${this.apiAuthURL}adminlogin/${user}`);
+  }
+
   getCSRF(): Observable<any> {
     return this.http.get<any>(`${this.baseURL}/sanctum/csrf-cookie`);
   }

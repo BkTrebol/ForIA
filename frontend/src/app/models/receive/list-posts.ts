@@ -4,6 +4,7 @@ import { Pages } from '../common/pages';
 export interface ListPosts {
   can_edit: boolean;
   can_post: boolean;
+  can_poll: boolean;
   category: Category;
   topic: Topic;
   posts: Post[];
@@ -12,6 +13,7 @@ export interface ListPosts {
 }
 export interface Poll {
   can_vote: boolean;
+  can_edit?:boolean;
   finish_date: Date;
   id: number;
   name: string;

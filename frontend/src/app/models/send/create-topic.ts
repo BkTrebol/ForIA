@@ -9,7 +9,7 @@ export interface Topic{
 export interface Poll{
     name :string,
     finish_date?:Date,
-    options:Array<string>
+    options:Array<PollOption>
 }
 
 interface PollOption{

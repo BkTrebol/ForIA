@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../modules/auth/service/auth.service';
 import { User } from '../../models/user';
 import { UserPreferences } from '../../models/user-preferences';
@@ -24,12 +24,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public canSmall: boolean;
   public url: string;
   public theme: string;
+
+  public userList$: Observable<any>;
+  public user:number;
+
   constructor(
     private _authService: AuthService,
     private router: Router,
     private themeService: ThemeService,
     private toastService: ToastService
   ) {
+    this.user = 0;
+    this.userList$ = new Observable();
     this.unsubscribe$ = new Subject();
     this.userIsAuthenticated = null;
     this.top = false;
@@ -38,7 +44,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.theme = this.themeService.getTheme();
   }
 
+  changeUser(){
+    this._authService.changeUser(this.user)
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe({
+      next: r => {
+        console.log(r);
+        this._authService.autoAuthUser();
+      }
+        ,
+      error: e => console.log(e)
+    });
+  }
   ngOnInit(): void {
+    this.userList$ = this._authService.getUserList();
+
     this._authService.authData
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((r) => {

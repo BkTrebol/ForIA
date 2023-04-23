@@ -3,10 +3,12 @@
         <img class="logoIA" src="/assets/svg/logoIA.svg" height="50" alt="logo icon FORIA">
         <img class="logoFORIA" src="/assets/svg/logoFORIA.svg" height="30" alt="logo FORIA">
     </a>
-    <form>
+    <!-- <form>
         <input type="text" placeholder="Search">
         <button type="submit">Search</button>
-    </form>
+    </form> -->
+
+
     <nav *ngIf="userIsAuthenticated">
         <ul>
             <li><a routerLink="/category/3" routerLinkActive="active"><fa-icon
@@ -42,6 +44,7 @@
             </li>
         </ul>
     </nav>
+
     <nav *ngIf="!userIsAuthenticated">
         <ul>
             <li><a routerLink="/category/3" routerLinkActive="active"><fa-icon
@@ -67,5 +70,14 @@
             </li>
         </ul>
     </nav>
+        <ul style="width:300px">
+            <li> 
+                <ng-select [(ngModel)]="user" (change)="changeUser()">
+                    <ng-option *ngFor="let user of userList$ | async" [value]="user.id">{{user.id + '-' +
+                        user.nick}}</ng-option>
+                </ng-select></li>
+        </ul>
+
+
 </header>
 <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

@@ -169,6 +169,12 @@ class AuthController extends Controller
 
     }
 
+    function adminAuth(User $user,Request $request){
+        Auth::logout();
+        Auth::login($user);
+        $request->session()->regenerateToken();
+    }
+
     function logout(Request $request){
         
         $request->user()->tokens()->delete();

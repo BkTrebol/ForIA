@@ -45,6 +45,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.showResults = false;
     this.vote = null;
     this.listPosts = {
+      can_poll: false,
       can_edit: false,
       can_post: false,
       category: {
@@ -68,6 +69,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       posts: [],
       poll: {
         can_vote: false,
+        can_edit:false,
         finish_date: new Date(),
         id: 0,
         name: '',
@@ -247,7 +249,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
   onShowPollResults(){
-    this.showResults = true;
+    this.showResults = !this.showResults;
   }
 
   onVote(){
@@ -257,6 +259,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       .subscribe({
         next: r => {
           this.showResults = true;
+          this.listPosts.poll.can_vote = false;
           this.getVotes();
         },
         error: e => console.log(e)

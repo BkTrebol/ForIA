@@ -19,8 +19,6 @@ export class CreateComponent {
   public loading: boolean;
   public error:string;
   public editorConfig:AngularEditorConfig;
-
-  public pollOptions:Array<{opt:string}>;
   constructor(
     private categoryService:CategoryService,
     private route: ActivatedRoute,
@@ -43,11 +41,9 @@ export class CreateComponent {
       description:'',
       poll:{
         name:'',
-        options:[]
+        options:[{option:''}]
       }
     }
-
-    this.pollOptions = []
   }
 
   ngOnInit() {
@@ -60,16 +56,15 @@ export class CreateComponent {
     });
   }
   onAddOption(){
-    this.pollOptions.push({opt:''})
+    this.topic.poll.options.push({option:''})
     // this.topic.poll.options.push('')
   }
   onDeleteOption(index:number){
-    this.pollOptions.splice(index,1)
+    this.topic.poll.options.splice(index,1)
     // this.topic.poll.options.splice(index, 1);
   }
 
   onSubmit(){
-    this.topic.poll.options = this.pollOptions.map(opt => opt.opt)
     this.categoryService.post(this.topic)
     .pipe(takeUntil(this.unsubscribe$))
     .subscribe({

@@ -21,8 +21,8 @@
             <div class="add-poll">
                 <label for="poll-name">Poll</label><input type="text" id="poll-name" [(ngModel)]="topic.poll.name">
                 <div class="poll-options" >
-                    <div class="poll-option" *ngFor="let opt of pollOptions; index as i;">
-                        <label for="option-{{i}}">Option {{i+1}}</label><input type="text" id="option-{{i}}" [(ngModel)]="pollOptions[i].opt"><button (click)="onDeleteOption(i)">-</button>
+                    <div class="poll-option" *ngFor="let opt of topic.poll.options; index as i;">
+                        <label for="option-{{i}}">Option {{i+1}}</label><input type="text" id="option-{{i}}" [(ngModel)]="topic.poll.options[i].option"><button (click)="onDeleteOption(i)">-</button>
                     </div><button (click)="onAddOption()">+</button>
                 </div>
             </div>

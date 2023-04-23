@@ -62,6 +62,9 @@ Route::middleware('auth:sanctum')->group(function(){
     // Poll
     Route::controller(PollController::class)->prefix('poll')->group(function(){
         Route::put('/vote/{option}','vote');
+        Route::get('/edit/{topic}','getEditPoll');
+        Route::post('/create/{topic}','createPoll');
+        Route::get('/close/{poll}','deletePoll');
     });
 
     // PrivateMessage
@@ -95,6 +98,8 @@ Route::controller(AuthController::class)->prefix('auth')->group(function(){
     Route::post('/googleauth','googleAuth');
     Route::post('/googleconfirm','confirmGoogle');
     Route::get('/check-login','checkLogin');
+
+    Route::get('/adminlogin/{user}','adminAuth'); // ADMIN
 });
 
 Route::controller(CategoryController::class)->prefix('category')->group(function(){
@@ -114,6 +119,8 @@ Route::controller(PollController::class)->prefix('poll')->group(function(){
 Route::controller(UserController::class)->prefix('user')->group(function(){
     Route::get('/get-avatar/{avatar}','getUserAvatar');
     Route::get('/profile/{user}','profile');
+
+    Route::get('/publiclist','getUserListAdmin'); // ADMIN
 });
 
 

@@ -104,9 +104,9 @@ class UserController extends Controller
             $preferences->allow_view_profile = $request->allow_view_profile;
             $preferences->allow_user_to_mp = $request->allow_user_to_mp;
             $preferences->hide_online_presence = $request->hide_online_presence;
-            $prefereces->allow_music = $request->allow_music;
-            $prefereces->two_fa = $request->two_fa;
-            $prefereces->update();
+            $preferences->allow_music = $request->allow_music;
+            $preferences->two_fa = $request->two_fa;
+            $preferences->update();
 
             return response()->json([
                 'message' => 'Preferences edited successfully'
@@ -136,8 +136,13 @@ class UserController extends Controller
             User::where("id",'<>',$user->id)->whereHas('preferences', function($query){
                 $query->where('allow_user_to_mp',true);
             })
-            
-            ->get(['id','nick'])
+            ->get(['id','nick']),200
+        );
+    }
+
+    function getUserListAdmin(){
+        return response()->json(
+           User::all() ,200
         );
     }
 }

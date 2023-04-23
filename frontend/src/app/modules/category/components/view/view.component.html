@@ -74,8 +74,8 @@
                                 </div>
                                 <div class="petit">
                                     <span class="mostrar-petit">3 <fa-icon [icon]="['fas', 'message']"></fa-icon></span>
-                                    <div class="mostrar-dos">
-                                        <a
+                                    <div class="mostrar-dos" *ngIf="topic.last_post">
+                                        <a 
                                             routerLink="/user/profile/{{topic.last_post.user.id}}">{{topic.last_post.user.nick}}</a>
                                         <small><a routerLink="/topic/{{topic.id}}"
                                                 [queryParams]="{'page': topic.last_page}"
@@ -90,7 +90,7 @@
                         <div class="topic-stats">
                             <p>{{topic.posts}} post<span *ngIf="topic.posts != 1">s</span></p>
                         </div>
-                        <div class="last-post">
+                        <div class="last-post" *ngIf="topic.last_post">
                             <div class="text">
                                 <a
                                     routerLink="/user/profile/{{topic.last_post.user.id}}">{{topic.last_post.user.nick}}</a>
