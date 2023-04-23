@@ -25,6 +25,11 @@ const routes: Routes = [
     },
     canActivate: [AuthGuard],
   },
+  {
+    path: '',
+    redirectTo: '/error',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({

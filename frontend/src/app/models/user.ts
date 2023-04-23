@@ -8,4 +8,6 @@ export interface User {
   roles: Array<string>;
   created_at: string;
   updated_at: string;
+  isAdmin: boolean;
+  isVerified: boolean;
 }

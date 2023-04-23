@@ -6,6 +6,8 @@ import { AuthGuard } from './helpers/guards/canLoad/auth.guard';
 import { GuestGuard } from './helpers/guards/canLoad/guest.guard';
 import { AuthGuard as AuthChildGuard } from './helpers/guards/canActivateChild/auth.guard';
 import { GuestGuard as GuestChildGuard } from './helpers/guards/canActivateChild/guest.guard';
+import { CheckGuard } from './helpers/guards/canLoad/check.guard';
+import { ErrorComponent } from './components/error/error.component';
 
 // Lazy loading
 const routes: Routes = [
@@ -20,7 +22,7 @@ const routes: Routes = [
     path: 'user',
     loadChildren: () =>
       import('./modules/user/user.module').then((m) => m.UserModule),
-    // canLoad: [AuthGuard],
+    canLoad: [CheckGuard],
     // canActivateChild: [AuthChildGuard],
   },
   {
@@ -36,11 +38,13 @@ const routes: Routes = [
     path: 'topic',
     loadChildren: () =>
       import('./modules/topic/topic.module').then((m) => m.TopicModule),
+    canLoad: [CheckGuard],
   },
   {
     path: 'post',
     loadChildren: () =>
       import('./modules/post/post.module').then((m) => m.PostModule),
+    canLoad: [CheckGuard],
   },
   {
     path: '',
@@ -48,8 +52,10 @@ const routes: Routes = [
       import('./modules/category/category.module').then(
         (m) => m.CategoryModule
       ),
+    canLoad: [CheckGuard],
   },
-  { path: '**', redirectTo: '/', pathMatch: 'full' }, // TODO: Error Page.
+  { path: 'error', component: ErrorComponent, title: 'ForIA - Error Page' },
+  { path: '**', redirectTo: '/error', pathMatch: 'full' },
 ];
 
 @NgModule({

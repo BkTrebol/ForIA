@@ -35,7 +35,15 @@ export class AuthService {
 
   register(register: Register): Observable<any> {
     let params = JSON.stringify(register);
-    return this.http.post(`${this.apiAuthURL}register`, params);
+    return this.http.post(`${this.apiAuthURL}register`, params).pipe(
+      concatMap((r) => {
+        return this.checkLogin().pipe(
+          map((checkR) => {
+            return r;
+          })
+        );
+      })
+    );
   }
 
   login(authData: AuthData): Observable<any> {
@@ -84,7 +92,7 @@ export class AuthService {
     return this.http.post(`${this.apiAuthURL}reset-password`, params);
   }
 
-  logout(): Observable<{message: string}> {
+  logout(): Observable<{ message: string }> {
     this.userSubject.next(null);
     return this.http.get<{ message: string }>(`${this.apiAuthURL}logout`);
   }

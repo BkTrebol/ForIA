@@ -17,11 +17,6 @@ import { CategoryService } from '../../service/category.service';
 export class ViewComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public loading: boolean;
-  // public category: Category;
-  // public topics: Topic[];
-  // public last_page: number;
-  // public current_page: number;
-  // public total: number;
   public audioUrl: string;
   public theme: string;
 
@@ -35,15 +30,6 @@ export class ViewComponent implements OnInit, OnDestroy {
   ) {
     this.unsubscribe$ = new Subject();
     this.loading = true;
-    // this.category = {
-    //   id: 0,
-    //   title: '',
-    //   can_post: false,
-    // };
-    // this.topics = [];
-    // this.last_page = 1;
-    // this.current_page = 1;
-    // this.total = 1;
     this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';
     this.theme = this.themeService.getTheme();
 
@@ -81,7 +67,6 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          console.log(res);
           this.listTopics = res;
           this.loading = false;
           if (parseInt(this.route.snapshot.queryParams['page'] ?? '1') != res.page.current) {
@@ -130,6 +115,7 @@ export class ViewComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.loading = false;
+          this.router.navigate(['/error']);
           console.log(err);
         },
       });

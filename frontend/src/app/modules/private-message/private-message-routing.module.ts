@@ -6,10 +6,10 @@ import { CreateComponent } from './components/create/create.component';
 import { ReplyComponent } from './components/reply/reply.component';
 
 const routes: Routes = [
-  { path: '', component: ListComponent, title: 'Private Messages' },
-  { path: 'new', component: CreateComponent, title: 'New Message' },
-  { path: 'reply/:id', component: ReplyComponent, title: 'Reply' },
-  { path: ':id', component: ViewComponent, title: 'Private Message' },
+  { path: '', component: ListComponent, title: 'ForIA - Private Messages' },
+  { path: 'new', component: CreateComponent, title: 'ForIA - New Message' },
+  { path: 'reply/:id', component: ReplyComponent, title: 'ForIA - Reply' },
+  { path: ':id', component: ViewComponent, title: 'ForIA - Private Message' },
 ];
 
 @NgModule({

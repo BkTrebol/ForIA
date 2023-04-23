@@ -13,6 +13,7 @@ import { Global } from 'src/app/environment/global';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { UserPreferences } from 'src/app/models/user-preferences';
+import { ToastService } from 'src/app/helpers/services/toast.service';
 
 @Component({
   selector: 'app-edit',
@@ -67,7 +68,8 @@ export class EditComponent implements OnInit, OnDestroy {
     private _authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private toastService: ToastService
   ) {
     this.unsubscribe$ = new Subject();
     this.theme = this.themeService.getTheme();
@@ -159,8 +161,9 @@ export class EditComponent implements OnInit, OnDestroy {
           .subscribe({
             next: (res) => {
               this.loading = false;
-              this.router.navigate(['/user/profile/' + this.userId]);
+              // this.router.navigate(['/user/profile/' + this.userId]);
               this._authService.autoAuthUser();
+              this.toastService.show(res.message);
             },
             error: (err) => {
               this.loading = false;
@@ -258,7 +261,7 @@ export class EditComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
-            console.log(res);
+            this.toastService.show(res.message);
           },
           error: (err) => {
             console.log(err);

@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { Register } from 'src/app/models/register';
 import { AuthService } from '../../service/auth.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
+import { ToastService } from 'src/app/helpers/services/toast.service';
 
 // Custom Validator
 function passwordMatchValidator(control: AbstractControl) {
@@ -75,7 +76,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   constructor(
     private _authService: AuthService,
     private router: Router,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private toastService: ToastService
   ) {
     this.unsubscribe$ = new Subject();
     this.theme = this.themeService.getTheme();
@@ -114,7 +116,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           [
             Validators.required,
             Validators.minLength(8),
-            Validators.pattern('^[a-zA-Z0-9]+$'), // TODO change pattern
+            Validators.pattern('^[a-zA-Z0-9_+-]+$'), // TODO change pattern
           ],
         ],
         password_confirmation: [
@@ -154,9 +156,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
             this.error = '';
             this.loading = false;
             this.router.navigate(['/user/profile']);
+            this.toastService.show(res.message);
           },
           error: (err) => {
-            console.log(err)
+            console.log(err);
             this.loading = false;
             // Message error
             this.error = err.error.message.split('.')[0];

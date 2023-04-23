@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public canSmall: boolean;
   public url: string;
   public theme: string;
-  
+
   constructor(
     private _authService: AuthService,
     private router: Router,
@@ -92,7 +92,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   // Change the Theme
   changeTheme(): void {
-    this.toastService.showDanger('Holita');
+    // this.toastService.showDanger('Holita');
     this.theme = this.theme == 'dark' ? 'light' : 'dark';
     this.themeService.changeTheme(this.theme);
   }
@@ -102,7 +102,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this._authService
       .logout()
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({ complete: () => this.router.navigate(['/']) });
+      .subscribe({
+        next: (res) => {
+          this.toastService.show(res.message);
+        },
+        error: (err) => {
+          this.toastService.show(err.message);
+        },
+        complete: () => {
+          this.router.navigate(['/']);
+        },
+      });
   }
 
   ngOnDestroy(): void {

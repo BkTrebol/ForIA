@@ -5,7 +5,6 @@
     </a>
     <form>
         <input type="text" placeholder="Search">
-        <button type="submit">Search</button>
     </form>
     <nav *ngIf="userIsAuthenticated">
         <ul>
@@ -57,7 +56,7 @@
         </ul>
         <ul>
             <li><a routerLink="/auth/register" routerLinkActive="active">
-                    <fa-icon [icon]="['fas', 'address-card']"></fa-icon><span>Registrar</span>
+                    <fa-icon [icon]="['fas', 'address-card']"></fa-icon><span>Register</span>
                 </a>
             </li>
             <li>
@@ -68,4 +67,3 @@
         </ul>
     </nav>
 </header>
-<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
