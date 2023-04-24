@@ -90,7 +90,8 @@ class PollController extends Controller
             'options.*.option' => ['required', 'string']
         ]);
         // Checks if either the user has special permissions or the topic has a poll with votes.
-        if ($topic->poll && $topic->poll->answers->count() != 0 && !$isAdmin && !$isMod) {
+
+        if (($user->id != $topic->user_id || $topic->poll->answers->count() != 0) && !$isAdmin && !$isMod) {
             return response()->json([
                 'message' => 'Unauthorized',
             ], 403);
@@ -103,7 +104,7 @@ class PollController extends Controller
             [
                 'topic_id' => $topic->id,
                 'name' => $request->name,
-                'finish_date' => $request->finish_date ? Carbon::parse($request->finish_date) :  Null,
+                'finish_date' => $request->finish_date ? Carbon::parse($request->finish_date) : Null,
             ]
         );
 
@@ -123,10 +124,13 @@ class PollController extends Controller
         }
         PollOption::whereIn('id', array_keys($currentOptions))->delete();
 
-        return response()->json([
-            'message' => 'Poll edited successfully',
-            'id'=>$topic->id],
-            200);
+        return response()->json(
+            [
+                'message' => 'Poll edited successfully',
+                'id' => $topic->id
+            ],
+            200
+        );
     }
     function editPoll(Poll $poll, Request $request)
     {
@@ -152,17 +156,36 @@ class PollController extends Controller
         $isMod = in_array($topic->poll->topic->category->can_mod, $user->roles);
 
 
-        if (!$topic->poll->answers->count() == 0 && !$isAdmin && !$isMod) {
+        // if (($topic->poll->answers->count() != 0 || $user->id != $topic->user_id) && !$isAdmin && !$isMod) {
 
+        //     return response()->json([
+        //         'message' => 'Unauthorized',
+        //     ], 403);
+        // }
+
+        if (($user->id != $topic->user_id || $topic->poll->answers->count() != 0) && !$isAdmin && !$isMod) {
             return response()->json([
                 'message' => 'Unauthorized',
             ], 403);
         }
 
+
+        // if($user->id != $topic->user_id){
+        //     if($topic->poll->answers->count() != 0 ){
+        //         if(!$isAdmin && !$isMod){
+        //             return response()->json([
+        //                 'message' => 'Unauthorized',
+        //             ], 403);
+        //         }
+        //     }
+
+        // }
+
+
         return response()->json([
             'poll' => $topic->poll->load('options'),
             'title' => $topic->only('title')['title'],
-        ],200);
+        ], 200);
     }
 
 }

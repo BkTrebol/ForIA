@@ -66,6 +66,7 @@ export class CreateComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(){
+    console.log(this.topic.poll.options)
     this.categoryService.post(this.topic)
     .pipe(takeUntil(this.unsubscribe$))
     .subscribe({

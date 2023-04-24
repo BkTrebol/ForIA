@@ -89,11 +89,15 @@ class TopicController extends Controller
             'content' => $request->content,
         ]);
 
-        if ($request->has('poll')) {
+        if ($request->has('poll') && $request->poll['name'] != '') {
             $request->validate([
+                // 'poll.name' => ['required', 'min:3', 'max:50'],
+                // 'poll.options' => ['required', 'array', 'min:2'],
+                // 'poll.options.*' => ['string', 'max:100']
                 'poll.name' => ['required', 'min:3', 'max:50'],
-                'poll.options' => ['required', 'array', 'min:2'],
-                'poll.options.*' => ['string', 'max:100']
+                'poll.options' => ['required', 'array', 'min:2', 'max:10'],
+                'poll.options.*' => ['array', 'min:1', 'max:2'],
+                'poll.options.*.option' => ['required', 'string']
             ]);
 
             $poll = Poll::create([
@@ -103,7 +107,7 @@ class TopicController extends Controller
             ]);
             foreach ($request->poll['options'] as $option) {
                 PollOption::create([
-                    'option' => $option,
+                    'option' => $option['option'],
                     'poll_id' => $poll->id,
                 ]);
             }
