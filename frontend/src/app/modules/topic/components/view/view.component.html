@@ -2,7 +2,7 @@
     <div class="list" *ngIf="loading">
         <div class="list-header">
             <span>
-                <app-loading height="52px" width="400px"></app-loading>
+                <app-loading height="53px" width="400px"></app-loading>
             </span>
             <app-loading height="40px" width="200px"></app-loading>
         </div>
@@ -67,7 +67,7 @@
                         class="option-radio">
                     <label for="option-{{option.id}}" class="option-label">{{option.option}}</label>
                 </div>
-                <button (click)="onVote()" [disabled]="vote == null">Vote</button> 
+                <button (click)="onVote()" [disabled]="vote == null">Vote</button>
                 <button (click)="onShowPollResults()">Show results</button>
             </div>
             <div *ngIf="pollResults && showResults">

@@ -24,7 +24,7 @@
                 <a class="avatar" routerLink="/user/profile/{{userIsAuthenticated.userData.id}}"
                     routerLinkActive="active">
                     <app-avatar [user]="userIsAuthenticated.userData" [width]="top? '30': '50'"
-                        [height]="top? '30': '50'"></app-avatar>
+                        [height]="top? '30': '50'" [small]="true"></app-avatar>
                     <span>{{userIsAuthenticated.userData.nick}}</span>
                 </a>
                 <div class="dropdown-content">
@@ -67,12 +67,13 @@
             </li>
         </ul>
     </nav>
-        <ul style="width:300px">
-            <li>
-                <ng-select [(ngModel)]="user" (change)="changeUser()">
-                    <ng-option *ngFor="let user of userList$ | async" [value]="user.id">{{user.id + '-' +
-                        user.nick}}</ng-option>
-                </ng-select></li>
-        </ul>
+    <ul class="ng-select">
+        <li>
+            <ng-select [(ngModel)]="user" (change)="changeUser()">
+                <ng-option *ngFor="let user of userList$ | async" [value]="user.id">{{user.id + '-' +
+                    user.nick}}</ng-option>
+            </ng-select>
+        </li>
+    </ul>
 </header>
-<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+<!-- <app-toasts aria-live="polite" aria-atomic="true"></app-toasts> -->

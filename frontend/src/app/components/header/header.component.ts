@@ -45,16 +45,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   changeUser() {
-    this._authService
-      .changeUser(this.user)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (r) => {
-          console.log(r);
-          this._authService.autoAuthUser();
-        },
-        error: (e) => console.log(e),
-      });
+    if (this.user) {
+      this._authService
+        .changeUser(this.user)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: (res) => {
+            this._authService.autoAuthUser();
+            this.toastService.show(res.message);
+          },
+          error: (e) => console.log(e),
+        });
+    }
   }
 
   ngOnInit(): void {
@@ -64,6 +66,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((r) => {
         this.userIsAuthenticated = r;
+        if (this.userIsAuthenticated?.userData.id) {
+          this.user = this.userIsAuthenticated?.userData.id;
+        }
       });
 
     // Function that change the nav height on scroll

@@ -28,13 +28,13 @@ class UserController extends Controller
 
     function editUserData(Request $request){
         $user = Auth::user();
-        // return response()->json([$request]);
+
         $request->validate([
                 'nick' => ['required', 'string', 'max:100','unique:users,nick,'.$user->id],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
                 'location'=> ['string','nullable'],
                 'birthday' => ['date','nullable'],
-                'avatar' => ['image','mimes:jpg,png,jpeg,gif,svg'],
+                'avatar' => ['image','mimes:jpg,png,jpeg,gif,svg', 'max:200'],
         ]);
 
         $user->nick = $request->nick;
@@ -89,23 +89,6 @@ class UserController extends Controller
 
     function editUserPreference(Request $request){
         $preferences = Auth::user()->preferences;
-            $request->validate([
-                "sidebar" => ['boolean'],
-                "filter_bad_words" => ['boolean'],
-                "allow_view_profile" => ['boolean'],
-                "allow_user_to_mp" => ['boolean'],
-                "hide_online_presence" => ['boolean'],
-                "two_fa" => ['boolean'],
-                "allow_music"=> ['boolean'],
-            ]);
-            $preferences->sidebar = $request->sidebar;
-            $preferences->filter_bad_words = $request->filter_bad_words;
-            $preferences->allow_view_profile = $request->allow_view_profile;
-            $preferences->allow_user_to_mp = $request->allow_user_to_mp;
-            $preferences->hide_online_presence = $request->hide_online_presence;
-            $preferences->allow_music = $request->allow_music;
-            $preferences->two_fa = $request->two_fa;
-            $preferences->update();
 
         $request->validate([
             "sidebar" => ['boolean'],
@@ -160,7 +143,7 @@ class UserController extends Controller
 
     function getUserListAdmin(){
         return response()->json(
-           User::all() ,200
+           User::all() , 200
         );
     }
 }

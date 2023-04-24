@@ -40,7 +40,6 @@ export class ListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          console.log(res)
           this.forum = res;
           res.forEach((section) => {
             this.ocults[section.name] = false;

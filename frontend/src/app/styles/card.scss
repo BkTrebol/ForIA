@@ -429,6 +429,9 @@
       span {
         text-align: center;
         display: block;
+        &.m {
+          margin-bottom: 22px;
+        }
       }
       h2 {
         font-size: 40px;
@@ -437,6 +440,7 @@
         text-align: center;
         font-size: 20px;
       }
+      a
       img {
         display: block;
         margin: 8px auto;
@@ -488,8 +492,13 @@
           padding: 16px;
           flex: 1;
           @include col(flex-start, 8px);
-          p {
+          h2,
+          p,
+          span {
             width: 100%;
+          }
+          p.m {
+            margin-bottom: -16px;
           }
         }
         .last-post {
@@ -498,6 +507,12 @@
           @include flex(row, center, flex-end, 16px);
           .text {
             @include flex(column, flex-end, flex-end, 8px);
+            .nom-data {
+              @include flex(column, flex-end, flex-end, 8px);
+              h5.m {
+                margin-bottom: -16px;
+              }
+            }
           }
         }
       }
@@ -641,6 +656,10 @@
                   .mostrar-petit {
                     display: inline;
                   }
+                  &.m {
+                    margin-top: 8px;
+                    margin-bottom: -20px;
+                  }
                 }
               }
             }
@@ -684,6 +703,10 @@
             .topic-body {
               .text {
                 .petit {
+                  &.m {
+                    margin-top: 8px;
+                    margin-bottom: -16px;
+                  }
                   .mostrar-dos {
                     display: inline;
                     @include row(space-between, 8px);
@@ -702,7 +725,13 @@
             width: 100%;
             padding: 4px 8px;
             .text {
-              @include flex(row, flex-end, flex-end, 12px);
+              @include flex(row, center, flex-end, 12px);
+              .nom-data {
+                @include flex(row, center, flex-end, 12px);
+                h5.m {
+                  margin-bottom: 0;
+                }
+              }
             }
           }
         }
@@ -724,10 +753,36 @@
         }
       }
       .list-body {
+        .section {
+          fieldset {
+            padding: 0px 8px;
+          }
+        }
         .categories {
           .category {
+            padding: 8px 16px;
             p {
               display: none;
+            }
+            span {
+              margin-bottom: -16px;
+            }
+          }
+          .last-post {
+            align-items: center;
+            .text {
+              justify-content: space-around;
+              width: 100%;
+              .nom-data {
+                @include flex(column, flex-end, center, 4px);
+                h4.m {
+                  margin-top: 4px;
+                  margin-bottom: -4px;
+                }
+                h5.m {
+                  margin-bottom: -8px;
+                }
+              }
             }
           }
         }

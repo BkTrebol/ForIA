@@ -171,10 +171,13 @@ class AuthController extends Controller
 
     }
 
-    function adminAuth(User $user,Request $request){
+    function adminAuth(User $user, Request $request){
         Auth::logout();
         Auth::login($user);
         $request->session()->regenerateToken();
+        return response()->json([
+            'message' => "Login \"as\" {$user->nick} successfully",
+        ],200);
     }
 
     function logout(Request $request){

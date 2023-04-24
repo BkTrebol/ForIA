@@ -193,6 +193,16 @@ No changes
       animation: gir 4s cubic-bezier(0.37, 0.6, 0.82, 0.66) infinite;
     }
   }
+  .ng-select{
+    width: 180px;
+    font-family: $font-text;
+  }
+  form{
+    width: 200px;
+    input{
+      width: 100%;
+    }
+  }
   nav {
     @include row(space-between);
     width: 100%;
@@ -270,7 +280,10 @@ No changes
     .logo .logoFORIA {
       @include no;
     }
-    ul {
+    form {
+      width: 80px;
+    }
+    nav ul {
       @include row(space-between, 25px);
       fa-icon {
         margin-right: 8px;
@@ -281,7 +294,7 @@ No changes
   @include mobile() {
     @include row(flex-start, 20px);
     padding: 0 10px;
-    form {
+    form, .ng-select {
       display: none;
     }
     nav ul {

@@ -35,8 +35,10 @@ export class AuthService {
   }
 
   // ADMIN
-  changeUser(user: number): Observable<any> {
-    return this.http.get<any>(`${this.apiAuthURL}adminlogin/${user}`);
+  changeUser(user: number): Observable<{message: string}> {
+    return this.http.get<{ message: string }>(
+      `${this.apiAuthURL}adminlogin/${user}`
+    );
   }
 
   getCSRF(): Observable<any> {

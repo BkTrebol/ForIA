@@ -1,7 +1,7 @@
 <div class="list-page {{theme}}">
     <div class="list" *ngIf="loading">
         <div class="list-header">
-            <span><app-loading height="53px" width="250px"></app-loading></span>
+            <span class="m"><app-loading height="53px" width="250px"></app-loading></span>
         </div>
         <div class="list-body">
             <ul>
@@ -10,7 +10,7 @@
                         <app-loading height="75px" width="75px" appa="circle"></app-loading>
                         <div class="topic-body">
                             <div class="title">
-                                <h2><app-loading height="30px" width="200px"></app-loading></h2>
+                                <h2><app-loading height="30px" width="50%"></app-loading></h2>
                                 <p><app-loading height="25px" width="100%"></app-loading></p>
                             </div>
                             <div class="text">
@@ -18,8 +18,8 @@
                                     <span><app-loading height="20px" width="80px"></app-loading></span>
                                     <span><app-loading height="15px" width="70px"></app-loading></span>
                                 </div>
-                                <div class="petit">
-                                    <span class="mostrar-petit">3 <fa-icon [icon]="['fas', 'message']"></fa-icon></span>
+                                <div class="petit m">
+                                    <span class="mostrar-petit"><app-loading height="15px" width="30px"></app-loading></span>
                                     <div class="mostrar-dos">
                                         <span>
                                             <app-loading height="20px" width="80px"></app-loading></span>
@@ -55,7 +55,7 @@
     <div class="list" *ngIf="!loading">
         <div class="list-header">
             <h1>{{listTopics.category.title | capitalize}}</h1>
-            <a *ngIf="listTopics.category.can_post" routerLink="/topic/create/{{listTopics.category.id}}">Create new Topic</a>
+            <a class="option-btns" *ngIf="listTopics.category.can_post" routerLink="/topic/create/{{listTopics.category.id}}">Create new Topic</a>
         </div>
         <div class="list-body">
             <ul>
@@ -75,7 +75,7 @@
                                 <div class="petit">
                                     <span class="mostrar-petit">3 <fa-icon [icon]="['fas', 'message']"></fa-icon></span>
                                     <div class="mostrar-dos" *ngIf="topic.last_post">
-                                        <a 
+                                        <a
                                             routerLink="/user/profile/{{topic.last_post.user.id}}">{{topic.last_post.user.nick}}</a>
                                         <small><a routerLink="/topic/{{topic.id}}"
                                                 [queryParams]="{'page': topic.last_page}"

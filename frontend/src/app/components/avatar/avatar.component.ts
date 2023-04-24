@@ -16,6 +16,7 @@ export class AvatarComponent implements OnInit {
   @Input('user') user: { avatar: string | null; nick: string };
   @Input('width') width: string;
   @Input('height') height: string;
+  @Input('small') small: boolean;
 
   constructor() {
     this.getAvatarUrl = Global.api + 'user/get-avatar/';
@@ -26,6 +27,7 @@ export class AvatarComponent implements OnInit {
     this.user = { avatar: null, nick: '' };
     this.width = '100';
     this.height = '100';
+    this.small = false;
   }
 
   ngOnInit(): void {
