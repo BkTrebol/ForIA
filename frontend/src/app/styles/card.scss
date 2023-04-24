@@ -196,6 +196,12 @@
         }
         .editor-parent {
           .editor {
+            .angular-editor-toolbar{
+              background-color: $color-gradient2;
+              .angular-editor-button{
+                background-color: $color-gradient4;
+              }
+            }
             color: $color-white;
             background-color: $color-black-grey;
           }
