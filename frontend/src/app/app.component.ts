@@ -46,11 +46,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._authService.authData
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((r) => {
+    this._authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
+      next: (r) => {
         this.userIsAuthenticated = r;
-      });
+      },
+      // complete: () => {
+      //   setTimeout(() => {
+      //     this.loading = false;
+      //   }, 100);
+      // },
+    });
 
     // Loading Page
     this.router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {

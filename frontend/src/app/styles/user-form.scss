@@ -41,6 +41,11 @@
             accent-color: $color-shades1;
           }
         }
+        .check {
+          input[type="checkbox"] {
+            accent-color: $color-quart;
+          }
+        }
       }
       .btn-field .btn-send {
         @include btn($color-shades1, 20%);
@@ -89,6 +94,11 @@
         .row-field {
           input[type="checkbox"] {
             accent-color: $color-primary;
+          }
+        }
+        .check {
+          input[type="checkbox"] {
+            accent-color: $color-quart;
           }
         }
       }
@@ -211,21 +221,35 @@
             .check-delete {
               @include row(space-between, 16px);
               font-size: $size-p;
+              cursor: pointer;
               input[type="checkbox"] {
                 transform: scale(1.5);
                 accent-color: $color-tertiary;
+                cursor: pointer;
+              }
+              label {
+                cursor: pointer;
               }
             }
           }
         }
         // For checkbox
-        .row-field {
+        .row-field,
+        .check {
           padding-left: 16px;
           font-size: $size-p;
+          cursor: pointer;
           @include row(space-between, 16px);
           input[type="checkbox"] {
             transform: scale(1.5);
+            cursor: pointer;
           }
+          label {
+            cursor: pointer;
+          }
+        }
+        .check {
+          padding: 12px 120px 12px 0;
         }
       }
     }

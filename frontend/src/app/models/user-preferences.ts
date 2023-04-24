@@ -6,4 +6,5 @@ export interface UserPreferences {
   hide_online_presence: boolean;
   two_fa: boolean;
   allow_music: boolean;
+  recieve_emails: boolean;
 }

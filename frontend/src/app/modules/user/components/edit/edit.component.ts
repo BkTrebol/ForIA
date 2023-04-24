@@ -61,7 +61,6 @@ export class EditComponent implements OnInit, OnDestroy {
   };
   public formEditPreferences: FormGroup;
   public view: boolean;
-  public first: boolean;
 
   constructor(
     private userService: UserService,
@@ -90,6 +89,7 @@ export class EditComponent implements OnInit, OnDestroy {
       hide_online_presence: false,
       two_fa: false,
       allow_music: true,
+      recieve_emails: true,
     };
     this.userId = this._authService.user?.userData.id;
     this.filesToUpload = [];
@@ -128,9 +128,9 @@ export class EditComponent implements OnInit, OnDestroy {
       hide_online_presence: [false, []],
       two_fa: [false, []],
       allow_music: [true, []],
+      recieve_emails: [true, []],
     });
     this.view = true;
-    this.first = false;
   }
 
   ngOnInit(): void {
@@ -141,6 +141,7 @@ export class EditComponent implements OnInit, OnDestroy {
       this.loading = false;
       this.router.navigate(['/user/profile/' + this.userId]);
     }
+    this.getPref();
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((t) => {
@@ -210,14 +211,9 @@ export class EditComponent implements OnInit, OnDestroy {
 
   toggleView(): void {
     this.view = !this.view;
-    if (!this.view && !this.first) {
-      this.getPref();
-      this.first = true;
-    }
   }
 
   getPref(): void {
-    this.loading = true;
     this.userService
       .getPreferences()
       .pipe(takeUntil(this.unsubscribe$))
@@ -228,32 +224,10 @@ export class EditComponent implements OnInit, OnDestroy {
         error: (err) => {
           console.log(err);
         },
-        complete: () => {
-          this.loading = false;
-        },
       });
   }
 
   editPreferences(): void {
-    this.loading = true;
-
-    // this.preferences.sidebar = this.preferences.sidebar ? true : false;
-    // this.preferences.filter_bad_words = this.preferences.filter_bad_words
-    //   ? true
-    //   : false;
-    // this.preferences.allow_view_profile = this.preferences.allow_view_profile
-    //   ? true
-    //   : false;
-    // this.preferences.allow_user_to_mp = this.preferences.allow_user_to_mp
-    //   ? true
-    //   : false;
-    // this.preferences.hide_online_presence = this.preferences
-    //   .hide_online_presence
-    //   ? true
-    //   : false;
-    // this.preferences.two_fa = this.preferences.two_fa ? true : false;
-    // this.preferences.allow_music = this.preferences.allow_music ? true : false;
-
     if (this.formEditPreferences.valid) {
       this.loading = true;
       this.userService
