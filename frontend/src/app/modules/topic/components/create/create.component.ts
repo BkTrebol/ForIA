@@ -17,8 +17,8 @@ export class CreateComponent implements OnInit, OnDestroy {
   public topic: Topic;
   public theme: string;
   public loading: boolean;
-  public error:string;
-  public editorConfig:AngularEditorConfig;
+  public error: string;
+  public editorConfig: AngularEditorConfig;
 
   constructor(
     private categoryService: CategoryService,
@@ -36,16 +36,16 @@ export class CreateComponent implements OnInit, OnDestroy {
       editable: true,
     };
 
-    this.topic ={
-      category_id:0,
-      title:'',
-      content:'',
-      description:'',
-      poll:{
-        name:'',
-        options:[{option:''}]
-      }
-    }
+    this.topic = {
+      category_id: 0,
+      title: '',
+      content: '',
+      description: '',
+      poll: {
+        name: '',
+        options: [{ option: '' }],
+      },
+    };
   }
 
   ngOnInit() {
@@ -58,28 +58,28 @@ export class CreateComponent implements OnInit, OnDestroy {
         this.theme = t;
       });
   }
-  onAddOption(){
-    this.topic.poll.options.push({option:''})
+  onAddOption() {
+    this.topic.poll.options.push({ option: '' });
   }
-  onDeleteOption(index:number){
-    this.topic.poll.options.splice(index,1)
+  onDeleteOption(index: number) {
+    this.topic.poll.options.splice(index, 1);
   }
 
-  onSubmit(){
-    this.categoryService.post(this.topic)
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe({
-      next: res =>{
-        this.router.navigate([`/topic/${res.id}`]);
-        this.toastService.show(res.message);
-      },
-      error: e => console.log(e)
-    });
+  onSubmit() {
+    this.categoryService
+      .post(this.topic)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (res) => {
+          this.router.navigate([`/topic/${res.id}`]);
+          this.toastService.show(res.message);
+        },
+        error: (e) => console.log(e),
+      });
+  }
 
-}
-
-ngOnDestroy(): void {
-  this.unsubscribe$.next();
-  this.unsubscribe$.complete();
-}
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
 }
