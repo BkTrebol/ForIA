@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TopicService } from '../../service/topic.service';
@@ -17,6 +17,7 @@ import { ToastService } from 'src/app/helpers/services/toast.service';
   selector: 'app-view',
   templateUrl: './view.component.html',
   styleUrls: ['./view.component.scss', '../../../../styles/card.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class ViewComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;

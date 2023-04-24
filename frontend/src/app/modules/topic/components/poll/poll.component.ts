@@ -43,9 +43,8 @@ export class PollComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.topicId = parseInt(this.route.snapshot.paramMap.get('topic') ?? '1');
+    this.topicId = parseInt(this.route.snapshot.paramMap.get('id') ?? '1');
     this.mode = this.route.snapshot.paramMap.get('mode') ?? '';
-
     if (this.mode == 'edit') {
       this.topicService
         .getPollData(this.topicId)
