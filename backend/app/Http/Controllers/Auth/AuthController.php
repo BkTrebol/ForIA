@@ -50,14 +50,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        if(env('APP_DEBUG')==true){
-            // $roles = $user->roles;
-            $roles = User::find($user->id)->makeVisible(['roles'])->roles;
-            $roles = array_push($roles,'ROLE_USER');
-        } else{
-            if (!$user->hasVerifiedEmail()) {
-                $user->notify(new VerifyEmail());
-            }
+        if (env('APP_DEBUG')==false && !$user->hasVerifiedEmail()) {
+            $user->notify(new VerifyEmail());
         }
 
         Auth::login($user);
@@ -67,7 +61,6 @@ class AuthController extends Controller
 
     function checkLogin(){
         $user = Auth::user();
-
         return response()->json(
             $user ? true : false
             ,200);

@@ -1,0 +1,42 @@
+.form-page {
+  // -webkit-perspective: 10000px;
+  // perspective: 10000px;
+  form.view {
+    -webkit-animation: rotateOnY 2s linear forwards;
+    animation: rotateOnY 2s linear forwards;
+  }
+  form.no {
+    animation: lol 2s linear forwards;
+    border: 2px solid red !important;
+  }
+}
+
+@-webkit-keyframes rotateOnY {
+  to {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    display: none;
+  }
+}
+
+@keyframes rotateOnY {
+  to {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+  }
+}
+
+@keyframes lol {
+  from{
+    display: none;
+  }
+  to {
+    display: block;
+  }
+}
+
+@keyframes olo {
+  to {
+    display: none;
+  }
+}

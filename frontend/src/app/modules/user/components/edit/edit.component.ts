@@ -237,22 +237,22 @@ export class EditComponent implements OnInit, OnDestroy {
   editPreferences(): void {
     this.loading = true;
 
-    this.preferences.sidebar = this.preferences.sidebar ? true : false;
-    this.preferences.filter_bad_words = this.preferences.filter_bad_words
-      ? true
-      : false;
-    this.preferences.allow_view_profile = this.preferences.allow_view_profile
-      ? true
-      : false;
-    this.preferences.allow_user_to_mp = this.preferences.allow_user_to_mp
-      ? true
-      : false;
-    this.preferences.hide_online_presence = this.preferences
-      .hide_online_presence
-      ? true
-      : false;
-    this.preferences.two_fa = this.preferences.two_fa ? true : false;
-    this.preferences.allow_music = this.preferences.allow_music ? true : false;
+    // this.preferences.sidebar = this.preferences.sidebar ? true : false;
+    // this.preferences.filter_bad_words = this.preferences.filter_bad_words
+    //   ? true
+    //   : false;
+    // this.preferences.allow_view_profile = this.preferences.allow_view_profile
+    //   ? true
+    //   : false;
+    // this.preferences.allow_user_to_mp = this.preferences.allow_user_to_mp
+    //   ? true
+    //   : false;
+    // this.preferences.hide_online_presence = this.preferences
+    //   .hide_online_presence
+    //   ? true
+    //   : false;
+    // this.preferences.two_fa = this.preferences.two_fa ? true : false;
+    // this.preferences.allow_music = this.preferences.allow_music ? true : false;
 
     if (this.formEditPreferences.valid) {
       this.loading = true;
