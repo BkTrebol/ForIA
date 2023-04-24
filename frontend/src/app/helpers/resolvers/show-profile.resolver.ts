@@ -31,7 +31,7 @@ export class ShowProfileResolver
         }
       }),
       catchError((err) => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/error']);
         return of(false);
       })
     );

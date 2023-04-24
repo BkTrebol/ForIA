@@ -33,9 +33,9 @@ export class AuthService {
   getUserList(): Observable<any> {
     return this.http.get<any>(`${Global.api}user/publiclist/`);
   }
-  
+
   // ADMIN
-  changeUser(user:number): Observable<any>{
+  changeUser(user: number): Observable<any> {
     return this.http.get<any>(`${this.apiAuthURL}adminlogin/${user}`);
   }
 

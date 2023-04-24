@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public theme: string;
 
   public userList$: Observable<any>;
-  public user:number;
+  public user: number;
 
   constructor(
     private _authService: AuthService,
@@ -44,18 +44,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.theme = this.themeService.getTheme();
   }
 
-  changeUser(){
-    this._authService.changeUser(this.user)
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe({
-      next: r => {
-        console.log(r);
-        this._authService.autoAuthUser();
-      }
-        ,
-      error: e => console.log(e)
-    });
+  changeUser() {
+    this._authService
+      .changeUser(this.user)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (r) => {
+          console.log(r);
+          this._authService.autoAuthUser();
+        },
+        error: (e) => console.log(e),
+      });
   }
+
   ngOnInit(): void {
     this.userList$ = this._authService.getUserList();
 

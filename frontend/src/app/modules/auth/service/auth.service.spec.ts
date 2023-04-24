@@ -106,9 +106,9 @@ describe('AuthService Test', () => {
   });
 
   it('getCSRF valid should return status code 204 No Content from observable', () => {
-    httpClientSpy.getCSRF.and.returnValue(of());
+    httpClientSpy.getCSRF.and.returnValue(of(''));
     service.getCSRF().subscribe((res) => {
-      expect(res).toEqual();
+      expect(res).toEqual('');
     });
   });
 
