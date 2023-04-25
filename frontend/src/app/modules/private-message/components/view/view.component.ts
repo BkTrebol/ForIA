@@ -81,6 +81,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       });
   }
   ngOnInit() {
+    this.getData();
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((t) => {

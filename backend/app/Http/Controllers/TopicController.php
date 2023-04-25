@@ -45,7 +45,7 @@ class TopicController extends Controller
         }
 
         $response = [
-            'can_edit' => in_array($topic->category->can_mod, $roles) || ($user && $topic->user_id == $user->id),
+            'can_edit' => $isMod || $isAdmin || ($user && $topic->user_id == $user->id),
             'can_post' => in_array($topic->can_post, $roles),
             'can_poll' => $poll == null && ($user->id == $topic->user_id || $isAdmin || $isMod),
             'category' => $topic->category->only('id', 'title'),

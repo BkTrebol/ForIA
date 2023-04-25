@@ -35,6 +35,10 @@
                    (changePage)="changePage($event)">
 
                    </app-pagination>
+                   <div class="c">
+                    <div>Total Messages: {{privateMessageList.page.total}}</div>
+                    <div>Page: {{privateMessageList.page.current}}/{{privateMessageList.page.last}}</div>
+                </div>
                 </div>
             </ng-container>
             <br>

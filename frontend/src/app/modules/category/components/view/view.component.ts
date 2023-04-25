@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, filter, takeUntil } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
   Category,
   Topic,
@@ -49,6 +49,16 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.route.params
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe(
+      (params: Params) => {
+        this.loading=true;
+        this.getData(
+        params['id'],
+        '1')
+      });
+      
     this.getData(
       this.route.snapshot.paramMap.get('id') ?? '',
       this.route.snapshot.queryParams['page'] ?? '1'

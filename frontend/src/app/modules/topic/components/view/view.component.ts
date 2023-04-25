@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, RouteReuseStrategy, Router } from '@angular/router';
 import { TopicService } from '../../service/topic.service';
 import {
   Category,
@@ -72,7 +72,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       posts: [],
       poll: {
         can_vote: false,
-        can_edit:false,
+        can_edit: false,
         finish_date: new Date(),
         id: 0,
         name: '',
@@ -104,6 +104,15 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.route.params
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe(
+      (params: Params) => {
+        this.loading=true;
+        this.getData(
+        params['id'],
+        '1')
+      });
     this.getData(
       this.route.snapshot.paramMap.get('id') ?? '',
       this.route.snapshot.queryParams['page'] ?? '1'
@@ -262,22 +271,22 @@ export class ViewComponent implements OnInit, OnDestroy {
       });
   }
 
-  onShowPollResults(){
+  onShowPollResults() {
     this.showResults = !this.showResults;
   }
 
-  onVote(){
-    if(this.vote){
+  onVote() {
+    if (this.vote) {
       this.topicService.vote(this.vote)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: r => {
-          this.showResults = true;
-          this.listPosts.poll.can_vote = false;
-          this.getVotes();
-        },
-        error: e => console.log(e)
-      })
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: r => {
+            this.showResults = true;
+            this.listPosts.poll.can_vote = false;
+            this.getVotes();
+          },
+          error: e => console.log(e)
+        })
     }
   }
 
