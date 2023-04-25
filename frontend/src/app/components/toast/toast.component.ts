@@ -23,7 +23,6 @@ export class ToastsContainer {
   }
 
   closeToast(toast: NgbToast, group: string = '') {
-    console.log(toast);
     toast.hide;
     this.toastService.remove(toast, group);
   }
