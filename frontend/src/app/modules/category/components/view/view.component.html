@@ -19,7 +19,8 @@
                                     <span><app-loading height="15px" width="70px"></app-loading></span>
                                 </div>
                                 <div class="petit m">
-                                    <span class="mostrar-petit"><app-loading height="15px" width="30px"></app-loading></span>
+                                    <span class="mostrar-petit"><app-loading height="15px"
+                                            width="30px"></app-loading></span>
                                     <div class="mostrar-dos">
                                         <span>
                                             <app-loading height="20px" width="80px"></app-loading></span>
@@ -36,8 +37,7 @@
                         </div>
                         <div class="last-post">
                             <div class="text">
-                                <a
-                                    ><app-loading height="20px" width="80px"></app-loading></a>
+                                <a><app-loading height="20px" width="80px"></app-loading></a>
                                 <small><a><app-loading height="15px" width="70px"></app-loading></a>
                                 </small>
                             </div>
@@ -55,7 +55,8 @@
     <div class="list" *ngIf="!loading">
         <div class="list-header">
             <h1>{{listTopics.category.title | capitalize}}</h1>
-            <a class="option-btns" *ngIf="listTopics.category.can_post" routerLink="/topic/create/{{listTopics.category.id}}">Create new Topic</a>
+            <a class="option-btns" *ngIf="listTopics.category.can_post"
+                routerLink="/topic/create/{{listTopics.category.id}}">Create new Topic</a>
         </div>
         <div class="list-body">
             <ul>
@@ -107,6 +108,10 @@
         <div class="list-footer">
             <app-pagination [current_page]="listTopics.page.current" [last_page]="listTopics.page.last"
                 (changePage)="changePage($event)"></app-pagination>
+            <div class="c">
+                <div>Total Topics: {{listTopics.page.total}}</div>
+                <div>Page: {{listTopics.page.current}}/{{listTopics.page.last}}</div>
+            </div>
         </div>
     </div>
 </div>
