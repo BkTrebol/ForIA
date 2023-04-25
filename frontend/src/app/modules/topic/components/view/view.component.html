@@ -51,13 +51,15 @@
 
     <div class="list" *ngIf="!loading">
         <div class="list-header">
-            <h1 routerLink="/category/{{listPosts.category.id}}">{{listPosts.category.title | capitalize}}</h1>
-            <div class="test">
+            <h1 class="h1-title" routerLink="/category/{{listPosts.category.id}}">{{listPosts.category.title | capitalize}}</h1>
+            <div class="subt">
                 <h2>{{listPosts.topic.title | capitalize}}</h2>
-                <a *ngIf="listPosts.can_post" routerLink="/post/create">Create new Post</a>
+                <div class="two-options">
+                    <a *ngIf="listPosts.can_post" routerLink="/post/create">Create new Post</a>
+                    <a routerLink="/topic/{{listPosts.topic.id}}/poll/create" *ngIf="listPosts.can_poll">Create Poll</a>
+                </div>
             </div>
         </div>
-        <a routerLink="/topic/{{listPosts.topic.id}}/poll/create" *ngIf="listPosts.can_poll">Create Poll</a>
         <div *ngIf="listPosts.poll">
             <div *ngIf=" !showResults">
                 <h5>Poll: {{listPosts.poll.name}}</h5> <a routerLink="/topic/{{listPosts.topic.id}}/poll/edit"
@@ -148,6 +150,10 @@
         <div class="list-footer">
             <app-pagination [current_page]="listPosts.page.current" [last_page]="listPosts.page.last"
                 (changePage)="changePage($event)"></app-pagination>
+            <div class="c">
+                <div>Total Posts: {{listPosts.page.total}}</div>
+                <div>Page: {{listPosts.page.current}}/{{listPosts.page.last}}</div>
+            </div>
         </div>
     </div>
 </div>

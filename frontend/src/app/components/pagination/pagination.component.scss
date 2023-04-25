@@ -1,6 +1,9 @@
 // VARIABLES
 @import "../../styles/vars";
 
+// MIXIONS
+@import "../../styles/mixins";
+
 .pagination {
   &.dark {
     a {
@@ -41,7 +44,6 @@
   display: inline-block;
   a {
     cursor: pointer;
-    float: left;
     padding: 8px 16px;
     text-decoration: none;
     &.active,
@@ -56,6 +58,11 @@
     &:last-child {
       border-top-right-radius: 5px;
       border-bottom-right-radius: 5px;
+    }
+  }
+  @include mini() {
+    a {
+      padding: 8px 12px;
     }
   }
 }

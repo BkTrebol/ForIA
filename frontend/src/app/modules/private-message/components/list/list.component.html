@@ -30,6 +30,10 @@
                     (changePage)="changeReceivedPage($event)">
 
                     </app-pagination>
+                    <div class="c">
+                        <div>Total Recived Messages: {{messages.received.page.last}}</div>
+                        <div>Page: {{messages.received.page.current}}/{{messages.received.page.last}}</div>
+                    </div>
                  </div>
                 </ng-container>
             </ng-container>
@@ -55,6 +59,10 @@
             (changePage)="changeSentPage($event)">
 
             </app-pagination>
+            <div class="c">
+                <div>Total Sent Messages: {{messages.sent.page.last}}</div>
+                <div>Page: {{messages.sent.page.current}}/{{messages.sent.page.last}}</div>
+            </div>
          </div>
     </ng-container>
 </ng-template>

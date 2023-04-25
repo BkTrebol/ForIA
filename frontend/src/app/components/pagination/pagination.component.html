@@ -1,7 +1,7 @@
 <div class="pagination {{theme}}" *ngIf="last_page > 1">
   <ng-container>
-    <a (click)="onChangePage(1)" [class]="{'active-alt': current_page == 1}">&laquo;</a>
-    <a (click)="onChangePage(current_page-1)" [class]="{'active-alt': current_page == 1}">&#8249;</a>
+    <a (click)="onChangePage(1)" [class]="{'active-alt': current_page == 1}">&lt;&lt;</a>
+    <a (click)="onChangePage(current_page-1)" [class]="{'active-alt': current_page == 1}">&lt;</a>
   </ng-container>
 
   <ng-container *ngIf="last_page < 6; else pagination">
