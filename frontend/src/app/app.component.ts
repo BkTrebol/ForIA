@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     this.unsubscribe$ = new Subject();
     this.userIsAuthenticated = null;
-    this.loading = false;
+    this.loading = true;
     this._authService.autoAuthUser();
     this.theme = themeService.getTheme();
   }
@@ -49,6 +49,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this._authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {
         this.userIsAuthenticated = r;
+
+      this._authService.loading$.subscribe({
+        complete : () => {this.loading = false;console.log('acabao illo')},
+      })
       },
       // complete: () => {
       //   setTimeout(() => {
@@ -58,28 +62,28 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     // Loading Page
-    this.router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
-      if (
-        event instanceof GuardsCheckStart ||
-        event instanceof NavigationStart ||
-        event instanceof ResolveStart ||
-        event instanceof ChildActivationStart ||
-        event instanceof ActivationStart
-      ) {
-        this.loading = true;
-      }
-      if (
-        event instanceof GuardsCheckEnd ||
-        event instanceof NavigationEnd ||
-        event instanceof NavigationCancel ||
-        event instanceof NavigationError ||
-        event instanceof ResolveEnd ||
-        event instanceof ChildActivationEnd ||
-        event instanceof ActivationEnd
-      ) {
-        this.loading = false;
-      }
-    });
+    // this.router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
+    //   if (
+    //     event instanceof GuardsCheckStart ||
+    //     event instanceof NavigationStart ||
+    //     event instanceof ResolveStart ||
+    //     event instanceof ChildActivationStart ||
+    //     event instanceof ActivationStart
+    //   ) {
+    //     this.loading = true;
+    //   }
+    //   if (
+    //     event instanceof GuardsCheckEnd ||
+    //     event instanceof NavigationEnd ||
+    //     event instanceof NavigationCancel ||
+    //     event instanceof NavigationError ||
+    //     event instanceof ResolveEnd ||
+    //     event instanceof ChildActivationEnd ||
+    //     event instanceof ActivationEnd
+    //   ) {
+    //     this.loading = false;
+    //   }
+    // });
 
     // Set Theme
     this.themeService.theme
