@@ -7,6 +7,7 @@ import { GuestGuard } from './helpers/guards/canLoad/guest.guard';
 import { AuthGuard as AuthChildGuard } from './helpers/guards/canActivateChild/auth.guard';
 import { GuestGuard as GuestChildGuard } from './helpers/guards/canActivateChild/guest.guard';
 import { CheckGuard } from './helpers/guards/canLoad/check.guard';
+
 import { ErrorComponent } from './components/error/error.component';
 
 // Lazy loading

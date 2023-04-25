@@ -1,41 +1,61 @@
+// VARIABLES
+@import "../../styles/vars";
+
 .pagination {
+  &.dark {
+    a {
+      color: $color-white-clear;
+      border: 1px solid $color-white-clear;
+      &:hover:not(.active) {
+        background-color: $color-black-grey;
+      }
+      &.active {
+        color: $color-white-clear;
+        background-color: $color-gradient4;
+        border: 1px solid $color-gradient4;
+      }
+      &.active-alt {
+        color: $color-black-clear;
+        border: 1px solid $color-black-clear;
+      }
+    }
+  }
+  &.light {
+    a {
+      color: $color-black-clear;
+      border: 1px solid $color-grey-dark;
+      &:hover:not(.active) {
+        background-color: $color-grey-clear;
+      }
+      &.active {
+        color: $color-white-clear;
+        background-color: $color-gradient6;
+        border: 1px solid $color-gradient6;
+      }
+      &.active-alt {
+        color: $color-grey-clear;
+        border: 1px solid $color-grey-clear;
+      }
+    }
+  }
   display: inline-block;
-}
-
-.pagination a {
-  cursor: pointer;
-  color: white;
-  float: left;
-  padding: 8px 16px;
-  text-decoration: none;
-  border: 1px solid #ddd;
-}
-
-.pagination a.active {
-  cursor: default;
-  pointer-events: none;
-  background-color: #4caf50;
-  color: white;
-  border: 1px solid #4caf50;
-}
-
-.pagination a.active-alt {
-  cursor: default;
-  pointer-events: none;
-  color: #5c5c5c;
-  border: 1px solid #5c5c5c;
-}
-
-.pagination a:hover:not(.active) {
-  background-color: #ddd;
-}
-
-.pagination a:first-child {
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-}
-
-.pagination a:last-child {
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+  a {
+    cursor: pointer;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    &.active,
+    &.active-alt {
+      cursor: default;
+      pointer-events: none;
+    }
+    &:first-child {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+    &:last-child {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  }
 }

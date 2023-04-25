@@ -89,6 +89,23 @@
       }
     }
   }
+  @include mini(){
+    padding: 24px 8px;
+    .card {
+      width: 100%;
+      padding: 24px;
+      .card-user {
+        .card-header {
+          .title {
+            @include row(space-between, 16px);
+          }
+        }
+        .card-footer {
+          @include col(space-around, 24px);
+        }
+      }
+    }
+  }
 }
 
 .list-page {

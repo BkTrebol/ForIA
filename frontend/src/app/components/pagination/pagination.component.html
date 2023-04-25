@@ -1,58 +1,34 @@
-
-
-<div class="pagination" *ngIf="last_page != 1">
-  <ng-container >
-    <a (click)="onChangePage(1)" [class]="{'active-alt': current_page == 1}">&lt;&lt;</a>
-    <a (click)="onChangePage(current_page-1)" [class]="{'active-alt': current_page == 1}">&lt;</a>
+<div class="pagination {{theme}}" *ngIf="last_page > 1">
+  <ng-container>
+    <a (click)="onChangePage(1)" [class]="{'active-alt': current_page == 1}">&laquo;</a>
+    <a (click)="onChangePage(current_page-1)" [class]="{'active-alt': current_page == 1}">&#8249;</a>
   </ng-container>
 
-  <ng-container *ngIf="last_page < 6; else pagination3">
+  <ng-container *ngIf="last_page < 6; else pagination">
     <a (click)="onChangePage(i+1)" [class]="{'active': current_page == i+1}"
-    *ngFor="let item of [].constructor(last_page); let i = index">{{i+1}}</a>
+      *ngFor="let item of [].constructor(last_page); let i = index">{{i+1}}</a>
   </ng-container>
 
-  <ng-template #pagination2>
-    <a (click)="onChangePage(i+1)" [class]="{'active': current_page == i+1}"
-    *ngFor="let item of [].constructor(2); let i = index">{{i+1}}</a>
-    <a type="text" (keydown)="onKeyDown($event)" (focus)="onFocus($event)"
-    (blur)="onBlur($event)"
-     (keydown.enter)="$event.preventDefault(); onChangePage(+paginationLink.innerText)"
-     [contentEditable]="true" #paginationLink>{{current_page}}</a>
+  <ng-template #pagination>
+    <a (click)="onChangePage(1)" *ngIf="current_page == 3">1</a>
 
-    <a (click)="onChangePage(i+1)" [class]="{'active': current_page == i+1}"
-    *ngFor="let i of [last_page-2,last_page-1]">{{i+1}}</a>
-  </ng-template>
-  
-  <ng-template #pagination3>
-      <a (click)="onChangePage(1)"  *ngIf="current_page == 3">1</a>
+    <a type="text" (keydown)="onKeyDown($event)" (focus)="onFocus($event)" (blur)="onBlur($event)"
+      *ngIf="current_page>3" (keydown.enter)="$event.preventDefault(); onChangePage(+paginationLink.innerText,$event)"
+      [contentEditable]="true" #paginationLink>...</a>
 
-    <a type="text" (keydown)="onKeyDown($event)" (focus)="onFocus($event)"
-    (blur)="onBlur($event)"
-    *ngIf="current_page>3"
-     (keydown.enter)="$event.preventDefault(); onChangePage(+paginationLink.innerText,$event)"
-     [contentEditable]="true" #paginationLink>...</a>
+    <ng-container *ngFor="let i of [current_page-1,current_page,current_page+1]">
+      <a (click)="onChangePage(i)" [class]="{'active': current_page == i}" *ngIf="i != 0 && i != last_page+1">{{i}}</a>
+    </ng-container>
 
-     <!-- <a (click)="onChangePage(1)" *ngIf="current_page == 3" >1
-     </a> -->
-     <ng-container *ngFor="let i of [current_page-1,current_page,current_page+1]">
-      <a (click)="onChangePage(i)" [class]="{'active': current_page == i}" 
-      *ngIf="i != 0 && i != last_page+1"
-      >{{i}}</a>
-     </ng-container>
-
-
-     <a type="text" (keydown)="onKeyDown($event)" (focus)="onFocus($event)"
-     (blur)="onBlur($event)" *ngIf="current_page<= last_page-3"
+    <a type="text" (keydown)="onKeyDown($event)" (focus)="onFocus($event)" (blur)="onBlur($event)"
+      *ngIf="current_page<= last_page-3"
       (keydown.enter)="$event.preventDefault(); onChangePage(+paginationLink.innerText,$event);"
       [contentEditable]="true" #paginationLink>...</a>
-    
-    
-      <a (click)="onChangePage(last_page)"  *ngIf="current_page == last_page-2">{{last_page}}</a>
-     <!-- <a (click)="onChangePage(i+1)" [class]="{'active': current_page == i+1}"
-    *ngFor="let i of [last_page-2,last_page-1]">{{i+1}}</a> -->
+
+    <a (click)="onChangePage(last_page)" *ngIf="current_page == last_page-2">{{last_page}}</a>
   </ng-template>
 
-  <ng-container >
+  <ng-container>
     <a (click)="onChangePage(current_page+1)" [class]="{'active-alt': current_page == last_page}">&gt;</a>
     <a (click)="onChangePage(last_page)" [class]="{'active-alt': current_page == last_page}">&gt;&gt;</a>
   </ng-container>
