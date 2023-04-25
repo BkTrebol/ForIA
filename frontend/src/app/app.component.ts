@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private _authService: AuthService,
     private router: Router,
     private themeService: ThemeService,
-    private cdRef:ChangeDetectorRef
+    private cdRef: ChangeDetectorRef
   ) {
     this.unsubscribe$ = new Subject();
     this.userIsAuthenticated = null;
@@ -50,20 +50,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this._authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {
         this.userIsAuthenticated = r;
-
-      this._authService.loading$.subscribe({
-        complete : () => {
-          this.loading = false;
-          this.cdRef.detectChanges();
-          // setTimeout(() => this.loading = false);
+        this._authService.loading$.subscribe({
+          complete: () => {
+            this.loading = false;
+            this.cdRef.detectChanges();
+            // setTimeout(() => this.loading = false);
           },
-      })
+        });
       },
-      // complete: () => {
-      //   setTimeout(() => {
-      //     this.loading = false;
-      //   }, 100);
-      // },
     });
 
     // Loading Page
