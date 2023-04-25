@@ -22,7 +22,7 @@ class TopicController extends Controller
         $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
         $isAdmin = count(collect($roles)->intersect(config('app.adminRoles'))) > 0;
         $isMod = in_array($topic->category->can_mod, $roles);
-        
+
         if (!in_array($topic->category->can_view, $roles) || !in_array($topic->can_view, $roles)) {
             return response()->json(['message' => "Unauthorized"], 403);
         }
@@ -36,7 +36,7 @@ class TopicController extends Controller
             } else if ($requestedPage <= 0) {
                 $posts = $topic->load('user:id,nick,avatar,rol,created_at')->posts()->paginate(config('app.pagination.topic'),'*','page',1);
             }
- 
+
         $poll = $topic->poll()->with(['options'])->first();
         if ($poll) {
             $poll['can_vote'] = !$user ? false :
@@ -47,7 +47,7 @@ class TopicController extends Controller
         $response = [
             'can_edit' => $isMod || $isAdmin || ($user && $topic->user_id == $user->id),
             'can_post' => in_array($topic->can_post, $roles),
-            'can_poll' => $poll == null && ($user->id == $topic->user_id || $isAdmin || $isMod),
+            'can_poll' => $poll == null && (($user && $user->id == $topic->user_id) || $isAdmin || $isMod),
             'category' => $topic->category->only('id', 'title'),
 
             'posts' => $posts->map(function ($post) {

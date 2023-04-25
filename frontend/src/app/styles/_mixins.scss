@@ -71,24 +71,34 @@
 }
 
 @mixin btn1($color) {
-  border: 1px solid $color;
+  border: none;
   border-radius: 5px;
-  padding: 10px;
+  padding: 8px 16px;
   cursor: pointer;
   font-size: $size-btn;
   font-family: $font-btn;
   font-weight: weight(bold);
-  // color: $color;
-  // background-color: $color-white-clear;
   color: $color-white-clear;
   background-color: $color;
   transition: 0.5s;
   &:hover {
-    // color: $color-white-clear;
-    // background-color: $color;
     box-shadow: rgba(240, 46, 170, 0.4) 5px 5px,
       rgba(240, 46, 170, 0.3) 10px 10px, rgba(240, 46, 170, 0.2) 15px 15px,
       rgba(240, 46, 170, 0.1) 20px 20px, rgba(240, 46, 170, 0.05) 25px 25px;
+  }
+  &:active {
+    transform: translateY(4px);
+    box-shadow: rgba(240, 46, 170, 0.4) 1px 1px,
+      rgba(240, 46, 170, 0.3) 5px 5px, rgba(240, 46, 170, 0.2) 10px 10px,
+      rgba(240, 46, 170, 0.1) 15px 15px, rgba(240, 46, 170, 0.05) 20px 20px;
+  }
+  &:disabled {
+    color: $color-white-grey;
+    background-color: $color-dark-loading;
+    cursor: not-allowed;
+    &:hover {
+      box-shadow: none;
+    }
   }
 }
 
@@ -141,7 +151,7 @@
   gap: $gap;
 }
 
-@mixin sha($x: -15px, $y:-10px) {
+@mixin sha($x: -15px, $y: -10px) {
   -webkit-filter: drop-shadow($x $y 1px rgba(0, 0, 0, 0.2));
   filter: drop-shadow($x $y 1px rgba(0, 0, 0, 0.2));
 }

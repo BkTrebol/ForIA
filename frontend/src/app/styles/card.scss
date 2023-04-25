@@ -187,6 +187,9 @@
           border: 2px solid $color-black;
           .category {
             border-right: 2px solid $color-black;
+            &:hover {
+              background-color: $color-grey-dark;
+            }
           }
           .last-post {
             .text {
@@ -236,14 +239,29 @@
             background-color: $color-black-grey;
           }
           .editor {
-            .angular-editor-toolbar {
-              background-color: $color-gradient2;
-              .angular-editor-button {
-                background-color: $color-gradient4;
+            .angular-editor {
+              .angular-editor-toolbar {
+                background-color: $color-gradient2;
+                .angular-editor-button {
+                  background-color: transparent;
+                  color: $color-black;
+                  border: none;
+                  &:hover {
+                    outline: 1px solid $color-black;
+                  }
+                  &:active {
+                    background-color: $color-gradient1;
+                  }
+                  &.active {
+                    background-color: $color-gradient1;
+                  }
+                }
               }
             }
-            color: $color-white;
-            background-color: $color-black-grey;
+            .angular-editor-wrapper {
+              color: $color-white;
+              background-color: $color-black-grey;
+            }
           }
         }
       }
@@ -370,6 +388,9 @@
           border: 2px solid $color-white;
           .category {
             border-right: 2px solid $color-white;
+            &:hover {
+              background-color: $color-white-grey;
+            }
           }
           .last-post {
             .text {
@@ -404,11 +425,7 @@
                 $color-gradient6
               );
               &.user-link {
-                @include a-link(
-                  $color-shades2,
-                  $color-shades1,
-                  $color-shades3
-                );
+                @include a-link($color-shades2, $color-shades1, $color-shades3);
               }
             }
           }
@@ -715,7 +732,7 @@
             cursor: pointer;
             accent-color: $color-tertiary;
           }
-          &.m{
+          &.m {
             margin-top: 16px;
           }
         }
@@ -727,10 +744,10 @@
           .user-date {
             @include row(space-between, 16px);
           }
-          &.m{
+          &.m {
             @include col(space-between, 0px);
             margin-bottom: -16px;
-            .user-date{
+            .user-date {
               margin-top: -4px;
             }
           }
@@ -754,6 +771,19 @@
         }
         .editor {
           width: 100%;
+          word-break: break-all;
+        }
+        .editor-title {
+          width: 30%;
+          padding: 4px 8px;
+          margin: 8px 0;
+          font-family: $font-text;
+          font-size: $size-text;
+        }
+        .btn-s {
+          margin: 16px auto;
+          @include btn1($color-shades1);
+          width: fit-content;
         }
         .error {
           font-size: $size-text;

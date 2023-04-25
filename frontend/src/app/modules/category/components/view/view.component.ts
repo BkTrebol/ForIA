@@ -44,21 +44,18 @@ export class ViewComponent implements OnInit, OnDestroy {
         total: 1,
         current: 1,
         last: 1,
-      }
+      },
     };
   }
 
   ngOnInit() {
     this.route.params
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe(
-      (params: Params) => {
-        this.loading=true;
-        this.getData(
-        params['id'],
-        '1')
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((params: Params) => {
+        this.loading = true;
+        this.getData(params['id'], '1');
       });
-      
+
     this.getData(
       this.route.snapshot.paramMap.get('id') ?? '',
       this.route.snapshot.queryParams['page'] ?? '1'
@@ -79,7 +76,10 @@ export class ViewComponent implements OnInit, OnDestroy {
         next: (res) => {
           this.listTopics = res;
           this.loading = false;
-          if (parseInt(this.route.snapshot.queryParams['page'] ?? '1') != res.page.current) {
+          if (
+            parseInt(this.route.snapshot.queryParams['page'] ?? '1') !=
+            res.page.current
+          ) {
             this.router.navigate([], {
               relativeTo: this.route,
               queryParams: { page: this.listTopics.page.current },

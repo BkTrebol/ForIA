@@ -196,8 +196,10 @@ No changes
   .ng-select{
     width: 180px;
     font-family: $font-text;
+    list-style: none;
   }
   form{
+    display: none;
     width: 200px;
     input{
       width: 100%;

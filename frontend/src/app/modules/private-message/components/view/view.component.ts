@@ -4,6 +4,7 @@ import {
   OnDestroy,
   OnInit,
   SimpleChanges,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   PrivateMessage,
@@ -20,6 +21,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
   selector: 'app-view',
   templateUrl: './view.component.html',
   styleUrls: ['./view.component.scss', '../../../../styles/card.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ViewComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;

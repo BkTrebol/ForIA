@@ -7,7 +7,7 @@
 .post {
   margin-bottom: 16px;
   a {
-    color: rgb(102, 128, 159);
+    @include a-link($color-gradient4, $color-gradient5, $color-gradient6);
     text-decoration: none;
   }
   padding: 16px;
@@ -18,11 +18,12 @@
     flex: 1;
     .content {
       margin-top: 8px;
+      word-break: break-all;
     }
   }
   .avatar {
     @include col(space-between, 8px);
-    padding: 0 0px 0px 16px;
+    padding: 0 0 0 16px;
     .text{
         width: 100%;
         @include col(space-between, 8px);
