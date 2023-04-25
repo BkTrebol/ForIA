@@ -68,8 +68,6 @@ class PrivateMessageController extends Controller
                     "total" => $sent->total(),
                 ]
             ]
-
-
         ]);
     }
     function getMessagesSent()

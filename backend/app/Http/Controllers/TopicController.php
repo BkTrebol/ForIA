@@ -160,7 +160,7 @@ class TopicController extends Controller
         }
         // Checks if the user is trying to change topic category, and only allows it if it has can_mod role of the category,
         if ($topic->category_id != $request->category_id) {
-            if (!in_array($topic->category->can_mod, $user->roles)) {
+            if (!$isAdmin && !$isMod) {
                 return response()->json([
                     'message' => 'Unauthorized',
                 ], 403);

@@ -20,30 +20,48 @@ class CategoryController extends Controller
         // Gets the categories that the user can view.
         $user = Auth::user();
         $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
+
         $categories = Category::get()->whereIn('can_view', $roles)->groupBy('section')->map(
             function ($section, $sectionName) use ($roles) {
-                $abc['categories'] = $section->map(function ($category) use ($roles) {
-                    $post = $category->lastPost;
+                $sectionTemp['name'] = $sectionName;
+                $sectionTemp['categories'] = $section->map(function ($category) use ($roles) {
+                    $lastPostTemp = $category->lastPost($roles)->first() ?? $category->lastTopic($roles)->first();
+                    $lastPost = !$lastPostTemp ? null : [
+                        'created_at' => $lastPostTemp->created_at,
+                        'topic' => [
+                            'id' => $lastPostTemp->topic->id ?? $lastPostTemp->id,
+                            'title' => $lastPostTemp->topic->title ?? $lastPostTemp->title,
+                        ],
+                        'user' => [
+                            'id' => $lastPostTemp->user->id,
+                            'nick' => $lastPostTemp->user->nick,
+                            'avatar' => $lastPostTemp->user->avatar,
+                        ]
+                    ];
+                    $category['lastPost'] = $lastPost;
+                    $category['posts'] = $category->posts->count();
                     $category['topics'] = $category->topics->count();
-                    if ($post) {
-                        $category['posts'] = $category->posts->count();
-                        $category['lastPost'] = [
-                            'created_at' => $post->created_at,
-                            'topic' => [
-                                'id' => $post->topic->id,
-                                'title' => $post->topic->title,
-                            ],
-                            'user' => [
-                                'id' => $post->user->id,
-                                'nick' => $post->user->nick,
-                                'avatar' => $post->user->avatar,
-                            ]
-                        ];
-                    }
+                    // $post = $category->lastPost;
+                    // $category['topics'] = $category->topics->count();
+                    // if ($post) {
+                    //     $category['posts'] = $category->posts->count();
+                    //     $category['lastPost'] = [
+                    //         'created_at' => $post->created_at,
+                    //         'topic' => [
+                    //             'id' => $post->topic->id,
+                    //             'title' => $post->topic->title,
+                    //         ],
+                    //         'user' => [
+                    //             'id' => $post->user->id,
+                    //             'nick' => $post->user->nick,
+                    //             'avatar' => $post->user->avatar,
+                    //         ]
+                    //     ];
+                    // }
                     return $category->only('id', 'title', 'lastPost', 'description', 'image', 'posts', 'topics');
                 });
-                $abc['name'] = $sectionName;
-                return $abc;
+                
+                return $sectionTemp;
             }
         )->values();
         return response()->json(
@@ -81,7 +99,7 @@ class CategoryController extends Controller
             'topics' => $topics->map(function ($topic) {
                 if ($topic->posts->count() > 0) {
                     $topic['last_post'] = $topic->last_post->load('user:avatar,nick,id')->only('user', 'created_at');
-                } else{
+                } else {
                     $topic['last_post'] = $topic->load('user:avatar,nick,id')->only('user', 'created_at');
                 }
                 $topic['last_page'] = ceil($topic->posts->count() / config('app.pagination.topic'));

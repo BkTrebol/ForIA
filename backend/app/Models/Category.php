@@ -33,7 +33,10 @@ class Category extends Model
         return $this->hasManyThrough(Post::class,Topic::class);
     }
 
-    public function lastPost(){
-        return $this->hasOneThrough(Post::class,Topic::class)->with('user')->orderBy('created_at','desc');
+    public function lastTopic($roles){
+        return $this->hasOne(Topic::class)->with('user')->whereIn('can_view',$roles)->orderBy('created_at','desc');
+    }
+    public function lastPost($roles){
+        return $this->hasOneThrough(Post::class,Topic::class)->with('user')->whereIn('topics.can_view',$roles)->orderBy('created_at','desc');
     }
 }
