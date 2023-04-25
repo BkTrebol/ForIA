@@ -22,7 +22,7 @@ const routes: Routes = [
     path: 'user',
     loadChildren: () =>
       import('./modules/user/user.module').then((m) => m.UserModule),
-    canLoad: [CheckGuard],
+    // canLoad: [CheckGuard],
     // canActivateChild: [AuthChildGuard],
   },
   {
@@ -38,13 +38,13 @@ const routes: Routes = [
     path: 'topic',
     loadChildren: () =>
       import('./modules/topic/topic.module').then((m) => m.TopicModule),
-    canLoad: [CheckGuard],
+    // canLoad: [CheckGuard],
   },
   {
     path: 'post',
     loadChildren: () =>
       import('./modules/post/post.module').then((m) => m.PostModule),
-    canLoad: [CheckGuard],
+    // canLoad: [CheckGuard],
   },
   {
     path: '',
@@ -52,7 +52,7 @@ const routes: Routes = [
       import('./modules/category/category.module').then(
         (m) => m.CategoryModule
       ),
-    canLoad: [CheckGuard],
+    // canLoad: [CheckGuard],
   },
   { path: 'error', component: ErrorComponent, title: 'ForIA - Error Page' },
   { path: '**', redirectTo: '/error', pathMatch: 'full' },

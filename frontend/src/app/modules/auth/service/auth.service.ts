@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, concatMap, map } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, concatMap, map, } from 'rxjs';
 import { Global } from 'src/app/environment/global';
 import { AuthData } from 'src/app/models/auth-data';
 import { Register } from 'src/app/models/register';
@@ -14,6 +14,7 @@ import { ResetPassword } from 'src/app/models/reset-password';
 export class AuthService {
   private baseURL: string;
   private apiAuthURL: string;
+  public loading$ : Subject<boolean>
 
   private userSubject: BehaviorSubject<any>;
   public authData: Observable<{
@@ -27,6 +28,12 @@ export class AuthService {
 
     this.userSubject = new BehaviorSubject(null);
     this.authData = this.userSubject.asObservable();
+
+    this.loading$ = new Subject(); //
+  }
+
+  completeLoad(){
+    this.loading$.complete();
   }
 
   // ADMIN
