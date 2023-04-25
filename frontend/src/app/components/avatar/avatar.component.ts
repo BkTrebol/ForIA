@@ -41,4 +41,5 @@ export class AvatarComponent implements OnInit {
       this.avatarUrl = this.defaultUrl + this.user.nick;
     }
   }
+
 }

@@ -47,12 +47,33 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
-      next: (r) => {
-        this.userIsAuthenticated = r;
-
-      this._authService.loading$.subscribe({
-        complete : () => {this.loading = false;console.log('acabao illo')},
-      })
+      next: (res) => {
+        console.log('res', res);
+        this.userIsAuthenticated = res;
+        this._authService.loading$.subscribe({
+          complete: () => {
+            this.loading = false;
+            console.log('acabao illo');
+          },
+        });
+      },
+      error: (err) => {
+        console.log('err', err);
+        this._authService.loading$.subscribe({
+          complete: () => {
+            this.loading = false;
+            console.log('acabao2 illo');
+          },
+        });
+      },
+      complete: () => {
+        console.log("Complete");
+        this._authService.loading$.subscribe({
+          complete: () => {
+            this.loading = false;
+            console.log('acabao2 illo');
+          },
+        });
       },
       // complete: () => {
       //   setTimeout(() => {
