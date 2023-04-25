@@ -62,9 +62,12 @@ export class ListComponent implements OnInit, OnDestroy {
       });
   }
 
-  deletePm(id: number) {}
+  deletePm(id: number) {
+    console.log('Message with id', id);
+  }
 
   getMessages() {
+    this.loading = true;
     this.privateMessageService
       .getMessages(
         this.messages.received.page.current,
@@ -73,9 +76,7 @@ export class ListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r) => {
-          console.log(r);
           this.messages = r;
-          this.loading = false;
           if (
             parseInt(this.route.snapshot.queryParams['rpage'] ?? '1') !=
             r.received.page.current
@@ -98,6 +99,9 @@ export class ListComponent implements OnInit, OnDestroy {
           }
         },
         error: (e) => console.log(e),
+        complete: () => {
+          this.loading = false;
+        },
       });
   }
   // getReceivedMessages(){
@@ -144,7 +148,7 @@ export class ListComponent implements OnInit, OnDestroy {
       queryParamsHandling: 'merge',
     });
   }
-  
+
   changeSentPage(page: number) {
     this.messages.sent.page.current = page;
     this.getMessages();

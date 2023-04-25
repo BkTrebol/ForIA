@@ -82,6 +82,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           '/auth/reset-password',
           '/user/edit',
           '/user/profile',
+          '/error'
         ].includes(this.router.url)
       ) {
         this.canSmall = false;

@@ -2,44 +2,42 @@
     <div class="list">
         <div class="list-header">
             <h1 *ngIf="loading">Private Message</h1>
-            <!-- <h1 *ngIf="!loading">{{privateMessage?.message?.title}}</h1> -->
+            <h1 *ngIf="!loading">{{privateMessageList?.message?.title}}</h1>
         </div>
         <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
-        <div *ngIf="!loading">
+        <div class="list-body" *ngIf="!loading">
             <button routerLink="/private-message/reply/{{pmId}}">Reply</button>
             <ng-container *ngIf="privateMessageList">
                 <div *ngIf="privateMessageList.message.hasOwnProperty('content')">
                     <ng-container *ngTemplateOutlet="message; context:{pm: privateMessageList.message}"></ng-container>
                     <h3>Historial de missatges</h3>
-                    <hr/><br>
+                    <hr /><br>
                 </div>
-
                 <div *ngFor="let pm of privateMessageList.thread">
                     <ng-container *ngTemplateOutlet="message; context: {pm: pm}"></ng-container>
                 </div>
-
                 <div class="editor-parent">
                     <div class="editor">
                         <input type="text" [(ngModel)]="reply.title">
-                        <angular-editor id="editor" [(ngModel)]="reply.content" [config]="editorConfig"></angular-editor>
+                        <angular-editor id="editor" [(ngModel)]="reply.content"
+                            [config]="editorConfig"></angular-editor>
                     </div>
-                    <input type="submit" [disabled]="reply.content.length == 0 || reply.content.length > 10_000" class="btn btn-primary"
-                        (click)="onSubmit()">
+                    <input type="submit" [disabled]="reply.content.length == 0 || reply.content.length > 10_000"
+                        class="btn btn-primary" (click)="onSubmit()">
                     <div *ngIf="error != ''" class="error">
                         <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}
                     </div>
                 </div>
-
                 <div class="list-footer">
-                   <app-pagination [current_page]="privateMessageList.page.current" [last_page]="privateMessageList.page.last"
-                   (changePage)="changePage($event)">
-
-                   </app-pagination>
+                    <app-pagination [current_page]="privateMessageList.page.current"
+                        [last_page]="privateMessageList.page.last" (changePage)="changePage($event)">
+                    </app-pagination>
+                    <div class="c">
+                        <div>Total History Messages: {{privateMessageList.page.total}}</div>
+                        <div>Page: {{privateMessageList.page.current}}/{{privateMessageList.page.last}}</div>
+                    </div>
                 </div>
             </ng-container>
-            <br>
-
-
         </div>
     </div>
 </div>
@@ -47,7 +45,7 @@
 <ng-template #message let-pm="pm">
     <div class="post">
         <div class="body">
-            <h5>{{pm.title}}</h5>
+            <h4>{{pm.title}}</h4>
             <p>From: <a routerLink="/user/profile/{{pm.sender.id}}">{{pm.sender.nick}}</a> on {{pm.created_at | date}}
             </p>
             <hr>
@@ -56,8 +54,10 @@
         </div>
         <div class="avatar">
             <app-avatar [user]="pm.sender"></app-avatar>
-            <a routerLink="/user/profile/{{pm.sender.id}}">{{pm.sender.nick}}</a>
-            <p>{{pm.sender.role}}</p>
+            <div class="text">
+                <a routerLink="/user/profile/{{pm.sender.id}}">{{pm.sender.nick}}</a>
+                <p>{{pm.sender.role}}</p>
+            </div>
         </div>
     </div>
 </ng-template>

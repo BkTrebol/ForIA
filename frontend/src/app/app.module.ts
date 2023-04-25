@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Includes
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ErrorComponent } from './components/error/error.component';
 
 // Interceptors
 import { HeadersInterceptor } from "./helpers/interceptors/headers.interceptor";
@@ -24,7 +25,6 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { SharedModule } from './modules/share.module';
 import { NgbModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsContainer } from './components/toast/toast.component';
-import { ErrorComponent } from './components/error/error.component';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent, ErrorComponent],
