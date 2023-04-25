@@ -62,18 +62,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userList$ = this._authService.getUserList();
 
-    this._authService.authData
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (r) => {
-          this.userIsAuthenticated = r;
-          if (this.userIsAuthenticated?.userData.id) {
-            this.user = this.userIsAuthenticated?.userData.id;
-          }
-        },
-
-      })
-      ;
+    this._authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
+      next: (r) => {
+        this.userIsAuthenticated = r;
+        if (this.userIsAuthenticated?.userData.id) {
+          this.user = this.userIsAuthenticated?.userData.id;
+        }
+      },
+    });
 
     // Function that change the nav height on scroll
     this.small();

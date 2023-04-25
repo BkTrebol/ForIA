@@ -110,7 +110,7 @@
 
 .list-page {
   @include center;
-  padding: 64px;
+  padding: 64px 0;
   // Dark theme
   &.dark {
     .list {
@@ -212,6 +212,10 @@
           }
         }
         .editor-parent {
+          .editor-user{
+            border: 2px solid $color-black;
+            background-color: $color-black-grey;
+          }
           .editor {
             .angular-editor-toolbar {
               background-color: $color-gradient2;
@@ -372,6 +376,10 @@
           }
         }
         .editor-parent {
+          .editor-user{
+            border: 2px solid $color-white;
+            background-color: $color-grey-clear;
+          }
           .editor {
             color: $color-black;
             background-color: $color-grey-clear;
@@ -426,21 +434,12 @@
     }
   }
   .list {
-    width: 1200px;
+    width: 1000px;
     padding: 32px 64px;
     font-family: $font-text;
     [ng-reflect-router-link] {
       cursor: pointer;
     }
-    // .user-card {
-    //   padding: 16px;
-    //   border-right: 2px solid $color-black;
-    //   @include col(space-between);
-    //   .text {
-    //     @include col(space-between);
-    //     word-break: break-all;
-    //   }
-    // }
     .list-header {
       padding-bottom: 16px;
       h1 {
@@ -471,17 +470,17 @@
       .option-btns {
         @include row(flex-end);
       }
-      .h1-title{
+      .h1-title {
         margin: 0;
       }
       .subt {
         margin: 0;
-        h2{
+        h2 {
           margin: 0;
         }
         @include row(space-between);
       }
-      .two-options{
+      .two-options {
         @include col(space-between, 8px);
       }
     }
@@ -630,18 +629,29 @@
             .post-header {
               padding: 16px 16px 0 16px;
               @include row(space-between);
+              p {
+                padding: 0;
+                margin: 0;
+              }
+              .post-date {
+                font-style: italic;
+              }
               .edit-buttons {
                 @include row(space-between, 16px);
               }
             }
             .content {
-              padding: 16px;
+              padding: 0 16px;
             }
           }
           .post-footer {
             display: flex;
             justify-content: flex-end;
             padding: 0 16px 16px 16px;
+            p {
+              padding: 0;
+              margin: 0;
+            }
           }
         }
       }
@@ -649,6 +659,21 @@
         display: grid;
         place-content: center;
         margin-bottom: 16px;
+        width: 100%;
+        .editor-user {
+          @include row(space-between);
+          .user-card {
+            padding: 16px;
+            @include col(flex-start, 16px);
+            .text {
+              @include col(space-between, 8px);
+              word-break: break-all;
+            }
+          }
+        }
+        .editor {
+          width: 100%;
+        }
         .error {
           font-size: $size-text;
           color: $color-tertiary;
@@ -674,7 +699,7 @@
   }
   // Responsive for tablet
   @include tablet() {
-    padding: 32px;
+    padding: 32px 0;
     .list {
       width: 800px;
       padding: 32px;
@@ -728,7 +753,7 @@
   }
   // Responsive for mobile
   @include mobile() {
-    padding: 24px;
+    padding: 24px 0;
     .list {
       width: 500px;
       padding: 24px;
@@ -766,7 +791,8 @@
             width: 100%;
             padding: 4px 8px;
             .text {
-              @include flex(row, center, flex-end, 12px);
+              width: 100%;
+              @include flex(row, center, space-around, 12px);
               .nom-data {
                 @include flex(row, center, flex-end, 12px);
                 h5.m {
@@ -816,7 +842,6 @@
             align-items: center;
             .text {
               justify-content: space-around;
-              width: 100%;
               .nom-data {
                 @include flex(column, flex-end, center, 4px);
                 h4.m {
