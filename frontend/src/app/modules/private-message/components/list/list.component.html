@@ -1,40 +1,80 @@
 <div class="list-page {{theme}}">
-    <div class="list">
+    <div class="list" *ngIf="loading">
         <div class="list-header">
             <h1>Private Messages</h1>
-            <div class="option-btns">
-                <button (click)="onShowReceived()">Received Messages</button>
-                <button (click)="onShowSent()">Sent Messages</button>
+            <div class="subt">
+                <a routerLink="new">Nuevo</a>
+                <div class="two-options">
+                    <button (click)="onShowReceived()">Received Messages</button>
+                    <button (click)="onShowSent()">Sent Messages</button>
+                </div>
             </div>
-            <a routerLink="new">Nuevo</a>
+        </div>
+        <div class="list-body">
+            <ng-container *ngIf="showReceived; else Loading">
+                <div class="message" *ngFor="let _ of [0,1,2,3]">
+                    <div class="mess">
+                        <span><app-loading height="19px" width="20px"></app-loading></span>
+                        <div class="message-body m">
+                            <a><app-loading height="19px" width="120px"></app-loading></a>
+                            <div class="user-date">
+                                <a class="user-link"><app-loading height="19px" width="80px"></app-loading></a>
+                                <app-loading height="19px" width="70px"></app-loading>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="message-checkbox m"><app-loading height="15px" width="15px"></app-loading></div>
+                </div>
+                <div class="list-footer">
+                    <app-loading height="35px" width="180px"></app-loading>
+                    <div class="c">
+                        <div><app-loading height="25px" width="170px"></app-loading></div>
+                        <div><app-loading height="25px" width="120px"></app-loading></div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="list" *ngIf="!loading">
+        <div class="list-header">
+            <h1>Private Messages</h1>
+            <div class="subt">
+                <a routerLink="new">Nuevo</a>
+                <div class="two-options">
+                    <button (click)="onShowReceived()">Received Messages</button>
+                    <button (click)="onShowSent()">Sent Messages</button>
+                </div>
+            </div>
         </div>
         <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
-        <div class="pm-list" *ngIf="!loading">
+        <div class="list-body">
             <ng-container *ngIf="showReceived; else sentList">
                 <ng-container *ngIf="messages.received">
                     <div class="message" *ngFor="let pm of messages.received.messages">
-                        <div style="display:flex;">
-                            <fa-icon [icon]="[pm.viewed ?'far' : 'fas', 'message']" ></fa-icon>
+                        <div class="mess">
+                            <fa-icon [icon]="[pm.viewed ?'far' : 'fas', 'message']"></fa-icon>
                             <div class="message-body">
-                                <div><a routerLink="{{pm.id}}">{{pm.title}}</a></div>
-                                <div><a class="user-link" routerLink="/user/profile/{{pm.sender?.id}}">{{pm.sender?.nick}}</a>
-                                    {{pm.created_at | date}}</div>
+                                <a routerLink="{{pm.id}}">{{pm.title}}</a>
+                                <div class="user-date">
+                                    <a class="user-link"
+                                        routerLink="/user/profile/{{pm.sender?.id}}">{{pm.sender?.nick}}</a>
+                                    {{pm.created_at | ago}}
+                                </div>
                             </div>
-
                         </div>
                         <div class="message-checkbox"><input type="checkbox" (click)="deletePm(pm.id)"></div>
                     </div>
-
-                <div class="list-footer">
-                    <app-pagination [current_page]="messages.received.page.current" [last_page]="messages.received.page.last" [ignoreParams]="true"
-                    (changePage)="changeReceivedPage($event)">
-
-                    </app-pagination>
-                    <div class="c">
-                        <div>Total Recived Messages: {{messages.received.page.total}}</div>
-                        <div>Page: {{messages.received.page.current}}/{{messages.received.page.last}}</div>
+                    <div class="list-footer">
+                        <app-pagination [current_page]="messages.received.page.current"
+                            [last_page]="messages.received.page.last" [ignoreParams]="true"
+                            (changePage)="changeReceivedPage($event)">
+                        </app-pagination>
+                        <div class="c">
+                            <div>Total Recived Messages: {{messages.received.page.total}}</div>
+                            <div>Page: {{messages.received.page.current}}/{{messages.received.page.last}}</div>
+                        </div>
                     </div>
-                 </div>
                 </ng-container>
             </ng-container>
 
@@ -42,27 +82,51 @@
     </div>
 </div>
 
-
-<ng-template class="pm-list" #sentList>
+<ng-template class="list-body" #sentList>
     <ng-container *ngIf="messages.sent">
         <div class="message" *ngFor="let pm of messages.sent.messages">
-            <div class="message-body">
-                <div><a routerLink="{{pm.id}}">{{pm.title}}</a></div>
-                <div><a class="user-link" routerLink="/user/profile/{{pm.receiver?.id}}">{{pm.receiver?.nick}}</a>
-                    {{pm.created_at | date}}</div>
+            <div class="mess">
+                <fa-icon [icon]="[pm.viewed ?'far' : 'fas', 'paper-plane']"></fa-icon>
+                <div class="message-body">
+                    <a routerLink="{{pm.id}}">{{pm.title}}</a>
+                    <div class="user-date"><a class="user-link"
+                            routerLink="/user/profile/{{pm.receiver?.id}}">{{pm.receiver?.nick}}</a>
+                        {{pm.created_at | ago}}</div>
+                </div>
             </div>
             <div class="message-checkbox"><input type="checkbox" (click)="deletePm(pm.id)"></div>
         </div>
-
         <div class="list-footer">
-            <app-pagination [current_page]="messages.sent.page.current" [last_page]="messages.sent.page.last" [ignoreParams]="true"
-            (changePage)="changeSentPage($event)">
-
+            <app-pagination [current_page]="messages.sent.page.current" [last_page]="messages.sent.page.last"
+                [ignoreParams]="true" (changePage)="changeSentPage($event)">
             </app-pagination>
             <div class="c">
                 <div>Total Sent Messages: {{messages.sent.page.total}}</div>
                 <div>Page: {{messages.sent.page.current}}/{{messages.sent.page.last}}</div>
             </div>
-         </div>
+        </div>
     </ng-container>
+</ng-template>
+
+<ng-template class="list-body" #Loading>
+    <div class="message" *ngFor="let _ of [0,1,2,3]">
+        <div class="mess">
+            <span><app-loading height="19px" width="20px"></app-loading></span>
+            <div class="message-body m">
+                <a><app-loading height="19px" width="120px"></app-loading></a>
+                <div class="user-date">
+                    <a class="user-link"><app-loading height="19px" width="80px"></app-loading></a>
+                    <app-loading height="19px" width="70px"></app-loading>
+                </div>
+            </div>
+        </div>
+        <div class="message-checkbox m"><app-loading height="15px" width="15px"></app-loading></div>
+    </div>
+    <div class="list-footer">
+        <app-loading height="35px" width="180px"></app-loading>
+        <div class="c">
+            <div><app-loading height="25px" width="170px"></app-loading></div>
+            <div><app-loading height="25px" width="120px"></app-loading></div>
+        </div>
+    </div>
 </ng-template>

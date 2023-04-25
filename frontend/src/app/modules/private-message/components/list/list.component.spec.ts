@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ListComponent } from './list.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
+import { SharedModule } from 'src/app/modules/share.module';
 
 describe('ListComponent', () => {
   let component: ListComponent;
@@ -14,6 +15,7 @@ describe('ListComponent', () => {
         HttpClientTestingModule,
         FontAwesomeTestingModule,
         RouterTestingModule,
+        SharedModule,
       ],
       declarations: [ListComponent],
     }).compileComponents();

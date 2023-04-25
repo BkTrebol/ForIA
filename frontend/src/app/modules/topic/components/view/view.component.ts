@@ -12,6 +12,9 @@ import {
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { ToastService } from 'src/app/helpers/services/toast.service';
+import { User } from 'src/app/models/user';
+import { UserPreferences } from 'src/app/models/user-preferences';
+import { AuthService } from 'src/app/modules/auth/service/auth.service';
 
 @Component({
   selector: 'app-view',
@@ -30,20 +33,19 @@ export class ViewComponent implements OnInit, OnDestroy {
   public vote: number | null;
   public showResults: boolean;
   public pollResults?: Poll;
-  public validationMessagesPost: {
-    content: {
-      required: string;
-      maxlength: string;
-    };
-  };
   public theme: string;
+  public userLogged: {
+    userData: User;
+    userPreferences: UserPreferences;
+  } | null;
 
   constructor(
     private topicService: TopicService,
     private route: ActivatedRoute,
     private router: Router,
     private themeService: ThemeService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private authService: AuthService
   ) {
     this.showResults = false;
     this.vote = null;
@@ -93,14 +95,8 @@ export class ViewComponent implements OnInit, OnDestroy {
       minHeight: '200px',
       editable: true,
     };
-    this.validationMessagesPost = {
-      //TODo no fa falta
-      content: {
-        required: "The Post can't be empty",
-        maxlength: 'Max Length is 255',
-      },
-    };
     this.theme = themeService.getTheme();
+    this.userLogged = null;
   }
 
   ngOnInit() {
@@ -117,6 +113,12 @@ export class ViewComponent implements OnInit, OnDestroy {
       this.route.snapshot.paramMap.get('id') ?? '',
       this.route.snapshot.queryParams['page'] ?? '1'
     );
+
+    this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
+      next: (r) => {
+        this.userLogged = r;
+      },
+    });
 
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
@@ -277,16 +279,17 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   onVote() {
     if (this.vote) {
-      this.topicService.vote(this.vote)
+      this.topicService
+        .vote(this.vote)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
-          next: r => {
+          next: (r) => {
             this.showResults = true;
             this.listPosts.poll.can_vote = false;
             this.getVotes();
           },
-          error: e => console.log(e)
-        })
+          error: (e) => console.log(e),
+        });
     }
   }
 

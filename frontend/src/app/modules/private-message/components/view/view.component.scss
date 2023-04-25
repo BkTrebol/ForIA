@@ -1,58 +1,32 @@
+// VARIABLES
+@import "../../../../styles/vars";
 
+// MIXIONS
+@import "../../../../styles/mixins";
 
-.post{
-    margin-bottom: 1rem;
-    a{
-        color:rgb(102, 128, 159);
-        text-decoration: none;
-    }
-    padding: 1rem;
-    border: 2px solid black;
-    display:flex;
-    width:100%;
-    div{
-        display:inline-block;
-    }
-    .body{
-        width:85%;
-        .content{
-            margin-top:2rem;
-        }
-    }
-    .avatar{
-        display:flex;
-        flex-direction: column;
-        align-items: center;
-        width:150px;
-        img{
-            width:120px;
-            height:120px;
-        }
-    }
-}
-
-.pagination a {
-    color: white;
-    float: left;
-    padding: 8px 16px;
+.post {
+  margin-bottom: 16px;
+  a {
+    color: rgb(102, 128, 159);
     text-decoration: none;
-    border: 1px solid #ddd;
   }
-  
-  .pagination a.active {
-    background-color: #4CAF50;
-    color: white;
-    border: 1px solid #4CAF50;
+  padding: 16px;
+  border: 2px solid $color-black;
+  display: flex;
+  width: 100%;
+  .body {
+    flex: 1;
+    .content {
+      margin-top: 8px;
+    }
   }
-  
-  .pagination a:hover:not(.active) {background-color: #ddd;}
-  
-  .pagination a:first-child {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+  .avatar {
+    @include col(space-between, 8px);
+    padding: 0 0px 0px 16px;
+    .text{
+        width: 100%;
+        @include col(space-between, 8px);
+        align-items: center;
+    }
   }
-  
-  .pagination a:last-child {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-  }
+}

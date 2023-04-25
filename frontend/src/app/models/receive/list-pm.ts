@@ -9,7 +9,7 @@ export interface ListPm {
 interface ShortPrivateMessage {
   id: number;
   title: string;
-  created_at: Date;
+  created_at: string;
   viewed?: boolean;
   receiver?: { id: number; nick: string };
   sender?: { id: number; nick: string };

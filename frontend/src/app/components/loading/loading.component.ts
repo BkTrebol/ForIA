@@ -1,9 +1,15 @@
-import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 
 function random(min: number, max: number) {
-   return  Math.floor(Math.random() * max) + min;
+  return Math.floor(Math.random() * max) + min;
 }
 
 @Component({
@@ -15,6 +21,7 @@ export class LoadingComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public theme: string;
   public innerWidth: any;
+  public original: boolean;
   @Input('type') type: string;
   @Input('height') height: string;
   @Input('width') width: string;
@@ -27,6 +34,7 @@ export class LoadingComponent implements OnInit, OnDestroy {
     this.height = '100px';
     this.width = '100px';
     this.appa = 'line';
+    this.original = false;
   }
 
   ngOnInit(): void {
@@ -37,6 +45,9 @@ export class LoadingComponent implements OnInit, OnDestroy {
       });
     this.innerWidth = window.innerWidth;
     if (this.appa === 'circle') {
+      if (this.width == '100px') {
+        this.original = true;
+      }
       this.changeCircleSize();
     }
   }
@@ -57,8 +68,13 @@ export class LoadingComponent implements OnInit, OnDestroy {
       this.height = '65px';
       this.width = '65px';
     } else {
-      this.height = '75px';
-      this.width = '75px';
+      if (this.original) {
+        this.height = '100px';
+        this.width = '100px';
+      } else {
+        this.height = '75px';
+        this.width = '75px';
+      }
     }
   }
 

@@ -51,7 +51,8 @@
 
     <div class="list" *ngIf="!loading">
         <div class="list-header">
-            <h1 class="h1-title" routerLink="/category/{{listPosts.category.id}}">{{listPosts.category.title | capitalize}}</h1>
+            <h1 class="h1-title" routerLink="/category/{{listPosts.category.id}}">{{listPosts.category.title |
+                capitalize}}</h1>
             <div class="subt">
                 <h2>{{listPosts.topic.title | capitalize}}</h2>
                 <div class="two-options">
@@ -84,9 +85,6 @@
 
             Finishes: {{listPosts.poll.finish_date | date }}
         </div>
-
-
-
         <div class="list-body">
             <div *ngIf="listPosts.topic.user" class="posts">
                 <div class="user-card">
@@ -99,7 +97,7 @@
                 <div class="post-main">
                     <div class="post-body">
                         <div class="post-header">
-                            <p>{{listPosts.topic.created_at | date}}</p>
+                            <p class="post-date">{{listPosts.topic.created_at | date}}</p>
                             <div *ngIf="listPosts.can_edit" class="edit-buttons">
                                 <button type="button">Edit</button>
                                 <button type="button">Delete</button>
@@ -123,7 +121,7 @@
                 <div class="post-main">
                     <div class="post-body">
                         <div class="post-header">
-                            <p>{{post.created_at | date}}</p>
+                            <p class="post-date">{{post.created_at | date}}</p>
                             <div *ngIf="post.can_edit" class="edit-buttons">
                                 <button type="button">Edit</button>
                                 <button type="button" (click)="deletePost(post.id)">Delete</button>
@@ -136,9 +134,18 @@
                     </div>
                 </div>
             </div>
-            <div class="editor-parent" *ngIf="listPosts.can_post">
-                <div class="editor">
-                    <angular-editor id="editor" [(ngModel)]="content" [config]="editorConfig"></angular-editor>
+            <div class="editor-parent" *ngIf="listPosts.can_post && userLogged">
+                <div class="editor-user">
+                    <div class="user-card">
+                        <app-avatar [user]="userLogged.userData"></app-avatar>
+                        <div class="text">
+                            <a routerLink="/user/profile/{{userLogged.userData.id}}">{{userLogged.userData.nick}}</a>
+                            <small>{{userLogged.userData.rol}}</small>
+                        </div>
+                    </div>
+                    <div class="editor">
+                        <angular-editor id="editor" [(ngModel)]="content" [config]="editorConfig"></angular-editor>
+                    </div>
                 </div>
                 <input type="submit" [disabled]="content.length == 0 || content.length > 10_000" class="btn btn-primary"
                     (click)="onSubmit()">

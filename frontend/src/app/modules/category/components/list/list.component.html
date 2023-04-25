@@ -2,7 +2,7 @@
     <div class="list" *ngIf="loading">
         <div class="list-header">
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
-            <p>A forum about <b>IA</b></p>
+            <p><fa-icon [icon]="['fas', 'code']"></fa-icon> A forum about <b>IA</b></p>
             <div class="option-btns">
                 <button type="button" (click)="toogleSections()">{{allSections ? 'Revel Sections':
                     'Ocult Sections'}}</button>
@@ -43,14 +43,14 @@
             </ul>
         </div>
         <div class="list-footer">
-            <app-loading height="30px" width="100px"></app-loading>
+            <app-loading height="30px" width="120px"></app-loading>
         </div>
     </div>
 
     <div class="list" *ngIf="!loading">
         <div class="list-header">
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
-            <p>A forum about <b>IA</b></p>
+            <p><fa-icon [icon]="['fas', 'code']"></fa-icon> A forum about <b>IA</b></p>
             <div class="option-btns">
                 <button type="button" (click)="toogleSections()">{{allSections ? 'Revel Sections':
                     'Ocult Sections'}}</button>

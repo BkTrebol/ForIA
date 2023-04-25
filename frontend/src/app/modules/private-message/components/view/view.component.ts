@@ -31,6 +31,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   public editorConfig: AngularEditorConfig;
   public reply: newPrivateMessage;
   public error: string;
+
   constructor(
     private themeService: ThemeService,
     private privateMessageService: PrivateMessageService,

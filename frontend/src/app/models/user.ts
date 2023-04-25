@@ -6,6 +6,7 @@ export interface User {
   birthday: string;
   avatar: string;
   roles: Array<string>;
+  rol: string;
   created_at: string;
   updated_at: string;
   isAdmin: boolean;

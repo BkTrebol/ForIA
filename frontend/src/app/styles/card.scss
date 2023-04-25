@@ -110,7 +110,7 @@
 
 .list-page {
   @include center;
-  padding: 64px;
+  padding: 64px 0;
   // Dark theme
   &.dark {
     .list {
@@ -211,7 +211,30 @@
             border-top: 1px solid $color-primary;
           }
         }
+        .message {
+          border: 2px solid $color-black;
+          .message-body {
+            a {
+              @include a-link(
+                $color-gradient4,
+                $color-gradient5,
+                $color-gradient6
+              );
+              &.user-link {
+                @include a-link(
+                  $color-gradient1,
+                  $color-gradient2,
+                  $color-gradient3
+                );
+              }
+            }
+          }
+        }
         .editor-parent {
+          .editor-user {
+            border: 2px solid $color-black;
+            background-color: $color-black-grey;
+          }
           .editor {
             .angular-editor-toolbar {
               background-color: $color-gradient2;
@@ -371,7 +394,30 @@
             border-top: 1px solid $color-quart;
           }
         }
+        .message {
+          border: 2px solid $color-white;
+          .message-body {
+            a {
+              @include a-link(
+                $color-gradient6,
+                $color-gradient5,
+                $color-gradient6
+              );
+              &.user-link {
+                @include a-link(
+                  $color-shades2,
+                  $color-shades1,
+                  $color-shades3
+                );
+              }
+            }
+          }
+        }
         .editor-parent {
+          .editor-user {
+            border: 2px solid $color-white;
+            background-color: $color-grey-clear;
+          }
           .editor {
             color: $color-black;
             background-color: $color-grey-clear;
@@ -426,21 +472,12 @@
     }
   }
   .list {
-    width: 1200px;
+    width: 1000px;
     padding: 32px 64px;
     font-family: $font-text;
     [ng-reflect-router-link] {
       cursor: pointer;
     }
-    // .user-card {
-    //   padding: 16px;
-    //   border-right: 2px solid $color-black;
-    //   @include col(space-between);
-    //   .text {
-    //     @include col(space-between);
-    //     word-break: break-all;
-    //   }
-    // }
     .list-header {
       padding-bottom: 16px;
       h1 {
@@ -471,17 +508,17 @@
       .option-btns {
         @include row(flex-end);
       }
-      .h1-title{
+      .h1-title {
         margin: 0;
       }
       .subt {
         margin: 0;
-        h2{
+        h2 {
           margin: 0;
         }
         @include row(space-between);
       }
-      .two-options{
+      .two-options {
         @include col(space-between, 8px);
       }
     }
@@ -630,18 +667,72 @@
             .post-header {
               padding: 16px 16px 0 16px;
               @include row(space-between);
+              p {
+                padding: 0;
+                margin: 0;
+              }
+              .post-date {
+                font-style: italic;
+              }
               .edit-buttons {
                 @include row(space-between, 16px);
               }
             }
             .content {
-              padding: 16px;
+              padding: 0 16px;
             }
           }
           .post-footer {
             display: flex;
             justify-content: flex-end;
             padding: 0 16px 16px 16px;
+            p {
+              padding: 0;
+              margin: 0;
+            }
+          }
+        }
+      }
+      .message {
+        @include row(space-between);
+        padding: 12px 16px;
+        margin-bottom: -2px;
+        .mess {
+          display: flex;
+          fa-icon {
+            margin-top: 2px;
+            padding: 0 12px 0 0;
+          }
+          span {
+            margin-top: 1px;
+            padding: 0 12px 0 0;
+          }
+        }
+        .message-checkbox {
+          transform: scale(1.3);
+          cursor: pointer;
+          input {
+            cursor: pointer;
+            accent-color: $color-tertiary;
+          }
+          &.m{
+            margin-top: 16px;
+          }
+        }
+        .message-body {
+          @include col(space-between, 4px);
+          a {
+            text-decoration: none;
+          }
+          .user-date {
+            @include row(space-between, 16px);
+          }
+          &.m{
+            @include col(space-between, 0px);
+            margin-bottom: -16px;
+            .user-date{
+              margin-top: -4px;
+            }
           }
         }
       }
@@ -649,6 +740,21 @@
         display: grid;
         place-content: center;
         margin-bottom: 16px;
+        width: 100%;
+        .editor-user {
+          @include row(space-between);
+          .user-card {
+            padding: 16px;
+            @include col(flex-start, 16px);
+            .text {
+              @include col(space-between, 8px);
+              word-break: break-all;
+            }
+          }
+        }
+        .editor {
+          width: 100%;
+        }
         .error {
           font-size: $size-text;
           color: $color-tertiary;
@@ -674,7 +780,7 @@
   }
   // Responsive for tablet
   @include tablet() {
-    padding: 32px;
+    padding: 32px 0;
     .list {
       width: 800px;
       padding: 32px;
@@ -728,7 +834,7 @@
   }
   // Responsive for mobile
   @include mobile() {
-    padding: 24px;
+    padding: 24px 0;
     .list {
       width: 500px;
       padding: 24px;
@@ -766,7 +872,8 @@
             width: 100%;
             padding: 4px 8px;
             .text {
-              @include flex(row, center, flex-end, 12px);
+              width: 100%;
+              @include flex(row, center, space-around, 12px);
               .nom-data {
                 @include flex(row, center, flex-end, 12px);
                 h5.m {
@@ -816,7 +923,6 @@
             align-items: center;
             .text {
               justify-content: space-around;
-              width: 100%;
               .nom-data {
                 @include flex(column, flex-end, center, 4px);
                 h4.m {
