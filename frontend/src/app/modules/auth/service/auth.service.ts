@@ -84,15 +84,17 @@ export class AuthService {
         this.userSubject.next(r);
         return r;
       })
-    );
+      );
   }
 
   autoAuthUser() {
     this.checkLogin().subscribe({
       next: (r) => {
+        this.loading$.complete()
         return;
       },
       error: (e) => {
+        this.loading$.complete()
         return;
       },
     });

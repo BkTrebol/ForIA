@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import {
   ActivationEnd,
@@ -36,7 +36,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private _authService: AuthService,
     private router: Router,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private cdRef:ChangeDetectorRef
   ) {
     this.unsubscribe$ = new Subject();
     this.userIsAuthenticated = null;
@@ -47,33 +48,16 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
-      next: (res) => {
-        console.log('res', res);
-        this.userIsAuthenticated = res;
-        this._authService.loading$.subscribe({
-          complete: () => {
-            this.loading = false;
-            console.log('acabao illo');
+      next: (r) => {
+        this.userIsAuthenticated = r;
+
+      this._authService.loading$.subscribe({
+        complete : () => {
+          this.loading = false;
+          this.cdRef.detectChanges();
+          // setTimeout(() => this.loading = false);
           },
-        });
-      },
-      error: (err) => {
-        console.log('err', err);
-        this._authService.loading$.subscribe({
-          complete: () => {
-            this.loading = false;
-            console.log('acabao2 illo');
-          },
-        });
-      },
-      complete: () => {
-        console.log("Complete");
-        this._authService.loading$.subscribe({
-          complete: () => {
-            this.loading = false;
-            console.log('acabao2 illo');
-          },
-        });
+      })
       },
       // complete: () => {
       //   setTimeout(() => {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Global } from 'src/app/environment/global';
 
 @Component({
@@ -6,7 +6,7 @@ import { Global } from 'src/app/environment/global';
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss'],
 })
-export class AvatarComponent implements OnInit {
+export class AvatarComponent implements OnInit,OnChanges {
   public getAvatarUrl: string;
   public defaultUrl: string;
   public avatarUrl: string;
@@ -28,6 +28,18 @@ export class AvatarComponent implements OnInit {
     this.width = '100';
     this.height = '100';
     this.small = false;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.user.avatar != null && this.user.avatar != '') {
+      if (this.regexUrl.test(this.user.avatar)) {
+        this.avatarUrl = this.user.avatar;
+      } else {
+        this.avatarUrl = this.getAvatarUrl + this.user.avatar;
+      }
+    } else {
+      this.avatarUrl = this.defaultUrl + this.user.nick;
+    }
   }
 
   ngOnInit(): void {
