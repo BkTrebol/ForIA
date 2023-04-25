@@ -114,56 +114,61 @@
             <p><a routerLink="/user/profile/{{userId}}">View Profile</a></p>
         </div>
     </form>
-    <!-- *ngIf="!view && !loading" -->
-    <form  [ngClass]="{'no': !view}" [formGroup]="formEditPreferences" (ngSubmit)="editPreferences()" class="form-container">
+    <form  [ngClass]="{'no': !view, 'default': view}" [formGroup]="formEditPreferences" (ngSubmit)="editPreferences()" class="form-container">
         <h2>Edit Preferences</h2>
         <button type="button" (click)="toggleView()">Edit Profile</button>
         <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="fields">
             <div class="group">
-                <div class="row-field">
+                <div class="check">
                     <input type="checkbox" id="sidebar" [(ngModel)]="preferences.sidebar" formControlName="sidebar">
                     <label for="sidebar">Sidebar</label>
                 </div>
             </div>
             <div class="group">
-                <div class="row-field">
+                <div class="check">
                     <input type="checkbox" id="filter_bad_words" [(ngModel)]="preferences.filter_bad_words" formControlName="filter_bad_words">
                     <label for="filter_bad_words">Filter Bad Words</label>
                 </div>
             </div>
             <div class="group">
-                <div class="row-field">
+                <div class="check">
                     <input type="checkbox" id="allow_view_profile" [(ngModel)]="preferences.allow_view_profile"
                         formControlName="allow_view_profile">
                     <label for="allow_view_profile">Allow View Profile</label>
                 </div>
             </div>
             <div class="group">
-                <div class="row-field">
+                <div class="check">
                     <input type="checkbox" id="allow_users_to_mp" [(ngModel)]="preferences.allow_user_to_mp"
                         formControlName="allow_user_to_mp">
                     <label for="allow_user_to_mp">Allow User To Mp</label>
                 </div>
             </div>
             <div class="group">
-                <div class="row-field">
+                <div class="check">
                     <input type="checkbox" id="hide_online_presence" [(ngModel)]="preferences.hide_online_presence"
                         formControlName="hide_online_presence">
                     <label for="hide_online_presence">Hide Online Presence</label>
                 </div>
             </div>
             <div class="group">
-                <div class="row-field">
+                <div class="check">
                     <input type="checkbox" id="two_fa" [(ngModel)]="preferences.two_fa"
                         formControlName="two_fa">
                     <label for="two_fa">Two Fa</label>
                 </div>
             </div>
             <div class="group">
-                <div class="row-field">
+                <div class="check">
                     <input type="checkbox" id="allow_music" [(ngModel)]="preferences.allow_music" formControlName="allow_music">
                     <label for="allow_music">Allow Music</label>
+                </div>
+            </div>
+            <div class="group">
+                <div class="check">
+                    <input type="checkbox" id="recieve_emails" [(ngModel)]="preferences.recieve_emails" formControlName="recieve_emails">
+                    <label for="recieve_emails">Recieve Emails</label>
                 </div>
             </div>
         </div>

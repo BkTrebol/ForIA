@@ -6,6 +6,7 @@ import { Global } from 'src/app/environment/global';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
+import { ToastService } from 'src/app/helpers/services/toast.service';
 
 @Component({
   selector: 'app-profile',
@@ -24,7 +25,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private toastService: ToastService
   ) {
     this.unsubscribe$ = new Subject();
     this.url = Global.api + 'user/get-avatar/';
@@ -45,23 +47,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this.userSerivce
-    //   .getProfile(this.id)
-    //   .pipe(takeUntil(this.unsubscribe$))
-    //   .subscribe({
-    //     next: (res) => {
-    //       this.user = res;
-    //     },
-    //     error: (err) => {
-    //       console.log(err);
-    //       this.router.navigate(['/']);
-    //     },
-    //   });
-    // TODO fer la ruta pel nick
     if (this.route.snapshot.data['response']) {
       this.user = this.route.snapshot.data['response'];
+      if (this.user.id.toString() == this.userId) {
+        this.toastService.show('Verify your email')
+      }
     } else {
-      this.router.navigate(['/']);
+      this.router.navigate(['/error']);
     }
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))

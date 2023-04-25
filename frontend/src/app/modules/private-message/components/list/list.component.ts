@@ -13,10 +13,10 @@ import { ToastService } from 'src/app/helpers/services/toast.service';
 })
 export class ListComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
-  public messages: {received:ListPm,sent:ListPm};
+  public messages: { received: ListPm; sent: ListPm };
   public loading: boolean;
-  public theme:string;
-  public showReceived:boolean;
+  public theme: string;
+  public showReceived: boolean;
   // public receivedPage:number;
   // public sentPage:number;
 
@@ -26,25 +26,25 @@ export class ListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private toastService: ToastService
-    ) {
+  ) {
     this.messages = {
-      received : {
+      received: {
         messages: [],
         page: {
-          last:1,
+          last: 1,
           current: this.route.snapshot.queryParams['rpage'] ?? 1,
           total: 1,
-        }
+        },
       },
-      sent : {
+      sent: {
         messages: [],
         page: {
-          last:1,
+          last: 1,
           current: this.route.snapshot.queryParams['spage'] ?? 1,
           total: 1,
-        }
-      }
-    }
+        },
+      },
+    };
     this.showReceived = true;
     this.unsubscribe$ = new Subject();
     this.loading = true;
@@ -55,41 +55,50 @@ export class ListComponent implements OnInit, OnDestroy {
     // this.getReceivedMessages();
     // this.getSentMessages();
     this.getMessages();
-      this.themeService.theme
+    this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((t) => {
         this.theme = t;
       });
   }
 
-  deletePm(id: number) {
+  deletePm(id: number) {}
 
-  }
-  getMessages(){
-    this.privateMessageService.getMessages(this.messages.received.page.current,this.messages.sent.page.current)
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe({
-      next: r => {
-        console.log(r);
-        this.messages = r;
-        this.loading = false;
-        if(parseInt(this.route.snapshot.queryParams['rpage'] ?? '1') != r.received.page.current){
-          this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { rpage: r.received.page.current },
-            queryParamsHandling: 'merge',
-          });
-        }
-        if(parseInt(this.route.snapshot.queryParams['spage'] ?? '1') != r.sent.page.current){
-          this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { rpage: r.sent.page.current },
-            queryParamsHandling: 'merge',
-          });
-        }
-      },
-      error: e => console.log(e)
-    });
+  getMessages() {
+    this.privateMessageService
+      .getMessages(
+        this.messages.received.page.current,
+        this.messages.sent.page.current
+      )
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (r) => {
+          console.log(r);
+          this.messages = r;
+          this.loading = false;
+          if (
+            parseInt(this.route.snapshot.queryParams['rpage'] ?? '1') !=
+            r.received.page.current
+          ) {
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { rpage: r.received.page.current },
+              queryParamsHandling: 'merge',
+            });
+          }
+          if (
+            parseInt(this.route.snapshot.queryParams['spage'] ?? '1') !=
+            r.sent.page.current
+          ) {
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { rpage: r.sent.page.current },
+              queryParamsHandling: 'merge',
+            });
+          }
+        },
+        error: (e) => console.log(e),
+      });
   }
   // getReceivedMessages(){
   //   this.privateMessageService
@@ -125,7 +134,7 @@ export class ListComponent implements OnInit, OnDestroy {
   //   });
   // }
 
-  changeReceivedPage(page:number){
+  changeReceivedPage(page: number) {
     this.messages.received.page.current = page;
     this.getMessages();
     // this.getReceivedMessages();
@@ -134,9 +143,9 @@ export class ListComponent implements OnInit, OnDestroy {
       queryParams: { rpage: page },
       queryParamsHandling: 'merge',
     });
-
   }
-  changeSentPage(page:number){
+  
+  changeSentPage(page: number) {
     this.messages.sent.page.current = page;
     this.getMessages();
     // this.getSentMessages();
@@ -145,13 +154,12 @@ export class ListComponent implements OnInit, OnDestroy {
       queryParams: { spage: page },
       queryParamsHandling: 'merge',
     });
-
   }
 
-  onShowReceived(){
+  onShowReceived() {
     this.showReceived = true;
   }
-  onShowSent(){
+  onShowSent() {
     this.showReceived = false;
   }
 
