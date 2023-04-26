@@ -1,31 +1,33 @@
-
 <div class="list-page {{theme}}">
     <div class="list">
         <div class="list-header">
             <h1>New Message</h1>
         </div>
-        <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
-        <div class="new-pm" *ngIf="!loading">
-            <div class="user-search">
-                <!-- <input *ngIf="userList.length == 0" type="text" name="user" (keyup.enter)="onSearch()" [(ngModel)]="search">  -->
-                <ng-select
-                [placeholder]="'User'"
-                [items]="userList$ | async"
-                class="select"
-                bindLabel="nick"
-                bindValue="id"
-                [(ngModel)]="message.recipient"
-                class="select">
-                </ng-select>
+        <div class="list-body">
+            <div class="editor-parent" *ngIf="userLogged">
+                <div class="user-search">
+                    <ng-select [placeholder]="'User'" [items]="userList$ | async" class="select" bindLabel="nick"
+                        bindValue="id" [(ngModel)]="message.recipient" class="select">
+                    </ng-select>
+                </div>
+                <input type="text" class="editor-title" placeholder="title" [(ngModel)]="message.title">
+                <div class="editor-user">
+                    <div class="user-card">
+                        <app-avatar [user]="userLogged.userData"></app-avatar>
+                        <div class="text">
+                            <a routerLink="/user/profile/{{userLogged.userData.id}}">{{userLogged.userData.nick}}</a>
+                            <small>{{userLogged.userData.rol}}</small>
+                        </div>
+                    </div>
+                    <div class="editor">
+                        <angular-editor [(ngModel)]="message.content" [config]="editorConfig"></angular-editor>
+                    </div>
+                </div>
+                <input type="submit" class="btn-s"
+                    [disabled]="message.recipient == 0 || message.title == '' || message.content.length == 0 || message.content.length > 10_000"
+                    (click)="onSubmit()">
+
             </div>
-            <div class="title">
-                <input type="text" placeholder="title" [(ngModel)]="message.title">
-            </div>
-            
-            <div class="editor">
-                <angular-editor  [(ngModel)]="message.content" [config]="editorConfig"></angular-editor>
-            </div>
-            <input type="submit" class="btn btn-primary" [disabled]="message.recipient == 0 || message.title == '' || message.content.length == 0 " (click)="onSubmit()">
         </div>
     </div>
 </div>

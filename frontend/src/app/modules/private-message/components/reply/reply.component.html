@@ -5,7 +5,7 @@
         </div>
         <div class="list-body">
             <div class="editor-parent" *ngIf="userLogged">
-                <input type="text" class="editor-title" id="editor-title" [(ngModel)]="reply.title">
+                <input type="text" class="editor-title"[(ngModel)]="reply.title">
                 <div class="editor-user">
                     <div class="user-card">
                         <app-avatar [user]="userLogged.userData"></app-avatar>

@@ -1,15 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { PrivateMessageService } from '../../service/private-message.service';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { newPrivateMessage } from 'src/app/models/receive/list-pm';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/user';
+import { UserPreferences } from 'src/app/models/user-preferences';
+import { AuthService } from 'src/app/modules/auth/service/auth.service';
 
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss', '../../../../styles/card.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class CreateComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
@@ -20,11 +24,18 @@ export class CreateComponent implements OnInit, OnDestroy {
   // public title?: string;
   public message: newPrivateMessage;
   public editorConfig: AngularEditorConfig;
-  public theme:string;
+  public theme: string;
+  public userLogged: {
+    userData: User;
+    userPreferences: UserPreferences;
+  } | null;
+
   constructor(
     private router: Router,
     private themeService: ThemeService,
-    private privateMessageService: PrivateMessageService) {
+    private privateMessageService: PrivateMessageService,
+    private authService: AuthService
+  ) {
     this.theme = themeService.getTheme();
     this.unsubscribe$ = new Subject();
     this.loading = false;
@@ -39,15 +50,23 @@ export class CreateComponent implements OnInit, OnDestroy {
       height: '200px',
       editable: true,
     };
+    this.userLogged = null;
   }
 
   ngOnInit(): void {
     this.userList$ = this.privateMessageService.getUserList();
-    this.themeService.theme
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe((t) => {
-      this.theme = t;
+
+    this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
+      next: (r) => {
+        this.userLogged = r;
+      },
     });
+
+    this.themeService.theme
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((t) => {
+        this.theme = t;
+      });
   }
 
   onSubmit() {
