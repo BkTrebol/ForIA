@@ -22,6 +22,7 @@ import { CapitalizePipe } from '../helpers/pipes/text.pipe';
 import { AvatarComponent } from '../components/avatar/avatar.component';
 import { PaginationComponent } from '../components/pagination/pagination.component';
 import { LoadingComponent } from '../components/loading/loading.component';
+import { SanitizerPipe } from '../helpers/pipes/sanitizer.pipe';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { LoadingComponent } from '../components/loading/loading.component';
     AvatarComponent,
     PaginationComponent,
     LoadingComponent,
+    SanitizerPipe
   ],
   imports: [
     CommonModule,
@@ -62,6 +64,7 @@ import { LoadingComponent } from '../components/loading/loading.component';
     LoadingComponent,
     NgSelectModule,
     ToastsContainer,
+    SanitizerPipe,
   ],
 })
 export class SharedModule {}
