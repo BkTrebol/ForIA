@@ -89,6 +89,16 @@ export class ReplyComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    if (this.reply.content.length == 0) {
+      this.error = "Reply can't be empty";
+      return;
+    } else if (this.reply.content.length > 10_000) {
+      this.error = "Reply can't be longer than 10.000 characters";
+      return;
+    } else {
+      this.error = '';
+    }
+
     this.privateMessageService
       .sendMessage(this.reply)
       .pipe(takeUntil(this.unsubscribe$))

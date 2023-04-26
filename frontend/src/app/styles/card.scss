@@ -908,7 +908,16 @@
           font-family: $font-text;
           font-size: $size-text;
         }
-
+        .custom-search {
+          width: 100%;
+          @include row(flex-start, 16px);
+          .user-search {
+            width: 100%;
+            .select {
+              width: 30%;
+            }
+          }
+        }
         .btn-s {
           margin: 16px auto;
           @include btn1($color-shades1);

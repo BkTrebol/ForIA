@@ -29,6 +29,7 @@ export class CreateComponent implements OnInit, OnDestroy {
     userData: User;
     userPreferences: UserPreferences;
   } | null;
+  public error: string;
 
   constructor(
     private router: Router,
@@ -51,6 +52,7 @@ export class CreateComponent implements OnInit, OnDestroy {
       editable: true,
     };
     this.userLogged = null;
+    this.error = '';
   }
 
   ngOnInit(): void {
@@ -70,6 +72,16 @@ export class CreateComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    if (this.message.content.length == 0) {
+      this.error = "Message can't be empty";
+      return;
+    } else if (this.message.content.length > 10_000) {
+      this.error = "Message can't be longer than 10.000 characters";
+      return;
+    } else {
+      this.error = '';
+    }
+
     this.privateMessageService
       .sendMessage(this.message)
       .pipe(takeUntil(this.unsubscribe$))

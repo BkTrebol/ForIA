@@ -5,12 +5,14 @@
         </div>
         <div class="list-body">
             <div class="editor-parent" *ngIf="userLogged">
-                <div class="user-search">
-                    <ng-select [placeholder]="'User'" [items]="userList$ | async" class="select" bindLabel="nick"
-                        bindValue="id" [(ngModel)]="message.recipient" class="select">
-                    </ng-select>
+                <div class="custom-search">
+                    <input type="text" class="editor-title" placeholder="title" [(ngModel)]="message.title">
+                    <div class="user-search">
+                        <ng-select [placeholder]="'User'" [items]="userList$ | async" class="select" bindLabel="nick"
+                            bindValue="id" [(ngModel)]="message.recipient" class="select">
+                        </ng-select>
+                    </div>
                 </div>
-                <input type="text" class="editor-title" placeholder="title" [(ngModel)]="message.title">
                 <div class="editor-user">
                     <div class="user-card">
                         <app-avatar [user]="userLogged.userData"></app-avatar>
@@ -26,7 +28,9 @@
                 <input type="submit" class="btn-s"
                     [disabled]="message.recipient == 0 || message.title == '' || message.content.length == 0 || message.content.length > 10_000"
                     (click)="onSubmit()">
-
+                <div *ngIf="error != ''" class="error">
+                    <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}
+                </div>
             </div>
         </div>
     </div>
