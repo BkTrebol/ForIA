@@ -107,15 +107,15 @@ class PrivateMessageController extends Controller
             $pm->save();
         }
 
-        $thread = PrivateMessage::where('thread_id', $pm->thread_id)->with('sender:id,nick,avatar')
+        $thread = PrivateMessage::where('thread_id', $pm->thread_id)->with('sender:id,nick,avatar,rol')
             ->orderBy('created_at', 'desc')->paginate(10);
 
         $requestedPage = request()->input('page', 1);
         if ($thread->lastPage() < $requestedPage) {
-            $thread = PrivateMessage::where('thread_id', $pm->thread_id)->with('sender:id,nick,avatar')
+            $thread = PrivateMessage::where('thread_id', $pm->thread_id)->with('sender:id,nick,avatar,rol')
             ->orderBy('created_at', 'desc')->paginate(10,'*','page',$thread->lastPage());
         } else if ($requestedPage <= 0) {
-            $thread =PrivateMessage::where('thread_id', $pm->thread_id)->with('sender:id,nick,avatar')
+            $thread =PrivateMessage::where('thread_id', $pm->thread_id)->with('sender:id,nick,avatar,rol')
             ->orderBy('created_at', 'desc')->paginate(10,'*','page',1);
         }
         
