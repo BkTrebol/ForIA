@@ -249,14 +249,43 @@
                   background-color: transparent;
                   color: $color-white-clear;
                   border: none;
+                  outline: 1px solid $color-white-clear;
                   &:hover {
-                    outline: 1px solid $color-white-clear;
+                    background-color: $color-white-dark;
                   }
                   &:active {
                     background-color: $color-gradient4;
                   }
                   &.active {
                     background-color: $color-gradient4;
+                  }
+                }
+                ae-select {
+                  .ae-picker-label {
+                    background-color: $color-black-grey;
+                    color: $color-white-clear;
+                    &::before {
+                      background: none;
+                      background-color: $color-black-grey;
+                    }
+                    svg {
+                      .ae-stroke {
+                        stroke: $color-white-clear;
+                      }
+                    }
+                  }
+                  background-color: $color-black-clear;
+                  .ae-picker-options {
+                    .ae-picker-item {
+                      color: $color-white-clear;
+                      background-color: $color-black-grey;
+                      &:hover {
+                        background-color: $color-gradient4;
+                      }
+                      &.selected {
+                        background-color: $color-gradient5;
+                      }
+                    }
                   }
                 }
               }
@@ -453,14 +482,44 @@
                   background-color: transparent;
                   color: $color-black-clear;
                   border: none;
+                  outline: 1px solid $color-black-clear;
                   &:hover {
-                    outline: 1px solid $color-black-clear;
+                    background-color: $color-white-dark;
                   }
                   &:active {
                     background-color: $color-gradient6;
                   }
                   &.active {
                     background-color: $color-gradient6;
+                  }
+                }
+                ae-select {
+                  .ae-picker-label {
+                    background-color: $color-grey-clear;
+                    color: $color-black-clear;
+                    border: 1px solid $color-black-clear;
+                    &::before {
+                      background: none;
+                      background-color: $color-grey-clear;
+                    }
+                    svg {
+                      .ae-stroke {
+                        stroke: $color-black-clear;
+                      }
+                    }
+                  }
+                  background-color: $color-white-clear;
+                  .ae-picker-options {
+                    .ae-picker-item {
+                      color: $color-black-clear;
+                      background-color: $color-grey-clear;
+                      &:hover {
+                        background-color: $color-gradient6;
+                      }
+                      &.selected {
+                        background-color: $color-gradient5;
+                      }
+                    }
                   }
                 }
               }
@@ -807,6 +866,15 @@
         .editor {
           width: 100%;
           word-break: break-all;
+          .angular-editor{
+            .angular-editor-wrapper{
+              .angular-editor-textarea{
+                img{
+                  max-width: 500px;
+                }
+              }
+            }
+          }
         }
         .editor-title {
           width: 30%;
@@ -815,6 +883,7 @@
           font-family: $font-text;
           font-size: $size-text;
         }
+
         .btn-s {
           margin: 16px auto;
           @include btn1($color-shades1);

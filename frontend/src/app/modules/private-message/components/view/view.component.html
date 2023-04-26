@@ -17,12 +17,13 @@
                     <ng-container *ngTemplateOutlet="message; context: {pm: pm}"></ng-container>
                 </div>
                 <div class="editor-parent" *ngIf="userLogged">
-                    <input class="editor-title" type="text" [(ngModel)]="reply.title">
+                    <input type="text" class="editor-title" id="editor-title" [(ngModel)]="reply.title">
                     <div class="editor-user">
                         <div class="user-card">
                             <app-avatar [user]="userLogged.userData"></app-avatar>
                             <div class="text">
-                                <a routerLink="/user/profile/{{userLogged.userData.id}}">{{userLogged.userData.nick}}</a>
+                                <a
+                                    routerLink="/user/profile/{{userLogged.userData.id}}">{{userLogged.userData.nick}}</a>
                                 <small>{{userLogged.userData.rol}}</small>
                             </div>
                         </div>
@@ -61,11 +62,11 @@
             <p class="content" [innerHTML]="pm.content">
             </p>
         </div>
-        <div class="avatar">
+        <div class="user-avatar">
             <app-avatar [user]="pm.sender"></app-avatar>
             <div class="text">
                 <a routerLink="/user/profile/{{pm.sender.id}}">{{pm.sender.nick}}</a>
-                <p>{{pm.sender.role}}</p>
+                <p>{{pm.sender.rol}}</p>
             </div>
         </div>
     </div>
