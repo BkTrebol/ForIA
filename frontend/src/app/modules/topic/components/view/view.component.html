@@ -147,7 +147,7 @@
                         <angular-editor id="editor" [(ngModel)]="content" [config]="editorConfig"></angular-editor>
                     </div>
                 </div>
-                <input type="submit" [disabled]="content.length == 0 || content.length > 10_000" class="btn btn-primary"
+                <input type="submit" [disabled]="content.length == 0 || content.length > 10_000" class="btn-s"
                     (click)="onSubmit()">
                 <div *ngIf="error != ''" class="error">
                     <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}

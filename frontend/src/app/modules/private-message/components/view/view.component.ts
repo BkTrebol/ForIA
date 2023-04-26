@@ -16,6 +16,9 @@ import { ActivatedRoute, RouteReuseStrategy, Router } from '@angular/router';
 import { Subject, switchMap, takeUntil } from 'rxjs';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { AuthService } from 'src/app/modules/auth/service/auth.service';
+import { User } from 'src/app/models/user';
+import { UserPreferences } from 'src/app/models/user-preferences';
 
 @Component({
   selector: 'app-view',
@@ -33,12 +36,17 @@ export class ViewComponent implements OnInit, OnDestroy {
   public editorConfig: AngularEditorConfig;
   public reply: newPrivateMessage;
   public error: string;
+  public userLogged: {
+    userData: User;
+    userPreferences: UserPreferences;
+  } | null;
 
   constructor(
     private themeService: ThemeService,
     private privateMessageService: PrivateMessageService,
     private route: ActivatedRoute,
-    public router: Router
+    public router: Router,
+    private authService: AuthService
   ) {
     this.theme = themeService.getTheme();
     this.unsubscribe$ = new Subject();
@@ -56,6 +64,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       thread_id: 0,
     };
     this.error = '';
+    this.userLogged = null;
 
     this.route.paramMap
       .pipe(
@@ -85,6 +94,13 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.getData();
+
+    this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
+      next: (r) => {
+        this.userLogged = r;
+      },
+    });
+
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((t) => {

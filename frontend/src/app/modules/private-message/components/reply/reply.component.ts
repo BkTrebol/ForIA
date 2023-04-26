@@ -1,15 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { PrivateMessageService } from '../../service/private-message.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { newPrivateMessage } from 'src/app/models/receive/list-pm';
+import { User } from 'src/app/models/user';
+import { UserPreferences } from 'src/app/models/user-preferences';
+import { AuthService } from 'src/app/modules/auth/service/auth.service';
 
 @Component({
   selector: 'app-reply',
   templateUrl: './reply.component.html',
   styleUrls: ['./reply.component.scss', '../../../../styles/card.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ReplyComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
@@ -20,11 +24,17 @@ export class ReplyComponent implements OnInit, OnDestroy {
   public title: string;
   public error: string;
   public message_id: number;
+  public userLogged: {
+    userData: User;
+    userPreferences: UserPreferences;
+  } | null;
+
   constructor(
     private themeService: ThemeService,
     private privateMessageService: PrivateMessageService,
     private ActivatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.message_id = 0;
     this.theme = themeService.getTheme();
@@ -42,7 +52,9 @@ export class ReplyComponent implements OnInit, OnDestroy {
       height: '200px',
       editable: true,
     };
+    this.userLogged = null;
   }
+
   ngOnInit(): void {
     this.ActivatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe$))
@@ -62,6 +74,12 @@ export class ReplyComponent implements OnInit, OnDestroy {
             },
           });
       });
+
+    this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
+      next: (r) => {
+        this.userLogged = r;
+      },
+    });
 
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))

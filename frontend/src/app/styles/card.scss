@@ -240,20 +240,23 @@
           }
           .editor {
             .angular-editor {
+              border-left: 2px solid $color-black;
               .angular-editor-toolbar {
-                background-color: $color-gradient2;
+                background-color: $color-black-grey;
+                border: none;
+                border-bottom: 2px solid $color-black;
                 .angular-editor-button {
                   background-color: transparent;
-                  color: $color-black;
+                  color: $color-white-clear;
                   border: none;
                   &:hover {
-                    outline: 1px solid $color-black;
+                    outline: 1px solid $color-white-clear;
                   }
                   &:active {
-                    background-color: $color-gradient1;
+                    background-color: $color-gradient4;
                   }
                   &.active {
-                    background-color: $color-gradient1;
+                    background-color: $color-gradient4;
                   }
                 }
               }
@@ -261,6 +264,10 @@
             .angular-editor-wrapper {
               color: $color-white;
               background-color: $color-black-grey;
+              .angular-editor-textarea {
+                margin: 0;
+                border: none;
+              }
             }
           }
         }
@@ -436,8 +443,36 @@
             background-color: $color-grey-clear;
           }
           .editor {
-            color: $color-black;
-            background-color: $color-grey-clear;
+            .angular-editor {
+              border-left: 2px solid $color-white;
+              .angular-editor-toolbar {
+                background-color: $color-grey-clear;
+                border: none;
+                border-bottom: 2px solid $color-white;
+                .angular-editor-button {
+                  background-color: transparent;
+                  color: $color-black-clear;
+                  border: none;
+                  &:hover {
+                    outline: 1px solid $color-black-clear;
+                  }
+                  &:active {
+                    background-color: $color-gradient6;
+                  }
+                  &.active {
+                    background-color: $color-gradient6;
+                  }
+                }
+              }
+            }
+            .angular-editor-wrapper {
+              color: $color-black;
+              background-color: $color-grey-clear;
+              .angular-editor-textarea {
+                margin: 0;
+                border: none;
+              }
+            }
           }
         }
       }
@@ -696,7 +731,7 @@
               }
             }
             .content {
-              padding: 0 16px;
+              padding: 8px 16px;
             }
           }
           .post-footer {
