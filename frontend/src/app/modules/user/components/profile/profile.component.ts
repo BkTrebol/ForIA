@@ -88,6 +88,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.theme = t;
       });
 
+    this.getStatistics();
+
     this.options = this.http
       .get('assets/data/life-expectancy-table.json', { responseType: 'json' })
       .pipe(
@@ -130,6 +132,35 @@ export class ProfileComponent implements OnInit, OnDestroy {
           ],
         }))
       );
+  }
+
+  getStatistics(): void {
+    this.userSerivce
+      .getStatistics(this.route.snapshot.paramMap.get('id') ?? '')
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this.chartOption = {
+            xAxis: {
+              type: 'category',
+              data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            },
+            yAxis: {
+              type: 'value',
+            },
+            series: [
+              {
+                data: [820, 932, 901, 934, 1290, 1330, 1320],
+                type: 'line',
+              },
+            ],
+          };
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 
   toggleView(): void {

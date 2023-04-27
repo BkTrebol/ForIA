@@ -69,7 +69,14 @@ class User extends Authenticatable
     }
 
     public function posts(){
-        return $this->hasMany(Posts::class);
+        return $this->hasMany(Post::class);
     }
 
+    public function private_message_sender(){
+        return $this->hasMany(PrivateMessage::class, 'sender_id');
+    }
+
+    public function private_message_reciever(){
+        return $this->hasMany(PrivateMessage::class, 'receiver_id');
+    }
 }
