@@ -2,8 +2,8 @@
   -webkit-perspective: 3000px;
   perspective: 3000px;
   position: relative;
-  &::after{
-    content: '';
+  &::after {
+    content: "";
     display: block;
     clear: both;
   }
@@ -14,13 +14,20 @@
     transition: transform 2s;
     transform: rotateY(0deg);
   }
-  .view {
+  div.view {
     transform: rotateY(180deg);
   }
-  .no {
+  div.no {
     transform: rotateY(360deg);
   }
-  .default {
+  div.default {
     transform: rotateY(180deg);
+  }
+  .chart {
+    height: 400px;
+    width: 600px;
+    .demo-chart {
+      height: 400px;
+    }
   }
 }

@@ -42,7 +42,7 @@
             </div>
         </div>
     </div>
-    <div  [ngClass]="{'no': !view, 'default': view}" class="card">
+    <div [ngClass]="{'no': !view, 'default': view}" class="card">
         <div class="card-user">
             <div class="card-header">
                 <div class="title">
@@ -61,17 +61,9 @@
                     <button class="btn2" type="button" (click)="toggleView()">View Profile</button>
                 </div>
             </div>
-            <div class="data">
-                <fa-icon class="icon" [icon]="['fas', 'envelope']"></fa-icon>
-                <p>{{user.email}}</p>
-            </div>
-            <div class="data" *ngIf="user.location">
-                <fa-icon class="icon" [icon]="['fas', 'location-dot']"></fa-icon>
-                <p>{{user.location}}</p>
-            </div>
-            <div class="data" *ngIf="user.birthday">
-                <fa-icon class="icon" [icon]="['fas', 'cake-candles']"></fa-icon>
-                <p>{{user.birthday}}</p>
+            <div class="chart">
+                <div echarts [options]="chartOption" class="demo-chart"></div>
+                <!-- <div echarts [options]="options | async" [theme]="'dark'" [loading]="loading" class="demo-chart"></div> -->
             </div>
             <div class="card-footer">
                 <div class="data">

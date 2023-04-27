@@ -27,7 +27,12 @@ import { NgbModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsContainer } from './components/toast/toast.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FooterComponent, ErrorComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    FooterComponent,
+    ErrorComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -37,7 +42,7 @@ import { ToastsContainer } from './components/toast/toast.component';
     SharedModule,
     NgbModule,
     NgbToastModule,
-    ToastsContainer
+    ToastsContainer,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true },

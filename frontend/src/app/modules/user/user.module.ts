@@ -8,6 +8,10 @@ import { EditComponent } from './components/edit/edit.component';
 
 @NgModule({
   declarations: [ProfileComponent, EditComponent],
-  imports: [CommonModule, UserRoutingModule, SharedModule],
+  imports: [
+    CommonModule,
+    UserRoutingModule,
+    SharedModule,
+  ],
 })
 export class UserModule {}

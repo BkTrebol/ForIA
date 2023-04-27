@@ -24,6 +24,9 @@ import { AvatarComponent } from '../components/avatar/avatar.component';
 import { PaginationComponent } from '../components/pagination/pagination.component';
 import { LoadingComponent } from '../components/loading/loading.component';
 
+//test charts
+import { NgxEchartsModule } from 'ngx-echarts';
+
 @NgModule({
   declarations: [
     AvatarUrlPipe,
@@ -32,7 +35,7 @@ import { LoadingComponent } from '../components/loading/loading.component';
     AvatarComponent,
     PaginationComponent,
     LoadingComponent,
-    SanitizerPipe
+    SanitizerPipe,
   ],
   imports: [
     CommonModule,
@@ -46,6 +49,9 @@ import { LoadingComponent } from '../components/loading/loading.component';
     NgSelectModule,
     ToastsContainer,
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'), // or import('./path-to-my-custom-echarts')
+    }),
   ],
   providers: [],
   exports: [
@@ -65,6 +71,7 @@ import { LoadingComponent } from '../components/loading/loading.component';
     NgSelectModule,
     ToastsContainer,
     SanitizerPipe,
+    NgxEchartsModule,
   ],
 })
 export class SharedModule {}
