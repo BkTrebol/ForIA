@@ -17,12 +17,12 @@ import {
 } from '../helpers/pipes/avatar-url.pipe';
 import { TimeAgoPipe } from '../helpers/pipes/dates.pipe';
 import { CapitalizePipe } from '../helpers/pipes/text.pipe';
+import { SanitizerPipe } from '../helpers/pipes/sanitizer.pipe';
 
 // Components
 import { AvatarComponent } from '../components/avatar/avatar.component';
 import { PaginationComponent } from '../components/pagination/pagination.component';
 import { LoadingComponent } from '../components/loading/loading.component';
-import { SanitizerPipe } from '../helpers/pipes/sanitizer.pipe';
 
 @NgModule({
   declarations: [

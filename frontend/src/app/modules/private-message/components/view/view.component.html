@@ -1,16 +1,42 @@
 <div class="list-page {{theme}}">
-    <div class="list">
+    <div *ngIf="loading" class="list">
         <div class="list-header">
-            <h1 *ngIf="loading">Private Message</h1>
-            <h1 *ngIf="!loading">{{privateMessageList?.message?.title}}</h1>
+            <h1 class="m"><app-loading height="53px" width="350px"></app-loading></h1>
+        </div>
+        <div class="list-body">
+            <span class="m"><app-loading height="28px" width="100px"></app-loading></span>
+            <ng-container *ngTemplateOutlet="Loading;"></ng-container>
+            <h2><app-loading height="40px" width="250px"></app-loading></h2>
+            <hr />
+            <br>
+            <div *ngFor="let _ of [0, 1]">
+                <ng-container *ngTemplateOutlet="Loading;"></ng-container>
+            </div>
+            <div class="list-footer">
+                <app-loading height="35px" width="180px"></app-loading>
+                <div class="c">
+                    <div><app-loading height="25px" width="170px"></app-loading></div>
+                    <div><app-loading height="25px" width="120px"></app-loading></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!loading" class="list">
+        <div class="list-header">
+            <h1>{{privateMessageList?.message?.title}}</h1>
         </div>
         <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
-        <div class="list-body" *ngIf="!loading">
-            <button routerLink="/private-message/reply/{{pmId}}">Reply</button>
+        <div class="list-body">
+            <button class="btn2" routerLink="/private-message/reply/{{pmId}}">Reply
+                <fa-icon [icon]="['fas', 'reply']"></fa-icon>
+            </button>
             <ng-container *ngIf="privateMessageList">
                 <div *ngIf="privateMessageList.message.hasOwnProperty('content')">
                     <ng-container *ngTemplateOutlet="message; context:{pm: privateMessageList.message}"></ng-container>
-                    <h3>Historial de missatges</h3>
+                    <h2>Historial de missatges&nbsp;
+                        <fa-icon [icon]="['far', 'clock']"></fa-icon>
+                    </h2>
                     <hr /><br>
                 </div>
                 <div *ngFor="let pm of privateMessageList.thread">
@@ -53,12 +79,14 @@
 </div>
 
 <ng-template #message let-pm="pm">
-    <div class="post">
+    <div class="history">
         <div class="body">
-            <h4>{{pm.title}}</h4>
-            <p>From: <a routerLink="/user/profile/{{pm.sender.id}}">{{pm.sender.nick}}</a> on {{pm.created_at | date}}
-            </p>
-            <hr>
+            <div class="title">
+                <h3>{{pm.title}}</h3>
+                <p>From: <a routerLink="/user/profile/{{pm.sender.id}}">{{pm.sender.nick}}</a> on {{pm.created_at |
+                    date}}
+                </p>
+            </div>
             <p class="content" [innerHTML]="pm.content">
             </p>
         </div>
@@ -67,6 +95,28 @@
             <div class="text">
                 <a routerLink="/user/profile/{{pm.sender.id}}">{{pm.sender.nick}}</a>
                 <p>{{pm.sender.rol}}</p>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #Loading>
+    <div class="history">
+        <div class="body">
+            <div class="title">
+                <h3 class="m"><app-loading height="25px" width="150px"></app-loading></h3>
+                <p class="m"><app-loading height="25px" width="200px"></app-loading>
+                </p>
+            </div>
+            <p class="me">
+                <app-loading height="60px" width="100%"></app-loading>
+            </p>
+        </div>
+        <div class="user-avatar">
+            <app-loading appa="circle"></app-loading>
+            <div class="text">
+                <app-loading height="20px" width="70px"></app-loading>
+                <app-loading height="20px" width="50px"></app-loading>
             </div>
         </div>
     </div>

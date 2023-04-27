@@ -13,6 +13,9 @@
     .form-container {
       background-color: $color-black-opacity;
       color: $color-white-clear;
+      .btn2 {
+        color: $color-white-clear
+      }
       .fields .group {
         .field {
           .input {
@@ -71,6 +74,9 @@
     .form-container {
       background-color: $color-white-opacity;
       color: $color-black-clear;
+      .btn2 {
+        color: $color-black-clear
+      }
       .fields .group {
         .field {
           .input {
@@ -145,6 +151,9 @@
     // The loading spinner
     h4 {
       margin: auto;
+    }
+    .btn2 {
+      @include btn2($color-gradient2);
     }
     // All the input fileds
     .fields {

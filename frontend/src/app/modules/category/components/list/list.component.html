@@ -4,7 +4,7 @@
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
             <p><fa-icon [icon]="['fas', 'code']"></fa-icon> A forum about <b>IA</b></p>
             <div class="option-btns">
-                <button type="button" (click)="toogleSections()">{{allSections ? 'Revel Sections':
+                <button class="btn2" type="button" (click)="toogleSections()">{{allSections ? 'Revel Sections':
                     'Ocult Sections'}}</button>
             </div>
         </div>
@@ -52,7 +52,8 @@
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
             <p><fa-icon [icon]="['fas', 'code']"></fa-icon> A forum about <b>IA</b></p>
             <div class="option-btns">
-                <button type="button" (click)="toogleSections()">{{allSections ? 'Revel Sections':
+                <button class="btn2" type="button" (click)="toogleSections()">
+                    <fa-icon [icon]="['fas', allSections ? 'chevron-right': 'chevron-down']"></fa-icon> {{allSections ? 'Revel Sections':
                     'Ocult Sections'}}</button>
             </div>
         </div>

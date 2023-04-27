@@ -33,6 +33,9 @@
     padding: 32px 64px;
     border-radius: 24px;
     font-family: $font-text;
+    .btn2{
+      @include btn2($color-gradient2);
+    }
     .card-user {
       @include col(space-around, 24px);
       width: 100%;
@@ -140,8 +143,17 @@
         a {
           @include a-link($color-gradient4, $color-gradient5, $color-gradient6);
         }
+        .btn2{
+          color: $color-white-clear;
+        }
       }
       .list-body {
+        .btn-edit, .btn-delete{
+          color: $color-white-clear;
+        }
+        .btn2{
+          color: $color-white-clear;
+        }
         .posts {
           background-color: $color-black-grey;
           border: 2px solid $color-black;
@@ -233,6 +245,25 @@
             }
           }
         }
+        .history {
+          background-color: $color-black-grey;
+          border: 2px solid $color-black;
+          a {
+            @include a-link(
+              $color-gradient4,
+              $color-gradient5,
+              $color-gradient6
+            );
+          }
+          .body {
+            .title {
+              border-bottom: 2px solid $color-black;
+            }
+          }
+          .user-avatar {
+            border-left: 2px solid $color-black;
+          }
+        }
         .editor-parent {
           .editor-user {
             border: 2px solid $color-black;
@@ -296,7 +327,8 @@
               .angular-editor-textarea {
                 margin: 0;
                 border: none;
-                code#sourceTexteditor {
+                code#sourceTexteditor,
+                code#sourceText {
                   font-family: $font-text !important;
                   font-size: $size-text !important;
                   background-color: $color-white-dark !important;
@@ -389,8 +421,17 @@
         a {
           @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
         }
+        .btn2{
+          color: $color-black-clear;
+        }
       }
       .list-body {
+        .btn-edit, .btn-delete{
+          color: $color-black-clear;
+        }
+        .btn2{
+          color: $color-black-clear;
+        }
         .posts {
           background-color: $color-grey-clear;
           border: 2px solid $color-white;
@@ -478,6 +519,25 @@
             }
           }
         }
+        .history {
+          background-color: $color-grey-clear;
+          border: 2px solid $color-white;
+          a {
+            @include a-link(
+              $color-gradient6,
+              $color-gradient5,
+              $color-gradient4
+            );
+          }
+          .body {
+            .title {
+              border-bottom: 2px solid $color-white;
+            }
+          }
+          .user-avatar {
+            border-left: 2px solid $color-white;
+          }
+        }
         .editor-parent {
           .editor-user {
             border: 2px solid $color-white;
@@ -542,7 +602,8 @@
               .angular-editor-textarea {
                 margin: 0;
                 border: none;
-                code#sourceTexteditor {
+                code#sourceTexteditor,
+                code#sourceText {
                   font-family: $font-text !important;
                   font-size: $size-text !important;
                   background-color: $color-white-dark !important;
@@ -627,6 +688,11 @@
         &.m {
           margin-bottom: 22px;
         }
+        &.bot {
+          text-align: center;
+          margin-bottom: 0;
+          padding-bottom: 0px;
+        }
       }
       h2 {
         font-size: 40px;
@@ -656,8 +722,28 @@
       .two-options {
         @include col(space-between, 8px);
       }
+      .btn2 {
+        @include btn2($color-gradient2);
+      }
+      h1.m{
+        margin-top: 8px;
+      }
     }
     .list-body {
+      .btn2 {
+        @include btn2($color-gradient2);
+        margin: 16px 8px;
+      }
+      .btn-edit {
+        @include btn0($color-secondary);
+      }
+      .btn-delete {
+        @include btn0($color-tertiary);
+      }
+      span.m{
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
       .section {
         list-style: none;
         h1 {
@@ -872,11 +958,49 @@
           }
         }
       }
+      .history {
+        margin-bottom: 16px;
+        display: flex;
+        width: 100%;
+        .body {
+          flex: 1;
+          .title {
+            padding: 8px 16px;
+            h3.m {
+              margin-top: 5px;
+            }
+            p.m{
+              margin-bottom: -10px;
+            }
+          }
+          .content {
+            padding: 8px 16px;
+            word-break: break-all;
+          }
+          .me {
+            padding: 16px;
+          }
+        }
+        .user-avatar {
+          padding: 16px;
+          @include col(flex-start, 8px);
+          .text {
+            width: 100%;
+            @include col(space-between, 8px);
+            align-items: center;
+          }
+        }
+      }
       .editor-parent {
         display: grid;
         place-content: center;
         margin-bottom: 16px;
         width: 100%;
+        span.bot {
+          margin-top: 8px;
+          margin-bottom: -5px;
+          padding-bottom: 0;
+        }
         .editor-user {
           @include row(space-between);
           .user-card {
@@ -1051,7 +1175,23 @@
             }
           }
         }
+        .history{
+          .user-avatar {
+            display: none;
+          }
+        }
         .editor-parent {
+          .editor-title {
+            width: 50%;
+          }
+          .custom-search {
+            .user-search {
+              width: 50%;
+              .select {
+                width: 100%;
+              }
+            }
+          }
           .editor-user {
             .user-card {
               display: none;
@@ -1123,6 +1263,21 @@
           .user-card {
             padding: 8px;
             @include row(flex-start, 16px);
+          }
+        }
+        .editor-parent {
+          .editor-title {
+            width: 100%;
+          }
+          .custom-search {
+            @include col(space-between, 8px);
+            margin-bottom: 16px;
+            .user-search {
+              width: 100%;
+              .select {
+                width: 100%;
+              }
+            }
           }
         }
       }

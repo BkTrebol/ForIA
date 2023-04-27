@@ -1,11 +1,13 @@
 <div class="list-page {{theme}}">
     <div class="list">
         <div class="list-header">
-            <h1>Reply to {{title}}</h1>
+            <h1 *ngIf="!loading">Reply to {{title}}</h1>
+            <span *ngIf="loading" class="bot"><app-loading height="53px" width="350px"></app-loading></span>
         </div>
         <div class="list-body">
             <div class="editor-parent" *ngIf="userLogged">
-                <input type="text" class="editor-title"[(ngModel)]="reply.title">
+                <input *ngIf="!loading" type="text" class="editor-title" [(ngModel)]="reply.title">
+                <span *ngIf="loading" class="bot"><app-loading height="30px" width="30%"></app-loading></span>
                 <div class="editor-user">
                     <div class="user-card">
                         <app-avatar [user]="userLogged.userData"></app-avatar>

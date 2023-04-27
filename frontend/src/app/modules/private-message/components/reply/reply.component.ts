@@ -39,7 +39,7 @@ export class ReplyComponent implements OnInit, OnDestroy {
     this.message_id = 0;
     this.theme = themeService.getTheme();
     this.unsubscribe$ = new Subject();
-    this.loading = false;
+    this.loading = true;
     this.title = '';
     this.error = '';
     this.reply = {
@@ -72,6 +72,9 @@ export class ReplyComponent implements OnInit, OnDestroy {
                 ? r.title
                 : `Re: ${r.title}`;
             },
+            complete: () => {
+              this.loading = false;
+            }
           });
       });
 

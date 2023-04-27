@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public url: string;
   public theme: string;
   public userId: string;
+  public view: boolean;
 
   constructor(
     private userSerivce: UserService,
@@ -44,13 +45,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
     };
     this.userId = this.authService.user?.userData.id;
     this.theme = themeService.getTheme();
+    this.view = true;
   }
 
   ngOnInit(): void {
     if (this.route.snapshot.data['response']) {
       this.user = this.route.snapshot.data['response'];
       if (this.user.id.toString() == this.userId) {
-        this.toastService.show('Verify your email')
+        this.toastService.show('Verify your email');
       }
     } else {
       this.router.navigate(['/error']);
@@ -60,6 +62,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe((t) => {
         this.theme = t;
       });
+  }
+
+  toggleView(): void {
+    this.view = !this.view;
   }
 
   ngOnDestroy(): void {

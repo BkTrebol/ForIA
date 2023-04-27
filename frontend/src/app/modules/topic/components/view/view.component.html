@@ -99,8 +99,8 @@
                         <div class="post-header">
                             <p class="post-date">{{listPosts.topic.created_at | date}}</p>
                             <div *ngIf="listPosts.can_edit" class="edit-buttons">
-                                <button type="button">Edit</button>
-                                <button type="button">Delete</button>
+                                <button class="btn-edit" type="button"><fa-icon [icon]="['fas', 'pencil']"></fa-icon></button>
+                                <button class="btn-delete" type="button"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
                         </div>
                         <p class="content" [innerHTML]="listPosts.topic.content"></p>
@@ -123,8 +123,8 @@
                         <div class="post-header">
                             <p class="post-date">{{post.created_at | date}}</p>
                             <div *ngIf="post.can_edit" class="edit-buttons">
-                                <button type="button">Edit</button>
-                                <button type="button" (click)="deletePost(post.id)">Delete</button>
+                                <button class="btn-edit" type="button"><fa-icon [icon]="['fas', 'pencil']"></fa-icon></button>
+                                <button class="btn-delete" type="button" (click)="deletePost(post.id)"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
                         </div>
                         <p class="content" [innerHTML]="post.content"></p>

@@ -1,0 +1,26 @@
+.card-container {
+  -webkit-perspective: 3000px;
+  perspective: 3000px;
+  position: relative;
+  &::after{
+    content: '';
+    display: block;
+    clear: both;
+  }
+  height: 700px;
+  .card {
+    position: absolute;
+    backface-visibility: hidden;
+    transition: transform 2s;
+    transform: rotateY(0deg);
+  }
+  .view {
+    transform: rotateY(180deg);
+  }
+  .no {
+    transform: rotateY(360deg);
+  }
+  .default {
+    transform: rotateY(180deg);
+  }
+}
