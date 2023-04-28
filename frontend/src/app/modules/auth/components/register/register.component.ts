@@ -13,6 +13,7 @@ import { Register } from 'src/app/models/register';
 import { AuthService } from '../../service/auth.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // Custom Validator
 function passwordMatchValidator(control: AbstractControl) {
@@ -72,8 +73,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
       mismatch: 'Password confirmation mismatch',
     },
   };
+  public terms:string = "";
 
   constructor(
+    private modalService: NgbModal,
     private _authService: AuthService,
     private router: Router,
     private themeService: ThemeService,
@@ -199,6 +202,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.canShowConf = !this.canShowConf;
   }
 
+  openTermsModal(){
+    this.modalService.open('termsModal',{centered:true})
+  }
   get nick() {
     return this.formRegister.get('nick');
   }

@@ -70,7 +70,7 @@ class AuthController extends Controller
         $user = Auth::user();
         $preferences = Auth::user()->preferences->only('sidebar','allow_music');
         $user['isAdmin'] = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
-        $user['isVerified'] = $user->email_verified_at != null;
+        $user['isVerified'] = $user->hasVerifiedEmail();
 
         return response()->json([
             'userData'=> $user,

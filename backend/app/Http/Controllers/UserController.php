@@ -123,8 +123,9 @@ class UserController extends Controller
         if ($isAdmin || $user->preferences->allow_view_profile){
             $user['can_pm'] = $user->preferences->allow_user_to_mp ? true : false;
             if($user->last_post()->count() > 0){
-                $user['last_post'] = $user->last_post()->with('topic')->first();
+                $user['last_post'] = $user->last_post()->with('topic:id,title')->first()->only('topic','created_at');
             }
+            $user['is_verified'] = $user->hasVerifiedEmail();
             return response()->json(
                 $user
             ,200);
@@ -166,7 +167,7 @@ class UserController extends Controller
                     ->map->only(['id', 'reciever_id', 'created_at']),
                     'private_message_reciever' => $user->private_message_reciever()->get()
                     ->map->only(['id', 'sender_id', 'created_at'])
-            ];
+            ]; 
             return response()->json(
                 $res
             ,200);
