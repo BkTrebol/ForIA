@@ -16,7 +16,8 @@ use App\Models\Poll;
 class Topic extends Model
 {
     use HasFactory;
-        /**
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -31,7 +32,6 @@ class Topic extends Model
         'content',
     ];
 
-    
     public function posts(){
         return $this->hasMany(Post::class)->orderBy('created_at','asc');
     }
@@ -39,6 +39,7 @@ class Topic extends Model
     public function last_post(){
         return $this->hasOne(Post::class)->orderBy('created_at','desc');
     }
+
     public function user(){
         return $this->belongsTo(User::class,'user_id');
     }

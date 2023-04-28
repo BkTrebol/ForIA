@@ -10,7 +10,8 @@ use App\Models\User;
 class UserPreference extends Model
 {
     use HasFactory;
-        /**
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -39,9 +40,8 @@ class UserPreference extends Model
         "two_fa" => 'boolean',
         "allow_music" => 'boolean'
     ];
-    
+
     public function user(){
         return $this->belongsTo(User::class,'user_id');
     }
-
 }

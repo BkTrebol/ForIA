@@ -12,7 +12,6 @@ class PollAnswer extends Model
 {
     use HasFactory;
 
-    
      /**
      * The attributes that are mass assignable.
      *
@@ -24,11 +23,11 @@ class PollAnswer extends Model
         'user_id',
     ];
 
-    
+
     public function user(){
         return $this->belongsTo(User::class,'user_id');
     }
-    
+
     public function option(){
         return $this->belongsTo(PollOption::class,'poll_option_id');
     }

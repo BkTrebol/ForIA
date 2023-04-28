@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 use App\Models\User;
+use App\Models\Post;
+use App\Models\Topic;
 
 class UserController extends Controller
 {
@@ -120,6 +122,9 @@ class UserController extends Controller
         $isAdmin = count(collect($roles)->intersect(config('app.adminRoles'))) > 0;
         if ($isAdmin || $user->preferences->allow_view_profile){
             $user['can_pm'] = $user->preferences->allow_user_to_mp ? true : false;
+            if($user->last_post()->count() > 0){
+                $user['last_post'] = $user->last_post()->with('topic')->first();
+            }
             return response()->json(
                 $user
             ,200);
@@ -162,6 +167,28 @@ class UserController extends Controller
                     'private_message_reciever' => $user->private_message_reciever()->get()
                     ->map->only(['id', 'sender_id', 'created_at'])
             ];
+            return response()->json(
+                $res
+            ,200);
+        }else {
+            return response()->json([
+                "message" => "Can't view user profile statistics."
+            ],403);
+        }
+    }
+
+    function getUserStatistics2(User $user){
+
+        $viewer = Auth::user();
+        $roles = $viewer ? $viewer->roles : ['ROLE_GUEST'];
+        $isAdmin = count(collect($roles)->intersect(config('app.adminRoles'))) > 0;
+
+        if ($isAdmin || $user->preferences->allow_view_profile){
+            $res = ['topics' => Topic::where('user_id', $user->id)
+                    ->withCount('posts')
+                    ->get()
+                    ->pluck('posts_count', 'title'),
+                ];
             return response()->json(
                 $res
             ,200);
