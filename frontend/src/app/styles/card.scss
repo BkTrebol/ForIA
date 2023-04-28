@@ -33,7 +33,7 @@
     padding: 32px 64px;
     border-radius: 24px;
     font-family: $font-text;
-    .btn2{
+    .btn2 {
       @include btn2($color-gradient2);
     }
     .card-user {
@@ -143,15 +143,16 @@
         a {
           @include a-link($color-gradient4, $color-gradient5, $color-gradient6);
         }
-        .btn2{
+        .btn2 {
           color: $color-white-clear;
         }
       }
       .list-body {
-        .btn-edit, .btn-delete{
+        .btn-edit,
+        .btn-delete {
           color: $color-white-clear;
         }
-        .btn2{
+        .btn2 {
           color: $color-white-clear;
         }
         .posts {
@@ -421,15 +422,16 @@
         a {
           @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
         }
-        .btn2{
+        .btn2 {
           color: $color-black-clear;
         }
       }
       .list-body {
-        .btn-edit, .btn-delete{
+        .btn-edit,
+        .btn-delete {
           color: $color-black-clear;
         }
-        .btn2{
+        .btn2 {
           color: $color-black-clear;
         }
         .posts {
@@ -725,7 +727,7 @@
       .btn2 {
         @include btn2($color-gradient2);
       }
-      h1.m{
+      h1.m {
         margin-top: 8px;
       }
     }
@@ -740,7 +742,7 @@
       .btn-delete {
         @include btn0($color-tertiary);
       }
-      span.m{
+      span.m {
         margin-top: 0px;
         margin-bottom: 0px;
       }
@@ -902,6 +904,9 @@
             .content {
               padding: 8px 16px;
               word-break: break-all;
+              img {
+                max-width: 100%;
+              }
             }
           }
           .post-footer {
@@ -969,13 +974,16 @@
             h3.m {
               margin-top: 5px;
             }
-            p.m{
+            p.m {
               margin-bottom: -10px;
             }
           }
           .content {
             padding: 8px 16px;
             word-break: break-all;
+            img {
+              max-width: 100%;
+            }
           }
           .me {
             padding: 16px;
@@ -1175,7 +1183,7 @@
             }
           }
         }
-        .history{
+        .history {
           .user-avatar {
             display: none;
           }

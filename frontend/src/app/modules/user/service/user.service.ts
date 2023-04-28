@@ -33,6 +33,10 @@ export class UserService {
     return this.http.get<any>(`${this.apiUserURL}statistics/${id}`);
   }
 
+  getPostsTopic(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUserURL}statistics2/${id}`);
+  }
+
   editProfile(user: UserProfile): Observable<any> {
     let headers: HttpHeaders;
     let params = JSON.stringify(user);

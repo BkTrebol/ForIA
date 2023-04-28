@@ -10,7 +10,6 @@ class Category extends Model
 {
     use HasFactory;
 
-    
      /**
      * The attributes that are mass assignable.
      *
@@ -25,7 +24,7 @@ class Category extends Model
         'section',
     ];
 
-    
+
     public function topics(){
         return $this->hasMany(Topic::class)->orderBy('updated_at','desc');
     }

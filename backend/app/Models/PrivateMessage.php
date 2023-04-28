@@ -24,10 +24,6 @@ class PrivateMessage extends Model
         'title',
     ];
 
-
-
-
-
     public function sender(){
         return $this->belongsTo(User::class,'sender_id');
     }
