@@ -156,6 +156,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
               title: {
                 left: '50%',
                 text: 'Topics',
+                subtext: 'Total of Posts',
                 textAlign: 'center',
               },
               tooltip: {

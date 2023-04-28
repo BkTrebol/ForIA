@@ -71,6 +71,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
       minlength: 'Min Length is 8',
       mismatch: 'Password confirmation mismatch',
     },
+    terms: {
+      required: 'Pleas Accept Terms and conditions',
+    },
   };
 
   constructor(
@@ -123,6 +126,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
           '',
           [Validators.required, Validators.minLength(8)],
         ],
+        terms: [
+          false,
+          [Validators.required],
+        ],
       },
       {
         validators: passwordMatchValidator,
@@ -155,7 +162,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           next: (res) => {
             this.error = '';
             this.loading = false;
-            this.router.navigate(['/user/profile']);
+            this.router.navigate(['/']);
             this.toastService.show(res.message);
           },
           error: (err) => {
