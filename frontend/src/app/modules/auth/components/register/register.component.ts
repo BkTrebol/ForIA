@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import {
   Validators,
   FormBuilder,
@@ -37,6 +37,7 @@ function passwordMatchValidator(control: AbstractControl) {
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss', '../../../../styles/user-form.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
@@ -209,8 +210,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.canShowConf = !this.canShowConf;
   }
 
-  openTermsModal(){
-    this.modalService.open('termsModal',{centered:true})
+  openTermsModal(modal:any){
+    this.modalService.open(modal,{centered:true})
   }
   get nick() {
     return this.formRegister.get('nick');

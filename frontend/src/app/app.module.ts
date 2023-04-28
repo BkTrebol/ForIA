@@ -25,7 +25,6 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { SharedModule } from './modules/share.module';
 import { NgbModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsContainer } from './components/toast/toast.component';
-import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +32,6 @@ import { ModalComponent } from './components/modal/modal.component';
     HeaderComponent,
     FooterComponent,
     ErrorComponent,
-    ModalComponent,
   ],
   imports: [
     BrowserModule,
