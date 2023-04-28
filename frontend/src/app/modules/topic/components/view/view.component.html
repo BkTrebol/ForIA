@@ -56,8 +56,13 @@
             <div class="subt">
                 <h2>{{listPosts.topic.title | capitalize}}</h2>
                 <div class="two-options">
-                    <a *ngIf="listPosts.can_post" routerLink="/post/create">Create new Post</a>
-                    <a routerLink="/topic/{{listPosts.topic.id}}/poll/create" *ngIf="listPosts.can_poll">Create Poll</a>
+                    <!-- TODO canviar classe -->
+                    <a class="btn-a" *ngIf="listPosts.can_post" routerLink="/post/create">
+                        <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+                        Create new Post</a>
+                    <a class="btn-a" routerLink="/topic/{{listPosts.topic.id}}/poll/create" *ngIf="listPosts.can_poll">
+                        <fa-icon [icon]="['fas', 'plus']"></fa-icon> 
+                        Create Poll</a>
                 </div>
             </div>
         </div>

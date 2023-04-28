@@ -4,8 +4,8 @@
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
             <p><fa-icon [icon]="['fas', 'code']"></fa-icon> A forum about <b>IA</b></p>
             <div class="option-btns">
-                <button class="btn2" type="button" (click)="toogleSections()">{{allSections ? 'Revel Sections':
-                    'Ocult Sections'}}</button>
+                <button class="btn2" type="button" (click)="toogleSections()"><fa-icon [icon]="['fas', 'chevron-down']"></fa-icon> {{allSections ? 'Show Sections':
+                    'Hide Sections'}}</button>
             </div>
         </div>
         <div class="list-body">

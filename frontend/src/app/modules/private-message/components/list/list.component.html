@@ -3,16 +3,20 @@
         <div class="list-header">
             <h1>Private Messages</h1>
             <div class="subt">
-                <a routerLink="new">Nuevo</a>
                 <div class="two-options">
-                    <button class="btn2" (click)="onShowReceived()">Received Messages</button>
-                    <button class="btn2" (click)="onShowSent()">Sent Messages</button>
+                    <button class="btn2" (click)="onShowReceived()">
+                        <fa-icon [icon]="['fas', 'message']"></fa-icon>
+                        Received Messages</button>
+                    <button class="btn2" (click)="onShowSent()">
+                        <fa-icon [icon]="['fas', 'paper-plane']"></fa-icon>
+                        Sent Messages</button>
                 </div>
+                <a class="btn-a" routerLink="new"><fa-icon [icon]="['fas', 'plus']"></fa-icon> New</a>
             </div>
         </div>
         <div class="list-body">
             <ng-container *ngIf="showReceived; else Loading">
-                <div class="message" *ngFor="let _ of [0,1,2,3]">
+                <div class="message" *ngFor="let _ of [0,1,2]">
                     <div class="mess">
                         <span><app-loading height="19px" width="20px"></app-loading></span>
                         <div class="message-body m">
@@ -40,14 +44,17 @@
         <div class="list-header">
             <h1>Private Messages</h1>
             <div class="subt">
-                <a routerLink="new">Nuevo</a>
                 <div class="two-options">
-                    <button class="btn2" (click)="onShowReceived()">Received Messages</button>
-                    <button class="btn2" (click)="onShowSent()">Sent Messages</button>
+                    <button class="btn2" (click)="onShowReceived()">
+                        <fa-icon [icon]="['fas', 'message']"></fa-icon>
+                        Received Messages</button>
+                    <button class="btn2" (click)="onShowSent()">
+                        <fa-icon [icon]="['fas', 'paper-plane']"></fa-icon>
+                        Sent Messages</button>
                 </div>
+                <a class="btn-a" routerLink="new"><fa-icon [icon]="['fas', 'plus']"></fa-icon> New</a>
             </div>
         </div>
-        <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="list-body">
             <ng-container *ngIf="showReceived; else sentList">
                 <ng-container *ngIf="messages.received">
@@ -109,7 +116,7 @@
 </ng-template>
 
 <ng-template class="list-body" #Loading>
-    <div class="message" *ngFor="let _ of [0,1,2,3]">
+    <div class="message" *ngFor="let _ of [0,1,2]">
         <div class="mess">
             <span><app-loading height="19px" width="20px"></app-loading></span>
             <div class="message-body m">
