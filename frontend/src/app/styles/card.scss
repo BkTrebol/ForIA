@@ -37,7 +37,7 @@
       @include btn2($color-gradient2);
     }
     .card-user {
-      @include col(space-around, 24px);
+      @include col(space-around, 32px);
       width: 100%;
       .card-header {
         width: 100%;

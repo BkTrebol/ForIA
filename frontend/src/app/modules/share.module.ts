@@ -50,7 +50,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     ToastsContainer,
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
     NgxEchartsModule.forRoot({
-      echarts: () => import('echarts'), // or import('./path-to-my-custom-echarts')
+      echarts: () => import('echarts'),
     }),
   ],
   providers: [],

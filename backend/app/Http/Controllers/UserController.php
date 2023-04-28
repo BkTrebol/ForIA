@@ -154,7 +154,7 @@ class UserController extends Controller
         $isAdmin = count(collect($roles)->intersect(config('app.adminRoles'))) > 0;
 
         if ($isAdmin || $user->preferences->allow_view_profile){
-            $res = ['user' => $user->only('id', 'nick', 'avatar', 'role'),
+            $res = ['user' => $user->only('id', 'nick', 'avatar', 'rol'),
                     'posts' => $user->posts()->get()->map->only(['id', 'topic_id', 'created_at']),
                     'topics' => $user->topics()->get()->map->only(['id', 'category_id', 'created_at']),
                     'private_message_sender' => $user->private_message_sender()->get()

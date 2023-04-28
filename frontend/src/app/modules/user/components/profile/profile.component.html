@@ -28,7 +28,15 @@
             </div>
             <div class="data" *ngIf="user.birthday">
                 <fa-icon class="icon" [icon]="['fas', 'cake-candles']"></fa-icon>
-                <p>{{user.birthday}}</p>
+                <p>{{user.birthday | date}}</p>
+            </div>
+            <div class="data" *ngIf="user.is_verified">
+                <fa-icon class="icon" [icon]="['fas', 'certificate']"></fa-icon>
+                <p>User vierfied</p>
+            </div>
+            <div class="data" *ngIf="!user.is_verified">
+                <fa-icon class="icon" [icon]="['fas', 'robot']"></fa-icon>
+                <p>Maybe is a bot</p>
             </div>
             <div class="card-footer">
                 <div class="data">
@@ -62,18 +70,8 @@
                 </div>
             </div>
             <div class="chart">
-                <div echarts [options]="chartOption" class="demo-chart"></div>
+                <div echarts [options]="chartOption" class="demo-chart" [theme]="'dark'"></div>
                 <!-- <div echarts [options]="options | async" [theme]="'dark'" [loading]="loading" class="demo-chart"></div> -->
-            </div>
-            <div class="card-footer">
-                <div class="data">
-                    <fa-icon class="icon" [icon]="['fas', 'calendar-days']"></fa-icon>
-                    <p>Created at: {{user.created_at | date}}</p>
-                </div>
-                <div class="data" *ngIf="user.created_at != user.updated_at">
-                    <fa-icon class="icon" [icon]="['fas', 'clock']"></fa-icon>
-                    <p>Updated at: {{user.updated_at | date}}</p>
-                </div>
             </div>
         </div>
     </div>

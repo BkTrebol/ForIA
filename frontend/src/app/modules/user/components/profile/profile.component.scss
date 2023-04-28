@@ -7,7 +7,7 @@
     display: block;
     clear: both;
   }
-  height: 700px;
+  height: 850px;
   .card {
     position: absolute;
     backface-visibility: hidden;
@@ -24,10 +24,10 @@
     transform: rotateY(180deg);
   }
   .chart {
-    height: 400px;
-    width: 600px;
+    height: 500px;
+    width: 100%;
     .demo-chart {
-      height: 400px;
+      height: 500px;
     }
   }
 }

@@ -9,4 +9,5 @@ export interface PublicUserProfile {
   created_at: string;
   updated_at: string;
   can_pm: boolean;
+  is_verified: boolean;
 }

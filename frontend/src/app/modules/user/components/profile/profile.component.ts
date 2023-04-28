@@ -48,6 +48,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       created_at: '',
       updated_at: '',
       can_pm: false,
+      is_verified: true,
     };
     this.userId = this.authService.user?.userData.id;
     this.theme = themeService.getTheme();
@@ -140,19 +141,58 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          console.log(res);
+          // console.log(res);
+          // this.chartOption = {
+          //   xAxis: {
+          //     type: 'category',
+          //     data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          //   },
+          //   yAxis: {
+          //     type: 'value',
+          //   },
+          //   series: [
+          //     {
+          //       data: [820, 932, 901, 934, 1290, 1330, 1320],
+          //       type: 'line',
+          //     },
+          //   ],
+          // };
           this.chartOption = {
-            xAxis: {
-              type: 'category',
-              data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            title: {
+              left: '50%',
+              text: 'Activity',
+              textAlign: 'center',
             },
-            yAxis: {
-              type: 'value',
+            tooltip: {
+              trigger: 'item',
+              formatter: '{b} : {c} ({d}%)',
             },
+            legend: {
+              align: 'auto',
+              bottom: 10,
+              data: ['posts', 'topics', 'messages send', 'messages recived'],
+            },
+            calculable: true,
             series: [
               {
-                data: [820, 932, 901, 934, 1290, 1330, 1320],
-                type: 'line',
+                name: 'activity',
+                type: 'pie',
+                radius: '55%',
+                // roseType: 'area',
+                // roseType: 'radius',
+                center: ['50%', '50%'],
+                data: [
+                  { value: res.posts.length, name: 'posts' },
+                  { value: res.topics.length, name: 'topics' },
+                  {
+                    value: res.private_message_sender.length,
+                    name: 'messages send',
+                  },
+                  {
+                    value: res.private_message_reciever.length,
+                    name: 'messages recived',
+                  },
+                ].sort((a, b) => a.value - b.value),
               },
             ],
           };
