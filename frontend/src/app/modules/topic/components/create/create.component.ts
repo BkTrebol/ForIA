@@ -58,9 +58,11 @@ export class CreateComponent implements OnInit, OnDestroy {
         this.theme = t;
       });
   }
+
   onAddOption() {
     this.topic.poll.options.push({ option: '' });
   }
+  
   onDeleteOption(index: number) {
     this.topic.poll.options.splice(index, 1);
   }

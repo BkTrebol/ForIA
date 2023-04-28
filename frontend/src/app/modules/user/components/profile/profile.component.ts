@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, map, takeUntil } from 'rxjs';
 import { UserService } from '../../service/user.service';
 import { PublicUserProfile } from 'src/app/models/receive/user-profile';
 import { Global } from 'src/app/environment/global';
@@ -7,6 +7,8 @@ import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
+import { EChartsOption } from 'echarts';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile',
@@ -19,6 +21,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public url: string;
   public theme: string;
   public userId: string;
+  public view: boolean;
+  public loading: boolean;
+  public chartOption: EChartsOption;
+  public options?: Observable<any>;
 
   constructor(
     private userSerivce: UserService,
@@ -26,7 +32,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private themeService: ThemeService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private http: HttpClient
   ) {
     this.unsubscribe$ = new Subject();
     this.url = Global.api + 'user/get-avatar/';
@@ -41,16 +48,37 @@ export class ProfileComponent implements OnInit, OnDestroy {
       created_at: '',
       updated_at: '',
       can_pm: false,
+      is_verified: true,
     };
     this.userId = this.authService.user?.userData.id;
     this.theme = themeService.getTheme();
+    this.view = true;
+    this.loading = false;
+
+    this.chartOption = {
+      xAxis: {
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      },
+      yAxis: {
+        type: 'value',
+      },
+      series: [
+        {
+          data: [820, 932, 901, 934, 1290, 1330, 1320],
+          type: 'line',
+        },
+      ],
+    };
+
+    // this.chartOption = new Observable;
   }
 
   ngOnInit(): void {
     if (this.route.snapshot.data['response']) {
       this.user = this.route.snapshot.data['response'];
       if (this.user.id.toString() == this.userId) {
-        this.toastService.show('Verify your email')
+        this.toastService.show('Verify your email');
       }
     } else {
       this.router.navigate(['/error']);
@@ -60,6 +88,123 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe((t) => {
         this.theme = t;
       });
+
+    this.getStatistics();
+
+    this.options = this.http
+      .get('assets/data/life-expectancy-table.json', { responseType: 'json' })
+      .pipe(
+        map((data) => ({
+          grid3D: {},
+          tooltip: {},
+          xAxis3D: {
+            type: 'category',
+          },
+          yAxis3D: {
+            type: 'category',
+          },
+          zAxis3D: {},
+          visualMap: {
+            max: 1e8,
+            dimension: 'Population',
+          },
+          dataset: {
+            dimensions: [
+              'Income',
+              'Life Expectancy',
+              'Population',
+              'Country',
+              { name: 'Year', type: 'ordinal' },
+            ],
+            source: data,
+          },
+          series: [
+            {
+              type: 'bar3D',
+              // symbolSize: symbolSize,
+              shading: 'lambert',
+              encode: {
+                x: 'Year',
+                y: 'Country',
+                z: 'Life Expectancy',
+                tooltip: [0, 1, 2, 3, 4],
+              },
+            },
+          ],
+        }))
+      );
+  }
+
+  getStatistics(): void {
+    this.userSerivce
+      .getStatistics(this.route.snapshot.paramMap.get('id') ?? '')
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (res) => {
+          // console.log(res);
+          // this.chartOption = {
+          //   xAxis: {
+          //     type: 'category',
+          //     data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          //   },
+          //   yAxis: {
+          //     type: 'value',
+          //   },
+          //   series: [
+          //     {
+          //       data: [820, 932, 901, 934, 1290, 1330, 1320],
+          //       type: 'line',
+          //     },
+          //   ],
+          // };
+          this.chartOption = {
+            title: {
+              left: '50%',
+              text: 'Activity',
+              textAlign: 'center',
+            },
+            tooltip: {
+              trigger: 'item',
+              formatter: '{b} : {c} ({d}%)',
+            },
+            legend: {
+              align: 'auto',
+              bottom: 10,
+              data: ['posts', 'topics', 'messages send', 'messages recived'],
+            },
+            calculable: true,
+            series: [
+              {
+                name: 'activity',
+                type: 'pie',
+                radius: '55%',
+                // roseType: 'area',
+                // roseType: 'radius',
+                center: ['50%', '50%'],
+                data: [
+                  { value: res.posts.length, name: 'posts' },
+                  { value: res.topics.length, name: 'topics' },
+                  {
+                    value: res.private_message_sender.length,
+                    name: 'messages send',
+                  },
+                  {
+                    value: res.private_message_reciever.length,
+                    name: 'messages recived',
+                  },
+                ].sort((a, b) => a.value - b.value),
+              },
+            ],
+          };
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+  }
+
+  toggleView(): void {
+    this.view = !this.view;
   }
 
   ngOnDestroy(): void {

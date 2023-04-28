@@ -88,17 +88,66 @@
   }
   &:active {
     transform: translateY(4px);
-    box-shadow: rgba(240, 46, 170, 0.4) 1px 1px,
-      rgba(240, 46, 170, 0.3) 5px 5px, rgba(240, 46, 170, 0.2) 10px 10px,
-      rgba(240, 46, 170, 0.1) 15px 15px, rgba(240, 46, 170, 0.05) 20px 20px;
+    box-shadow: rgba(240, 46, 170, 0.4) 1px 1px, rgba(240, 46, 170, 0.3) 5px 5px,
+      rgba(240, 46, 170, 0.2) 10px 10px, rgba(240, 46, 170, 0.1) 15px 15px,
+      rgba(240, 46, 170, 0.05) 20px 20px;
   }
   &:disabled {
     color: $color-white-grey;
     background-color: $color-dark-loading;
     cursor: not-allowed;
-    &:hover {
-      box-shadow: none;
-    }
+    box-shadow: none;
+    transform: none;
+  }
+}
+
+@mixin btn2($color) {
+  border: none;
+  border-radius: 999px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: $size-btn2;
+  font-family: $font-btn;
+  font-weight: weight(bold);
+  background-color: $color;
+  transition: background-color 0.5s;
+  &:hover {
+    background-color: opacity($color, 0.8);
+  }
+  &:active {
+    background-color: opacity($color, 0.6);
+  }
+  &:disabled {
+    color: $color-white-grey;
+    background-color: $color-dark-loading;
+    cursor: not-allowed;
+  }
+}
+
+@mixin btn0($color) {
+  margin-top: -2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 50%;
+  padding: 8px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: $size-text;
+  background-color: $color;
+  transition: 0.5s;
+  &:hover {
+    background-color: opacity($color, 0.8);
+  }
+  &:active {
+    background-color: opacity($color, 0.6);
+  }
+  &:disabled {
+    color: $color-white-grey;
+    background-color: $color-dark-loading;
+    cursor: not-allowed;
   }
 }
 

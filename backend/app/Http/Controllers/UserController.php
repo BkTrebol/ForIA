@@ -146,4 +146,29 @@ class UserController extends Controller
            User::all() , 200
         );
     }
+
+    function getUserStatistics(User $user){
+
+        $viewer = Auth::user();
+        $roles = $viewer ? $viewer->roles : ['ROLE_GUEST'];
+        $isAdmin = count(collect($roles)->intersect(config('app.adminRoles'))) > 0;
+
+        if ($isAdmin || $user->preferences->allow_view_profile){
+            $res = ['user' => $user->only('id', 'nick', 'avatar', 'rol'),
+                    'posts' => $user->posts()->get()->map->only(['id', 'topic_id', 'created_at']),
+                    'topics' => $user->topics()->get()->map->only(['id', 'category_id', 'created_at']),
+                    'private_message_sender' => $user->private_message_sender()->get()
+                    ->map->only(['id', 'reciever_id', 'created_at']),
+                    'private_message_reciever' => $user->private_message_reciever()->get()
+                    ->map->only(['id', 'sender_id', 'created_at'])
+            ];
+            return response()->json(
+                $res
+            ,200);
+        }else {
+            return response()->json([
+                "message" => "Can't view user profile statistics."
+            ],403);
+        }
+    }
 }

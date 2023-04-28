@@ -1,7 +1,7 @@
 <div class="form-page {{theme}}">
-    <form  [ngClass]="{'view': !view}" [formGroup]="formEditProfile" (ngSubmit)="submit()" class="form-container">
+    <form [ngClass]="{'view': !view}" [formGroup]="formEditProfile" (ngSubmit)="submit()" class="form-container">
         <h2>Edit Profile</h2>
-        <button type="button" (click)="toggleView()">Edit Preferences</button>
+        <button class="btn2" type="button" (click)="toggleView()">Edit Preferences</button>
         <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}</h3>
         <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="fields">
@@ -116,7 +116,7 @@
     </form>
     <form  [ngClass]="{'no': !view, 'default': view}" [formGroup]="formEditPreferences" (ngSubmit)="editPreferences()" class="form-container">
         <h2>Edit Preferences</h2>
-        <button type="button" (click)="toggleView()">Edit Profile</button>
+        <button class="btn2" type="button" (click)="toggleView()">Edit Profile</button>
         <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="fields">
             <div class="group">
@@ -140,7 +140,7 @@
             </div>
             <div class="group">
                 <div class="check">
-                    <input type="checkbox" id="allow_users_to_mp" [(ngModel)]="preferences.allow_user_to_mp"
+                    <input type="checkbox" id="allow_user_to_mp" [(ngModel)]="preferences.allow_user_to_mp"
                         formControlName="allow_user_to_mp">
                     <label for="allow_user_to_mp">Allow User To Mp</label>
                 </div>

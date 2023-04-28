@@ -123,6 +123,7 @@ Route::controller(PollController::class)->prefix('poll')->group(function(){
 Route::controller(UserController::class)->prefix('user')->group(function(){
     Route::get('/get-avatar/{avatar}','getUserAvatar');
     Route::get('/profile/{user}','profile');
+    Route::get('/statistics/{user}','getUserStatistics');
 
     Route::get('/publiclist','getUserListAdmin'); // ADMIN
 });

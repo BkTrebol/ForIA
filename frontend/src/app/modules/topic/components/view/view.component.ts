@@ -114,7 +114,7 @@ export class ViewComponent implements OnInit, OnDestroy {
         this.loading = true;
         this.getData(params['id'], '1');
       });
-    
+
     this.getData(
       this.route.snapshot.paramMap.get('id') ?? '',
       this.route.snapshot.queryParams['page'] ?? '1'
@@ -210,6 +210,8 @@ export class ViewComponent implements OnInit, OnDestroy {
     } else if (this.content.length > 10_000) {
       this.error = "Post can't be longer than 10.000 characters";
       return;
+    } else {
+      this.error = '';
     }
 
     const post = { content: this.content, topic_id: this.listPosts.topic.id };

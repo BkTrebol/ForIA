@@ -6,6 +6,7 @@ import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testi
 import { RouterTestingModule } from '@angular/router/testing';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/modules/share.module';
 
 describe('ReplyComponent', () => {
   let component: ReplyComponent;
@@ -20,6 +21,7 @@ describe('ReplyComponent', () => {
         AngularEditorModule,
         ReactiveFormsModule,
         FormsModule,
+        SharedModule,
       ],
       declarations: [ReplyComponent],
     }).compileComponents();

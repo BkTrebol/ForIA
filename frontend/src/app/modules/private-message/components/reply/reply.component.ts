@@ -39,7 +39,7 @@ export class ReplyComponent implements OnInit, OnDestroy {
     this.message_id = 0;
     this.theme = themeService.getTheme();
     this.unsubscribe$ = new Subject();
-    this.loading = false;
+    this.loading = true;
     this.title = '';
     this.error = '';
     this.reply = {
@@ -72,6 +72,9 @@ export class ReplyComponent implements OnInit, OnDestroy {
                 ? r.title
                 : `Re: ${r.title}`;
             },
+            complete: () => {
+              this.loading = false;
+            }
           });
       });
 
@@ -89,6 +92,16 @@ export class ReplyComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    if (this.reply.content.length == 0) {
+      this.error = "Reply can't be empty";
+      return;
+    } else if (this.reply.content.length > 10_000) {
+      this.error = "Reply can't be longer than 10.000 characters";
+      return;
+    } else {
+      this.error = '';
+    }
+
     this.privateMessageService
       .sendMessage(this.reply)
       .pipe(takeUntil(this.unsubscribe$))

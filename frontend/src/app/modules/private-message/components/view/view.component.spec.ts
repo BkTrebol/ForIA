@@ -4,6 +4,7 @@ import { ViewComponent } from './view.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { SharedModule } from 'src/app/modules/share.module';
 
 describe('ViewComponent', () => {
   let component: ViewComponent;
@@ -14,7 +15,8 @@ describe('ViewComponent', () => {
       imports: [
         HttpClientTestingModule,
         FontAwesomeTestingModule,
-        RouterTestingModule
+        RouterTestingModule,
+        SharedModule,
       ],
       declarations: [ViewComponent],
     }).compileComponents();
