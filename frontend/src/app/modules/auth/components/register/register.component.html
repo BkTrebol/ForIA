@@ -70,12 +70,18 @@
                     </ng-container>
                 </div>
             </div>
+            <div class="group">
+                <div class="row-field">
+                    <input type="checkbox" id="terms" formControlName="terms" required>
+                    <label for="terms">Terms and conditions</label>
+                </div>
+            </div>
             <!-- <div class="group">
                 <div class="row-field">
                     <input type="checkbox" id="newsletter" formControlName="remember_me">
                     <label for="newsletter">Recieve Newsletters</label>
                 </div>
-            </div>  -->
+            </div> -->
         </div>
         <div class="btn-field">
             <button [disabled]="formRegister.invalid" class="btn-send">
