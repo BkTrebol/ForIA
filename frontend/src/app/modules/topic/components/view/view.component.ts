@@ -20,6 +20,7 @@ import { ToastService } from 'src/app/helpers/services/toast.service';
 import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
+import { Global } from 'src/app/environment/global';
 
 @Component({
   selector: 'app-view',
@@ -97,6 +98,8 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.content = '';
     this.error = '';
     this.editorConfig = {
+      uploadUrl:`${Global.api}upload/images`,
+      uploadWithCredentials: true,
       minHeight: '200px',
       editable: true,
     };

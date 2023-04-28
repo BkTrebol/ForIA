@@ -12,6 +12,11 @@ return [
         'category' => 10,
         'topic' => 7,
     ],
+    'urlBackend' => 'http://localhost:8000/api/',
+    'url' => [
+        'backend' => 'http://localhost:8000/api/', 
+        'frontend' => 'http://localhost:4200/',
+    ],
 
     'GOOGLE_CLIENT_ID' => env('GOOGLE_CLIENT_ID'),
     /*

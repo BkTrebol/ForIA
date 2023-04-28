@@ -11,6 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PollController;
 use App\Http\Controllers\PrivateMessageController;
+use App\Http\Controllers\UploadController;
 
 use App\Models\Post;
 use App\Models\Topic;
@@ -78,6 +79,9 @@ Route::middleware('auth:sanctum')->group(function(){
         // Route::post('/','sendMessage');
     });
 
+    Route::controller(UploadController::class)->prefix('upload')->group(function(){
+        Route::post('/images','uploadImage');
+    });
 });
 
 // Public routes.
@@ -121,6 +125,10 @@ Route::controller(UserController::class)->prefix('user')->group(function(){
     Route::get('/profile/{user}','profile');
 
     Route::get('/publiclist','getUserListAdmin'); // ADMIN
+});
+
+Route::controller(UploadController::class)->prefix('upload')->group(function(){
+    Route::get('/images/{image}','getImage');
 });
 
 
