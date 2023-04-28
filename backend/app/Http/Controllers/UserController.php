@@ -18,7 +18,7 @@ class UserController extends Controller
         if (Storage::disk('avatars')->exists($avatar)){
             return response(Storage::disk('avatars')->get($avatar),200);
         } else{
-            return response()->json('e: '.$avatar);
+            return response()->json('e: '.$avatar,404);
         }
     }
 
