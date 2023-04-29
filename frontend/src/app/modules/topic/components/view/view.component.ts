@@ -274,7 +274,6 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          console.log(res);
           this.pollResults = res;
         },
         error: (e) => console.log(e),

@@ -66,9 +66,9 @@
             </div>
         </div>
         <div *ngIf="listPosts.poll">
-            <div *ngIf=" !showResults">
-                <h5>Poll: {{listPosts.poll.name}}</h5> <a routerLink="/topic/{{listPosts.topic.id}}/poll/edit"
-                    *ngIf="listPosts.poll.can_edit">Edit</a>
+            <div *ngIf="!showResults">
+                <h4>Poll: {{listPosts.poll.name}}</h4>
+                <a routerLink="/topic/{{listPosts.topic.id}}/poll/edit" *ngIf="listPosts.poll.can_edit">Edit</a>
                 <div class="poll-options" *ngFor="let option of listPosts.poll.options">
                     <input type="radio" name="poll" id="option-{{option.id}}" [(ngModel)]="vote" [value]="option.id"
                         class="option-radio">
@@ -78,16 +78,14 @@
                 <button (click)="onShowPollResults()">Show results</button>
             </div>
             <div *ngIf="pollResults && showResults">
-                <h5>Poll: {{pollResults.name}}</h5>
-
+                <h4>Poll: {{pollResults.name}}</h4>
                 <div class="poll-vote" [class]="option.voted ? 'voted' : '' "
                     *ngFor="let option of pollResults.options">
                     {{option.option}} : {{option.votes}}
                 </div>
                 <button (click)="onShowPollResults()" *ngIf="listPosts.poll.can_vote">Back to vote</button>
             </div>
-
-            Finishes: {{listPosts.poll.finish_date | date }}
+            <p *ngIf="listPosts.poll.finish_date">Finishes: {{listPosts.poll.finish_date | date }}</p>
         </div>
         <div class="list-body">
             <div *ngIf="listPosts.topic.user" class="posts">
@@ -103,8 +101,10 @@
                         <div class="post-header">
                             <p class="post-date">{{listPosts.topic.created_at | date}}</p>
                             <div *ngIf="listPosts.can_edit" class="edit-buttons">
-                                <button class="btn-edit" type="button"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
-                                <button class="btn-delete" type="button"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
+                                <button class="btn-edit" type="button"><fa-icon
+                                        [icon]="['fas', 'pen']"></fa-icon></button>
+                                <button class="btn-delete" type="button"><fa-icon
+                                        [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
                         </div>
                         <p class="content" [innerHTML]="listPosts.topic.content"></p>
@@ -127,8 +127,10 @@
                         <div class="post-header">
                             <p class="post-date">{{post.created_at | date}}</p>
                             <div *ngIf="post.can_edit" class="edit-buttons">
-                                <button class="btn-edit" type="button"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
-                                <button class="btn-delete" type="button" (click)="deletePost(post.id)"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
+                                <button class="btn-edit" type="button"><fa-icon
+                                        [icon]="['fas', 'pen']"></fa-icon></button>
+                                <button class="btn-delete" type="button" (click)="deletePost(post.id)"><fa-icon
+                                        [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
                         </div>
                         <p class="content" [innerHTML]="post.content"></p>

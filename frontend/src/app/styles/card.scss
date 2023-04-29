@@ -165,7 +165,8 @@
       }
       .list-body {
         .btn-edit,
-        .btn-delete {
+        .btn-delete,
+        .btn-add {
           color: $color-white-clear;
         }
         .btn2,
@@ -280,6 +281,20 @@
           }
           .user-avatar {
             border-left: 2px solid $color-black;
+          }
+        }
+        .poll {
+          input {
+            color: $color-white-clear;
+            background-color: $color-black-grey;
+            border: 2px solid $color-black;
+            &:focus {
+              outline: $color-black solid thin;
+              border: 2px solid $color-black;
+            }
+            &::placeholder {
+              color: $color-grey-clear;
+            }
           }
         }
         .editor-parent {
@@ -488,7 +503,8 @@
       }
       .list-body {
         .btn-edit,
-        .btn-delete {
+        .btn-delete,
+        .btn-add {
           color: $color-black-clear;
         }
         .btn2,
@@ -599,6 +615,20 @@
           }
           .user-avatar {
             border-left: 2px solid $color-white;
+          }
+        }
+        .poll {
+          input {
+            color: $color-black-clear;
+            background-color: $color-grey-clear;
+            border: 2px solid $color-white;
+            &:focus {
+              outline: $color-white solid thin;
+              border: 2px solid $color-white;
+            }
+            &::placeholder {
+              color: $color-grey-dark;
+            }
           }
         }
         .editor-parent {
@@ -850,6 +880,9 @@
       .btn2 {
         @include btn2($color-gradient2);
         margin: 16px 8px;
+      }
+      .btn-add {
+        @include btn0($color-shades1);
       }
       .btn-edit {
         @include btn0($color-secondary);
@@ -1121,6 +1154,31 @@
             width: 100%;
             @include col(space-between, 8px);
             align-items: center;
+          }
+        }
+      }
+      .poll {
+        width: 100%;
+        display: grid;
+        place-content: center;
+        input {
+          height: 30px;
+          width: 300px;
+          font-size: $size-p;
+          padding: 16px;
+          border: none;
+        }
+        .poll-name {
+          margin: 24px 0;
+        }
+        .poll-options {
+          margin-bottom: 16px;
+          @include col(space-evenly, 24px);
+          .poll-option {
+            @include row(flex-start, 16px);
+          }
+          .add-o {
+            @include row(space-between, 16px);
           }
         }
       }
