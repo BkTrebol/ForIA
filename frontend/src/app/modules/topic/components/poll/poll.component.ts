@@ -8,7 +8,7 @@ import { Poll } from 'src/app/models/send/create-topic';
 @Component({
   selector: 'app-poll',
   templateUrl: './poll.component.html',
-  styleUrls: ['./poll.component.scss'],
+  styleUrls: ['./poll.component.scss', '../../../../styles/card.scss'],
 })
 export class PollComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
@@ -69,7 +69,7 @@ export class PollComponent implements OnInit, OnDestroy {
 
   onAddOption() {
     this.poll.options.push({ option: '' });
-    console.log(this.poll.options);
+    // console.log(this.poll.options);
   }
 
   onDeleteOption(index: number) {

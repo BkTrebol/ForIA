@@ -62,9 +62,9 @@
                         <div class="mess">
                             <fa-icon [icon]="[pm.viewed ?'far' : 'fas', 'message']"></fa-icon>
                             <div class="message-body">
-                                <a routerLink="{{pm.id}}">{{pm.title}}</a>
+                                <a class="user-link" routerLink="{{pm.id}}">{{pm.title}}</a>
                                 <div class="user-date">
-                                    <a class="user-link"
+                                    <a
                                         routerLink="/user/profile/{{pm.sender?.id}}">{{pm.sender?.nick}}</a>
                                     {{pm.created_at | ago}}
                                 </div>

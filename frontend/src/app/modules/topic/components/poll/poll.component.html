@@ -1,24 +1,26 @@
 <div class="list-page {{theme}}">
     <div class="list">
         <div class="list-header">
-            <p>{{title}}</p>
-            <p>{{mode | capitalize}} new Poll</p>
+            <h1>{{title}}</h1>
+            <h1 *ngIf="title == ''">{{mode | capitalize}} new Poll</h1>
         </div>
         <div class="list-body">
 
             <div class="add-poll">
                 <label for="poll-name">Poll</label><input type="text" id="poll-name" [(ngModel)]="poll.name">
-                <div class="poll-options" >
+                <div class="poll-options">
                     <div class="poll-option" *ngFor="let opt of poll.options; index as i;">
-                        <label for="option-{{i}}">Option {{i+1}}</label><input type="text" id="option-{{i}}" [(ngModel)]="poll.options[i].option"><button (click)="onDeleteOption(i)">-</button>
+                        <label for="option-{{i}}">Option {{i+1}}</label><input type="text" id="option-{{i}}"
+                            [(ngModel)]="poll.options[i].option"><button (click)="onDeleteOption(i)">-</button>
                     </div><button (click)="onAddOption()">+</button>
                 </div>
             </div>
 
-            <button type="submit" (click)="onSubmit()">Submit</button>
+            <button class="btn-s" type="submit" [disabled]="poll.name == '' || poll.options.length < 2"
+                (click)="onSubmit()">Submit</button>
         </div>
         <div class="list-footer">
-            
+
         </div>
     </div>
 </div>

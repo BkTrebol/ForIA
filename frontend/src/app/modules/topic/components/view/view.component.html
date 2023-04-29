@@ -56,12 +56,11 @@
             <div class="subt">
                 <h2>{{listPosts.topic.title | capitalize}}</h2>
                 <div class="two-options">
-                    <!-- TODO canviar classe -->
                     <a class="btn-a" *ngIf="listPosts.can_post" routerLink="/post/create">
                         <fa-icon [icon]="['fas', 'plus']"></fa-icon>
                         Create new Post</a>
                     <a class="btn-a" routerLink="/topic/{{listPosts.topic.id}}/poll/create" *ngIf="listPosts.can_poll">
-                        <fa-icon [icon]="['fas', 'plus']"></fa-icon> 
+                        <fa-icon [icon]="['fas', 'plus']"></fa-icon>
                         Create Poll</a>
                 </div>
             </div>
@@ -104,7 +103,7 @@
                         <div class="post-header">
                             <p class="post-date">{{listPosts.topic.created_at | date}}</p>
                             <div *ngIf="listPosts.can_edit" class="edit-buttons">
-                                <button class="btn-edit" type="button"><fa-icon [icon]="['fas', 'pencil']"></fa-icon></button>
+                                <button class="btn-edit" type="button"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
                                 <button class="btn-delete" type="button"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
                         </div>
@@ -128,7 +127,7 @@
                         <div class="post-header">
                             <p class="post-date">{{post.created_at | date}}</p>
                             <div *ngIf="post.can_edit" class="edit-buttons">
-                                <button class="btn-edit" type="button"><fa-icon [icon]="['fas', 'pencil']"></fa-icon></button>
+                                <button class="btn-edit" type="button"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
                                 <button class="btn-delete" type="button" (click)="deletePost(post.id)"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
                         </div>
