@@ -70,15 +70,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="message-checkbox"><input type="checkbox" (click)="deletePm(pm.id)"></div>
+                        <div class="message-checkbox"><input type="checkbox" (click)="deletePm(pm.id,'received')"
+                            [checked]="deleteReceived.includes(pm.id)"></div>
                     </div>
                     <div class="list-footer">
+                        <div class="align-right">
+                            <button class="btn2" (click)="onDeletePms()">
+                                <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                                Delete Selected</button>
+                        </div>
                         <app-pagination [current_page]="messages.received.page.current"
                             [last_page]="messages.received.page.last" [ignoreParams]="true"
                             (changePage)="changeReceivedPage($event)">
                         </app-pagination>
                         <div class="c">
-                            <div>Total Recived Messages: {{messages.received.page.total}}</div>
+                            <div>Total Received Messages: {{messages.received.page.total}}</div>
                             <div>Page: {{messages.received.page.current}}/{{messages.received.page.last}}</div>
                         </div>
                     </div>
@@ -101,9 +107,15 @@
                         {{pm.created_at | ago}}</div>
                 </div>
             </div>
-            <div class="message-checkbox"><input type="checkbox" (click)="deletePm(pm.id)"></div>
+            <div class="message-checkbox"><input type="checkbox" (click)="deletePm(pm.id,'sent')"
+                [checked]="deleteSent.includes(pm.id)"></div>
         </div>
         <div class="list-footer">
+            <div class="align-right">
+                <button class="btn2" (click)="onDeletePms()">
+                    <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                    Delete Selected</button>
+            </div>
             <app-pagination [current_page]="messages.sent.page.current" [last_page]="messages.sent.page.last"
                 [ignoreParams]="true" (changePage)="changeSentPage($event)">
             </app-pagination>
