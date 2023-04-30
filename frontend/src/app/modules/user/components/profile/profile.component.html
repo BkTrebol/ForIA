@@ -16,7 +16,7 @@
                     <a class="btn-a" *ngIf="user.can_pm" routerLink="/private-message/{{user.id}}">
                         <fa-icon [icon]="['fas', 'message']"></fa-icon>
                         Send Message</a>
-                    <a class="btn-a" *ngIf="user.id== userAuth.id" routerLink="/user/edit/">
+                    <a class="btn-a" *ngIf="user.id == userAuth.id" routerLink="/user/edit/">
                         <fa-icon [icon]="['fas', 'pen']"></fa-icon>
                         Edit Profile</a>
                     <button class="btn2" type="button" (click)="toggleView()">
@@ -77,7 +77,7 @@
                     <a class="btn-a" *ngIf="user.can_pm" routerLink="/private-message/{{user.id}}">
                         <fa-icon [icon]="['fas', 'message']"></fa-icon>
                         Send Message</a>
-                    <a class="btn-a" *ngIf="user.id== userAuth.id" routerLink="/user/edit/">
+                    <a class="btn-a" *ngIf="user.id == userAuth.id" routerLink="/user/edit/">
                         <fa-icon [icon]="['fas', 'pen']"></fa-icon>
                         Edit Profile</a>
                     <button class="btn2" type="button" (click)="toggleView()">

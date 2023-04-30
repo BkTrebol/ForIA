@@ -17,6 +17,7 @@ export interface Poll {
   finish_date: Date;
   id: number;
   name: string;
+  votes: number;
   options: Array<PollOption>;
 }
 

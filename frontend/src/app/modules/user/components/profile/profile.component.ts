@@ -68,7 +68,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.route.snapshot.data['response']) {
       this.user = this.route.snapshot.data['response'];
-      if (this.user.id == this.userAuth.id && !this.userAuth.isVerified) {
+      //this.user.id == this.userAuth.id && !this.userAuth.isVerified
+      if (this.user?.id == 0 && !this.userAuth.isVerified) {
         this.toastService.show('Verify your email');
       }
     } else {

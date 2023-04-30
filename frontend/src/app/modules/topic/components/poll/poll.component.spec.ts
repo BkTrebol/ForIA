@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PollComponent } from './poll.component';
 import { SharedModule } from 'src/app/modules/share.module';
+import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 
 describe('PollComponent', () => {
   let component: PollComponent;
@@ -10,7 +11,12 @@ describe('PollComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule, SharedModule],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        SharedModule,
+        FontAwesomeTestingModule,
+      ],
       declarations: [PollComponent],
     }).compileComponents();
 

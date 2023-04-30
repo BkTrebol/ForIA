@@ -94,15 +94,21 @@
     padding: 32px 0;
     .card {
       width: 600px;
-      padding: 32px;
+      padding: 32px 0;
       .card-user {
+        margin: auto;
+        @include center();
+        gap: 12px;
         .card-header {
+          @include center();
+          flex-direction: column;
+          gap: 24px;
           .title {
             @include row(space-between, 16px);
           }
         }
         .card-footer {
-          @include col(space-around, 24px);
+          @include col(space-around, 12px);
         }
       }
     }
@@ -111,15 +117,12 @@
     padding: 24px 0;
     .card {
       width: 100%;
-      padding: 24px;
+      padding: 24px 0;
       .card-user {
         .card-header {
           .title {
-            @include row(space-between, 16px);
+            @include row(space-between, 8px);
           }
-        }
-        .card-footer {
-          @include col(space-around, 24px);
         }
       }
     }
@@ -295,6 +298,12 @@
             &::placeholder {
               color: $color-grey-clear;
             }
+          }
+        }
+        .poll-view {
+          .poll-vote,
+          .poll-option-vote {
+            border: 2px solid $color-black;
           }
         }
         .editor-parent {
@@ -631,6 +640,12 @@
             }
           }
         }
+        .poll-view {
+          .poll-vote,
+          .poll-option-vote {
+            border: 2px solid $color-white;
+          }
+        }
         .editor-parent {
           .editor-user {
             border: 2px solid $color-white;
@@ -903,6 +918,9 @@
       span.m {
         margin-top: 0px;
         margin-bottom: 0px;
+      }
+      .l2 {
+        margin-bottom: 16px;
       }
       .section {
         list-style: none;
@@ -1179,6 +1197,37 @@
           }
           .add-o {
             @include row(space-between, 16px);
+          }
+        }
+      }
+      .poll-view {
+        margin-bottom: 16px;
+        .poll-title {
+          @include row(flex-start, 16px);
+        }
+        .poll-vote {
+          @include col(space-evenly, 8px);
+          margin-top: 16px;
+          padding: 8px;
+          .voted {
+            padding: 2px;
+            background-color: $color-gradient3;
+          }
+        }
+        .poll-option-vote {
+          padding: 16px;
+          margin-top: 16px;
+          @include col(space-evenly, 16px);
+          .poll-options {
+            @include row(flex-start, 16px);
+            cursor: pointer;
+            input,
+            label {
+              cursor: pointer;
+            }
+            input {
+              scale: 1.5;
+            }
           }
         }
       }

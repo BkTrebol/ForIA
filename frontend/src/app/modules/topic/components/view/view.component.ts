@@ -31,6 +31,7 @@ import { Global } from 'src/app/environment/global';
 export class ViewComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public loading: boolean;
+  public loading2: boolean;
   public listPosts: ListPosts;
   public audioUrl: string;
   public content: string;
@@ -84,6 +85,7 @@ export class ViewComponent implements OnInit, OnDestroy {
         finish_date: new Date(),
         id: 0,
         name: '',
+        votes: 0,
         options: [],
       },
       page: {
@@ -94,11 +96,12 @@ export class ViewComponent implements OnInit, OnDestroy {
     };
     this.unsubscribe$ = new Subject();
     this.loading = true;
+    this.loading2 = false;
     this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';
     this.content = '';
     this.error = '';
     this.editorConfig = {
-      uploadUrl:`${Global.api}upload/images`,
+      uploadUrl: `${Global.api}upload/images`,
       uploadWithCredentials: true,
       minHeight: '200px',
       editable: true,
@@ -163,6 +166,7 @@ export class ViewComponent implements OnInit, OnDestroy {
           }
 
           if (res.poll) {
+            this.loading2 = true;
             this.checkPoll();
           }
 
@@ -265,6 +269,8 @@ export class ViewComponent implements OnInit, OnDestroy {
       if (this.listPosts.poll.can_vote === false) {
         this.showResults = true;
       }
+    } else {
+      this.loading2 = false;
     }
   }
 
@@ -277,6 +283,7 @@ export class ViewComponent implements OnInit, OnDestroy {
           this.pollResults = res;
         },
         error: (e) => console.log(e),
+        complete: () => (this.loading2 = false),
       });
   }
 
