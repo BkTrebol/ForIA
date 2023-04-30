@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Google_Client;
 use Carbon\Carbon;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Firebase;
 use Illuminate\Support\Facades\Notification;
 
 use App\Models\User;
@@ -101,7 +102,21 @@ class AuthController extends Controller
 
         $id_token = $request->credential;
         $client = new Google_Client(['client_id' => config('app.GOOGLE_CLIENT_ID')]);  // Specify the CLIENT_ID of the app that accesses the backend
-        $payload = $client->verifyIdToken($id_token);
+        
+        // Fix clock sync error.
+        Firebase\JWT\JWT::$leeway = 5;
+        do {
+            $attempt = 0;
+            try {
+                $payload = $client->verifyIdToken($id_token);
+                $retry = false;
+            } catch (Firebase\JWT\BeforeValidException $e) {
+                $attempt++;
+                $retry = $attempt < 2;
+            }
+        } while ($retry);
+
+        // $payload = $client->verifyIdToken($id_token);
 
         if (!$payload) {
             return redirect()->away('http://localhost:4200/auth/login');

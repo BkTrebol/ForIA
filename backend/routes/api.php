@@ -77,6 +77,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/reply/{pm}','getThread');
         Route::get('/{pm}','getPrivateMessage');
         Route::post('/new','newPrivateMessage');
+        Route::delete('','deleteMessages');
         // Route::post('/','sendMessage');
     });
 

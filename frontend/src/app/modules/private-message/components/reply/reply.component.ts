@@ -108,7 +108,7 @@ export class ReplyComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (r) => {
           // console.log(r)
-          this.router.navigate([`/private-message/${r.id}}`]);
+          this.router.navigate([`/private-message/${r.id}`]);
         },
         error: (e) => console.log(e),
       });

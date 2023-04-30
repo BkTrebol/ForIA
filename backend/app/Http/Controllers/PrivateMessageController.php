@@ -13,6 +13,41 @@ use App\Models\Post;
 class PrivateMessageController extends Controller
 {
 
+    function deleteMessages(Request $request){
+        $user = Auth::user();
+        $deleteSent = $request->sentMessages;
+        $deleteReceived = $request->receivedMessages;
+
+        foreach($deleteSent as $pmId){
+                $pm = PrivateMessage::find($pmId);
+                if($pm->sender_id == $user->id){
+                    if($pm->deleted_by == null){
+                        $pm->deleted_by = $user->id;
+                        $pm->save();
+                    } else{
+                        if($pm->deleted_by == $pm->receiver_id){
+                            $pm->delete();
+                        }
+                    }
+                }
+            }
+
+            foreach($deleteReceived as $pmId){
+                $pm = PrivateMessage::find($pmId);
+                if($pm->receiver_id == $user->id){
+                    if($pm->deleted_by == null){
+                        $pm->deleted_by = $user->id;
+                        $pm->save();
+                    } else{
+                        if($pm->deleted_by == $pm->sender_id){
+                            $pm->delete();
+                        }
+                    }
+                }
+            }
+
+            return response()->json('Messages Deleted succesfully',200);
+        }
     function getMessages()
     {
         $user = Auth::user();

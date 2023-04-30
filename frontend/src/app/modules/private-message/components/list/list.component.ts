@@ -17,6 +17,8 @@ export class ListComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public theme: string;
   public showReceived: boolean;
+  public deleteSent:Array<number>;
+  public deleteReceived:Array<number>;
   // public receivedPage:number;
   // public sentPage:number;
 
@@ -27,6 +29,8 @@ export class ListComponent implements OnInit, OnDestroy {
     private router: Router,
     private toastService: ToastService
   ) {
+    this.deleteReceived=[];
+    this.deleteSent=[];
     this.messages = {
       received: {
         messages: [],
@@ -62,8 +66,33 @@ export class ListComponent implements OnInit, OnDestroy {
       });
   }
 
-  deletePm(id: number) {
-    console.log('Message with id', id);
+  deletePm(id: number,type='') {
+    if(type==='sent'){
+      if(this.deleteSent.includes(id)){
+        this.deleteSent.splice(this.deleteSent.indexOf(id), 1);
+      } else {
+        this.deleteSent.push(id);
+      }
+
+    } else if(type==='received'){
+      if(this.deleteReceived.includes(id)){
+        this.deleteReceived.splice(this.deleteReceived.indexOf(id), 1)
+      } else{
+        this.deleteReceived.push(id)
+      }
+    }
+  }
+
+  onDeletePms(){
+    this.privateMessageService.delete(this.deleteSent,this.deleteReceived)
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe({
+      next: r => {
+        // console.log(r)
+        this.getMessages();
+      },
+      error: e => console.error(e)
+    })
   }
 
   getMessages() {
