@@ -82,7 +82,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           '/auth/reset-password',
           '/user/edit',
           '/user/profile',
-          '/error'
+          '/error',
         ].includes(this.router.url)
       ) {
         this.canSmall = false;
@@ -118,7 +118,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   // Change the Theme
   changeTheme(): void {
-    // this.toastService.showDanger('Holita');
     this.theme = this.theme == 'dark' ? 'light' : 'dark';
     this.themeService.changeTheme(this.theme);
   }

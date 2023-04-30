@@ -1,3 +1,22 @@
-@import 'bootstrap/scss/bootstrap-utilities';
-@import 'bootstrap/scss/modal';
+@import "bootstrap/scss/bootstrap-utilities";
+@import "bootstrap/scss/modal";
 @import "bootstrap/scss/close";
+@import "bootstrap/scss/buttons";
+
+@import "../../../../styles/vars";
+
+button {
+  cursor: pointer;
+}
+.row-field {
+  .und {
+    text-decoration: underline;
+  }
+  .red {
+    color: $color-tertiary;
+  }
+}
+.modal-content {
+  font-size: $size-text;
+  font-family: $font-text;
+}
