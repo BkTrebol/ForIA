@@ -13,7 +13,7 @@
                     </div>
                 </div>
                 <div class="btns">
-                    <a class="btn-a" *ngIf="user.can_pm" routerLink="/private-message/{{user.id}}">
+                    <a class="btn-a" *ngIf="user.can_pm" routerLink="/private-message/new" [queryParams]="{user:user.id}">
                         <fa-icon [icon]="['fas', 'message']"></fa-icon>
                         Send Message</a>
                     <a class="btn-a" *ngIf="user.id == userAuth.id" routerLink="/user/edit/">
@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="btns">
-                    <a class="btn-a" *ngIf="user.can_pm" routerLink="/private-message/{{user.id}}">
+                    <a class="btn-a" *ngIf="user.can_pm" routerLink="/private-message/new" [queryParams]="{user:user.id}">
                         <fa-icon [icon]="['fas', 'message']"></fa-icon>
                         Send Message</a>
                     <a class="btn-a" *ngIf="user.id == userAuth.id" routerLink="/user/edit/">

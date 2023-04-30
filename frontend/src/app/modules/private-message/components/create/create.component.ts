@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { PrivateMessageService } from '../../service/private-message.service';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, map, takeUntil } from 'rxjs';
 import { newPrivateMessage } from 'src/app/models/receive/list-pm';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
@@ -35,7 +35,8 @@ export class CreateComponent implements OnInit, OnDestroy {
     private router: Router,
     private themeService: ThemeService,
     private privateMessageService: PrivateMessageService,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute,
   ) {
     this.theme = themeService.getTheme();
     this.unsubscribe$ = new Subject();
@@ -56,8 +57,30 @@ export class CreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.userList$ = this.privateMessageService.getUserList();
+    // In case is set an user trough queryParams checks if can PM them.
+    const sendTo = parseInt(this.route.snapshot.queryParams['user'])
+    if(isNaN(sendTo)){
+      this.userList$ = this.privateMessageService.getUserList()
+    } else{
+      this.userList$ = this.privateMessageService.getUserList()
+      .pipe(
+        map(r => {
+          if(r.filter((u:any) => u.id === sendTo).length == 0){
+            console.log('Nope') // TODO Redirect/ErrorToast/Both.
+          } else{
+            this.message.recipient = sendTo;
+          }
+          return r;
+        })
+      )
+    }
+    
 
+    ;
+    if(this.userList$){
+
+    }
+    console.log(this.message)
     this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {
         this.userLogged = r;
