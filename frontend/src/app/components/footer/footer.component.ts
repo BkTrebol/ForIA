@@ -7,7 +7,7 @@ import { ThemeService } from 'src/app/helpers/services/theme.service';
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss', '../../styles/general.scss'],
 })
-export class FooterComponent implements OnInit , OnDestroy {
+export class FooterComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public theme: string;
 

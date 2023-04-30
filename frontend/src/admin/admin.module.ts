@@ -5,17 +5,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AdminComponent } from './admin.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 
-
 @NgModule({
-  declarations: [
-    AdminComponent,
-    SidenavComponent
-  ],
-  imports: [
-    BrowserModule,
-    CommonModule,
-    AdminRoutingModule,
-  ],
-  bootstrap:[AdminComponent],
+  declarations: [AdminComponent, SidenavComponent],
+  imports: [BrowserModule, CommonModule, AdminRoutingModule],
+  bootstrap: [AdminComponent],
 })
-export class AdminModule { }
+export class AdminModule {}

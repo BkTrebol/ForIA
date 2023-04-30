@@ -71,9 +71,15 @@
                 </div>
             </div>
             <div class="group">
-                <div class="row-field">
-                    <input type="checkbox" id="terms" formControlName="terms" (click)="openTermsModal(termsModal)" required>
-                    <label for="terms">Terms and conditions</label>
+                <div [hidden]="!terms?.value">
+                    <div class="row-field">
+                        <input type="checkbox" id="terms" formControlName="terms" required>
+                        <label for="terms">Terms and Conditions</label>
+                    </div>
+                </div>
+                <div *ngIf="!terms?.value" class="row-field" (click)="openTermsModal(termsModal)">
+                    <span><span class="red">* </span> <span class="und">Read Terms and Conditions</span></span>
+                    <fa-icon [icon]="['fas', 'file']"></fa-icon>
                 </div>
             </div>
             <!-- <div class="group">
@@ -98,14 +104,16 @@
 
 
 <ng-template #termsModal let-modal>
-	<div class="modal-header">
-		<h4 class="modal-title">Modal title</h4>
-		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-	</div>
-	<div class="modal-body">
-		<p>{{terms}}</p>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-	</div>
+    <div class="modal-header">
+        <h3 class="modal-title">Terms and conditions</h3>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <!-- <p>{{termsText}}</p> -->
+        <p [innerHTML]="termsText"></p>
+    </div>
+    <div class="modal-footer d-felx justify-content-between">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        <button type="button" class="btn btn-success" (click)="checkTerms(); modal.close('Close click')">Accept</button>
+    </div>
 </ng-template>

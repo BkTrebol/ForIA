@@ -83,6 +83,8 @@ describe('RegisterComponent Test', () => {
     password.setValue('1234567');
     const password_confirmation = form.controls['password_confirmation'];
     password_confirmation.setValue('7654321');
+    const terms = form.controls['terms'];
+    terms.setValue(false);
     expect(form.invalid).toBeTrue();
     checkBtn(true, fixture);
   });
@@ -97,6 +99,8 @@ describe('RegisterComponent Test', () => {
     password.setValue('12345678');
     const password_confirmation = form.controls['password_confirmation'];
     password_confirmation.setValue('12345678');
+    const terms = form.controls['terms'];
+    terms.setValue(true);
     expect(form.invalid).toBeTrue();
     checkBtn(true, fixture);
   });
@@ -111,6 +115,8 @@ describe('RegisterComponent Test', () => {
     password.setValue('12345678');
     const password_confirmation = form.controls['password_confirmation'];
     password_confirmation.setValue('12345678');
+    const terms = form.controls['terms'];
+    terms.setValue(true);
     expect(form.invalid).toBeTrue();
     checkBtn(true, fixture);
   });
@@ -199,6 +205,8 @@ describe('RegisterComponent Test', () => {
     password.setValue('1234567');
     const password_confirmation = form.controls['password_confirmation'];
     password_confirmation.setValue('123456');
+    const terms = form.controls['terms'];
+    terms.setValue(false);
     expect(form.invalid).toBeTrue();
     checkBtn(true, fixture);
   });

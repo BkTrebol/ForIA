@@ -1,13 +1,15 @@
-<ngb-toast *ngFor="let toast of toastService.toasts" [class]="toast.classname" [autohide]="true"
-    [delay]="toast.delay || 4000" (hidden)="toastService.remove(toast)">
+<ngb-toast *ngFor="let toast of toastService.toasts" [class]="toast.classname"
+    [autohide]="true" [delay]="toast.delay || 4000" (hidden)="toastService.remove(toast)" class="{{theme}}">
     <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
         <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
     </ng-template>
 
-    <ng-template #text>{{ toast.textOrTpl }}</ng-template>
+    <ng-template #text>
+        {{ toast.textOrTpl }}
+    </ng-template>
 </ngb-toast>
 
-<ngb-toast *ngFor="let toast of toastService.dangerToasts" class="text-dark bg-danger" [class]="toast.classname"
+<ngb-toast *ngFor="let toast of toastService.dangerToasts" class="text-black bg-danger" [class]="toast.classname"
     [autohide]="false" [delay]="toast.delay || 5000" (hidden)="toastService.remove(toast,'dangerToasts')">
     <div class="toast-body">
         <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
