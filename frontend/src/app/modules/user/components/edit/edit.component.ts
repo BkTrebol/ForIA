@@ -9,7 +9,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/modules/user/service/user.service';
 import { EditUserProfile } from 'src/app/models/receive/edit-user-profile';
-import { Global } from 'src/app/environment/global';
+import { Global } from 'src/environment/global';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { UserPreferences } from 'src/app/models/user-preferences';

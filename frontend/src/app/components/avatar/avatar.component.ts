@@ -5,7 +5,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { Global } from 'src/app/environment/global';
+import { Global } from 'src/environment/global';
 
 @Component({
   selector: 'app-avatar',

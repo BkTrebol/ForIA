@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject, map, takeUntil } from 'rxjs';
 import { UserService } from '../../service/user.service';
 import { PublicUserProfile } from 'src/app/models/receive/user-profile';
-import { Global } from 'src/app/environment/global';
+import { Global } from 'src/environment/global';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ThemeService } from 'src/app/helpers/services/theme.service';

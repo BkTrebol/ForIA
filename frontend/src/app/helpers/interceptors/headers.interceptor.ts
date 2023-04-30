@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
-import { Global } from '../../environment/global';
+import { Global } from '../../../environment/global';
 
 @Injectable()
 export class HeadersInterceptor implements HttpInterceptor {

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Global } from '../../../environment/global';
+import { Global } from '../../../../environment/global';
 import { UserPreferences } from '../../../models/user-preferences';
 import { EditUserProfile } from 'src/app/models/receive/edit-user-profile';
 import { UserProfile } from 'src/app/models/send/public-user-profile';

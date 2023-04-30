@@ -20,7 +20,7 @@ import { ToastService } from 'src/app/helpers/services/toast.service';
 import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
-import { Global } from 'src/app/environment/global';
+import { Global } from 'src/environment/global';
 
 @Component({
   selector: 'app-view',

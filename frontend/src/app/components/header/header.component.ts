@@ -4,7 +4,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../modules/auth/service/auth.service';
 import { User } from '../../models/user';
 import { UserPreferences } from '../../models/user-preferences';
-import { Global } from 'src/app/environment/global';
+import { Global } from 'src/environment/global';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 

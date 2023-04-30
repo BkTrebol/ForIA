@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject, concatMap, map, } from 'rxjs';
-import { Global } from 'src/app/environment/global';
+import { Global } from 'src/environment/global';
 import { AuthData } from 'src/app/models/auth-data';
 import { Register } from 'src/app/models/register';
 import { User } from 'src/app/models/user';

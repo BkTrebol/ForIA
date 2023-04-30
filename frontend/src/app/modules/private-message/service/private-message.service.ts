@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Global } from 'src/app/environment/global';
+import { Global } from 'src/environment/global';
 import {
   ListPm,
   PrivateMessage,

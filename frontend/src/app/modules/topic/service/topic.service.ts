@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Global } from '../../../environment/global';
+import { Global } from '../../../../environment/global';
 import { ListPosts, Poll } from 'src/app/models/receive/list-posts';
 import { Poll as SendPoll} from 'src/app/models/send/create-topic';
 import { CreatePost } from 'src/app/models/send/create-post';
