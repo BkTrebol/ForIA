@@ -13,8 +13,9 @@
     .form-container {
       background-color: $color-black-opacity;
       color: $color-white-clear;
-      .btn2 {
-        color: $color-white-clear
+      .btn2,
+      .btn-a {
+        color: $color-white-clear;
       }
       .fields .group {
         .field {
@@ -63,6 +64,15 @@
         a {
           @include a-link($color-gradient4, $color-gradient3, $color-gradient2);
         }
+        .btn2 {
+          color: $color-white-clear;
+          &:hover {
+            color: $color-white-clear;
+          }
+          &:active {
+            color: $color-white-clear;
+          }
+        }
       }
     }
     .form-container.ng-valid .btn-field .btn-icon {
@@ -74,8 +84,9 @@
     .form-container {
       background-color: $color-white-opacity;
       color: $color-black-clear;
-      .btn2 {
-        color: $color-black-clear
+      .btn2,
+      .btn-a {
+        color: $color-black-clear;
       }
       .fields .group {
         .field {
@@ -121,6 +132,15 @@
         a {
           @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
         }
+        .btn2 {
+          color: $color-black-clear;
+          &:hover {
+            color: $color-black-clear;
+          }
+          &:active {
+            color: $color-black-clear;
+          }
+        }
       }
     }
     .form-container.ng-valid .btn-field .btn-icon {
@@ -154,6 +174,11 @@
     }
     .btn2 {
       @include btn2($color-gradient2);
+      text-decoration: none;
+    }
+    .btn-a {
+      @include btn2($color-gradient1);
+      text-decoration: none;
     }
     // All the input fileds
     .fields {

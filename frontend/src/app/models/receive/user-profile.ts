@@ -11,9 +11,10 @@ export interface PublicUserProfile {
   can_pm: boolean;
   is_verified: boolean;
   last_post?: {
-    topic_id: number;
-    topic_title: string;
-    topic: { title: string };
+    topic: {
+      id: number,
+      title: string
+    };
     created_at: string;
     updated_at: string;
   };

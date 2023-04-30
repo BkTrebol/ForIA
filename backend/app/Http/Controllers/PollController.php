@@ -91,7 +91,7 @@ class PollController extends Controller
         ]);
         // Checks if either the user has special permissions or the topic has a poll with votes.
 
-        if (($user->id != $topic->user_id || $topic->poll->answers->count() != 0) && !$isAdmin && !$isMod) {
+        if (($user->id != $topic->user_id || ($topic->poll()->count() > 0 && $topic->poll->answers->count() != 0)) && !$isAdmin && !$isMod) {
             return response()->json([
                 'message' => 'Unauthorized',
             ], 403);

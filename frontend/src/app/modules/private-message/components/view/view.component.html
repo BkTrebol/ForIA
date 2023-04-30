@@ -26,10 +26,10 @@
         <div class="list-header">
             <h1>{{privateMessageList?.message?.title}}</h1>
         </div>
-        <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="list-body">
-            <button class="btn2" routerLink="/private-message/reply/{{pmId}}">Reply
+            <button class="btn-a" routerLink="/private-message/reply/{{pmId}}">
                 <fa-icon [icon]="['fas', 'reply']"></fa-icon>
+                Reply
             </button>
             <ng-container *ngIf="privateMessageList">
                 <div *ngIf="privateMessageList.message.hasOwnProperty('content')">

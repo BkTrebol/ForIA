@@ -1,7 +1,7 @@
 <div class="list-page {{theme}}">
     <div class="list" *ngIf="loading">
         <div class="list-header">
-            <span class="m"><app-loading height="53px" width="250px"></app-loading></span>
+            <span class="m2"><app-loading height="53px" width="250px"></app-loading></span>
         </div>
         <div class="list-body">
             <ul>
@@ -11,7 +11,7 @@
                         <div class="topic-body">
                             <div class="title">
                                 <h2><app-loading height="30px" width="50%"></app-loading></h2>
-                                <p><app-loading height="25px" width="100%"></app-loading></p>
+                                <p><app-loading height="22px" width="100%"></app-loading></p>
                             </div>
                             <div class="text">
                                 <div class="primer">
@@ -55,8 +55,12 @@
     <div class="list" *ngIf="!loading">
         <div class="list-header">
             <h1>{{listTopics.category.title | capitalize}}</h1>
-            <a class="option-btns btn-2" *ngIf="listTopics.category.can_post"
-                routerLink="/topic/create/{{listTopics.category.id}}">Create new Topic</a>
+            <div class="option-btns">
+            <a class="btn-a x" *ngIf="listTopics.category.can_post"
+                routerLink="/topic/create/{{listTopics.category.id}}">
+                <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+                Create new Topic</a>
+            </div>
         </div>
         <div class="list-body">
             <ul>

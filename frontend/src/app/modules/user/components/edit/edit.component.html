@@ -1,7 +1,9 @@
 <div class="form-page {{theme}}">
     <form [ngClass]="{'view': !view}" [formGroup]="formEditProfile" (ngSubmit)="submit()" class="form-container">
         <h2>Edit Profile</h2>
-        <button class="btn2" type="button" (click)="toggleView()">Edit Preferences</button>
+        <button class="btn-a" type="button" (click)="toggleView()">
+            <fa-icon [icon]="['fas', 'pen']"></fa-icon>
+            Edit Preferences</button>
         <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}</h3>
         <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="fields">
@@ -111,12 +113,16 @@
             <fa-icon class="btn-icon" [icon]="['fas', 'thumbs-up']"></fa-icon>
         </div>
         <div class="form-links">
-            <p><a routerLink="/user/profile/{{userId}}">View Profile</a></p>
+            <p><a class="btn2" routerLink="/user/profile/{{userId}}">
+                <fa-icon [icon]="['fas', 'user-circle']"></fa-icon>
+                View Profile</a></p>
         </div>
     </form>
     <form  [ngClass]="{'no': !view, 'default': view}" [formGroup]="formEditPreferences" (ngSubmit)="editPreferences()" class="form-container">
         <h2>Edit Preferences</h2>
-        <button class="btn2" type="button" (click)="toggleView()">Edit Profile</button>
+        <button class="btn-a" type="button" (click)="toggleView()">
+            <fa-icon [icon]="['fas', 'pen']"></fa-icon>
+            Edit Profile</button>
         <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="fields">
             <div class="group">
@@ -179,7 +185,9 @@
             <fa-icon class="btn-icon" [icon]="['fas', 'thumbs-up']"></fa-icon>
         </div>
         <div class="form-links">
-            <p><a routerLink="/user/profile/{{userId}}">View Profile</a></p>
+            <p><a class="btn2" routerLink="/user/profile/{{userId}}">
+                <fa-icon [icon]="['fas', 'user-circle']"></fa-icon>
+                View Profile</a></p>
         </div>
     </form>
 </div>

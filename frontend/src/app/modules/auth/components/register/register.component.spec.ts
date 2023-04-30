@@ -157,6 +157,22 @@ describe('RegisterComponent Test', () => {
     checkBtn(true, fixture);
   });
 
+  it('HTML Form Invalid (invalid terms)', () => {
+    const form = component.formRegister;
+    const nick = form.controls['nick'];
+    nick.setValue('abc');
+    const email = form.controls['email'];
+    email.setValue('a@a');
+    const password = form.controls['password'];
+    password.setValue('12345678');
+    const password_confirmation = form.controls['password_confirmation'];
+    password_confirmation.setValue('12345678');
+    const terms = form.controls['terms'];
+    terms.setValue(false);
+    expect(form.invalid).toBeTrue();
+    checkBtn(true, fixture);
+  });
+
   it('HTML Form Valid (all valid)', () => {
     const form = component.formRegister;
     const nick = form.controls['nick'];
@@ -167,6 +183,8 @@ describe('RegisterComponent Test', () => {
     password.setValue('12345678');
     const password_confirmation = form.controls['password_confirmation'];
     password_confirmation.setValue('12345678');
+    const terms = form.controls['terms'];
+    terms.setValue(true);
     expect(form.valid).toBeTrue();
     checkBtn(false, fixture);
   });

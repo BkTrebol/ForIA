@@ -6,14 +6,18 @@
 
 .card-container {
   @include center;
-  padding: 64px;
+  padding: 64px 0;
   // Dark theme
   &.dark {
     .card {
       background-color: $color-black-clear;
       color: $color-white-clear;
-      a {
+      .data a {
         @include a-link($color-gradient3, $color-gradient2, $color-gradient1);
+      }
+      .btn-a,
+      .btn2 {
+        color: $color-white-clear;
       }
     }
   }
@@ -22,8 +26,12 @@
     .card {
       background-color: $color-white-clear;
       color: $color-black-clear;
-      a {
+      .data a {
         @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
+      }
+      .btn-a,
+      .btn2 {
+        color: $color-black-clear;
       }
     }
   }
@@ -33,8 +41,15 @@
     padding: 32px 64px;
     border-radius: 24px;
     font-family: $font-text;
+    .btn-chart {
+      margin: auto;
+    }
     .btn2 {
       @include btn2($color-gradient2);
+    }
+    .btn-a {
+      @include btn2($color-gradient1);
+      text-decoration: none;
     }
     .card-user {
       @include col(space-around, 32px);
@@ -72,39 +87,42 @@
   }
   // Responsive for tablet
   @include tablet() {
-    padding: 32px;
+    padding: 32px 0;
   }
   // Responsive for mobile
   @include mobile() {
-    padding: 32px 16px;
+    padding: 32px 0;
     .card {
       width: 600px;
-      padding: 32px;
+      padding: 32px 0;
       .card-user {
+        margin: auto;
+        @include center();
+        gap: 12px;
         .card-header {
+          @include center();
+          flex-direction: column;
+          gap: 24px;
           .title {
             @include row(space-between, 16px);
           }
         }
         .card-footer {
-          @include col(space-around, 24px);
+          @include col(space-around, 12px);
         }
       }
     }
   }
   @include mini() {
-    padding: 24px 8px;
+    padding: 24px 0;
     .card {
       width: 100%;
-      padding: 24px;
+      padding: 24px 0;
       .card-user {
         .card-header {
           .title {
-            @include row(space-between, 16px);
+            @include row(space-between, 8px);
           }
-        }
-        .card-footer {
-          @include col(space-around, 24px);
         }
       }
     }
@@ -140,19 +158,22 @@
             );
           }
         }
-        a {
-          @include a-link($color-gradient4, $color-gradient5, $color-gradient6);
-        }
-        .btn2 {
+        // a {
+        //   @include a-link($color-gradient4, $color-gradient5, $color-gradient6);
+        // }
+        .btn2,
+        .btn-a {
           color: $color-white-clear;
         }
       }
       .list-body {
         .btn-edit,
-        .btn-delete {
+        .btn-delete,
+        .btn-add {
           color: $color-white-clear;
         }
-        .btn2 {
+        .btn2,
+        .btn-a {
           color: $color-white-clear;
         }
         .posts {
@@ -265,6 +286,26 @@
             border-left: 2px solid $color-black;
           }
         }
+        .poll {
+          input {
+            color: $color-white-clear;
+            background-color: $color-black-grey;
+            border: 2px solid $color-black;
+            &:focus {
+              outline: $color-black solid thin;
+              border: 2px solid $color-black;
+            }
+            &::placeholder {
+              color: $color-grey-clear;
+            }
+          }
+        }
+        .poll-view {
+          .poll-vote,
+          .poll-option-vote {
+            border: 2px solid $color-black;
+          }
+        }
         .editor-parent {
           .editor-user {
             border: 2px solid $color-black;
@@ -333,6 +374,48 @@
                   font-family: $font-text !important;
                   font-size: $size-text !important;
                   background-color: $color-white-dark !important;
+                }
+              }
+            }
+          }
+          .editor-title {
+            background-color: $color-black-grey;
+            color: $color-white-clear;
+            border: 2px solid $color-black;
+            &::placeholder {
+              color: $color-white-grey;
+            }
+          }
+          .custom-search {
+            .user-search {
+              .select {
+                .ng-placeholder {
+                  color: $color-white-grey;
+                }
+                input {
+                  color: $color-white-clear;
+                }
+                .ng-select-container {
+                  background-color: $color-black-grey;
+                  color: $color-white-clear;
+                  border: 2px solid $color-black;
+                }
+                .ng-dropdown-panel {
+                  border: 2px solid $color-black;
+                }
+                .ng-dropdown-panel-items {
+                  background-color: $color-black-grey;
+                  color: $color-white-clear;
+                }
+                .ng-option {
+                  background-color: $color-black-grey;
+                  color: $color-white-clear;
+                  &:hover {
+                    background-color: $color-dark-loading;
+                  }
+                }
+                .ng-option-selected {
+                  background-color: $color-dark-loading;
                 }
               }
             }
@@ -419,19 +502,22 @@
             );
           }
         }
-        a {
-          @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
-        }
-        .btn2 {
+        // a {
+        //   @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
+        // }
+        .btn2,
+        .btn-a {
           color: $color-black-clear;
         }
       }
       .list-body {
         .btn-edit,
-        .btn-delete {
+        .btn-delete,
+        .btn-add {
           color: $color-black-clear;
         }
-        .btn2 {
+        .btn2,
+        .btn-a {
           color: $color-black-clear;
         }
         .posts {
@@ -540,6 +626,26 @@
             border-left: 2px solid $color-white;
           }
         }
+        .poll {
+          input {
+            color: $color-black-clear;
+            background-color: $color-grey-clear;
+            border: 2px solid $color-white;
+            &:focus {
+              outline: $color-white solid thin;
+              border: 2px solid $color-white;
+            }
+            &::placeholder {
+              color: $color-grey-dark;
+            }
+          }
+        }
+        .poll-view {
+          .poll-vote,
+          .poll-option-vote {
+            border: 2px solid $color-white;
+          }
+        }
         .editor-parent {
           .editor-user {
             border: 2px solid $color-white;
@@ -613,6 +719,48 @@
               }
             }
           }
+          .editor-title {
+            background-color: $color-grey-clear;
+            color: $color-black-clear;
+            border: 2px solid $color-white;
+            &::placeholder {
+              color: $color-dark-loading;
+            }
+          }
+          .custom-search {
+            .user-search {
+              .select {
+                .ng-placeholder {
+                  color: $color-dark-loading;
+                }
+                input {
+                  color: $color-black-clear;
+                }
+                .ng-select-container {
+                  background-color: $color-grey-clear;
+                  color: $color-black-clear;
+                  border: 2px solid $color-white;
+                }
+                .ng-dropdown-panel {
+                  border: 2px solid $color-white;
+                }
+                .ng-dropdown-panel-items {
+                  background-color: $color-grey-clear;
+                  color: $color-black-clear;
+                }
+                .ng-option {
+                  background-color: $color-grey-clear;
+                  color: $color-black-clear;
+                  &:hover {
+                    background-color: $color-white-grey;
+                  }
+                }
+                .ng-option-selected {
+                  background-color: $color-white-grey;
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -682,13 +830,16 @@
         text-align: center;
         font-family: $font-text;
         font-size: 50px;
-        text-decoration: underline;
+        // text-decoration: underline;
       }
       span {
         text-align: center;
         display: block;
         &.m {
           margin-bottom: 22px;
+        }
+        &.m2 {
+          margin-bottom: 30px;
         }
         &.bot {
           text-align: center;
@@ -713,19 +864,28 @@
       }
       .h1-title {
         margin: 0;
+        margin-top: -12px;
+        text-decoration: underline;
       }
       .subt {
         margin: 0;
+        margin-top: 16px;
         h2 {
           margin: 0;
         }
-        @include row(space-between);
-      }
-      .two-options {
         @include col(space-between, 8px);
+        .two-options {
+          width: 100%;
+          margin: 4px 0;
+          @include row(space-evenly);
+        }
       }
       .btn2 {
         @include btn2($color-gradient2);
+      }
+      .btn-a {
+        @include btn2($color-gradient1);
+        text-decoration: none;
       }
       h1.m {
         margin-top: 8px;
@@ -736,15 +896,31 @@
         @include btn2($color-gradient2);
         margin: 16px 8px;
       }
+      .btn-add {
+        @include btn0($color-shades1);
+      }
       .btn-edit {
         @include btn0($color-secondary);
       }
       .btn-delete {
         @include btn0($color-tertiary);
       }
+      .btn-a {
+        @include btn2($color-gradient1);
+        text-decoration: none;
+        margin: 16px 8px;
+      }
+      .btn-s {
+        margin: 16px auto;
+        @include btn1($color-shades1);
+        width: fit-content;
+      }
       span.m {
         margin-top: 0px;
         margin-bottom: 0px;
+      }
+      .l2 {
+        margin-bottom: 16px;
       }
       .section {
         list-style: none;
@@ -999,6 +1175,62 @@
           }
         }
       }
+      .poll {
+        width: 100%;
+        display: grid;
+        place-content: center;
+        input {
+          height: 30px;
+          width: 300px;
+          font-size: $size-p;
+          padding: 16px;
+          border: none;
+        }
+        .poll-name {
+          margin: 24px 0;
+        }
+        .poll-options {
+          margin-bottom: 16px;
+          @include col(space-evenly, 24px);
+          .poll-option {
+            @include row(flex-start, 16px);
+          }
+          .add-o {
+            @include row(space-between, 16px);
+          }
+        }
+      }
+      .poll-view {
+        margin-bottom: 16px;
+        .poll-title {
+          @include row(flex-start, 16px);
+        }
+        .poll-vote {
+          @include col(space-evenly, 8px);
+          margin-top: 16px;
+          padding: 8px;
+          .voted {
+            padding: 2px;
+            background-color: $color-gradient3;
+          }
+        }
+        .poll-option-vote {
+          padding: 16px;
+          margin-top: 16px;
+          @include col(space-evenly, 16px);
+          .poll-options {
+            @include row(flex-start, 16px);
+            cursor: pointer;
+            input,
+            label {
+              cursor: pointer;
+            }
+            input {
+              scale: 1.5;
+            }
+          }
+        }
+      }
       .editor-parent {
         display: grid;
         place-content: center;
@@ -1035,6 +1267,7 @@
         }
         .editor-title {
           width: 30%;
+          height: 36px;
           padding: 4px 8px;
           margin: 8px 0;
           font-family: $font-text;
@@ -1047,6 +1280,16 @@
             width: 100%;
             .select {
               width: 30%;
+              input {
+                font-size: $size-text;
+              }
+              .ng-select-container {
+                border-radius: 0px;
+              }
+              .ng-dropdown-panel {
+                border-bottom-right-radius: 4px;
+                border-bottom-left-radius: 4px;
+              }
             }
           }
         }

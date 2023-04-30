@@ -56,34 +56,50 @@
             <div class="subt">
                 <h2>{{listPosts.topic.title | capitalize}}</h2>
                 <div class="two-options">
-                    <a *ngIf="listPosts.can_post" routerLink="/post/create">Create new Post</a>
-                    <a routerLink="/topic/{{listPosts.topic.id}}/poll/create" *ngIf="listPosts.can_poll">Create Poll</a>
+                    <a class="btn-a" *ngIf="listPosts.can_post" routerLink="/post/create">
+                        <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+                        Create new Post</a>
+                    <a class="btn-a" routerLink="/topic/{{listPosts.topic.id}}/poll/create" *ngIf="listPosts.can_poll">
+                        <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+                        Create Poll</a>
                 </div>
             </div>
         </div>
-        <div *ngIf="listPosts.poll">
-            <div *ngIf=" !showResults">
-                <h5>Poll: {{listPosts.poll.name}}</h5> <a routerLink="/topic/{{listPosts.topic.id}}/poll/edit"
-                    *ngIf="listPosts.poll.can_edit">Edit</a>
-                <div class="poll-options" *ngFor="let option of listPosts.poll.options">
-                    <input type="radio" name="poll" id="option-{{option.id}}" [(ngModel)]="vote" [value]="option.id"
-                        class="option-radio">
-                    <label for="option-{{option.id}}" class="option-label">{{option.option}}</label>
+        <div class="list-body" *ngIf="listPosts.poll">
+            <h4 class="l2" *ngIf="loading2 && showResults"><fa-icon [icon]="['fas', 'spinner']"
+                    [pulse]="true"></fa-icon> Loading Poll ...</h4>
+            <div *ngIf="!showResults" class="poll-view">
+                <div class="poll-title">
+                    <h3>Poll: {{listPosts.poll.name}}</h3>
+                    <a class="btn-edit" routerLink="/topic/{{listPosts.topic.id}}/poll/edit"
+                        *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'pen']"></fa-icon></a>
                 </div>
-                <button (click)="onVote()" [disabled]="vote == null">Vote</button>
-                <button (click)="onShowPollResults()">Show results</button>
-            </div>
-            <div *ngIf="pollResults && showResults">
-                <h5>Poll: {{pollResults.name}}</h5>
-
-                <div class="poll-vote" [class]="option.voted ? 'voted' : '' "
-                    *ngFor="let option of pollResults.options">
-                    {{option.option}} : {{option.votes}}
+                <div class="poll-option-vote">
+                    <div class="poll-options" *ngFor="let option of listPosts.poll.options">
+                        <input type="radio" name="poll" id="option-{{option.id}}" [(ngModel)]="vote" [value]="option.id"
+                            class="option-radio">
+                        <label for="option-{{option.id}}" class="option-label">{{option.option}}</label>
+                    </div>
                 </div>
-                <button (click)="onShowPollResults()" *ngIf="listPosts.poll.can_vote">Back to vote</button>
+                <button class="btn-a" (click)="onVote()" [disabled]="vote == null">
+                    <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                    Vote</button>
+                <button class="btn2" (click)="onShowPollResults()">
+                    <fa-icon [icon]="['fas', 'square-poll-horizontal']"></fa-icon>
+                    Show results</button>
             </div>
-
-            Finishes: {{listPosts.poll.finish_date | date }}
+            <div *ngIf="pollResults && showResults" class="poll-view">
+                <h3>Poll: {{pollResults.name}}</h3>
+                <div class="poll-vote">
+                    <div [class]="option.voted ? 'voted' : '' " *ngFor="let option of pollResults.options">
+                        {{option.option}} : {{option.votes}}
+                    </div>
+                </div>
+                <button class="btn2" (click)="onShowPollResults()" *ngIf="listPosts.poll.can_vote">
+                    <fa-icon [icon]="['fas', 'backward']"></fa-icon>
+                    Back to vote</button>
+            </div>
+            <p *ngIf="listPosts.poll.finish_date">Finishes: {{listPosts.poll.finish_date | date }}</p>
         </div>
         <div class="list-body">
             <div *ngIf="listPosts.topic.user" class="posts">
@@ -99,8 +115,10 @@
                         <div class="post-header">
                             <p class="post-date">{{listPosts.topic.created_at | date}}</p>
                             <div *ngIf="listPosts.can_edit" class="edit-buttons">
-                                <button class="btn-edit" type="button"><fa-icon [icon]="['fas', 'pencil']"></fa-icon></button>
-                                <button class="btn-delete" type="button"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
+                                <button class="btn-edit" type="button"><fa-icon
+                                        [icon]="['fas', 'pen']"></fa-icon></button>
+                                <button class="btn-delete" type="button"><fa-icon
+                                        [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
                         </div>
                         <p class="content" [innerHTML]="listPosts.topic.content"></p>
@@ -123,8 +141,10 @@
                         <div class="post-header">
                             <p class="post-date">{{post.created_at | date}}</p>
                             <div *ngIf="post.can_edit" class="edit-buttons">
-                                <button class="btn-edit" type="button"><fa-icon [icon]="['fas', 'pencil']"></fa-icon></button>
-                                <button class="btn-delete" type="button" (click)="deletePost(post.id)"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
+                                <button class="btn-edit" type="button"><fa-icon
+                                        [icon]="['fas', 'pen']"></fa-icon></button>
+                                <button class="btn-delete" type="button" (click)="deletePost(post.id)"><fa-icon
+                                        [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
                         </div>
                         <p class="content" [innerHTML]="post.content"></p>
