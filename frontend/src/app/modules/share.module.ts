@@ -26,6 +26,7 @@ import { LoadingComponent } from '../components/loading/loading.component';
 
 //test charts
 import { NgxEchartsModule } from 'ngx-echarts';
+import { SidebarComponent } from '../components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     PaginationComponent,
     LoadingComponent,
     SanitizerPipe,
+    SidebarComponent,
   ],
   imports: [
     CommonModule,
@@ -72,6 +74,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     ToastsContainer,
     SanitizerPipe,
     NgxEchartsModule,
+    SidebarComponent
   ],
 })
 export class SharedModule {}

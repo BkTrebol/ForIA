@@ -43,6 +43,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/preference','getUserPreferences');
         Route::put('/preference','editUserPreference');
         Route::get('/list','getUserList');
+        Route::get('/sidebar','getUserSidebarStats');
     });
 
     // Topic routes.
@@ -124,7 +125,9 @@ Route::controller(CategoryController::class)->prefix('category')->group(function
 Route::controller(TopicController::class)->prefix('topic')->group(function(){
     Route::get('/{topic}','viewTopic');
 });
-
+Route::controller(PostController::class)->prefix('post')->group(function(){
+    Route::get('/lastFive','lastFive');
+});
 Route::controller(PollController::class)->prefix('poll')->group(function(){
     Route::get('/{poll}','getVotes');
 });

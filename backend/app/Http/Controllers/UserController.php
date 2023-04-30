@@ -153,6 +153,23 @@ class UserController extends Controller
         );
     }
 
+
+    function getUserSidebarStats(){
+        $user = Auth::user();
+
+        $posts = $user->posts->count();
+        $topics = $user->topics->count();
+        
+        $pmsReceied = $user->privateMessages->count();
+        $newPms = $user->privateMessages->where("viewed",false)->count();
+
+        return response()->json([
+            "messages" => $posts+$topics,
+            "pms" => $pmsReceied,
+            "newPms" => $newPms,
+        ]);
+
+    }
     function getUserStatistics(User $user){
 
         $viewer = Auth::user();

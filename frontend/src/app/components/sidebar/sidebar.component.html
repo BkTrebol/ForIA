@@ -1,0 +1,29 @@
+<div class="sidebar {{theme}}">
+    <div class="sidebar-title" *ngIf="userLoggedIn;else notLoggedHeader">
+        <p routerLink="/user/profile/{{userLocalData?.id}}"  class="nick">{{userLocalData?.nick}}</p>
+            <app-avatar 
+            [user]="{nick:userLocalData?.nick,avatar:userLocalData?.avatar}"></app-avatar>
+    </div>
+    <ng-template #notLoggedHeader>
+        <div class="sidebar-title" >
+            <p routerLink="/user/profile/{{userLocalData?.id}}"  class="nick">{{userLocalData?.nick}}</p>
+                <app-avatar 
+                [user]="{nick:userLocalData?.nick,avatar:userLocalData?.avatar}"></app-avatar>
+        </div>
+    </ng-template>
+
+
+    <div class="sidebar-body">
+        <div class="sidebar-stats" *ngIf="userData">
+            <p>Published messages: {{userData.messages}}</p>
+            <p>Private messages: {{userData.pms}}</p>
+            <p>New Private Messages: {{userData.newPms}}</p>
+        </div>
+        <div class="sidebar-posts" *ngIf="lastPosts">
+            <div class="sidebar-post" *ngFor="let post of lastPosts">
+                <a routerLink="/topic/{{post.id}}" [queryParams]= "{page:post.last_page}">{{post.title}}</a><br>
+                By <a routerLink="/user/profile/{{post.user_id}}" class="sidebar-nick">{{post.user_nick}}</a> {{post.created_at | ago}}
+            </div>
+        </div>
+    </div>
+</div>
