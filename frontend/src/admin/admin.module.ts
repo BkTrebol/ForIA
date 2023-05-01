@@ -7,7 +7,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 
 @NgModule({
   declarations: [AdminComponent, SidenavComponent],
-  imports: [BrowserModule, CommonModule, AdminRoutingModule],
+  imports: [BrowserModule, CommonModule, AdminRoutingModule,],
   bootstrap: [AdminComponent],
 })
 export class AdminModule {}
