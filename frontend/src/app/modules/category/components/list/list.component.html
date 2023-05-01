@@ -1,4 +1,5 @@
 <div class="list-page {{theme}}">
+    <app-sidebar></app-sidebar>
     <div class="list" *ngIf="loading">
         <div class="list-header">
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
@@ -66,7 +67,6 @@
                                     [icon]="['fas', ocults[section.name] ? 'chevron-right': 'chevron-down']"></fa-icon>
                                 {{section.name | capitalize}}</h1>
                         </legend>
-                        <!-- <ul [ngClass]="{'ocult': ocults[section.name]}"> -->
                             <ul [(ngbCollapse)]="ocults[section.name]">
                             <li *ngFor="let category of section.categories" class="categories">
                                 <div class="category" routerLink="/category/{{category.id}}">

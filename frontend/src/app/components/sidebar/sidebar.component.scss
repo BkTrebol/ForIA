@@ -1,0 +1,38 @@
+@import "../../styles/vars";
+@import "../../styles/mixins";
+:host{
+    width:240px;
+    position: relative;
+    align-self: flex-start;
+    order:1;
+    margin:0 1rem;
+
+}
+.sidebar{
+    padding: 12px;
+    width:100%;
+    .sidebar-title{
+        text-align: center;
+    }
+    .sidebar-post{
+        padding: 3px;
+    }
+
+    &.dark {
+          background-color: opacity($color-primary1, 0.95);
+          color: $color-white-clear;
+          .sidebar-post,.sidebar-title .nick{
+            background-color: $color-black-grey;
+            border: 2px solid $color-black;
+        }
+    }
+
+    &.light{
+        background-color: $color-white-clear;
+        color: $color-black-clear;
+        .sidebar-post,.sidebar-title .nick{
+            background-color: $color-grey-clear;
+            border: 2px solid $color-white;
+        }
+    }
+}
