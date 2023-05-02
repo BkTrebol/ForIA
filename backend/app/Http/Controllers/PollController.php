@@ -68,11 +68,35 @@ class PollController extends Controller
                 "message" => "Unauthorized"
             ], 403);
         }
-
-        $poll->finish_date = now();
+        if($poll->finish_date < now()){
+            $poll->finish_date = now()->addDay();
+            $mess = "reopened";
+        }else{
+            $poll->finish_date = now();
+            $mess = "closed";
+        }
         $poll->save();
         return response()->json([
-            "message" => "Poll closed"
+            "message" => "Poll $mess"
+        ], 200);
+    }
+
+    function deletePoll(Poll $poll)
+    {
+        $user = Auth::user();
+        $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
+        $isMod = in_array($poll->topic->category->can_mod, $user->roles);
+
+        if (!$isAdmin && !$isMod && $user->id != $poll->topic->user_id) {
+            return response()->json([
+                "message" => "Unauthorized"
+            ], 403);
+        }
+
+        $poll->options()->delete();
+        $poll->delete();
+        return response()->json([
+            "message" => "Poll deleted"
         ], 200);
     }
 

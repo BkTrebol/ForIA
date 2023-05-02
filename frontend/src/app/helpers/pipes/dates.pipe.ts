@@ -25,3 +25,17 @@ export class TimeAgoPipe implements PipeTransform {
     }
   }
 }
+
+@Pipe({
+  name: 'finished',
+})
+export class FinshsedPipe implements PipeTransform {
+  transform(value: string): number {
+    if (!value) {
+      return 0
+    }
+    return Math.floor(
+      (new Date().getTime() - new Date(value).getTime()) / 1000
+    );
+  }
+}

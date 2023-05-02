@@ -46,7 +46,7 @@
             </div>
             <div class="data" *ngIf="user.last_post">
                 <fa-icon class="icon" [icon]="['fas', 'pen-nib']"></fa-icon>
-                <span>last post: {{(user.last_post.updated_at == user.last_post.created_at ? user.last_post.created_at : user.last_post.updated_at) | ago }} in <a routerLink="/topic/{{user.last_post.topic.id}}">{{user.last_post.topic.title}}</a></span>
+                <span>Last Post: {{(user.last_post.updated_at == user.last_post.created_at ? user.last_post.created_at : user.last_post.updated_at) | ago }} in <a routerLink="/topic/{{user.last_post.topic.id}}">{{user.last_post.topic.title}}</a></span>
             </div>
             <div class="card-footer">
                 <div class="data">

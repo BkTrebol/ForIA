@@ -1,11 +1,14 @@
-.align-right {
-  .btn2 {
-    fa-icon {
-      color: rgb(255, 73, 73);
+@import '../../../../styles/vars';
+@import '../../../../styles/mixins';
+
+.list-page .list .list-footer {
+  .align-right {
+    .btn2 {
+      @include btn2(rgb(255, 73, 73));
     }
+    margin-right: 0;
+    margin-left: auto;
+    margin-top: -12px;
+    margin-bottom: 8px;
   }
-  margin-right: 0;
-  margin-left: auto;
-  margin-top: -12px;
-  margin-bottom: 8px;
 }

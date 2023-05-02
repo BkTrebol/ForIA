@@ -422,6 +422,11 @@
           }
         }
       }
+      .list-footer{
+        .btn2 {
+          color: $color-white-clear;
+        }
+      }
     }
     .loading {
       background-color: $color-black-clear;
@@ -761,6 +766,11 @@
               }
             }
           }
+        }
+      }
+      .list-footer{
+        .btn2 {
+          color: $color-black-clear;
         }
       }
     }
@@ -1197,7 +1207,7 @@
           height: 30px;
           width: 300px;
           font-size: $size-p;
-          padding: 16px;
+          padding: 16px 8px;
           border: none;
         }
         .poll-name {
@@ -1244,6 +1254,9 @@
             }
           }
         }
+      }
+      .create-topic {
+        @include row(space-between);
       }
       .editor-parent {
         display: grid;
@@ -1326,6 +1339,9 @@
       .c {
         width: 100%;
         @include row(space-between);
+      }
+      .btn2 {
+        @include btn2($color-gradient2);
       }
     }
   }

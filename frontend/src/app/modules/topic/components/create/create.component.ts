@@ -5,6 +5,9 @@ import { Subject, takeUntil } from 'rxjs';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import { Topic } from 'src/app/models/send/create-topic';
+import { User } from 'src/app/models/user';
+import { UserPreferences } from 'src/app/models/user-preferences';
+import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { CategoryService } from 'src/app/modules/category/service/category.service';
 
 @Component({
@@ -18,6 +21,11 @@ export class CreateComponent implements OnInit, OnDestroy {
   public theme: string;
   public loading: boolean;
   public error: string;
+  public pollToggle: boolean;
+  public userLogged: {
+    userData: User;
+    userPreferences: UserPreferences;
+  } | null;
   public editorConfig: AngularEditorConfig;
 
   constructor(
@@ -25,17 +33,19 @@ export class CreateComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private themeService: ThemeService,
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private authService: AuthService
   ) {
     this.unsubscribe$ = new Subject();
     this.loading = false;
     this.theme = this.themeService.getTheme();
     this.error = '';
+    this.pollToggle = false;
+    this.userLogged = null;
     this.editorConfig = {
       minHeight: '200px',
       editable: true,
     };
-
     this.topic = {
       category_id: 0,
       title: '',
@@ -43,7 +53,7 @@ export class CreateComponent implements OnInit, OnDestroy {
       description: '',
       poll: {
         name: '',
-        options: [{ option: '' }],
+        options: [{ option: '' }, { option: '' }],
       },
     };
   }
@@ -52,6 +62,13 @@ export class CreateComponent implements OnInit, OnDestroy {
     this.topic.category_id = parseInt(
       this.route.snapshot.paramMap.get('id') ?? '1'
     );
+
+    this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
+      next: (r) => {
+        this.userLogged = r;
+      },
+    });
+
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((t) => {
@@ -62,7 +79,7 @@ export class CreateComponent implements OnInit, OnDestroy {
   onAddOption() {
     this.topic.poll.options.push({ option: '' });
   }
-  
+
   onDeleteOption(index: number) {
     this.topic.poll.options.splice(index, 1);
   }
@@ -78,6 +95,16 @@ export class CreateComponent implements OnInit, OnDestroy {
         },
         error: (e) => console.log(e),
       });
+  }
+
+  togglePoll(): void {
+    this.pollToggle = !this.pollToggle;
+    if (!this.pollToggle) {
+      this.topic.poll = {
+        name: '',
+        options: [{ option: '' }, { option: '' }],
+      };
+    }
   }
 
   ngOnDestroy(): void {

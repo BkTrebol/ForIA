@@ -69,9 +69,9 @@ class PostController extends Controller
             ], 403);
         } else {
             $post->delete();
-            if ($post->topic->posts->count() == 0) {
-                $post->topic->delete();
-            }
+            // if ($post->topic->posts->count() == 0) {
+            //     $post->topic->delete();
+            // }
             return response()->json([
                 'message' => 'Post deleted successfully'
             ], 200);
@@ -90,19 +90,19 @@ class PostController extends Controller
                 });
         })
         ->leftJoin('topics', 'posts.topic_id', '=', 'topics.id');
-    
+
     $topics = Topic::selectRaw('"0" as post_id,id, created_at,title, (select count(*) from posts where topic_id = topics.id) as num_posts, (select nick from users where id = topics.user_id) as user_nick, (select id from users where id = topics.user_id) as user_id, (select avatar from users where id = topics.user_id) as user_avatar')
         ->whereIn('can_view', $roles)
         ->whereHas('category', function ($query) use ($roles) {
             $query->whereIn('can_view', $roles);
         });
-    
+
     $latest = $topics->union($posts)->orderBy('created_at', 'desc')->take(5)->get()
         ->map(function ($item){
 
             $item->last_page = ceil(($item->num_posts+1) / config('app.pagination.topic'));
             unset($item['num_posts']);
-            
+
             return $item;
         });
 

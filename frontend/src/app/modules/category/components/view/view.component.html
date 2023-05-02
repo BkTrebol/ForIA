@@ -55,11 +55,13 @@
     <div class="list" *ngIf="!loading">
         <div class="list-header">
             <h1>{{listTopics.category.title | capitalize}}</h1>
-            <div class="option-btns">
-            <a class="btn-a x" *ngIf="listTopics.category.can_post"
-                routerLink="/topic/create/{{listTopics.category.id}}">
-                <fa-icon [icon]="['fas', 'plus']"></fa-icon>
-                Create new Topic</a>
+            <div class="subt">
+                <div class="two-options">
+                    <a class="btn-a x" *ngIf="listTopics.category.can_post"
+                        routerLink="/topic/create/{{listTopics.category.id}}">
+                        <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+                        Create new Topic</a>
+                </div>
             </div>
         </div>
         <div class="list-body">

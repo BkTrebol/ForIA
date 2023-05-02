@@ -15,7 +15,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   AvatarUrlPipe,
 } from '../helpers/pipes/avatar-url.pipe';
-import { TimeAgoPipe } from '../helpers/pipes/dates.pipe';
+import { TimeAgoPipe, FinshsedPipe } from '../helpers/pipes/dates.pipe';
 import { CapitalizePipe } from '../helpers/pipes/text.pipe';
 import { SanitizerPipe } from '../helpers/pipes/sanitizer.pipe';
 
@@ -32,6 +32,7 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
   declarations: [
     AvatarUrlPipe,
     TimeAgoPipe,
+    FinshsedPipe,
     CapitalizePipe,
     AvatarComponent,
     PaginationComponent,
@@ -66,6 +67,7 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
     NgxSkeletonLoaderModule,
     AvatarUrlPipe,
     TimeAgoPipe,
+    FinshsedPipe,
     CapitalizePipe,
     AvatarComponent,
     PaginationComponent,

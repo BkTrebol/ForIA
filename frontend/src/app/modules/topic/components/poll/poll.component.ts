@@ -74,13 +74,11 @@ export class PollComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.poll);
     this.topicService
       .poll(this.topicId, this.poll)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r) => {
-          console.log(r);
           this.router.navigate([`/topic/${r.id}`]);
         },
         error: (e) => console.log(e),

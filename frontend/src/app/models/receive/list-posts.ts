@@ -13,8 +13,8 @@ export interface ListPosts {
 }
 export interface Poll {
   can_vote: boolean;
-  can_edit?:boolean;
-  finish_date: Date;
+  can_edit?: boolean;
+  finish_date: string;
   id: number;
   name: string;
   votes: number;
@@ -23,7 +23,7 @@ export interface Poll {
 
 interface PollOption {
   voted?: boolean;
-  votes?:number;
+  votes?: number;
   id: number;
   option: string;
 }

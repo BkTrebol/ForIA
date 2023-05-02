@@ -71,8 +71,12 @@
             <div *ngIf="!showResults" class="poll-view">
                 <div class="poll-title">
                     <h3>Poll: {{listPosts.poll.name}}</h3>
+                    <button class="btn-add" type="button" (click)="closePoll()" *ngIf="listPosts.poll.can_edit"><fa-icon
+                            [icon]="['fas', 'flag-checkered']"></fa-icon></button>
                     <a class="btn-edit" routerLink="/topic/{{listPosts.topic.id}}/poll/edit"
                         *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'pen']"></fa-icon></a>
+                    <button class="btn-delete" type="button" (click)="deletePoll()"
+                        *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
                 </div>
                 <div class="poll-option-vote">
                     <div class="poll-options" *ngFor="let option of listPosts.poll.options">
@@ -89,7 +93,11 @@
                     Show results</button>
             </div>
             <div *ngIf="pollResults && showResults" class="poll-view">
-                <h3>Poll: {{pollResults.name}}</h3>
+                <div class="poll-title">
+                    <h3>Poll: {{pollResults.name}}</h3>
+                    <button class="btn-add" type="button" (click)="closePoll()" *ngIf="listPosts.poll.can_edit"><fa-icon
+                            [icon]="['fas', (listPosts.poll.finish_date | finished) < 0 ? 'flag-checkered' : 'lock-open']"></fa-icon></button>
+                </div>
                 <div class="poll-vote">
                     <div [class]="option.voted ? 'voted' : '' " *ngFor="let option of pollResults.options">
                         {{option.option}} : {{option.votes}}
@@ -99,7 +107,8 @@
                     <fa-icon [icon]="['fas', 'backward']"></fa-icon>
                     Back to vote</button>
             </div>
-            <p *ngIf="listPosts.poll.finish_date">Finishes: {{listPosts.poll.finish_date | date }}</p>
+            <p *ngIf="(listPosts.poll.finish_date | finished) < 0">Finishes: {{listPosts.poll.finish_date | date }}</p>
+            <p *ngIf="(listPosts.poll.finish_date | finished) > 0">Finished: {{listPosts.poll.finish_date | ago }}</p>
         </div>
         <div class="list-body">
             <div *ngIf="listPosts.topic.user" class="posts">
@@ -117,7 +126,7 @@
                             <div *ngIf="listPosts.can_edit" class="edit-buttons">
                                 <button class="btn-edit" type="button"><fa-icon
                                         [icon]="['fas', 'pen']"></fa-icon></button>
-                                <button class="btn-delete" type="button"><fa-icon
+                                <button (click)="deleteTopic(listPosts.topic.id)" class="btn-delete" type="button"><fa-icon
                                         [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
                         </div>

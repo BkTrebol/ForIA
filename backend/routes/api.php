@@ -67,7 +67,8 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::put('/vote/{option}','vote');
         Route::get('/edit/{topic}','getEditPoll');
         Route::post('/create/{topic}','createPoll');
-        Route::get('/close/{poll}','deletePoll');
+        Route::get('/close/{poll}','closePoll');
+        Route::delete('/delete/{poll}','deletePoll');
     });
 
     // PrivateMessage

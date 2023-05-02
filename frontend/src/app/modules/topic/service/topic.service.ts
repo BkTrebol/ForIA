@@ -12,10 +12,12 @@ import { CreatePost } from 'src/app/models/send/create-post';
 export class TopicService {
   private apiTopicURL: string;
   private apiPostURL: string;
+  private apiPollURL: string;
 
   constructor(private http: HttpClient) {
     this.apiTopicURL = Global.api + 'topic/';
     this.apiPostURL = Global.api + 'post/';
+    this.apiPollURL = Global.api + 'poll/';
   }
 
   posts(id: string, page: string): Observable<ListPosts> {
@@ -27,23 +29,39 @@ export class TopicService {
     return this.http.post<void>(`${this.apiPostURL}`, params);
   }
 
-  deletePost(id: string): Observable<{message: string}> {
+  deletePost(id: string): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${this.apiPostURL}${id}`);
   }
 
-  getPollVotes(id: number): Observable<Poll>{
-    return this.http.get<Poll>(`${Global.api}poll/${id}`);
+  deleteTopic(id: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.apiTopicURL}${id}`);
   }
 
-  vote(id:Number):Observable<any> {
-    return this.http.put<any>(`${Global.api}poll/vote/${id}`,null)
+  getPollVotes(id: number): Observable<Poll> {
+    return this.http.get<Poll>(`${this.apiPollURL}${id}`);
   }
 
-  getPollData(topicId: number): Observable<{title:string,poll:SendPoll}>{
-    return this.http.get<{title:string,poll:SendPoll}>(`${Global.api}poll/edit/${topicId}`)
+  vote(id: Number): Observable<any> {
+    return this.http.put<any>(`${this.apiPollURL}vote/${id}`, null);
   }
 
-  poll(topicId: number,poll:SendPoll): Observable<any>{
-    return this.http.post<any>(`${Global.api}poll/create/${topicId}`,poll)
+  getPollData(topicId: number): Observable<{ title: string; poll: SendPoll }> {
+    return this.http.get<{ title: string; poll: SendPoll }>(
+      `${this.apiPollURL}edit/${topicId}`
+    );
+  }
+
+  poll(topicId: number, poll: SendPoll): Observable<any> {
+    return this.http.post<any>(`${this.apiPollURL}create/${topicId}`, poll);
+  }
+
+  closePoll(id: string): Observable<{ message: string }> {
+    return this.http.get<{ message: string }>(`${this.apiPollURL}close/${id}`);
+  }
+
+  deletePoll(id: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(
+      `${this.apiPollURL}delete/${id}`
+    );
   }
 }

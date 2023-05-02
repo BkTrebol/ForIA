@@ -279,8 +279,5 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-    //TODO change option for 1 char to another (no dos vars)
-    this.chartOption = {};
-    this.chartOption2 = {};
   }
 }

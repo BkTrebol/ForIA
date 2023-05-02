@@ -45,6 +45,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     userData: User;
     userPreferences: UserPreferences;
   } | null;
+  public actualDate: Date;
 
   constructor(
     private topicService: TopicService,
@@ -82,7 +83,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       poll: {
         can_vote: false,
         can_edit: false,
-        finish_date: new Date(),
+        finish_date: '',
         id: 0,
         name: '',
         votes: 0,
@@ -108,7 +109,10 @@ export class ViewComponent implements OnInit, OnDestroy {
     };
     this.theme = themeService.getTheme();
     this.userLogged = null;
+    this.actualDate = new Date();
   }
+
+  //TODO Delete Topic, Edit Topic, Edit Post, Revisar Delete Post
 
   ngOnInit() {
     this.route.params
@@ -256,6 +260,21 @@ export class ViewComponent implements OnInit, OnDestroy {
       });
   }
 
+  deleteTopic(id: number) {
+    this.topicService
+      .deleteTopic(id.toString())
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (res) => {
+          this.toastService.show(res.message);
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+  }
+
   playAudio() {
     let audio = new Audio();
     audio.src = this.audioUrl;
@@ -305,6 +324,36 @@ export class ViewComponent implements OnInit, OnDestroy {
           error: (e) => console.log(e),
         });
     }
+  }
+
+  closePoll() {
+    this.topicService.closePoll(this.listPosts.poll.id.toString()).subscribe({
+      next: (res) => {
+        this.toastService.show(res.message);
+        this.getData(
+          this.route.snapshot.paramMap.get('id') ?? '',
+          this.route.snapshot.queryParams['page'] ?? '1'
+        );
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  deletePoll() {
+    this.topicService.deletePoll(this.listPosts.poll.id.toString()).subscribe({
+      next: (res) => {
+        this.toastService.show(res.message);
+        this.getData(
+          this.route.snapshot.paramMap.get('id') ?? '',
+          this.route.snapshot.queryParams['page'] ?? '1'
+        );
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   scrollToTop() {

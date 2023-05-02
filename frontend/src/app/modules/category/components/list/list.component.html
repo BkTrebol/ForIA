@@ -16,7 +16,7 @@
                         <legend>
                             <span><app-loading height="36px" width="200px"></app-loading></span>
                         </legend>
-                        <ul>
+                        <ul class="show">
                             <li *ngFor="let _ of [0, 1]" class="categories">
                                 <div class="category">
                                     <span><app-loading height="30px" width="50%"></app-loading></span>
@@ -104,7 +104,7 @@
             </ul>
         </div>
         <div class="list-footer">
-            <button type="button" (click)="scrollToTop()">Back to top</button>
+            <button class="btn2" type="button" (click)="scrollToTop()">Back to top</button>
         </div>
     </div>
 </div>
