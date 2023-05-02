@@ -40,6 +40,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     userData: User;
     userPreferences: UserPreferences;
   } | null;
+  public ocult: boolean;
 
   constructor(
     private themeService: ThemeService,
@@ -65,6 +66,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     };
     this.error = '';
     this.userLogged = null;
+    this.ocult = true;
 
     this.route.paramMap
       .pipe(
@@ -125,6 +127,10 @@ export class ViewComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           this.loading = false;
+          setTimeout(() => {
+            this.ocult = false;
+          }, 100)
+
         },
       });
   }
@@ -162,6 +168,10 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  toggle() {
+    this.ocult = !this.ocult;
   }
 
   ngOnDestroy(): void {

@@ -87,17 +87,17 @@
                 </div>
             </div>
             <div class="btn-chart">
-                <button class="btn2" (click)="chart1 = !chart1">
-                    <fa-icon [icon]="['fas', chart1 ? 'chart-line': 'chart-pie']"></fa-icon>
-                    View {{chart1 ? 'Topics': 'Activity'}}
+                <button class="btn2" (click)="chartFirst = !chartFirst">
+                    <fa-icon [icon]="['fas', chartFirst ? 'chart-line': 'chart-pie']"></fa-icon>
+                    View {{chartFirst ? 'Topics': 'Activity'}}
                 </button>
             </div>
-            <div class="chart" *ngIf="chart1">
-                <div echarts [options]="chartOption" class="demo-chart" [theme]="theme == 'dark' ? 'dark': 'default'"></div>
+            <div class="chart" *ngIf="chartFirst">
+                <div echarts [options]="chartOption" class="show-chart" [theme]="theme == 'dark' ? 'dark': 'default'"></div>
                 <!-- <div echarts [options]="options | async" [theme]="'dark'" [loading]="loading" class="demo-chart"></div> -->
             </div>
-            <div class="chart" *ngIf="!chart1">
-                <div echarts [options]="chartOption2" class="demo-chart" [theme]="theme == 'dark' ? 'dark': 'default'"></div>
+            <div class="chart" *ngIf="!chartFirst">
+                <div echarts [options]="chartOption2" class="show-chart" [theme]="theme == 'dark' ? 'dark': 'default'"></div>
             </div>
         </div>
     </div>

@@ -60,29 +60,29 @@ export class AppComponent implements OnInit, OnDestroy {
       },
     });
 
-    // Loading Page
-    // this.router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
-    //   if (
-    //     event instanceof GuardsCheckStart ||
-    //     event instanceof NavigationStart ||
-    //     event instanceof ResolveStart ||
-    //     event instanceof ChildActivationStart ||
-    //     event instanceof ActivationStart
-    //   ) {
-    //     this.loading = true;
-    //   }
-    //   if (
-    //     event instanceof GuardsCheckEnd ||
-    //     event instanceof NavigationEnd ||
-    //     event instanceof NavigationCancel ||
-    //     event instanceof NavigationError ||
-    //     event instanceof ResolveEnd ||
-    //     event instanceof ChildActivationEnd ||
-    //     event instanceof ActivationEnd
-    //   ) {
-    //     this.loading = false;
-    //   }
-    // });
+    //Loading Page
+    this.router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
+      if (
+        event instanceof GuardsCheckStart ||
+        event instanceof NavigationStart ||
+        event instanceof ResolveStart ||
+        event instanceof ChildActivationStart ||
+        event instanceof ActivationStart
+      ) {
+        this.loading = true;
+      }
+      if (
+        event instanceof GuardsCheckEnd ||
+        event instanceof NavigationEnd ||
+        event instanceof NavigationCancel ||
+        event instanceof NavigationError ||
+        event instanceof ResolveEnd ||
+        event instanceof ChildActivationEnd ||
+        event instanceof ActivationEnd
+      ) {
+        this.loading = false;
+      }
+    });
 
     // Set Theme
     this.themeService.theme

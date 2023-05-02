@@ -5,8 +5,8 @@
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
             <p><fa-icon [icon]="['fas', 'code']"></fa-icon> A forum about <b>IA</b></p>
             <div class="option-btns">
-                <button class="btn2" type="button" (click)="toogleSections()"><fa-icon [icon]="['fas', 'chevron-down']"></fa-icon> {{allSections ? 'Show Sections':
-                    'Hide Sections'}}</button>
+                <button class="btn2" type="button"><fa-icon [icon]="['fas', 'chevron-down']"></fa-icon> Collapse
+                    sections</button>
             </div>
         </div>
         <div class="list-body">
@@ -54,7 +54,8 @@
             <p><fa-icon [icon]="['fas', 'code']"></fa-icon> A forum about <b>IA</b></p>
             <div class="option-btns">
                 <button class="btn2" type="button" (click)="toogleSections()">
-                    <fa-icon [icon]="['fas', allSections ? 'chevron-right': 'chevron-down']"></fa-icon> {{allSections ? 'Expand sections':
+                    <fa-icon [icon]="['fas', allSections ? 'chevron-right': 'chevron-down']"></fa-icon> {{allSections ?
+                    'Expand sections':
                     'Collapse sections'}}</button>
             </div>
         </div>
@@ -63,11 +64,11 @@
                 <li *ngFor="let section of forum" class="section">
                     <fieldset>
                         <legend>
-                            <h1 (click)="toggle(section.name)" ><fa-icon
+                            <h1 (click)="toggle(section.name)"><fa-icon
                                     [icon]="['fas', ocults[section.name] ? 'chevron-right': 'chevron-down']"></fa-icon>
                                 {{section.name | capitalize}}</h1>
                         </legend>
-                            <ul [(ngbCollapse)]="ocults[section.name]">
+                        <ul [(ngbCollapse)]="ocults[section.name]">
                             <li *ngFor="let category of section.categories" class="categories">
                                 <div class="category" routerLink="/category/{{category.id}}">
                                     <h2>{{category.title | capitalize}}</h2>

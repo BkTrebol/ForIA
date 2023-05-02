@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, map, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { CategoryService } from '../../service/category.service';
 import { Forum } from '../../../../models/receive/list-category';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
@@ -19,6 +19,7 @@ export class ListComponent implements OnInit, OnDestroy {
   public allSections: boolean;
   public theme: string;
   public isCollapsed = false;
+  
   constructor(
     private categoryService: CategoryService,
     private themeService: ThemeService,

@@ -75,7 +75,7 @@
                     </div>
                     <div class="list-footer">
                         <div class="align-right">
-                            <button class="btn2" (click)="onDeletePms()">
+                            <button class="btn2" [disabled]="deleteReceived.length == 0" (click)="onDeletePms()">
                                 <fa-icon [icon]="['fas', 'trash']"></fa-icon>
                                 Delete Selected</button>
                         </div>
@@ -112,7 +112,7 @@
         </div>
         <div class="list-footer">
             <div class="align-right">
-                <button class="btn2" (click)="onDeletePms()">
+                <button class="btn2" [disabled]="deleteSent.length == 0" (click)="onDeletePms()">
                     <fa-icon [icon]="['fas', 'trash']"></fa-icon>
                     Delete Selected</button>
             </div>

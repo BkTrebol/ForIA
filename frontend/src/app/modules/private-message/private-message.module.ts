@@ -8,6 +8,7 @@ import { ReplyComponent } from './components/reply/reply.component';
 import { ViewComponent } from './components/view/view.component';
 import { SharedModule } from '../share.module';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [CreateComponent, ListComponent, ReplyComponent, ViewComponent],
@@ -16,6 +17,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     PrivateMessageRoutingModule,
     SharedModule,
     AngularEditorModule,
+    NgbCollapseModule,
   ],
 })
 export class PrivateMessageModule {}

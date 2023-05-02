@@ -6,9 +6,14 @@
         <div class="list-body">
             <span class="m"><app-loading height="28px" width="100px"></app-loading></span>
             <ng-container *ngTemplateOutlet="Loading;"></ng-container>
-            <h2><app-loading height="40px" width="250px"></app-loading></h2>
-            <hr />
-            <br>
+            <div class="messages">
+                <h2 class="title-history"><span (click)="toggle()">
+                        <fa-icon [icon]="['fas', 'chevron-right']"></fa-icon>
+                        Historial de missatges</span>
+                    <fa-icon [icon]="['fas', 'clock']"></fa-icon>
+                </h2>
+                <hr /><br>
+            </div>
             <div *ngFor="let _ of [0, 1]">
                 <ng-container *ngTemplateOutlet="Loading;"></ng-container>
             </div>
@@ -32,14 +37,16 @@
                 Reply
             </button>
             <ng-container *ngIf="privateMessageList">
-                <div *ngIf="privateMessageList.message.hasOwnProperty('content')">
+                <div *ngIf="privateMessageList.message.hasOwnProperty('content')" class="messages">
                     <ng-container *ngTemplateOutlet="message; context:{pm: privateMessageList.message}"></ng-container>
-                    <h2>Historial de missatges&nbsp;
-                        <fa-icon [icon]="['far', 'clock']"></fa-icon>
+                    <h2 class="title-history"><span (click)="toggle()">
+                            <fa-icon [icon]="['fas', ocult ? 'chevron-right': 'chevron-down']"></fa-icon>
+                            Historial de missatges</span>
+                        <fa-icon [icon]="[ocult ? 'far': 'fas', 'clock']"></fa-icon>
                     </h2>
                     <hr /><br>
                 </div>
-                <div *ngFor="let pm of privateMessageList.thread">
+                <div [(ngbCollapse)]="ocult" *ngFor="let pm of privateMessageList.thread">
                     <ng-container *ngTemplateOutlet="message; context: {pm: pm}"></ng-container>
                 </div>
                 <div class="editor-parent" *ngIf="userLogged">
@@ -104,19 +111,19 @@
     <div class="history">
         <div class="body">
             <div class="title">
-                <h3 class="m"><app-loading height="25px" width="150px"></app-loading></h3>
-                <p class="m"><app-loading height="25px" width="200px"></app-loading>
+                <h3 class="m"><app-loading height="23px" width="150px"></app-loading></h3>
+                <p class="m"><app-loading height="20px" width="200px"></app-loading>
                 </p>
             </div>
             <p class="me">
                 <app-loading height="60px" width="100%"></app-loading>
             </p>
         </div>
-        <div class="user-avatar">
+        <div class="user-avatar m">
             <app-loading appa="circle"></app-loading>
             <div class="text">
-                <app-loading height="20px" width="70px"></app-loading>
-                <app-loading height="20px" width="50px"></app-loading>
+                <span><app-loading height="20px" width="70px"></app-loading></span>
+                <span><app-loading height="20px" width="50px"></app-loading></span>
             </div>
         </div>
     </div>

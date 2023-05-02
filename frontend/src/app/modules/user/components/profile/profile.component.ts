@@ -28,7 +28,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public chartOption: EChartsOption;
   public options?: Observable<any>;
   public chartOption2: EChartsOption;
-  public chart1: boolean;
+  public chartFirst: boolean;
 
   constructor(
     private userService: UserService,
@@ -62,7 +62,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     this.chartOption = {};
     this.chartOption2 = {};
-    this.chart1 = true;
+    this.chartFirst = true;
   }
 
   ngOnInit(): void {
@@ -279,5 +279,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+    //TODO change option for 1 char to another (no dos vars)
+    this.chartOption = {};
+    this.chartOption2 = {};
   }
 }

@@ -17,10 +17,8 @@ export class ListComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public theme: string;
   public showReceived: boolean;
-  public deleteSent:Array<number>;
-  public deleteReceived:Array<number>;
-  // public receivedPage:number;
-  // public sentPage:number;
+  public deleteSent: Array<number>;
+  public deleteReceived: Array<number>;
 
   constructor(
     private themeService: ThemeService,
@@ -29,8 +27,8 @@ export class ListComponent implements OnInit, OnDestroy {
     private router: Router,
     private toastService: ToastService
   ) {
-    this.deleteReceived=[];
-    this.deleteSent=[];
+    this.deleteReceived = [];
+    this.deleteSent = [];
     this.messages = {
       received: {
         messages: [],
@@ -56,8 +54,6 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.getReceivedMessages();
-    // this.getSentMessages();
     this.getMessages();
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
@@ -66,33 +62,32 @@ export class ListComponent implements OnInit, OnDestroy {
       });
   }
 
-  deletePm(id: number,type='') {
-    if(type==='sent'){
-      if(this.deleteSent.includes(id)){
+  deletePm(id: number, type: string) {
+    if (type === 'sent') {
+      if (this.deleteSent.includes(id)) {
         this.deleteSent.splice(this.deleteSent.indexOf(id), 1);
       } else {
         this.deleteSent.push(id);
       }
-
-    } else if(type==='received'){
-      if(this.deleteReceived.includes(id)){
-        this.deleteReceived.splice(this.deleteReceived.indexOf(id), 1)
-      } else{
-        this.deleteReceived.push(id)
+    } else if (type === 'received') {
+      if (this.deleteReceived.includes(id)) {
+        this.deleteReceived.splice(this.deleteReceived.indexOf(id), 1);
+      } else {
+        this.deleteReceived.push(id);
       }
     }
   }
 
-  onDeletePms(){
-    this.privateMessageService.delete(this.deleteSent,this.deleteReceived)
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe({
-      next: r => {
-        // console.log(r)
-        this.getMessages();
-      },
-      error: e => console.error(e)
-    })
+  onDeletePms() {
+    this.privateMessageService
+      .delete(this.deleteSent, this.deleteReceived)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (r) => {
+          this.getMessages();
+        },
+        error: (e) => console.error(e),
+      });
   }
 
   getMessages() {
@@ -133,44 +128,10 @@ export class ListComponent implements OnInit, OnDestroy {
         },
       });
   }
-  // getReceivedMessages(){
-  //   this.privateMessageService
-  //   .getReceived(this.receivedPage)
-  //   .pipe(takeUntil(this.unsubscribe$))
-  //   .subscribe({
-  //     next: (r) => {
-  //       console.log(r);
-  //       this.receivedMessages = r;
-  //       this.loading = false;
-  //     },
-  //     error: (e) => {
-  //       console.log(e);
-  //       this.loading = false;
-  //     },
-  //   });
-  // }
-
-  // getSentMessages(){
-  //   this.privateMessageService
-  //   .getSent(this.messages.sent.page.current)
-  //   .pipe(takeUntil(this.unsubscribe$))
-  //   .subscribe({
-  //     next: (r) => {
-  //       console.log(r);
-  //       this.messages.sent = r;
-  //       this.loading = false;
-  //     },
-  //     error: (e) => {
-  //       console.log(e);
-  //       this.loading = false;
-  //     },
-  //   });
-  // }
 
   changeReceivedPage(page: number) {
     this.messages.received.page.current = page;
     this.getMessages();
-    // this.getReceivedMessages();
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { rpage: page },
@@ -181,7 +142,6 @@ export class ListComponent implements OnInit, OnDestroy {
   changeSentPage(page: number) {
     this.messages.sent.page.current = page;
     this.getMessages();
-    // this.getSentMessages();
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { spage: page },

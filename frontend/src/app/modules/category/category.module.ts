@@ -7,9 +7,13 @@ import { ListComponent } from './components/list/list.component';
 import { ViewComponent } from './components/view/view.component';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
-
 @NgModule({
   declarations: [ListComponent, ViewComponent],
-  imports: [CommonModule, CategoryRoutingModule, SharedModule,NgbCollapseModule],
+  imports: [
+    CommonModule,
+    CategoryRoutingModule,
+    SharedModule,
+    NgbCollapseModule,
+  ],
 })
 export class CategoryModule {}
