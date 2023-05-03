@@ -151,7 +151,7 @@ class AuthController extends Controller
                 Auth::login($user);
                 return redirect()->away('http://localhost:4200/#googleauth');
             } else{
-                return redirect()->away('http://localhost:4200/auth/confirm/'.$user->email);
+                return redirect()->away('http://localhost:4200/auth/login?email='.$user->email);
             }
 
         }
@@ -161,7 +161,7 @@ class AuthController extends Controller
         if (Auth::attempt($request->only(['email', 'password']),$request->remember)){
             $user = Auth::user();
             $user->google_auth = true;
-            // Checks if user had verifies its email and valiates it.
+            // Checks if user had verified its email and valiates it.
             if($user->email_verified_at == null){
                 $user->email_verified_at = now();
             }

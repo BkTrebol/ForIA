@@ -13,6 +13,7 @@ use App\Http\Controllers\PollController;
 use App\Http\Controllers\PrivateMessageController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\SidebarController;
 
 use App\Models\Post;
 use App\Models\Topic;
@@ -43,7 +44,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/preference','getUserPreferences');
         Route::put('/preference','editUserPreference');
         Route::get('/list','getUserList');
-        Route::get('/sidebar','getUserSidebarStats');
+        
     });
 
     // Topic routes.
@@ -87,6 +88,9 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::post('/images','uploadImage');
     });
 
+    Route::controller(SidebarController::class)->prefix('sidebar')->group(function(){
+        Route::get('/userStats','getUserSidebarStats');
+    });
 
 });
 
@@ -127,7 +131,7 @@ Route::controller(TopicController::class)->prefix('topic')->group(function(){
     Route::get('/{topic}','viewTopic');
 });
 Route::controller(PostController::class)->prefix('post')->group(function(){
-    Route::get('/lastFive','lastFive');
+    
 });
 Route::controller(PollController::class)->prefix('poll')->group(function(){
     Route::get('/{poll}','getVotes');
@@ -144,6 +148,11 @@ Route::controller(UserController::class)->prefix('user')->group(function(){
 
 Route::controller(UploadController::class)->prefix('upload')->group(function(){
     Route::get('/images/{image}','getImage');
+});
+
+Route::controller(SidebarController::class)->prefix('sidebar')->group(function(){
+    Route::get('/lastFive','lastFive');
+    Route::get('/forumStats','getForumStats');
 });
 
 

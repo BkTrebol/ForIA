@@ -14,10 +14,14 @@ export class SidebarService {
 
 
   getData():Observable<any>{
-    return this.http.get(`${Global.api}user/sidebar`)
+    return this.http.get(`${Global.api}sidebar/userStats`)
   }
 
   getPosts():Observable<any>{
-    return this.http.get(`${Global.api}post/lastFive`);
+    return this.http.get(`${Global.api}sidebar/lastFive`);
+  }
+
+  getForumStats():Observable<any>{
+    return this.http.get(`${Global.api}sidebar/forumStats`)
   }
 }

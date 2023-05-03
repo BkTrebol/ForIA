@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public authData: AuthData;
   public formLogin: FormGroup;
   public formBuilderNonNullable: NonNullableFormBuilder;
+  public googleEmail: string;
   public validationMessagesLogin = {
     email: {
       required: 'Email is Required',
@@ -47,6 +48,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private toastService: ToastService
   ) {
+    this.googleEmail = '';
     this.unsubscribe$ = new Subject();
     this.theme = this.themeService.getTheme();
     this.error = '';
@@ -77,6 +79,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.googleEmail = this.route.snapshot.queryParams['email']??'';
+    if (this.googleEmail != ''){
+      this.authData.email = this.googleEmail;
+      this.formLogin.get('email')?.disable();
+    }
     this._authService.authData
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((r) => {
@@ -100,7 +107,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.formLogin.valid) {
       this.loading = true;
       this._authService
-        .login(this.authData)
+        .login(this.authData,this.googleEmail != '')
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {

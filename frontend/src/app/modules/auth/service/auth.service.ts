@@ -65,17 +65,30 @@ export class AuthService {
     );
   }
 
-  login(authData: AuthData): Observable<any> {
+  login(authData: AuthData,google:boolean=false): Observable<any> {
     let params = JSON.stringify(authData);
-    return this.http.post(`${this.apiAuthURL}login`, params).pipe(
-      concatMap((r) => {
-        return this.checkLogin().pipe(
-          map((checkR) => {
-            return r;
-          })
-        );
-      })
-    );
+    if(!google){
+      return this.http.post(`${this.apiAuthURL}login`, params).pipe(
+        concatMap((r) => {
+          return this.checkLogin().pipe(
+            map((checkR) => {
+              return r;
+            })
+          );
+        })
+      );
+    } else{
+      return this.http.post(`${this.apiAuthURL}googleconfirm`, params).pipe(
+        concatMap((r) => {
+          return this.checkLogin().pipe(
+            map((checkR) => {
+              return r;
+            })
+          );
+        })
+      );
+    }
+
   }
 
   checkLogin(): Observable<any> {

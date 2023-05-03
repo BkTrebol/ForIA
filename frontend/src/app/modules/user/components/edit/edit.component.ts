@@ -235,9 +235,11 @@ export class EditComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
+            this._authService.autoAuthUser();
             this.toastService.show(res.message);
           },
           error: (err) => {
+            this._authService.autoAuthUser();
             console.log(err);
           },
           complete: () => {
