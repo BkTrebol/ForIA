@@ -58,7 +58,7 @@ export class CreateComponent implements OnInit, OnDestroy {
     };
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.topic.category_id = parseInt(
       this.route.snapshot.paramMap.get('id') ?? '1'
     );
@@ -76,15 +76,15 @@ export class CreateComponent implements OnInit, OnDestroy {
       });
   }
 
-  onAddOption() {
+  onAddOption(): void {
     this.topic.poll.options.push({ option: '' });
   }
 
-  onDeleteOption(index: number) {
+  onDeleteOption(index: number): void {
     this.topic.poll.options.splice(index, 1);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.categoryService
       .post(this.topic)
       .pipe(takeUntil(this.unsubscribe$))

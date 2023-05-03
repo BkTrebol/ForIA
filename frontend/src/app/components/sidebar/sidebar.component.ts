@@ -26,6 +26,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   };
   public loginForm: FormGroup;
   public authData: AuthData;
+  public loading: boolean[];
 
   @HostBinding('style.order') order = 0;
   constructor(
@@ -49,6 +50,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       password: new FormControl('', Validators.required),
       remember_me: new FormControl(null),
     });
+    this.loading = [true, true, true, true , true];
   }
 
   ngOnInit(): void {
@@ -57,6 +59,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.userLoggedIn = r != null;
         this.userLocalData = r?.userData;
         this.order = r?.userPreferences.sidebar ? 1 : 0;
+        this.loading[0] = false;
+      },
+      error: (err) => {
+        this.loading[0] = false;
       },
     });
 
@@ -64,14 +70,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .getData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: (r: any) => (this.userData = r),
+        next: (r: any) => {
+          this.userData = r;
+          this.loading[1] = false;
+        },
       });
 
     this.sidebarService
       .getPosts()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: (r: any) => (this.lastPosts = r),
+        next: (r: Array<any>) => {
+          this.lastPosts = r;
+          this.loading[2] = false;
+        },
       });
 
     this.sidebarService
@@ -80,6 +92,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (r: any) => {
           this.forumStats = r;
+          this.loading[3] = false;
         },
       });
 

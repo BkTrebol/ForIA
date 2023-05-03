@@ -3,10 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+
+// Skeleton loader
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+
+// Ngb modules
 import { NgbModule, NgbToast, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsContainer } from '../components/toast/toast.component';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Extra (icons)
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -23,8 +27,9 @@ import { SanitizerPipe } from '../helpers/pipes/sanitizer.pipe';
 import { AvatarComponent } from '../components/avatar/avatar.component';
 import { PaginationComponent } from '../components/pagination/pagination.component';
 import { LoadingComponent } from '../components/loading/loading.component';
+import { ToastsContainer } from '../components/toast/toast.component';
 
-//test charts
+//Charts
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 
@@ -51,6 +56,7 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
     NgxSkeletonLoaderModule,
     NgSelectModule,
     ToastsContainer,
+    NgbTooltipModule,
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
@@ -76,7 +82,8 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
     ToastsContainer,
     SanitizerPipe,
     NgxEchartsModule,
-    SidebarComponent
+    SidebarComponent,
+    NgbTooltipModule,
   ],
 })
 export class SharedModule {}

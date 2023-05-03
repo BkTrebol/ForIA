@@ -1,40 +1,47 @@
 <div class="sidebar {{theme}}">
-    <div class="sidebar-title" *ngIf="userLoggedIn;else notLoggedHeader">
-        <p routerLink="/user/profile/{{userLocalData?.id}}" class="nick">{{userLocalData?.nick}}</p>
-        <app-avatar [user]="userLocalData"></app-avatar>
-    </div>
-    <ng-template #notLoggedHeader>
-        <div class="sidebar-title">
-            <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-                <label for="email">Email: </label>
-                <input id="email" type="email" formControlName="email" [(ngModel)]="authData.email">
-                <label for="password">Password: </label>
-                <input id="password" type="password" formControlName="password" [(ngModel)]="authData.password">
-                <label for="rememberMe">Remember me: </label>
-                <input type="checkbox" id="rememberMe" formControlName="remember_me" [(ngModel)]="authData.remember_me">
-                <input type="submit" value="Log-in">
-            </form>
+    <div>
+        <div class="sidebar-title" *ngIf="userLoggedIn;else notLoggedHeader">
+            <p routerLink="/user/profile/{{userLocalData?.id}}" class="nick">{{userLocalData?.nick}}</p>
+            <app-avatar [user]="userLocalData"></app-avatar>
         </div>
-    </ng-template>
-
-    <div class="sidebar-body">
-        <div class="sidebar-stats" *ngIf="userData && userLoggedIn">
-            <p>Published messages: {{userData.messages}}</p>
-            <p>Private messages: {{userData.pms}}</p>
-            <p>New Private Messages: {{userData.newPms}}</p>
-        </div>
-        <div class="sidebar-posts" *ngIf="lastPosts">
-            <div class="sidebar-post" *ngFor="let post of lastPosts">
-                <a routerLink="/topic/{{post.id}}" [queryParams]="{page:post.last_page}">{{post.title}}</a><br>
-                By <a routerLink="/user/profile/{{post.user_id}}" class="sidebar-nick">{{post.user_nick}}</a>
-                {{post.created_at | ago}}
+        <ng-template #notLoggedHeader>
+            <div class="sidebar-title">
+                <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+                    <label for="email">Email: </label>
+                    <input id="email" type="email" formControlName="email" [(ngModel)]="authData.email">
+                    <label for="password">Password: </label>
+                    <input id="password" type="password" formControlName="password" [(ngModel)]="authData.password">
+                    <label for="rememberMe">Remember me: </label>
+                    <input type="checkbox" id="rememberMe" formControlName="remember_me"
+                        [(ngModel)]="authData.remember_me">
+                    <br>
+                    <input class="btn-s" type="submit" value="Log-in">
+                </form>
             </div>
-        </div>
-        <div class="sidebar-forum-stats">
-            <p>Topics: {{forumStats.topics}}</p>
-            <p>Posts: {{forumStats.posts}}</p>
-            <p>Users: {{forumStats.users}}</p>
-            <p>Last User: <a routerLink="/user/profile/{{forumStats.lastUser.id}}">{{forumStats.lastUser.nick}}</a></p>
+        </ng-template>
+
+        <div class="sidebar-body">
+            <div class="sidebar-stats" *ngIf="userData && userLoggedIn">
+                <p>Published messages: {{userData.messages}}</p>
+                <p>Private messages: {{userData.pms}}</p>
+                <p>New Private Messages: {{userData.newPms}}</p>
+            </div>
+            <div class="sidebar-posts" *ngIf="lastPosts">
+                <div class="sidebar-post" *ngFor="let post of lastPosts">
+                    <a routerLink="/topic/{{post.id}}" [queryParams]="{page:post.last_page}">{{post.title |
+                        capitalize}}</a><br>
+                    By <a routerLink="/user/profile/{{post.user_id}}" class="sidebar-nick">{{post.user_nick}}</a>
+                    {{post.created_at | ago}}
+                </div>
+            </div>
+            <div class="sidebar-forum-stats" *ngIf="!loading[3]">
+                <p>Topics: {{forumStats.topics}}</p>
+                <p>Posts: {{forumStats.posts}}</p>
+                <p>Users: {{forumStats.users}}</p>
+                <p>Last User: <a routerLink="/user/profile/{{forumStats.lastUser.id}}">{{forumStats.lastUser.nick}}</a>
+                </p>
+                <p>Last Poll: <a routerLink="/topic/1">example</a></p>
+            </div>
         </div>
     </div>
 </div>

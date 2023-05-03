@@ -1,2 +1,2 @@
 <img class="avatar {{small? '':'small'}} {{user.isVerified ? '': 'noVerified'}}" [src]="avatarUrl" width="{{this.width}}" height="{{this.width}}" alt="Avatar of {{user.nick}}"
-onerror="this.onerror=null; this.src=defaultUrl+user.nick">
+onerror="this.onerror=null; this.src=defaultUrl+user.nick" ngbTooltip="@{{user.nick}}">
