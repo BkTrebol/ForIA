@@ -6,7 +6,10 @@
   position: relative;
   align-self: flex-start;
   order: 1;
-  margin: 0 1rem;
+  margin: 0 1rem 0 0;
+  @include sidebar() {
+    display: none;
+  }
 }
 
 .sidebar {
@@ -16,8 +19,12 @@
   .sidebar-title {
     text-align: center;
   }
-  .sidebar-post {
-    padding: 3px;
+  .sidebar-posts {
+    margin: 8px 0;
+    .sidebar-post {
+      padding: 4px;
+      margin-bottom: 4px;
+    }
   }
   &.dark {
     background-color: opacity($color-primary1, 0.95);

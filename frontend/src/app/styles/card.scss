@@ -849,7 +849,7 @@
           margin-bottom: 22px;
         }
         &.m2 {
-          margin-bottom: 30px;
+          margin-bottom: 53px;
         }
         &.bot {
           text-align: center;
@@ -899,6 +899,9 @@
       }
       h1.m {
         margin-top: 8px;
+      }
+      div.m{
+        margin-bottom: 49px;
       }
     }
     .list-body {
@@ -974,6 +977,7 @@
             width: 100%;
           }
           p.m {
+            margin-top: -8px;
             margin-bottom: -16px;
           }
         }
@@ -981,12 +985,22 @@
           width: 230px;
           padding: 16px;
           @include flex(row, center, flex-end, 16px);
+          &.m{
+            padding: 8px 16px;
+          }
           .text {
             @include flex(column, flex-end, flex-end, 8px);
+            h3.m{
+              margin-top: -8px;
+            }
             .nom-data {
               @include flex(column, flex-end, flex-end, 8px);
+              h4.m {
+                margin-top: -10px;
+                margin-bottom: -10px;
+              }
               h5.m {
-                margin-bottom: -16px;
+                margin-bottom: -20px;
               }
             }
           }
@@ -998,6 +1012,9 @@
         .topic-user {
           flex: 1;
           padding: 16px;
+          &.m {
+            padding: 12px 16px 11px 16px;
+          }
           @include flex(row, center, flex-start, 16px);
           .topic-body {
             flex: 1;
@@ -1006,6 +1023,10 @@
               width: 100%;
               p {
                 word-break: break-word;
+                &.m{
+                  margin-top: -5px;
+                  margin-bottom: -5px;
+                }
               }
             }
             .text {
@@ -1041,11 +1062,23 @@
             width: 100px;
             padding: 16px;
             @include col(center, 8px);
+            p.m{
+              margin: auto;
+            }
           }
           .last-post {
             width: 220px;
             padding: 16px;
             @include flex(row, center, flex-end, 16px);
+            &.m{
+              padding: 11px 16px;
+              .text{
+                margin-top: 14px;
+                a {
+                  margin-bottom: -8px;
+                }
+              }
+            }
             .text {
               @include flex(column, flex-end, flex-end, 8px);
             }
@@ -1060,9 +1093,22 @@
           padding: 16px;
           border-right: 2px solid $color-black;
           @include col(flex-start, 16px);
+          &.m{
+            padding: 16px 11px 16px 11px;
+          }
           .text {
             @include col(space-between, 8px);
             word-break: break-all;
+            &.m{
+              margin-bottom: -25px;
+              margin-top: -10px;
+              p {
+                margin-bottom: -11px;
+              }
+              small {
+                margin-bottom: -10px;;
+              }
+            }
           }
         }
         .post-main {
@@ -1077,6 +1123,9 @@
               p {
                 padding: 0;
                 margin: 0;
+                &.m{
+                  margin-top: -4px;
+                }
               }
               .post-date {
                 font-style: italic;
@@ -1088,6 +1137,10 @@
             .content {
               padding: 8px 16px;
               word-break: break-all;
+              &.m{
+                margin-bottom: -8px;
+                margin-top: -7px;
+              }
               img {
                 max-width: 100%;
               }

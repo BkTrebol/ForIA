@@ -1,7 +1,7 @@
 <div class="sidebar {{theme}}">
     <div class="sidebar-title" *ngIf="userLoggedIn;else notLoggedHeader">
         <p routerLink="/user/profile/{{userLocalData?.id}}" class="nick">{{userLocalData?.nick}}</p>
-        <app-avatar [user]="{nick:userLocalData?.nick,avatar:userLocalData?.avatar}"></app-avatar>
+        <app-avatar [user]="userLocalData"></app-avatar>
     </div>
     <ng-template #notLoggedHeader>
         <div class="sidebar-title">

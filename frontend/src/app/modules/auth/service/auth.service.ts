@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject, concatMap, map, } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, concatMap, map } from 'rxjs';
 import { Global } from 'src/environment/global';
 import { AuthData } from 'src/app/models/auth-data';
 import { Register } from 'src/app/models/register';
@@ -14,7 +14,7 @@ import { ResetPassword } from 'src/app/models/reset-password';
 export class AuthService {
   private baseURL: string;
   private apiAuthURL: string;
-  public loading$ : Subject<boolean>
+  public loading$: Subject<boolean>;
 
   private userSubject: BehaviorSubject<any>;
   public authData: Observable<{
@@ -29,10 +29,10 @@ export class AuthService {
     this.userSubject = new BehaviorSubject(null);
     this.authData = this.userSubject.asObservable();
 
-    this.loading$ = new Subject(); //
+    this.loading$ = new Subject();
   }
 
-  completeLoad(){
+  completeLoad() {
     this.loading$.complete();
   }
 
@@ -42,7 +42,7 @@ export class AuthService {
   }
 
   // ADMIN
-  changeUser(user: number): Observable<{message: string}> {
+  changeUser(user: number): Observable<{ message: string }> {
     return this.http.get<{ message: string }>(
       `${this.apiAuthURL}adminlogin/${user}`
     );
@@ -65,10 +65,11 @@ export class AuthService {
     );
   }
 
-  login(authData: AuthData,google:boolean=false): Observable<any> {
+  login(authData: AuthData, google: boolean = false): Observable<any> {
     let params = JSON.stringify(authData);
-    if(!google){
-      return this.http.post(`${this.apiAuthURL}login`, params).pipe(
+    return this.http
+      .post(`${this.apiAuthURL}${google ? 'googleconfirm' : 'login'}`, params)
+      .pipe(
         concatMap((r) => {
           return this.checkLogin().pipe(
             map((checkR) => {
@@ -77,18 +78,6 @@ export class AuthService {
           );
         })
       );
-    } else{
-      return this.http.post(`${this.apiAuthURL}googleconfirm`, params).pipe(
-        concatMap((r) => {
-          return this.checkLogin().pipe(
-            map((checkR) => {
-              return r;
-            })
-          );
-        })
-      );
-    }
-
   }
 
   checkLogin(): Observable<any> {
@@ -97,17 +86,17 @@ export class AuthService {
         this.userSubject.next(r);
         return r;
       })
-      );
+    );
   }
 
   autoAuthUser() {
     this.checkLogin().subscribe({
       next: (r) => {
-        this.loading$.complete()
+        this.loading$.complete();
         return;
       },
       error: (e) => {
-        this.loading$.complete()
+        this.loading$.complete();
         return;
       },
     });

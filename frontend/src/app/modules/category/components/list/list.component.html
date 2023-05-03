@@ -1,12 +1,12 @@
 <div class="list-page {{theme}}">
     <app-sidebar></app-sidebar>
+
     <div class="list" *ngIf="loading">
         <div class="list-header">
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
             <p><fa-icon [icon]="['fas', 'code']"></fa-icon> A forum about <b>IA</b></p>
             <div class="option-btns">
-                <button class="btn2" type="button"><fa-icon [icon]="['fas', 'chevron-down']"></fa-icon> Collapse
-                    sections</button>
+                <button class="btn2" type="button"><fa-icon [icon]="['fas', 'chevron-down']"></fa-icon> Collapse sections</button>
             </div>
         </div>
         <div class="list-body">
@@ -20,17 +20,17 @@
                             <li *ngFor="let _ of [0, 1]" class="categories">
                                 <div class="category">
                                     <span><app-loading height="30px" width="50%"></app-loading></span>
-                                    <p class="m"><app-loading height="50px" width="100%"></app-loading></p>
+                                    <p class="m"><app-loading height="37px" width="100%"></app-loading></p>
                                 </div>
-                                <div class="last-post">
+                                <div class="last-post m">
                                     <div class="text">
-                                        <h3><app-loading height="25px" width="80px"></app-loading>
+                                        <h3 class="m"><app-loading height="22px" width="80px"></app-loading>
                                         </h3>
                                         <div class="nom-data">
                                             <h4 class="m">
                                                 <app-loading height="20px" width="90px"></app-loading>
                                             </h4>
-                                            <h5 class="m"><app-loading height="15px" width="70px"></app-loading></h5>
+                                            <h5 class="m"><app-loading height="16px" width="70px"></app-loading></h5>
                                         </div>
                                     </div>
                                     <div class="user">

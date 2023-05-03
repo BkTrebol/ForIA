@@ -55,11 +55,21 @@ export class AppComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.cdRef.detectChanges();
             // setTimeout(() => this.loading = false);
+            this.loadingRoutes();
           },
         });
       },
     });
 
+    // Set Theme
+    this.themeService.theme
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((t) => {
+        this.theme = t;
+      });
+  }
+
+  loadingRoutes(): void {
     //Loading Page
     this.router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
       if (
@@ -83,13 +93,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.loading = false;
       }
     });
-
-    // Set Theme
-    this.themeService.theme
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((t) => {
-        this.theme = t;
-      });
   }
 
   ngOnDestroy(): void {
