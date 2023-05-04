@@ -98,17 +98,20 @@
       .card-user {
         margin: auto;
         @include center();
-        gap: 12px;
+        gap: 24px;
         .card-header {
           @include center();
           flex-direction: column;
           gap: 24px;
           .title {
-            @include row(space-between, 16px);
+            @include row(space-between, 24px);
+          }
+          .btns {
+            @include col(space-between, 24px);
           }
         }
         .card-footer {
-          @include col(space-around, 12px);
+          @include col(space-around, 24px);
         }
       }
     }
@@ -422,7 +425,7 @@
           }
         }
       }
-      .list-footer{
+      .list-footer {
         .btn2 {
           color: $color-white-clear;
         }
@@ -768,7 +771,7 @@
           }
         }
       }
-      .list-footer{
+      .list-footer {
         .btn2 {
           color: $color-black-clear;
         }
@@ -900,7 +903,7 @@
       h1.m {
         margin-top: 8px;
       }
-      div.m{
+      div.m {
         margin-bottom: 49px;
       }
     }
@@ -985,12 +988,12 @@
           width: 230px;
           padding: 16px;
           @include flex(row, center, flex-end, 16px);
-          &.m{
+          &.m {
             padding: 8px 16px;
           }
           .text {
             @include flex(column, flex-end, flex-end, 8px);
-            h3.m{
+            h3.m {
               margin-top: -8px;
             }
             .nom-data {
@@ -1023,7 +1026,7 @@
               width: 100%;
               p {
                 word-break: break-word;
-                &.m{
+                &.m {
                   margin-top: -5px;
                   margin-bottom: -5px;
                 }
@@ -1062,7 +1065,7 @@
             width: 100px;
             padding: 16px;
             @include col(center, 8px);
-            p.m{
+            p.m {
               margin: auto;
             }
           }
@@ -1070,9 +1073,9 @@
             width: 220px;
             padding: 16px;
             @include flex(row, center, flex-end, 16px);
-            &.m{
+            &.m {
               padding: 11px 16px;
-              .text{
+              .text {
                 margin-top: 14px;
                 a {
                   margin-bottom: -8px;
@@ -1093,20 +1096,20 @@
           padding: 16px;
           border-right: 2px solid $color-black;
           @include col(flex-start, 16px);
-          &.m{
+          &.m {
             padding: 16px 11px 16px 11px;
           }
           .text {
             @include col(space-between, 8px);
             word-break: break-all;
-            &.m{
+            &.m {
               margin-bottom: -25px;
               margin-top: -10px;
               p {
                 margin-bottom: -11px;
               }
               small {
-                margin-bottom: -10px;;
+                margin-bottom: -10px;
               }
             }
           }
@@ -1123,7 +1126,7 @@
               p {
                 padding: 0;
                 margin: 0;
-                &.m{
+                &.m {
                   margin-top: -4px;
                 }
               }
@@ -1137,7 +1140,7 @@
             .content {
               padding: 8px 16px;
               word-break: break-all;
-              &.m{
+              &.m {
                 margin-bottom: -8px;
                 margin-top: -7px;
               }
@@ -1242,7 +1245,7 @@
             @include col(space-between, 8px);
             align-items: center;
           }
-          &.m{
+          &.m {
             padding: 11px;
             .text {
               span {

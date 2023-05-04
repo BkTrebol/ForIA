@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public canSmall: boolean;
   public url: string;
   public theme: string;
+  public hover: boolean;
 
   public userList$: Observable<any>;
   public user: number;
@@ -42,6 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.canSmall = false;
     this.url = Global.api + 'user/get-avatar/';
     this.theme = this.themeService.getTheme();
+    this.hover = true;
   }
 
   changeUser() {

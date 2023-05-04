@@ -146,6 +146,9 @@ No changes
     a {
       @include a-link($color-gradient3, $color-gradient2, $color-gradient1);
     }
+    p {
+      color: $color-gradient3;
+    }
     button {
       color: $color-white-clear;
       &:hover {
@@ -164,6 +167,9 @@ No changes
     background-color: $color-white-clear;
     a {
       @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
+    }
+    p {
+      color: $color-gradient6;
     }
     button {
       color: $color-grey-dark;
@@ -194,7 +200,7 @@ No changes
     }
   }
   .ng-select {
-    width: 180px;
+    width: 170px;
     font-family: $font-text;
     list-style: none;
   }
@@ -221,6 +227,9 @@ No changes
           &:hover .dropdown-content {
             display: block;
           }
+          // &:hover .dropdown-content.noo {
+          //   display: none;
+          // }
           .dropdown-content {
             display: none;
             position: absolute;
@@ -230,7 +239,7 @@ No changes
             margin-top: 4px;
             border-radius: 8px;
             right: 0;
-            a {
+            a, p {
               padding: 8px 16px;
               margin-bottom: 8px;
               display: block;
@@ -254,7 +263,7 @@ No changes
         img {
           margin-right: 12px;
         }
-        a {
+        a, p {
           text-decoration: none;
           font-weight: bold;
           padding-bottom: 5px;
@@ -306,8 +315,13 @@ No changes
         fa-icon {
           margin-right: 6px;
         }
-        a span {
+        a span, p span {
           @include no;
+        }
+        .dropdown-content {
+          a span {
+            display: inline;
+          }
         }
       }
     }

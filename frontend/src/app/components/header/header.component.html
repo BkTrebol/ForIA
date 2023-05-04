@@ -1,5 +1,5 @@
 <header class="header {{theme}}" [ngClass]="{'small': top}">
-    <a class="logo" routerLink="/">
+    <a class="logo" routerLink="/" aria-label="Go to ForIA Home">
         <img class="logoIA" src="/assets/svg/logoIA.svg" height="50" alt="logo icon FORIA">
         <img class="logoFORIA" src="/assets/svg/logoFORIA.svg" height="30" alt="logo FORIA">
     </a>
@@ -15,19 +15,18 @@
                         [icon]="['fas', 'vial']"></fa-icon><span>Topic1</span></a>
             </li>
             <li>
-                <button type="button" (click)="changeTheme()"><fa-icon
+                <button ngbTooltip="Change to {{theme=='light' ? 'dark': 'light'}} theme" aria-albel="Change the theme" type="button" (click)="changeTheme()"><fa-icon
                         [icon]="['fas', theme=='light' ? 'moon': 'sun']"></fa-icon></button>
             </li>
         </ul>
         <ul>
             <li class="dropdown">
-                <a class="avatar" routerLink="/user/profile/{{userIsAuthenticated.userData.id}}"
-                    routerLinkActive="active">
+                <p class="avatar">
                     <app-avatar [user]="userIsAuthenticated.userData" [width]="top? '30': '50'"
                         [height]="top? '30': '50'" [small]="true"></app-avatar>
                     <span>{{userIsAuthenticated.userData.nick}}</span>
-                </a>
-                <div class="dropdown-content">
+                </p>
+                <div class="dropdown-content {{hover ? 'noo': ''}}" (click)="hover = !hover">
                     <a routerLink="/private-message" routerLinkActive="active">
                         <fa-icon [icon]="['fas', 'message']"></fa-icon><span>Messages</span>
                     </a>
@@ -51,8 +50,8 @@
                         [icon]="['fas', 'vial']"></fa-icon><span>Topic1</span></a>
             </li>
             <li>
-                <button type="button" (click)="changeTheme()"><fa-icon
-                        [icon]="['fas', theme=='light' ? 'moon': 'sun']"></fa-icon></button>
+                <button ngbTooltip="Change to {{theme=='light' ? 'dark': 'light'}} theme" aria-albel="Change the theme" type="button"
+                    (click)="changeTheme()"><fa-icon [icon]="['fas', theme=='light' ? 'moon': 'sun']"></fa-icon></button>
             </li>
         </ul>
         <ul>

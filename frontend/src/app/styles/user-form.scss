@@ -7,7 +7,7 @@
 // Forms: login, register, edit user, edit user preferences
 .form-page {
   @include center;
-  padding: 64px;
+  padding: 64px 0;
   // Dark theme
   &.dark {
     .form-container {
@@ -221,6 +221,9 @@
             &:-webkit-autofill:focus {
               transition: all 1000000s;
             }
+            &:disabled {
+              cursor: not-allowed;
+            }
           }
           .input.ng-invalid.ng-touched + .icon {
             color: $color-tertiary;
@@ -332,25 +335,25 @@
   }
   // Responsive for tablet
   @include tablet {
-    padding: 48px;
+    padding: 48px 0;
     .form-container {
-      padding: 24px 40px;
+      padding: 32px 48px;
     }
   }
   // Responsive for mobile
   @include mobile {
-    padding: 16px;
+    padding: 16px 0;
     .form-container {
       // Space that separate the items of the form
       @include col(space-around, 32px);
-      padding: 16px 32px;
+      padding: 32px;
       .fields {
         // Space between the inputs
         @include col(space-around, 20px);
         .group {
           .field {
             // Space between the input and the icon
-            @include row(space-between, 20px);
+            @include row(space-between, 24px);
             .input {
               width: min(280px, 75vw);
             }
@@ -370,12 +373,40 @@
       }
       .btn-field {
         // Space between the button and the icon
-        @include row(space-between, 20px);
+        @include row(space-between, 24px);
       }
     }
     // Responsive for mobile
     .form-container.ng-valid .btn-field .btn-send {
       @include btn($color-shades1, 100%);
+    }
+  }
+  // Responsive for mini
+  @include mini {
+    padding: 16px 0;
+    .form-container {
+      padding: 32px 16px;
+      .fields {
+        .group {
+          .field {
+            // Space between the input and the icon
+            @include row(space-between, 20px);
+            .input {
+              width: min(280px, 72vw);
+            }
+          }
+        }
+      }
+      .google {
+        width: min(280px, 72vw);
+      }
+      .form-links {
+        width: min(280px, 72vw);
+      }
+      .btn-field {
+        // Space between the button and the icon
+        @include row(space-between, 20px);
+      }
     }
   }
 }
