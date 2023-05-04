@@ -2,19 +2,19 @@
   <div class="list" *ngIf="!loading">
     <div class="list-header">
       <h1>Create Post</h1>
-      <!-- <div class="subt">
-        <h2>{{listPosts.topic.title | capitalize}}</h2>
-        <div class="two-options">
-          <a class="btn-a" *ngIf="listPosts.can_post" routerLink="/post/create">
-            <fa-icon [icon]="['fas', 'plus']"></fa-icon>
-            Create new Post</a>
-          <a class="btn-a" routerLink="/topic/{{listPosts.topic.id}}/poll/create" *ngIf="listPosts.can_poll">
-            <fa-icon [icon]="['fas', 'plus']"></fa-icon>
-            Create Poll</a>
-        </div>
-      </div> -->
+      <div class="subt">
+        <h2 *ngIf="!topic">Choose Topic</h2>
+        <h2 *ngIf="topic">Topic</h2>
+      </div>
     </div>
     <div class="list-body">
+      <div *ngIf="!topic">
+        <div class="user-search">
+          <ng-select [placeholder]="'User'" [items]="topicList" class="select" bindLabel="title" bindValue="id"
+            [(ngModel)]="post.topic_id" class="select">
+          </ng-select>
+        </div>
+      </div>
       <div class="editor-parent" *ngIf="userLogged">
         <div class="editor-user">
           <div class="user-card">

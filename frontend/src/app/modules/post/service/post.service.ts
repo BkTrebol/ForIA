@@ -18,4 +18,14 @@ export class PostService {
     let params = JSON.stringify(post);
     return this.http.post<void>(`${this.apiPostURL}`, params);
   }
+
+  oneTopic(id: string): Observable<any> {
+    return this.http.get(`${this.apiPostURL}one-topic/${id}`);
+  }
+
+  allTopic(): Observable<{ id: number; title: string }[]> {
+    return this.http.get<{ id: number; title: string }[]>(
+      `${this.apiPostURL}all-topic/`
+    );
+  }
 }

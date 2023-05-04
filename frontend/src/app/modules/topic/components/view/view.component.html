@@ -56,7 +56,7 @@
             <div class="subt">
                 <h2>{{listPosts.topic.title | capitalize}}</h2>
                 <div class="two-options">
-                    <a class="btn-a" *ngIf="listPosts.can_post" routerLink="/post/create">
+                    <a class="btn-a" *ngIf="listPosts.can_post" routerLink="/post/create/{{listPosts.topic.id}}">
                         <fa-icon [icon]="['fas', 'plus']"></fa-icon>
                         Create new Post</a>
                     <a class="btn-a" routerLink="/topic/{{listPosts.topic.id}}/poll/create" *ngIf="listPosts.can_poll">

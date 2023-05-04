@@ -55,7 +55,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.cdRef.detectChanges();
             // setTimeout(() => this.loading = false);
-            this.loadingRoutes();
+            // this.loadingRoutes();
           },
         });
       },

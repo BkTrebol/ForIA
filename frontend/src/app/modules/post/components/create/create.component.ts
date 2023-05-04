@@ -9,6 +9,7 @@ import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { PostService } from '../../service/post.service';
+import { Topic } from 'src/app/models/topic';
 
 @Component({
   selector: 'app-create',
@@ -26,6 +27,8 @@ export class CreateComponent implements OnInit, OnDestroy {
     userPreferences: UserPreferences;
   } | null;
   public post: CreatePost;
+  public topic: string | null;
+  public topicList: { id: number; title: string }[];
 
   constructor(
     private route: ActivatedRoute,
@@ -48,10 +51,36 @@ export class CreateComponent implements OnInit, OnDestroy {
       topic_id: 0,
       content: '',
     };
+    this.topic = null;
+    this.topicList = [];
   }
 
   ngOnInit(): void {
-    this.post.topic_id = parseInt(this.route.snapshot.paramMap.get('id') ?? '0');
+    this.post.topic_id = parseInt(
+      this.route.snapshot.paramMap.get('id') ?? '0'
+    );
+
+    if (this.post.topic_id == 0) {
+      this.postService.allTopic().subscribe({
+        next: (res) => {
+          console.log(res);
+          this.topicList = res;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    } else {
+      this.postService.oneTopic(this.post.topic_id.toString()).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.topic = res;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    }
 
     this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {

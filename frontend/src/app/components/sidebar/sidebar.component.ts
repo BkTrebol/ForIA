@@ -50,7 +50,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       password: new FormControl('', Validators.required),
       remember_me: new FormControl(null),
     });
-    this.loading = [true, true, true, true , true];
+    this.loading = [true, true, true, true, true];
   }
 
   ngOnInit(): void {
@@ -60,21 +60,22 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.userLocalData = r?.userData;
         this.order = r?.userPreferences.sidebar ? 1 : 0;
         this.loading[0] = false;
+        if (this.userLoggedIn) {
+          this.sidebarService
+            .getData()
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe({
+              next: (r: any) => {
+                this.userData = r;
+                this.loading[1] = false;
+              },
+            });
+        }
       },
       error: (err) => {
         this.loading[0] = false;
       },
     });
-
-    this.sidebarService
-      .getData()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (r: any) => {
-          this.userData = r;
-          this.loading[1] = false;
-        },
-      });
 
     this.sidebarService
       .getPosts()
