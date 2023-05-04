@@ -44,7 +44,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/preference','getUserPreferences');
         Route::put('/preference','editUserPreference');
         Route::get('/list','getUserList');
-        
+
     });
 
     // Topic routes.
@@ -61,6 +61,10 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/edit/{post}','getPostData');
         Route::put('/{post}','editPost');
         Route::delete('/{post}','deletePost');
+
+        //Topic
+        Route::get('/one-topic/{topic}','getOneTopic');
+        Route::get('/all-topic','getAllTopic');
     });
 
     // Poll
@@ -131,7 +135,7 @@ Route::controller(TopicController::class)->prefix('topic')->group(function(){
     Route::get('/{topic}','viewTopic');
 });
 Route::controller(PostController::class)->prefix('post')->group(function(){
-    
+
 });
 Route::controller(PollController::class)->prefix('poll')->group(function(){
     Route::get('/{poll}','getVotes');

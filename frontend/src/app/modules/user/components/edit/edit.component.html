@@ -1,11 +1,18 @@
 <div class="form-page {{theme}}">
-    <form [ngClass]="{'view': !view}" [formGroup]="formEditProfile" (ngSubmit)="submit()" class="form-container">
+    <form *ngIf="loading" class="form-container">
+        <h2>Edit Profile</h2>
+        <div class="fields" *ngFor="let _ of [0, 1, 2, 3, 4, 5, 6]">
+            <app-loading width="300px" height="40px"></app-loading>
+        </div>
+    </form>
+    <form [ngClass]="{'view': !view}" [formGroup]="formEditProfile" *ngIf="!loading" (ngSubmit)="submit()"
+        class="form-container">
         <h2>Edit Profile</h2>
         <button class="btn-a" type="button" (click)="toggleView()">
             <fa-icon [icon]="['fas', 'pen']"></fa-icon>
             Edit Preferences</button>
         <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}</h3>
-        <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
+        <h4 *ngIf="loading2"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="fields">
             <div class="group">
                 <div class="field">
@@ -114,16 +121,17 @@
         </div>
         <div class="form-links">
             <p><a class="btn2" routerLink="/user/profile/{{userId}}">
-                <fa-icon [icon]="['fas', 'user-circle']"></fa-icon>
-                View Profile</a></p>
+                    <fa-icon [icon]="['fas', 'user-circle']"></fa-icon>
+                    View Profile</a></p>
         </div>
     </form>
-    <form  [ngClass]="{'no': !view, 'default': view}" [formGroup]="formEditPreferences" (ngSubmit)="editPreferences()" class="form-container">
+    <form [ngClass]="{'no': !view, 'default': view}" *ngIf="!loading" [formGroup]="formEditPreferences"
+        (ngSubmit)="editPreferences()" class="form-container">
         <h2>Edit Preferences</h2>
         <button class="btn-a" type="button" (click)="toggleView()">
             <fa-icon [icon]="['fas', 'pen']"></fa-icon>
             Edit Profile</button>
-        <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
+        <h4 *ngIf="loading2"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="fields">
             <div class="group">
                 <div class="check">
@@ -133,7 +141,8 @@
             </div>
             <div class="group">
                 <div class="check">
-                    <input type="checkbox" id="filter_bad_words" [(ngModel)]="preferences.filter_bad_words" formControlName="filter_bad_words">
+                    <input type="checkbox" id="filter_bad_words" [(ngModel)]="preferences.filter_bad_words"
+                        formControlName="filter_bad_words">
                     <label for="filter_bad_words">Filter Bad Words</label>
                 </div>
             </div>
@@ -160,20 +169,21 @@
             </div>
             <div class="group">
                 <div class="check">
-                    <input type="checkbox" id="two_fa" [(ngModel)]="preferences.two_fa"
-                        formControlName="two_fa">
+                    <input type="checkbox" id="two_fa" [(ngModel)]="preferences.two_fa" formControlName="two_fa">
                     <label for="two_fa">Two Fa</label>
                 </div>
             </div>
             <div class="group">
                 <div class="check">
-                    <input type="checkbox" id="allow_music" [(ngModel)]="preferences.allow_music" formControlName="allow_music">
+                    <input type="checkbox" id="allow_music" [(ngModel)]="preferences.allow_music"
+                        formControlName="allow_music">
                     <label for="allow_music">Allow Music</label>
                 </div>
             </div>
             <div class="group">
                 <div class="check">
-                    <input type="checkbox" id="recieve_emails" [(ngModel)]="preferences.recieve_emails" formControlName="recieve_emails">
+                    <input type="checkbox" id="recieve_emails" [(ngModel)]="preferences.recieve_emails"
+                        formControlName="recieve_emails">
                     <label for="recieve_emails">Recieve Emails</label>
                 </div>
             </div>
@@ -186,8 +196,8 @@
         </div>
         <div class="form-links">
             <p><a class="btn2" routerLink="/user/profile/{{userId}}">
-                <fa-icon [icon]="['fas', 'user-circle']"></fa-icon>
-                View Profile</a></p>
+                    <fa-icon [icon]="['fas', 'user-circle']"></fa-icon>
+                    View Profile</a></p>
         </div>
     </form>
 </div>

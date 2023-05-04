@@ -156,7 +156,6 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r) => {
-          // console.log(r)
           this.scrollToTop();
           this.router.navigate([`/private-message/${r.id}`]);
         },

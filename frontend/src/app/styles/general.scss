@@ -306,10 +306,9 @@ No changes
         fa-icon {
           margin-right: 6px;
         }
-        // Myabe do a navbar with only icons
-        // a span {
-        //   @include no;
-        // }
+        a span {
+          @include no;
+        }
       }
     }
   }

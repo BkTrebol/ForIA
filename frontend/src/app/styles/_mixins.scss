@@ -218,6 +218,12 @@
   }
 }
 
+@mixin sidebar() {
+  @media (max-width: 1300px) {
+    @content;
+  }
+}
+
 @mixin mini() {
   @media (max-width: $size-mini) {
     @content;

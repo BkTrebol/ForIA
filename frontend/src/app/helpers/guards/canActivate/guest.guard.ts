@@ -23,21 +23,24 @@ export class GuestGuard {
     const isAuth = this._authService.user;
     if (!isAuth || isAuth === null) {
       // Provisional perquè no funcionava si recarregaves la pàgina
-      return this._authService.isLogged().pipe(
-        map((res) => {
-          if (res) {
-            this.router.navigate(['/']);
-            return false;
-          } else {
-            return true;
-          }
-        }),
-        catchError((err) => {
-          return of(true);
-        })
-      );
-    } else {
+      // return this._authService.isLogged().pipe(
+      //   map((res) => {
+      //     if (res) {
+      //       this.router.navigate(['/']);
+      //       return false;
+      //     } else {
+      //       return true;
+      //     }
+      //   }),
+      //   catchError((err) => {
+      //     return of(true);
+      //   })
+      //  );
       return true;
+    } else {
+      // return true;
+      this.router.navigate(['/']);
+      return false;
     }
   }
 }

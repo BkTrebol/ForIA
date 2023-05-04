@@ -45,7 +45,8 @@ const routes: Routes = [
     path: 'post',
     loadChildren: () =>
       import('./modules/post/post.module').then((m) => m.PostModule),
-    // canLoad: [CheckGuard],
+    canLoad: [AuthGuard],
+    canActivateChild: [AuthChildGuard],
   },
   {
     path: '',

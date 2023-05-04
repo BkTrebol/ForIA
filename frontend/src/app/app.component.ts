@@ -19,6 +19,7 @@ import { AuthService } from './modules/auth/service/auth.service';
 import { User } from './models/user';
 import { UserPreferences } from './models/user-preferences';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
+import { ToastService } from './helpers/services/toast.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -37,7 +38,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private _authService: AuthService,
     private router: Router,
     private themeService: ThemeService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private toastService: ToastService,
   ) {
     this.unsubscribe$ = new Subject();
     this.userIsAuthenticated = null;
@@ -55,34 +57,14 @@ export class AppComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.cdRef.detectChanges();
             // setTimeout(() => this.loading = false);
+            // this.loadingRoutes();
           },
         });
+        if (this.userIsAuthenticated && !this.userIsAuthenticated.userData.isVerified) {
+          this.toastService.show('Verify your email')
+        }
       },
     });
-
-    //Loading Page
-    // this.router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
-    //   if (
-    //     event instanceof GuardsCheckStart ||
-    //     event instanceof NavigationStart ||
-    //     event instanceof ResolveStart ||
-    //     event instanceof ChildActivationStart ||
-    //     event instanceof ActivationStart
-    //   ) {
-    //     this.loading = true;
-    //   }
-    //   if (
-    //     event instanceof GuardsCheckEnd ||
-    //     event instanceof NavigationEnd ||
-    //     event instanceof NavigationCancel ||
-    //     event instanceof NavigationError ||
-    //     event instanceof ResolveEnd ||
-    //     event instanceof ChildActivationEnd ||
-    //     event instanceof ActivationEnd
-    //   ) {
-    //     this.loading = false;
-    //   }
-    // });
 
     // Set Theme
     this.themeService.theme
@@ -90,6 +72,32 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((t) => {
         this.theme = t;
       });
+  }
+
+  loadingRoutes(): void {
+    //Loading Page
+    this.router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((event) => {
+      if (
+        event instanceof GuardsCheckStart ||
+        event instanceof NavigationStart ||
+        event instanceof ResolveStart ||
+        event instanceof ChildActivationStart ||
+        event instanceof ActivationStart
+      ) {
+        this.loading = true;
+      }
+      if (
+        event instanceof GuardsCheckEnd ||
+        event instanceof NavigationEnd ||
+        event instanceof NavigationCancel ||
+        event instanceof NavigationError ||
+        event instanceof ResolveEnd ||
+        event instanceof ChildActivationEnd ||
+        event instanceof ActivationEnd
+      ) {
+        this.loading = false;
+      }
+    });
   }
 
   ngOnDestroy(): void {

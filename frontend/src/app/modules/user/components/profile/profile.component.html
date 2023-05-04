@@ -1,5 +1,26 @@
 <div class="card-container {{theme}}">
-    <div [ngClass]="{'view': !view}" class="card">
+    <div *ngIf="loading" class="card">
+        <div class="card-user">
+            <div class="card-header">
+                <div class="title">
+                    <app-loading appa="circle"></app-loading>
+                    <div class="text">
+                        <h1><app-loading width="100px" height="30px"></app-loading></h1>
+                        <h3>
+                            <app-loading width="70px" height="25px"></app-loading>
+                        </h3>
+                    </div>
+                </div>
+                <div class="btns">
+                    <app-loading width="100px" height="25px"></app-loading>
+                </div>
+            </div>
+            <div class="data" *ngFor="let _ of [0, 1, 2]">
+                <app-loading width="150px" height="25px"></app-loading>
+            </div>
+        </div>
+    </div>
+    <div [ngClass]="{'view': !view}" *ngIf="!loading" class="card">
         <div class="card-user">
             <div class="card-header">
                 <div class="title">
@@ -13,10 +34,11 @@
                     </div>
                 </div>
                 <div class="btns">
-                    <a class="btn-a" *ngIf="user.can_pm && user.id != userAuth.id" routerLink="/private-message/new" [queryParams]="{user:user.id}">
+                    <a class="btn-a" *ngIf="user.can_pm && userAuth && user.id != userAuth.id"
+                        routerLink="/private-message/new" [queryParams]="{user:user.id}">
                         <fa-icon [icon]="['fas', 'message']"></fa-icon>
                         Send Message</a>
-                    <a class="btn-a" *ngIf="user.id == userAuth.id" routerLink="/user/edit/">
+                    <a class="btn-a" *ngIf="userAuth && user.id == userAuth.id" routerLink="/user/edit/">
                         <fa-icon [icon]="['fas', 'pen']"></fa-icon>
                         Edit Profile</a>
                     <button class="btn2" type="button" (click)="toggleView()">
@@ -46,7 +68,9 @@
             </div>
             <div class="data" *ngIf="user.last_post">
                 <fa-icon class="icon" [icon]="['fas', 'pen-nib']"></fa-icon>
-                <span>Last Post: {{(user.last_post.updated_at == user.last_post.created_at ? user.last_post.created_at : user.last_post.updated_at) | ago }} in <a routerLink="/topic/{{user.last_post.topic.id}}">{{user.last_post.topic.title}}</a></span>
+                <span>Last Post: {{(user.last_post.updated_at == user.last_post.created_at ?
+                    user.last_post.created_at : user.last_post.updated_at) | ago }} in <a
+                        routerLink="/topic/{{user.last_post.topic.id}}">{{user.last_post.topic.title}}</a></span>
             </div>
             <div class="card-footer">
                 <div class="data">
@@ -60,7 +84,7 @@
             </div>
         </div>
     </div>
-    <div [ngClass]="{'no': !view, 'default': view}" class="card">
+    <div [ngClass]="{'no': !view, 'default': view}" *ngIf="!loading" class="card">
         <div class="card-user">
             <div class="card-header">
                 <div class="title">
@@ -74,10 +98,11 @@
                     </div>
                 </div>
                 <div class="btns">
-                    <a class="btn-a" *ngIf="user.can_pm && user.id != userAuth.id " routerLink="/private-message/new" [queryParams]="{user:user.id}">
+                    <a class="btn-a" *ngIf="user.can_pm && userAuth && user.id != userAuth.id "
+                        routerLink="/private-message/new" [queryParams]="{user:user.id}">
                         <fa-icon [icon]="['fas', 'message']"></fa-icon>
                         Send Message</a>
-                    <a class="btn-a" *ngIf="user.id == userAuth.id" routerLink="/user/edit/">
+                    <a class="btn-a" *ngIf="userAuth && user.id == userAuth.id" routerLink="/user/edit/">
                         <fa-icon [icon]="['fas', 'pen']"></fa-icon>
                         Edit Profile</a>
                     <button class="btn2" type="button" (click)="toggleView()">
@@ -93,11 +118,13 @@
                 </button>
             </div>
             <div class="chart" *ngIf="chartFirst">
-                <div echarts [options]="chartOption" class="show-chart" [theme]="theme == 'dark' ? 'dark': 'default'"></div>
+                <div echarts [options]="chartOption" class="show-chart" [theme]="theme == 'dark' ? 'dark': 'default'">
+                </div>
                 <!-- <div echarts [options]="options | async" [theme]="'dark'" [loading]="loading" class="demo-chart"></div> -->
             </div>
             <div class="chart" *ngIf="!chartFirst">
-                <div echarts [options]="chartOption2" class="show-chart" [theme]="theme == 'dark' ? 'dark': 'default'"></div>
+                <div echarts [options]="chartOption2" class="show-chart" [theme]="theme == 'dark' ? 'dark': 'default'">
+                </div>
             </div>
         </div>
     </div>

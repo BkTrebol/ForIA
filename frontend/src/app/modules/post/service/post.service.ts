@@ -1,9 +1,33 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { GetCreatePost } from 'src/app/models/send/create-post';
+import { Global } from 'src/environment/global';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PostService {
+  private apiPostURL: string;
 
-  constructor() { }
+  constructor(private http: HttpClient) {
+    this.apiPostURL = Global.api + 'post/';
+  }
+
+  post(post: GetCreatePost): Observable<void> {
+    let params = JSON.stringify(post);
+    return this.http.post<void>(`${this.apiPostURL}`, params);
+  }
+
+  oneTopic(id: string): Observable<{ title: string }> {
+    return this.http.get<{ title: string }>(
+      `${this.apiPostURL}one-topic/${id}`
+    );
+  }
+
+  allTopic(): Observable<{ id: number; title: string }[]> {
+    return this.http.get<{ id: number; title: string }[]>(
+      `${this.apiPostURL}all-topic/`
+    );
+  }
 }

@@ -4,24 +4,24 @@ import { Observable } from 'rxjs';
 import { Global } from 'src/environment/global';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SidebarService {
+  public apiSidebarURL: string;
 
-  constructor(
-    private http: HttpClient
-  ) { }
-
-
-  getData():Observable<any>{
-    return this.http.get(`${Global.api}sidebar/userStats`)
+  constructor(private http: HttpClient) {
+    this.apiSidebarURL = Global.api + 'sidebar/';
   }
 
-  getPosts():Observable<any>{
-    return this.http.get(`${Global.api}sidebar/lastFive`);
+  getData(): Observable<any> {
+    return this.http.get(`${this.apiSidebarURL}userStats`);
   }
 
-  getForumStats():Observable<any>{
-    return this.http.get(`${Global.api}sidebar/forumStats`)
+  getPosts(): Observable<any> {
+    return this.http.get(`${this.apiSidebarURL}lastFive`);
+  }
+
+  getForumStats(): Observable<any> {
+    return this.http.get(`${this.apiSidebarURL}forumStats`);
   }
 }

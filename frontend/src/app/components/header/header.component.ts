@@ -68,6 +68,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         if (this.userIsAuthenticated?.userData.id) {
           this.user = this.userIsAuthenticated?.userData.id;
         }
+        // this._authService.completeLoad();
       },
     });
 
