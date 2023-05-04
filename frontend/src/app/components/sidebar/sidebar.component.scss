@@ -7,6 +7,9 @@
   align-self: flex-start;
   order: 1;
   margin: 0 1rem;
+  @media (max-width: 700px) {
+    display:none;
+  }
 }
 
 .sidebar {
