@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject, map, takeUntil } from 'rxjs';
+import { Observable, Subject, catchError, map, takeUntil } from 'rxjs';
 import { UserService } from '../../service/user.service';
 import { PublicUserProfile } from 'src/app/models/receive/user-profile';
 import { Global } from 'src/environment/global';
@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public user: PublicUserProfile;
   public url: string;
   public theme: string;
-  public userAuth: User;
+  public userAuth:  User | null;
   public view: boolean;
   public loading: boolean;
   public chartOption: EChartsOption;
@@ -55,10 +55,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
       can_pm: false,
       is_verified: true,
     };
-    this.userAuth = this.authService.user?.userData;
+    this.userAuth = null;
     this.theme = themeService.getTheme();
     this.view = true;
-    this.loading = false;
+    this.loading = true;
 
     this.chartOption = {};
     this.chartOption2 = {};
@@ -66,15 +66,26 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this.route.snapshot.data['response']) {
-      this.user = this.route.snapshot.data['response'];
-      //this.user.id == this.userAuth.id && !this.userAuth.isVerified
-      if (this.user?.id == 0 && !this.userAuth.isVerified) {
-        this.toastService.show('Verify your email');
+    this.userService.getProfile(this.route.snapshot.paramMap.get('id') ?? '').subscribe({
+      next: res => {
+        this.user = res;
+        if (this.userAuth && this.user.id == this.userAuth.id && !this.userAuth.isVerified) {
+          this.toastService.show('Verify your email');
+        } else {
+          this.userAuth = this.authService.user?.userData;
+        }
+      }, error: err => {
+        console.log(err);
+      }, complete: () => {
+        this.loading = false;
       }
-    } else {
-      this.router.navigate(['/error']);
-    }
+    })
+
+    this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
+      next: (r) => {
+        this.userAuth = r != null ? r.userData : null;
+      },
+    });
 
     this.getStatistics();
     this.getPostsTopic();

@@ -85,6 +85,7 @@ export class ListComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (r) => {
           this.getMessages();
+          this.toastService.show('Message deleted successfully');
         },
         error: (e) => console.error(e),
       });

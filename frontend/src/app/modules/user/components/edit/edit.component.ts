@@ -25,6 +25,7 @@ export class EditComponent implements OnInit, OnDestroy {
   public theme: string;
   public error: string;
   public loading: boolean;
+  public loading2: boolean;
   public user: EditUserProfile;
   public preferences: UserPreferences;
   public userId: string;
@@ -74,6 +75,7 @@ export class EditComponent implements OnInit, OnDestroy {
     this.theme = this.themeService.getTheme();
     this.error = '';
     this.loading = true;
+    this.loading2 = false;
     this.user = {
       nick: '',
       email: '',
@@ -134,13 +136,16 @@ export class EditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this.route.snapshot.data['response']) {
-      this.user = this.route.snapshot.data['response'];
-      this.loading = false;
-    } else {
-      this.loading = false;
-      this.router.navigate(['/user/profile/' + this.userId]);
-    }
+    this.userService.getEdit().subscribe({
+      next: res => {
+        this.user = res
+      }, error: err => {
+        console.log(err);
+      }, complete: () => {
+        this.loading = false;
+      }
+    })
+
     this.getPref();
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
@@ -151,7 +156,7 @@ export class EditComponent implements OnInit, OnDestroy {
 
   submit(): void {
     if (this.formEditProfile.valid) {
-      this.loading = true;
+      this.loading2 = true;
       this.error = '';
       delete this.formEditProfile.value.avatar;
       // Miro si vol canviar l'imatge o no
@@ -161,15 +166,15 @@ export class EditComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe({
             next: (res) => {
-              this.loading = false;
-              // this.router.navigate(['/user/profile/' + this.userId]);
               this._authService.autoAuthUser();
               this.toastService.show(res.message);
             },
             error: (err) => {
-              this.loading = false;
               this.error = err.error.message;
             },
+            complete: () => {
+              this.loading2 = false
+            }
           });
       } else {
         this.userService
@@ -177,14 +182,14 @@ export class EditComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe({
             next: (res) => {
-              this.loading = false;
-              this.router.navigate(['/user/profile/' + this.userId]);
+              this.toastService.show(res.message);
               this._authService.autoAuthUser();
             },
             error: (err) => {
-              this.loading = false;
               this.error = err.error.message;
-            },
+            },complete: () => {
+              this.loading2 = false
+            }
           });
       }
     } else {
@@ -229,7 +234,7 @@ export class EditComponent implements OnInit, OnDestroy {
 
   editPreferences(): void {
     if (this.formEditPreferences.valid) {
-      this.loading = true;
+      this.loading2 = true;
       this.userService
         .editPreferences(this.preferences)
         .pipe(takeUntil(this.unsubscribe$))
@@ -243,7 +248,7 @@ export class EditComponent implements OnInit, OnDestroy {
             console.log(err);
           },
           complete: () => {
-            this.loading = false;
+            this.loading2 = false;
           },
         });
     } else {

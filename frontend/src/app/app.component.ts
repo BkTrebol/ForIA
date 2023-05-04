@@ -19,6 +19,7 @@ import { AuthService } from './modules/auth/service/auth.service';
 import { User } from './models/user';
 import { UserPreferences } from './models/user-preferences';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
+import { ToastService } from './helpers/services/toast.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -37,7 +38,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private _authService: AuthService,
     private router: Router,
     private themeService: ThemeService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private toastService: ToastService,
   ) {
     this.unsubscribe$ = new Subject();
     this.userIsAuthenticated = null;
@@ -58,6 +60,9 @@ export class AppComponent implements OnInit, OnDestroy {
             // this.loadingRoutes();
           },
         });
+        if (this.userIsAuthenticated && !this.userIsAuthenticated.userData.isVerified) {
+          this.toastService.show('Verify your email')
+        }
       },
     });
 

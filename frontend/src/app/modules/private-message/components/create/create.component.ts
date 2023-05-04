@@ -18,10 +18,7 @@ import { AuthService } from 'src/app/modules/auth/service/auth.service';
 export class CreateComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public loading: boolean;
-  // public content: string;
   public userList$: Observable<any>;
-  // public user?: string;
-  // public title?: string;
   public message: newPrivateMessage;
   public editorConfig: AngularEditorConfig;
   public theme: string;
@@ -36,12 +33,11 @@ export class CreateComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private privateMessageService: PrivateMessageService,
     private authService: AuthService,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {
     this.theme = themeService.getTheme();
     this.unsubscribe$ = new Subject();
     this.loading = false;
-    // this.content = '';
     this.userList$ = new Observable();
     this.message = {
       recipient: undefined,
@@ -58,29 +54,22 @@ export class CreateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // In case is set an user trough queryParams checks if can PM them.
-    const sendTo = parseInt(this.route.snapshot.queryParams['user'])
-    if(isNaN(sendTo)){
-      this.userList$ = this.privateMessageService.getUserList()
-    } else{
-      this.userList$ = this.privateMessageService.getUserList()
-      .pipe(
-        map(r => {
-          if(r.filter((u:any) => u.id === sendTo).length == 0){
-            console.log('Nope') // TODO Redirect/ErrorToast/Both.
-          } else{
+    const sendTo = parseInt(this.route.snapshot.queryParams['user']);
+    if (isNaN(sendTo)) {
+      this.userList$ = this.privateMessageService.getUserList();
+    } else {
+      this.userList$ = this.privateMessageService.getUserList().pipe(
+        map((r) => {
+          if (r.filter((u: any) => u.id === sendTo).length == 0) {
+            console.log('No user found with this id'); // TODO Redirect/ErrorToast/Both.
+          } else {
             this.message.recipient = sendTo;
           }
           return r;
         })
-      )
+      );
     }
-    
 
-    ;
-    if(this.userList$){
-
-    }
-    console.log(this.message)
     this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {
         this.userLogged = r;
@@ -113,10 +102,6 @@ export class CreateComponent implements OnInit, OnDestroy {
         error: (e) => console.log(e),
       });
   }
-
-  // onSelectChange(event: any) {
-  //   this.message.recipient = event.id;
-  // }
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();

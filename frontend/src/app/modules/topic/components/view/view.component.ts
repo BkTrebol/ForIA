@@ -119,13 +119,16 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((params: Params) => {
         this.loading = true;
-        this.getData(params['id'], '1');
+        this.getData(
+          params['id'],
+          this.route.snapshot.queryParams['page'] ?? '1'
+        );
       });
 
-    this.getData(
-      this.route.snapshot.paramMap.get('id') ?? '',
-      this.route.snapshot.queryParams['page'] ?? '1'
-    );
+    // this.getData(
+    //   this.route.snapshot.paramMap.get('id') ?? '',
+    //   this.route.snapshot.queryParams['page'] ?? '1'
+    // );
 
     this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {
@@ -140,7 +143,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       });
   }
 
-  getData(id: string, page: string) {
+  getData(id: string, page: string, noScroll: boolean = false) {
     this.topicService
       .posts(id, page)
       .pipe(takeUntil(this.unsubscribe$))
@@ -165,39 +168,13 @@ export class ViewComponent implements OnInit, OnDestroy {
                 behavior: 'smooth',
               });
             }, 100);
-          } else {
+          } else if (!noScroll) {
             this.scrollToTop();
           }
-
           if (res.poll) {
             this.loading2 = true;
             this.checkPoll();
           }
-
-          // if (this.listPosts.posts.length == 0) {
-          //   this.loading = true;
-          //   this.router.navigate([], {
-          //     relativeTo: this.route,
-          //     queryParams: { page: this.listPosts.page.last },
-          //     queryParamsHandling: 'merge',
-          //   });
-          //   this.getData(
-          //     this.listPosts.topic.id.toString(),
-          //     this.listPosts.page.last.toString()
-          //   );
-          // } else {
-          //   this.router.navigate([], {
-          //     relativeTo: this.route,
-          //     queryParams: {
-          //       page:
-          //         this.listPosts.page.current == 1
-          //           ? null
-          //           : this.listPosts.page.current,
-          //     },
-          //     queryParamsHandling: 'merge',
-          //   });
-          //   this.loading = false;
-          // }
         },
         error: (err) => {
           this.loading = false;
@@ -250,7 +227,8 @@ export class ViewComponent implements OnInit, OnDestroy {
         next: (res) => {
           this.getData(
             this.listPosts.topic.id.toString(),
-            this.listPosts.page.current.toString()
+            this.listPosts.page.current.toString(),
+            true
           );
           this.toastService.show(res.message);
         },

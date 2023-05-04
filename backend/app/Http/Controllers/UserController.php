@@ -187,7 +187,7 @@ class UserController extends Controller
         $isAdmin = count(collect($roles)->intersect(config('app.adminRoles'))) > 0;
 
         if ($isAdmin || $user->preferences->allow_view_profile){
-            $res = ['topics' => Topic::where('user_id', $user->id)
+            $res = ['topics' => Topic::limit(5)->where('user_id', $user->id)
                     ->withCount('posts')
                     ->get()
                     ->pluck('posts_count', 'title'),

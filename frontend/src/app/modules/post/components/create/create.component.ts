@@ -1,20 +1,20 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Subject, takeUntil } from 'rxjs';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
-import { CreatePost } from 'src/app/models/send/create-post';
+import { GetCreatePost } from 'src/app/models/send/create-post';
 import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { PostService } from '../../service/post.service';
-import { Topic } from 'src/app/models/topic';
 
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss', '../../../../styles/card.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class CreateComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
@@ -26,7 +26,7 @@ export class CreateComponent implements OnInit, OnDestroy {
     userData: User;
     userPreferences: UserPreferences;
   } | null;
-  public post: CreatePost;
+  public post: GetCreatePost;
   public topic: string | null;
   public topicList: { id: number; title: string }[];
 
@@ -39,7 +39,7 @@ export class CreateComponent implements OnInit, OnDestroy {
     private postService: PostService
   ) {
     this.unsubscribe$ = new Subject();
-    this.loading = false;
+    this.loading = true;
     this.theme = this.themeService.getTheme();
     this.error = '';
     this.userLogged = null;
@@ -48,7 +48,7 @@ export class CreateComponent implements OnInit, OnDestroy {
       editable: true,
     };
     this.post = {
-      topic_id: 0,
+      topic_id: undefined,
       content: '',
     };
     this.topic = null;
@@ -61,23 +61,28 @@ export class CreateComponent implements OnInit, OnDestroy {
     );
 
     if (this.post.topic_id == 0) {
+      this.post.topic_id = undefined;
       this.postService.allTopic().subscribe({
         next: (res) => {
-          console.log(res);
           this.topicList = res;
         },
         error: (err) => {
           console.log(err);
         },
+        complete: () => {
+          this.loading = false;
+        },
       });
     } else {
       this.postService.oneTopic(this.post.topic_id.toString()).subscribe({
         next: (res) => {
-          console.log(res);
-          this.topic = res;
+          this.topic = res.title;
         },
         error: (err) => {
           console.log(err);
+        },
+        complete: () => {
+          this.loading = false;
         },
       });
     }
@@ -96,16 +101,21 @@ export class CreateComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    this.postService
-      .post(this.post)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (res) => {
-          this.router.navigate([`/topic/${this.post.topic_id}`]);
-          this.toastService.show('Post created successfully');
-        },
-        error: (e) => console.log(e),
-      });
+    if (this.post.topic_id !== undefined && this.post.content.length > 0 && this.post.content.length < 10_000) {
+      this.postService
+        .post(this.post)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: (res) => {
+            this.router.navigate([`/topic/${this.post.topic_id}`]);
+            this.toastService.show('Post created successfully');
+          },
+          error: (e) => console.log(e),
+        });
+      this.error = '';
+    } else {
+      this.error = 'Invalid form data'
+    }
   }
 
   ngOnDestroy(): void {

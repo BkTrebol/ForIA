@@ -77,7 +77,21 @@ class PostController extends Controller
             ], 200);
         }
     }
-    
+
+    function getOneTopic(Topic $topic)
+    {
+        return response()->json(
+            $topic->only('title')
+        );
+    }
+
+    function getAllTopic()
+    {
+        return response()->json(
+            Topic::select('id', 'title')->orderBy('title', 'asc')->get()
+        );
+    }
+
 }
 
 

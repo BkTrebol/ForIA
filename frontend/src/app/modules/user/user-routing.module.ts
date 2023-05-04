@@ -12,17 +12,17 @@ const routes: Routes = [
     path: 'profile/:id',
     component: ProfileComponent,
     title: 'ForIA - User Profile',
-    resolve: {
-      response: ShowProfileResolver,
-    },
+    // resolve: {
+    //   response: ShowProfileResolver,
+    // },
   },
   {
     path: 'edit',
     component: EditComponent,
     title: 'ForIA - Edit Profile',
-    resolve: {
-      response: EditProfileResolver,
-    },
+    // resolve: {
+    //   response: EditProfileResolver,
+    // },
     canActivate: [AuthGuard],
   },
   {

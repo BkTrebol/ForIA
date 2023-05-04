@@ -19,10 +19,15 @@ const routes: Routes = [
     component: EditComponent,
     title: 'ForIA',
   },
+  {
+    path: '',
+    redirectTo: '/error',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class PostRoutingModule { }
+export class PostRoutingModule {}

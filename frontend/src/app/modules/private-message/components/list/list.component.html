@@ -60,7 +60,10 @@
                 <ng-container *ngIf="messages.received">
                     <div class="message" *ngFor="let pm of messages.received.messages">
                         <div class="mess">
-                            <fa-icon [icon]="[pm.viewed ?'far' : 'fas', 'message']"></fa-icon>
+                            <fa-icon [icon]="[pm.viewed ?'far' : 'fas', 'message']"
+                            ngbTooltip="{{pm.viewed ? 'Already Viewed' : 'Not Viewed'}}">
+
+                            </fa-icon>
                             <div class="message-body">
                                 <a class="user-link" routerLink="{{pm.id}}">{{pm.title}}</a>
                                 <div class="user-date">

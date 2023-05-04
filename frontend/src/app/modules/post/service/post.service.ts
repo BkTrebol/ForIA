@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CreatePost } from 'src/app/models/send/create-post';
+import { GetCreatePost } from 'src/app/models/send/create-post';
 import { Global } from 'src/environment/global';
 
 @Injectable({
@@ -14,13 +14,15 @@ export class PostService {
     this.apiPostURL = Global.api + 'post/';
   }
 
-  post(post: CreatePost): Observable<void> {
+  post(post: GetCreatePost): Observable<void> {
     let params = JSON.stringify(post);
     return this.http.post<void>(`${this.apiPostURL}`, params);
   }
 
-  oneTopic(id: string): Observable<any> {
-    return this.http.get(`${this.apiPostURL}one-topic/${id}`);
+  oneTopic(id: string): Observable<{ title: string }> {
+    return this.http.get<{ title: string }>(
+      `${this.apiPostURL}one-topic/${id}`
+    );
   }
 
   allTopic(): Observable<{ id: number; title: string }[]> {

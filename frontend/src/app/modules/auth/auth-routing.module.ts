@@ -20,6 +20,11 @@ const routes: Routes = [
     component: ResetPasswordComponent,
     title: 'ForIA - Reset Password',
   },
+  {
+    path: '',
+    redirectTo: '/error',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
