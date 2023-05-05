@@ -1,0 +1,7 @@
+@import 'bootstrap/scss/bootstrap';
+.nav-link{
+    @extend .link-dark;
+    &.active{
+        @extend .link-light;
+    }
+}

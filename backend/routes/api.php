@@ -99,6 +99,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
 });
 
+// Admin Login.
 Route::controller(LoginController::class)->prefix('admin')->group(function(){
     Route::post('/login','login');
     Route::get('/check','check');

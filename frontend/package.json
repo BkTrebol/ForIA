@@ -31,6 +31,7 @@
     "@ng-select/ng-select": "^10.0.4",
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
+    "bootstrap-icons": "^1.10.5",
     "echarts": "^5.4.2",
     "echarts-gl": "^2.0.9",
     "ngx-echarts": "^15.0.3",

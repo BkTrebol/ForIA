@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('user_preferences', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->boolean('sidebar')->default(true);
+            $table->boolean('sidebar')->default(false);
             $table->boolean('filter_bad_words')->default(true);
             $table->boolean('allow_view_profile')->default(true);
             $table->boolean('allow_user_to_mp')->default(true);
