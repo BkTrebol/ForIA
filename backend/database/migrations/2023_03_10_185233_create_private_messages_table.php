@@ -24,14 +24,14 @@ return new class extends Migration
 
         Schema::create('private_messages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('sender_id');
-            $table->unsignedBigInteger('receiver_id');
+            $table->unsignedBigInteger('sender_id')->nullable();
+            $table->unsignedBigInteger('receiver_id')->nullable();
             $table->unsignedBigInteger('thread_id');
             $table->text('content');
             $table->string('title');
             $table->unsignedBigInteger('deleted_by')->nullable();
-            $table->foreign('sender_id')->references('id')->on('users')->constrained();
-            $table->foreign('receiver_id')->references('id')->on('users')->contrained();
+            $table->foreign('sender_id')->references('id')->on('users')->constrained()->nullOnDelete();
+            $table->foreign('receiver_id')->references('id')->on('users')->contrained()->nullOnDelete();
             $table->boolean('viewed')->default(false);
             $table->timestamps();
 
