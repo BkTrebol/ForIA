@@ -29,7 +29,7 @@
                 <p>Users: {{forumStats.users}}</p>
                 <p>Last User: <a routerLink="/user/profile/{{forumStats.lastUser.id}}">{{forumStats.lastUser.nick}}</a>
                 </p>
-                <p>Last Poll: <a routerLink="/topic/1">example</a></p>
+                <p>Last Poll: <a routerLink="/topic/{{forumStats.lastPoll.topic_id}}">{{forumStats.lastPoll.name}}</a></p>
             </div>
         </div>
     </div>

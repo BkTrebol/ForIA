@@ -23,6 +23,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     posts: number;
     users: number;
     lastUser: any;
+    lastPoll: any;
   };
   public loginForm: FormGroup;
   public authData: AuthData;
@@ -35,7 +36,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private sidebarService: SidebarService
   ) {
     this.unsubscribe$ = new Subject();
-    this.forumStats = { topics: 0, posts: 0, users: 0, lastUser: {} };
+    this.forumStats = { topics: 0, posts: 0, users: 0, lastUser: {},lastPoll:{} };
     this.lastPosts = [];
     this.userLoggedIn = false;
     this.theme = themeService.getTheme();
@@ -92,6 +93,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r: any) => {
+          console.log(r)
           this.forumStats = r;
           this.loading[3] = false;
         },

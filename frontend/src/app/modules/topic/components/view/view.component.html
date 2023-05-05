@@ -71,7 +71,7 @@
             <div *ngIf="!showResults" class="poll-view">
                 <div class="poll-title">
                     <h3>Poll: {{listPosts.poll.name}}</h3>
-                    <button ngbTooltip="{{(listPosts.poll.finish_date | finished) < 0 ? 'Finish the poll' : 'Reopen the Poll'}}"
+                    <button ngbTooltip="{{(listPosts.poll.finish_date | finished) <= 0 ? 'Finish the poll' : 'Reopen the Poll'}}"
                     class="btn-add" type="button" (click)="closePoll()" *ngIf="listPosts.poll.can_edit"><fa-icon
                             [icon]="['fas', 'flag-checkered']"></fa-icon></button>
                     <a class="btn-edit" ngbTooltip="Edit the Poll" routerLink="/topic/{{listPosts.topic.id}}/poll/edit"

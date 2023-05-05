@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Poll;
 use App\Models\Post;
 use App\Models\Topic;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class SidebarController extends Controller
@@ -66,13 +68,14 @@ class SidebarController extends Controller
         $posts = Post::all()->count();
         $users = User::all()->count();
         $lastUser = User::orderBy('created_at','desc')->first();
-
+        $lastPoll = Poll::where('finish_date','>',now())->orWhere('finish_date',null)->orderBy('created_at','desc')->first();
 
         return response()->json([
             "topics" => $topics,
             "posts" => $posts,
             "users" => $users,
-            "lastUser" => $lastUser->only('id','nick','rol')
+            "lastUser" => $lastUser->only('id','nick','rol'),
+            "lastPoll" => $lastPoll,
         ],200);
     }
 }
