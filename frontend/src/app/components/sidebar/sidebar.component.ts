@@ -104,16 +104,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       });
   }
 
-  onLogin() {
-    this.authService
-      .login(this.authData)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (r) => console.log(r),
-        error: (e) => console.log(e),
-      });
-  }
-
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
