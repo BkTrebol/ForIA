@@ -189,6 +189,7 @@ class UserController extends Controller
         if ($isAdmin || $user->preferences->allow_view_profile){
             $res = ['topics' => Topic::limit(5)->where('user_id', $user->id)
                     ->withCount('posts')
+                    ->orderBy('updated_at','desc')
                     ->get()
                     ->pluck('posts_count', 'title'),
                 ];
