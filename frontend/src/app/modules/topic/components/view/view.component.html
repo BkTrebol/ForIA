@@ -72,7 +72,7 @@
                 <div class="poll-title">
                     <h3>Poll: {{listPosts.poll.name}}</h3>
                     <button
-                        ngbTooltip="{{(listPosts.poll.finish_date | finished) < 0 ? 'Finish the poll' : 'Reopen the Poll'}}"
+                        ngbTooltip="{{(listPosts.poll.finish_date | finished) <= 0 ? 'Finish the poll' : 'Reopen the Poll'}}"
                         class="btn-add" type="button" (click)="closePoll()" *ngIf="listPosts.poll.can_edit"><fa-icon
                             [icon]="['fas', 'flag-checkered']"></fa-icon></button>
                     <a class="btn-edit" ngbTooltip="Edit the Poll" routerLink="/topic/{{listPosts.topic.id}}/poll/edit"
@@ -160,7 +160,8 @@
                             <p class="post-date">{{post.created_at | ago}}</p>
                             <div *ngIf="post.can_edit" class="edit-buttons">
                                 <button class="btn-edit" ngbTooltip="Edit the Post" type="button"
-                                    routerLink="/post/edit/{{post.id}}"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
+                                    routerLink="/post/edit/{{post.id}}"><fa-icon
+                                        [icon]="['fas', 'pen']"></fa-icon></button>
                                 <button class="btn-delete" ngbTooltip="Delete the Post" type="button"
                                     (click)="deletePost(post.id)"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>

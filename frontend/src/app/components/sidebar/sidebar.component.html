@@ -6,17 +6,6 @@
         </div>
         <ng-template #notLoggedHeader>
             <div class="sidebar-title">
-                <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-                    <label for="email">Email: </label>
-                    <input id="email" type="email" formControlName="email" [(ngModel)]="authData.email">
-                    <label for="password">Password: </label>
-                    <input id="password" type="password" formControlName="password" [(ngModel)]="authData.password">
-                    <label for="rememberMe">Remember me: </label>
-                    <input type="checkbox" id="rememberMe" formControlName="remember_me"
-                        [(ngModel)]="authData.remember_me">
-                    <br>
-                    <input class="btn-s" type="submit" value="Log-in">
-                </form>
             </div>
         </ng-template>
 
@@ -40,7 +29,7 @@
                 <p>Users: {{forumStats.users}}</p>
                 <p>Last User: <a routerLink="/user/profile/{{forumStats.lastUser.id}}">{{forumStats.lastUser.nick}}</a>
                 </p>
-                <p>Last Poll: <a routerLink="/topic/1">example</a></p>
+                <p>Last Poll: <a routerLink="/topic/{{forumStats.lastPoll.topic_id}}">{{forumStats.lastPoll.name}}</a></p>
             </div>
         </div>
     </div>

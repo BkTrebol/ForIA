@@ -26,7 +26,7 @@ class Poll extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
-        'topic_id',
+        // 'topic_id',
     ];
     
     public function options(){

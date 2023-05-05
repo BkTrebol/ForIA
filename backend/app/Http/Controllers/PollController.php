@@ -68,7 +68,7 @@ class PollController extends Controller
                 "message" => "Unauthorized"
             ], 403);
         }
-        if($poll->finish_date < now()){
+        if($poll->finish_date < now() && $poll->finish_date != null){
             $poll->finish_date = now()->addDay();
             $mess = "reopened";
         }else{
