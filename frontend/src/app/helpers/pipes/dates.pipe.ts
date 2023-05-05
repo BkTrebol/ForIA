@@ -21,7 +21,7 @@ export class TimeAgoPipe implements PipeTransform {
     } else if (seconds < 172800) {
       return 'a day ago';
     } else {
-      return time.toLocaleString().split(',')[0];
+      return time.toLocaleDateString();
     }
   }
 }

@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.canSmall = false;
     this.url = Global.api + 'user/get-avatar/';
     this.theme = this.themeService.getTheme();
-    this.hover = true;
+    this.hover = false;
   }
 
   changeUser() {
@@ -70,7 +70,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         if (this.userIsAuthenticated?.userData.id) {
           this.user = this.userIsAuthenticated?.userData.id;
         }
-        // this._authService.completeLoad();
       },
     });
 
@@ -84,9 +83,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
           '/auth/register',
           '/auth/reset-password',
           '/user/edit',
-          '/user/profile',
           '/error',
-        ].includes(this.router.url)
+        ].includes(this.router.url) ||
+        this.router.url.startsWith('/user/profile/')
       ) {
         this.canSmall = false;
       } else {

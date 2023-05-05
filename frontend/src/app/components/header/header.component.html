@@ -21,12 +21,12 @@
         </ul>
         <ul>
             <li class="dropdown">
-                <p class="avatar">
+                <p class="avatar" (click)="hover = false">
                     <app-avatar [user]="userIsAuthenticated.userData" [width]="top? '30': '50'"
                         [height]="top? '30': '50'" [small]="true"></app-avatar>
                     <span>{{userIsAuthenticated.userData.nick}}</span>
                 </p>
-                <div class="dropdown-content {{hover ? 'noo': ''}}" (click)="hover = !hover">
+                <div class="dropdown-content {{hover ? 'noo': ''}}" (click)="hover=true">
                     <a routerLink="/private-message" routerLinkActive="active">
                         <fa-icon [icon]="['fas', 'message']"></fa-icon><span>Messages</span>
                     </a>

@@ -62,6 +62,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::put('/{post}','editPost');
         Route::delete('/{post}','deletePost');
 
+        Route::get('/one-post/{post}', 'getOnePost');
         //Topic
         Route::get('/one-topic/{topic}','getOneTopic');
         Route::get('/all-topic','getAllTopic');

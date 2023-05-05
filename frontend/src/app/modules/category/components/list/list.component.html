@@ -4,7 +4,7 @@
     <div class="list" *ngIf="loading">
         <div class="list-header">
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
-            <p><fa-icon [icon]="['fas', 'code']"></fa-icon> A forum about <b>IA</b></p>
+            <p class="description-title"><fa-icon [icon]="['fas', 'code']"></fa-icon> A forum about <b>IA</b></p>
             <div class="option-btns">
                 <button class="btn2" type="button"><fa-icon [icon]="['fas', 'chevron-down']"></fa-icon> Collapse sections</button>
             </div>
@@ -51,7 +51,7 @@
     <div class="list" *ngIf="!loading">
         <div class="list-header">
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
-            <p><fa-icon [icon]="['fas', 'code']"></fa-icon> A forum about <b>IA</b></p>
+            <p class="description-title"><fa-icon [icon]="['fas', 'code']"></fa-icon> A forum about <b>IA</b></p>
             <div class="option-btns">
                 <button class="btn2" type="button" (click)="toogleSections()">
                     <fa-icon [icon]="['fas', allSections ? 'chevron-right': 'chevron-down']"></fa-icon> {{allSections ?

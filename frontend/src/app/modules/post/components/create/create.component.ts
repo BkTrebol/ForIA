@@ -62,29 +62,35 @@ export class CreateComponent implements OnInit, OnDestroy {
 
     if (this.post.topic_id == 0) {
       this.post.topic_id = undefined;
-      this.postService.allTopic().subscribe({
-        next: (res) => {
-          this.topicList = res;
-        },
-        error: (err) => {
-          console.log(err);
-        },
-        complete: () => {
-          this.loading = false;
-        },
-      });
+      this.postService
+        .allTopic()
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: (res) => {
+            this.topicList = res;
+          },
+          error: (err) => {
+            console.log(err);
+          },
+          complete: () => {
+            this.loading = false;
+          },
+        });
     } else {
-      this.postService.oneTopic(this.post.topic_id.toString()).subscribe({
-        next: (res) => {
-          this.topic = res.title;
-        },
-        error: (err) => {
-          console.log(err);
-        },
-        complete: () => {
-          this.loading = false;
-        },
-      });
+      this.postService
+        .oneTopic(this.post.topic_id.toString())
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: (res) => {
+            this.topic = res.title;
+          },
+          error: (err) => {
+            console.log(err);
+          },
+          complete: () => {
+            this.loading = false;
+          },
+        });
     }
 
     this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({

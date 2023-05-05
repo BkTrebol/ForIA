@@ -2,7 +2,7 @@
     <div class="list" *ngIf="loading">
         <div class="list-header">
             <span>
-                <app-loading height="53px" width="400px"></app-loading>
+                <app-loading height="53px" width="250px"></app-loading>
             </span>
             <div class="m"><app-loading height="40px" width="200px"></app-loading></div>
         </div>
@@ -71,8 +71,9 @@
             <div *ngIf="!showResults" class="poll-view">
                 <div class="poll-title">
                     <h3>Poll: {{listPosts.poll.name}}</h3>
-                    <button ngbTooltip="{{(listPosts.poll.finish_date | finished) < 0 ? 'Finish the poll' : 'Reopen the Poll'}}"
-                    class="btn-add" type="button" (click)="closePoll()" *ngIf="listPosts.poll.can_edit"><fa-icon
+                    <button
+                        ngbTooltip="{{(listPosts.poll.finish_date | finished) < 0 ? 'Finish the poll' : 'Reopen the Poll'}}"
+                        class="btn-add" type="button" (click)="closePoll()" *ngIf="listPosts.poll.can_edit"><fa-icon
                             [icon]="['fas', 'flag-checkered']"></fa-icon></button>
                     <a class="btn-edit" ngbTooltip="Edit the Poll" routerLink="/topic/{{listPosts.topic.id}}/poll/edit"
                         *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'pen']"></fa-icon></a>
@@ -96,8 +97,9 @@
             <div *ngIf="pollResults && showResults" class="poll-view">
                 <div class="poll-title">
                     <h3>Poll: {{pollResults.name}}</h3>
-                    <button ngbTooltip="{{(listPosts.poll.finish_date | finished) < 0 ? 'Finish the poll' : 'Reopen the Poll'}}"
-                    class="btn-add" type="button" (click)="closePoll()" *ngIf="listPosts.poll.can_edit"><fa-icon
+                    <button
+                        ngbTooltip="{{(listPosts.poll.finish_date | finished) < 0 ? 'Finish the poll' : 'Reopen the Poll'}}"
+                        class="btn-add" type="button" (click)="closePoll()" *ngIf="listPosts.poll.can_edit"><fa-icon
                             [icon]="['fas', (listPosts.poll.finish_date | finished) < 0 ? 'flag-checkered' : 'lock-open']"></fa-icon></button>
                 </div>
                 <div class="poll-vote">
@@ -128,18 +130,19 @@
                 <div class="post-main">
                     <div class="post-body">
                         <div class="post-header">
-                            <p class="post-date">{{listPosts.topic.created_at | date}}</p>
+                            <p class="post-date">{{listPosts.topic.created_at | ago}}</p>
                             <div *ngIf="listPosts.can_edit" class="edit-buttons">
                                 <button class="btn-edit" ngbTooltip="Edit the Topic" type="button"><fa-icon
                                         [icon]="['fas', 'pen']"></fa-icon></button>
-                                <button (click)="deleteTopic(listPosts.topic.id)" ngbTooltip="Delete the Topic" class="btn-delete"
-                                    type="button"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
+                                <button (click)="deleteTopic(listPosts.topic.id)" ngbTooltip="Delete the Topic"
+                                    class="btn-delete" type="button"><fa-icon
+                                        [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
                         </div>
                         <p class="content" [innerHTML]="listPosts.topic.content"></p>
                     </div>
                     <div *ngIf="listPosts.topic.created_at != listPosts.topic.updated_at" class="post-footer">
-                        <p>{{listPosts.topic.updated_at | date}}</p>
+                        <p>{{listPosts.topic.updated_at | ago}}</p>
                     </div>
                 </div>
             </div>
@@ -154,18 +157,18 @@
                 <div class="post-main">
                     <div class="post-body">
                         <div class="post-header">
-                            <p class="post-date">{{post.created_at | date}}</p>
+                            <p class="post-date">{{post.created_at | ago}}</p>
                             <div *ngIf="post.can_edit" class="edit-buttons">
-                                <button class="btn-edit" ngbTooltip="Edit the Post" type="button"><fa-icon
-                                        [icon]="['fas', 'pen']"></fa-icon></button>
-                                <button class="btn-delete" ngbTooltip="Delete the Post" type="button" (click)="deletePost(post.id)"><fa-icon
-                                        [icon]="['fas', 'trash']"></fa-icon></button>
+                                <button class="btn-edit" ngbTooltip="Edit the Post" type="button"
+                                    routerLink="/post/edit/{{post.id}}"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
+                                <button class="btn-delete" ngbTooltip="Delete the Post" type="button"
+                                    (click)="deletePost(post.id)"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
                         </div>
                         <p class="content" [innerHTML]="post.content"></p>
                     </div>
                     <div *ngIf="post.created_at != post.updated_at" class="post-footer">
-                        <p>{{post.updated_at | date}}</p>
+                        <p>{{post.updated_at | ago}}</p>
                     </div>
                 </div>
             </div>

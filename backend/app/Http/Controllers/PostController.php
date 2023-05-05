@@ -48,10 +48,16 @@ class PostController extends Controller
             ], 403);
         } else {
             $request->validate([
-                'content' => ['required']
+                'content' => ['required'],
+                'topic_id' => ['required', 'exists:topics,id']
             ]);
 
             $post->content = $request->content;
+
+            if(count(collect(Auth::user()->roles)->intersect(config('app.adminRoles'))) > 0){
+                $post->topic_id = $request->topic_id;
+            }
+
             $post->update();
             return response()->json([
                 'message' => 'Post edited successfully',
@@ -78,6 +84,21 @@ class PostController extends Controller
         }
     }
 
+    function getOnePost(Post $post)
+    {
+        if (!checkPermission($post)) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 403);
+        }else{
+            return response()->json(
+                ['post' => $post->only('topic_id', 'content'),
+                'topic' => Topic::where('id', $post->topic_id)->first()->only('title')]
+            );
+        }
+    }
+
+    // Topics
     function getOneTopic(Topic $topic)
     {
         return response()->json(

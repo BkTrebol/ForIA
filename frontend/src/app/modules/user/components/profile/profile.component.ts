@@ -155,7 +155,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          console.log(res)
           if (res.topics.length == 0) {
             this.chartOption2 = {
               title: {

@@ -1153,6 +1153,7 @@
             display: flex;
             justify-content: flex-end;
             padding: 0 16px 16px 16px;
+            font-style: italic;
             p {
               padding: 0;
               margin: 0;
@@ -1376,6 +1377,12 @@
               }
             }
           }
+          label{
+            cursor: pointer;
+          }
+          h2{
+            margin-bottom: 8px;
+          }
         }
         .btn-s {
           margin: 16px auto;
@@ -1392,7 +1399,7 @@
     .list-footer {
       width: 100%;
       @include flex(column, center, space-between);
-      padding-top: 32px;
+      padding-top: 24px;
       .c {
         width: 100%;
         @include row(space-between);
@@ -1469,8 +1476,27 @@
       width: 500px;
       padding: 24px;
       .list-header {
+        h1 {
+          font-size: $size-title;
+        }
+        h2 {
+          font-size: $size-subtitle;
+        }
         img {
           height: 75px;
+        }
+        .option-btns {
+          @include center();
+          margin-bottom: 8px;
+        }
+        .description-title {
+          margin-top: 16px;
+          margin-bottom: 24px;
+        }
+        .subt {
+          .two-options {
+            @include col-center(space-evenly, 16px);
+          }
         }
       }
       .list-body {

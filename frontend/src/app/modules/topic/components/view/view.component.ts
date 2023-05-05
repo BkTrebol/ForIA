@@ -209,7 +209,8 @@ export class ViewComponent implements OnInit, OnDestroy {
           this.error = '';
           this.getData(
             this.listPosts.topic.id.toString(),
-            this.listPosts.page.current.toString()
+            this.listPosts.page.current.toString(),
+            true
           );
         },
         error: (err) => {

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GetCreatePost } from 'src/app/models/send/create-post';
+import { GetCreatePost, CreatePost } from 'src/app/models/send/create-post';
+import { EditPost } from 'src/app/models/receive/edit-post';
 import { Global } from 'src/environment/global';
 
 @Injectable({
@@ -17,6 +18,18 @@ export class PostService {
   post(post: GetCreatePost): Observable<void> {
     let params = JSON.stringify(post);
     return this.http.post<void>(`${this.apiPostURL}`, params);
+  }
+
+  onePost(id: string): Observable<EditPost> {
+    return this.http.get<EditPost>(`${this.apiPostURL}one-post/${id}`);
+  }
+
+  editPost(id: string, post: CreatePost): Observable<{ message: string }> {
+    let params = JSON.stringify(post);
+    return this.http.put<{ message: string }>(
+      `${this.apiPostURL}${id}`,
+      params
+    );
   }
 
   oneTopic(id: string): Observable<{ title: string }> {

@@ -4,13 +4,10 @@
 // MIXIONS
 @import "../../styles/mixins";
 
-img {
-  width: 100%;
-}
 div {
   h1 {
     position: absolute;
-    top: 40%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgba(49, 49, 224, 0.969);
@@ -18,5 +15,13 @@ div {
     font-family: $font-text;
     border-radius: 64px;
     padding: 16px 32px;
+    width: max-content;
+  }
+  @include mobile(){
+    h1 {
+      font-size: $size-subtitle;
+      width: 200px;
+      padding: 32px;
+    }
   }
 }

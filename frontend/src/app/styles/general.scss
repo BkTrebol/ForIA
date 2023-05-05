@@ -227,9 +227,6 @@ No changes
           &:hover .dropdown-content {
             display: block;
           }
-          // &:hover .dropdown-content.noo {
-          //   display: none;
-          // }
           .dropdown-content {
             display: none;
             position: absolute;
@@ -239,7 +236,8 @@ No changes
             margin-top: 4px;
             border-radius: 8px;
             right: 0;
-            a, p {
+            a,
+            p {
               padding: 8px 16px;
               margin-bottom: 8px;
               display: block;
@@ -263,7 +261,8 @@ No changes
         img {
           margin-right: 12px;
         }
-        a, p {
+        a,
+        p {
           text-decoration: none;
           font-weight: bold;
           padding-bottom: 5px;
@@ -315,17 +314,25 @@ No changes
         fa-icon {
           margin-right: 6px;
         }
-        a span, p span {
+        a span,
+        p span {
           @include no;
         }
-        .dropdown-content {
-          a span {
-            display: inline;
+        &.dropdown {
+          &:hover .dropdown-content.noo {
+            display: none;
+          }
+          .dropdown-content {
+            margin-top: 16px;
+            a span {
+              display: inline;
+            }
           }
         }
       }
     }
   }
+  // Responsive for mini
   @include mini() {
     nav ul {
       li {
