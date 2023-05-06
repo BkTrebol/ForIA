@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthData } from 'src/app/models/auth-data';
-import { AuthService } from '../../../auth/service/auth.service';
+import { AuthService } from 'src/app/modules/auth/service/auth.service';
+
 
 @Component({
   selector: 'app-login',
@@ -26,7 +28,8 @@ export class LoginComponent {
     },
   };
   constructor(
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _router: Router,
   ){
     this.authData = { email: '', password: '', remember_me: false };
     this.formBuilderNonNullable = new FormBuilder().nonNullable;
@@ -54,8 +57,12 @@ export class LoginComponent {
   onSubmit(){
     this.authData.email = this.email?.value;
     this.authData.password = this.password?.value;
-    this._authService.login(this.authData).subscribe({
-      next: (r) => console.log(r)
+    this._authService.adminLogin(this.authData).subscribe({
+      next: (r) => {
+        this._authService.checkAdmin().subscribe(r => {
+          this._router.navigate(['admin/dashboard'])
+        })
+      }
     })
   }
 

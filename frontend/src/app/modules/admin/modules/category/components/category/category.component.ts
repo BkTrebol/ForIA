@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, QueryList, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnInit  } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { CategoryService } from '../../service/category.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -6,27 +6,28 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss','../../../../styles/style.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent implements OnInit {
-
-  sections: Array<any> = [];
-  connectedTo: string[] = [];
+  public loading:boolean;
+  public sections: Array<any> = [];
+  public connectedTo: string[] = [];
   constructor(
     private _categoryService: CategoryService,
     private _modalService: NgbModal,
   ){
-
+    this.loading = false;
   }
   ngOnInit() {
     this.getData()
   }
 
   getData(){
+    this.loading = true;
     this._categoryService.categories().subscribe(
       (r) => {console.log(r)
       this.sections = r;
+      this.loading = false;
       this.connectedTo = this.sections.map((_, index) => `list${index}`);
       }
     );

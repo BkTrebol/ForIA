@@ -1,10 +1,12 @@
 <!-- <div [hidden]="loading" class="page-container"> -->
-<div class="bg-dark text-white d-flex min-vh-100 h-100 main">
-  <app-sidenav></app-sidenav>
-  <main class="container">
+<div class="bg-dark text-white d-flex min-vh-100 h-100  main">
+  <app-sidenav *ngIf="isAdmin"></app-sidenav>
+  <main class="container p-0">
     <router-outlet></router-outlet>
   </main>
 </div>
+
+
 <!-- <app-footer></app-footer> -->
 <!-- </div>  -->
 

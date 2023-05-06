@@ -1,6 +1,6 @@
 
 
-   <div class="container">
+   <div class="container" *ngIf="!loading; else loadingTemplate">
     <div cdkDropList (cdkDropListDropped)="dropSection($event)">
       <div class="row" *ngFor="let section of sections; let index = index" cdkDrag>
         <div class="col-md-12 mb-3">
@@ -31,9 +31,10 @@
         <button class="btn btn-sm btn-success" (click)="createSection(sectionModal)">Crear sección</button>
       </div>
     </div>
+	<button (click)="onSubmit()" class="btn btn-primary">Submit</button>
   </div>
   
-  <button (click)="onSubmit()">Submit</button>
+ 
 
 
   <ng-template #sectionModal let-modal>
@@ -87,3 +88,8 @@
 	</div>
 </ng-template>
 <hr />
+<ng-template #loadingTemplate>
+	<div class="page-loading light">
+	  <img class="logoIA" src="/assets/svg/logoIA.svg" height="400" alt="loading spinner">
+	</div>
+  </ng-template>

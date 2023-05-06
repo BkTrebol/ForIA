@@ -31,8 +31,11 @@ class LoginController extends Controller
     }
 
     function checkAdmin(Request $request){
-        return response()->json([
-            true,
-        ],200);
+        $isAdmin = $request->session()->pull('admin',false);
+        if($isAdmin){
+            $request->session()->put('admin', true);
+            return response()->json(true,200);
+        }
+        return response()->json(false,200);
     }
 }

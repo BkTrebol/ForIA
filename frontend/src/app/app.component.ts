@@ -48,7 +48,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.theme = themeService.getTheme();
     this.isAdminRoute = false;
     this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
+      .pipe(filter((event) => event instanceof NavigationStart))
       .subscribe((event: any) => {
         this.isAdminRoute = event.url.startsWith('/admin');
       });

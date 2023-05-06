@@ -1,1 +1,10 @@
-<p>dashboard works!</p>
+<div class="container" *ngIf="!loading; else loadingTemplate">
+
+</div>
+
+
+<ng-template #loadingTemplate>
+	<div class="page-loading light">
+	  <img class="logoIA" src="/assets/svg/logoIA.svg" height="400" alt="loading spinner">
+	</div>
+  </ng-template>

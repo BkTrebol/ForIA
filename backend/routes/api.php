@@ -100,7 +100,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::middleware(AdminMiddleware::class)->prefix('admin')->group(function(){
         Route::controller(LoginController::class)->group(function(){
-            Route::get('/check','checkAdmin');
+            // Route::get('/check','checkAdmin');
         });
     });
 });
@@ -108,6 +108,7 @@ Route::middleware('auth:sanctum')->group(function(){
 // Admin Login.
 Route::controller(LoginController::class)->prefix('admin')->group(function(){
     Route::post('/login','login');
+    Route::get('/check','checkAdmin');
 });
 // Admin routes.
 Route::middleware(['auth:sanctum',AdminMiddleware::class])->prefix('admin')->group(function(){
