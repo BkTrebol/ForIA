@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable, Subject, catchError, map, takeUntil } from 'rxjs';
 import { UserService } from '../../service/user.service';
 import { PublicUserProfile } from 'src/app/models/receive/user-profile';
@@ -15,6 +15,7 @@ import { User } from 'src/app/models/user';
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss', '../../../../styles/card.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
@@ -22,7 +23,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public user: PublicUserProfile;
   public url: string;
   public theme: string;
-  public userAuth:  User | null;
+  public userAuth: User | null;
   public view: boolean;
   public loading: boolean;
   public chartOption: EChartsOption;
@@ -66,20 +67,28 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.userService.getProfile(this.route.snapshot.paramMap.get('id') ?? '').subscribe({
-      next: res => {
-        this.user = res;
-        if (this.userAuth && this.user.id == this.userAuth.id && !this.userAuth.isVerified) {
-          this.toastService.show('Verify your email');
-        } else {
-          this.userAuth = this.authService.user?.userData;
-        }
-      }, error: err => {
-        console.log(err);
-      }, complete: () => {
-        this.loading = false;
-      }
-    })
+    this.userService
+      .getProfile(this.route.snapshot.paramMap.get('id') ?? '')
+      .subscribe({
+        next: (res) => {
+          this.user = res;
+          if (
+            this.userAuth &&
+            this.user.id == this.userAuth.id &&
+            !this.userAuth.isVerified
+          ) {
+            this.toastService.show('Verify your email');
+          } else {
+            this.userAuth = this.authService.user?.userData;
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        },
+        complete: () => {
+          this.loading = false;
+        },
+      });
 
     this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {
@@ -170,11 +179,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 text: 'Topics',
                 subtext: 'Total of Posts',
                 textAlign: 'center',
+                textStyle: {
+                  fontSize: '30',
+                },
+                subtextStyle: {
+                  fontSize: '20',
+                },
               },
               tooltip: {
                 trigger: 'axis',
                 axisPointer: {
                   type: 'shadow',
+                },
+                textStyle: {
+                  fontSize: '25',
                 },
               },
               xAxis: {
@@ -183,9 +201,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 axisTick: {
                   alignWithLabel: true,
                 },
+                axisLabel: {
+                  fontSize: '20',
+                },
               },
               yAxis: {
                 type: 'value',
+                axisLabel: {
+                  fontSize: '20',
+                },
               },
               series: [
                 {
@@ -193,6 +217,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
                   barWidth: '50%',
                   data: Object.values(res.topics),
                   type: 'bar',
+                  label: {
+                    fontSize: '20',
+                  },
                 },
               ],
             };
@@ -231,14 +258,23 @@ export class ProfileComponent implements OnInit, OnDestroy {
               left: '50%',
               text: 'Activity',
               textAlign: 'center',
+              textStyle: {
+                fontSize: '30',
+              },
             },
             tooltip: {
               trigger: 'item',
               formatter: '{b} : {c} ({d}%)',
+              textStyle: {
+                fontSize: '25',
+              },
             },
             legend: {
               align: 'auto',
               bottom: 10,
+              textStyle: {
+                fontSize: '20',
+              },
               data: ['posts', 'topics', 'messages send', 'messages recived'],
             },
             calculable: true,
@@ -247,6 +283,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 name: 'activity',
                 type: 'pie',
                 radius: '55%',
+                label: {
+                  fontSize: 20,
+                },
                 // roseType: 'area',
                 // roseType: 'radius',
                 center: ['50%', '50%'],

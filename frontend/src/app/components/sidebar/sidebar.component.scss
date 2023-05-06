@@ -2,11 +2,10 @@
 @import "../../styles/mixins";
 
 :host {
-  width: 240px;
   position: relative;
   align-self: flex-start;
   order: 1;
-  margin: 0 1rem 0 0;
+  transition: all 1.2s;
   @include sidebar() {
     display: none;
   }
@@ -16,6 +15,46 @@
   font-family: $font-text;
   padding: 12px;
   width: 100%;
+  &.true {
+    padding: 8px;
+    width: max-content;
+    .toggle {
+      margin-bottom: 0;
+      .btn-a {
+        display: none;
+      }
+    }
+  }
+  .toggle {
+    margin-bottom: 8px;
+    &.start {
+      @include row(space-between);
+      .btn2 {
+        order: 1;
+      }
+      .btn-a {
+        order: 2;
+      }
+    }
+    &.end {
+      @include row(space-between);
+      .btn2 {
+        order: 2;
+      }
+      .btn-a {
+        order: 1;
+      }
+    }
+    &.sol{
+      @include row(flex-end);
+    }
+    .btn2 {
+      @include btn0($color-gradient2);
+    }
+    .btn-a {
+      @include btn2($color-gradient1);
+    }
+  }
   .sidebar-title {
     text-align: center;
     p {
@@ -40,6 +79,9 @@
     a {
       @include a-link($color-gradient4, $color-gradient5, $color-gradient6);
     }
+    .toggle button {
+      color: $color-white-clear;
+    }
   }
   &.light {
     background-color: $color-white-clear;
@@ -51,6 +93,9 @@
     }
     a {
       @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
+    }
+    .toggle button {
+      color: $color-black-clear;
     }
   }
 }

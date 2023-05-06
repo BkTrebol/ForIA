@@ -279,6 +279,8 @@ export class ViewComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.pollResults = res;
+          console.log(res);
+          
         },
         error: (e) => console.log(e),
         complete: () => (this.loading2 = false),

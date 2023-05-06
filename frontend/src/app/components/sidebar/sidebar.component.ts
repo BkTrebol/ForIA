@@ -28,15 +28,24 @@ export class SidebarComponent implements OnInit, OnDestroy {
   public loginForm: FormGroup;
   public authData: AuthData;
   public loading: boolean[];
+  public coll: boolean;
 
   @HostBinding('style.order') order = 0;
+  @HostBinding('style.width') width = '240px';
+  @HostBinding('style.margin') margin = '0 1rem';
   constructor(
     private authService: AuthService,
     private themeService: ThemeService,
     private sidebarService: SidebarService
   ) {
     this.unsubscribe$ = new Subject();
-    this.forumStats = { topics: 0, posts: 0, users: 0, lastUser: {},lastPoll:{} };
+    this.forumStats = {
+      topics: 0,
+      posts: 0,
+      users: 0,
+      lastUser: {},
+      lastPoll: {},
+    };
     this.lastPosts = [];
     this.userLoggedIn = false;
     this.theme = themeService.getTheme();
@@ -52,6 +61,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       remember_me: new FormControl(null),
     });
     this.loading = [true, true, true, true, true];
+    this.coll = false;
   }
 
   ngOnInit(): void {
@@ -93,7 +103,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r: any) => {
-          console.log(r)
           this.forumStats = r;
           this.loading[3] = false;
         },
@@ -104,6 +113,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .subscribe((t) => {
         this.theme = t;
       });
+  }
+
+  editSidebar() {
+    this.sidebarService.editSidebar(this.order === 0 ? true : false).subscribe({
+      next: (res) => {
+        this.order = this.order ? 0 : 1;
+        this.authService.autoAuthUser();
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   ngOnDestroy() {

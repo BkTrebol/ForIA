@@ -98,23 +98,22 @@
                 <div class="poll-title">
                     <h3>Poll: {{pollResults.name}}</h3>
                     <button
-                        ngbTooltip="{{(listPosts.poll.finish_date | finished) < 0 ? 'Finish the poll' : 'Reopen the Poll'}}"
+                        ngbTooltip="{{(listPosts.poll.finish_date | finished) <= 0 ? 'Finish the poll' : 'Reopen the Poll'}}"
                         class="btn-add" type="button" (click)="closePoll()" *ngIf="listPosts.poll.can_edit"><fa-icon
-                            [icon]="['fas', (listPosts.poll.finish_date | finished) < 0 ? 'flag-checkered' : 'lock-open']"></fa-icon></button>
+                            [icon]="['fas', (listPosts.poll.finish_date | finished) <= 0 ? 'flag-checkered' : 'lock-open']"></fa-icon></button>
                 </div>
                 <div class="poll-vote">
-                    <div [class]="option.voted ? 'voted' : '' " *ngFor="let option of pollResults.options">
-                        {{option.option}} : {{option.votes}}
-                    </div>
+                    <ng-container *ngFor="let option of pollResults.options"><span>{{option.option}} -  {{option.votes}} votes</span><ngb-progressbar [showValue]="true" type="{{option.voted ? 'success' : 'primary'}}" [value]="(option?.votes??0)* 100/pollResults.votes" [striped]="true"></ngb-progressbar>
+                </ng-container>
                 </div>
                 <button class="btn2" (click)="onShowPollResults()" *ngIf="listPosts.poll.can_vote">
                     <fa-icon [icon]="['fas', 'backward']"></fa-icon>
                     Back to vote</button>
             </div>
             <div class="poll-view">
-                <p *ngIf="(listPosts.poll.finish_date | finished) < 0">Finishes: {{listPosts.poll.finish_date | date }}
+                <p *ngIf="(listPosts.poll.finish_date | finished) <= 0">Finishes: {{listPosts.poll.finish_date | date }}
                 </p>
-                <p *ngIf="(listPosts.poll.finish_date | finished) > 0">Finished: {{listPosts.poll.finish_date | ago }}
+                <p *ngIf="(listPosts.poll.finish_date | finished) > 0">Finished: {{listPosts.poll.finish_date | date }}
                 </p>
             </div>
         </div>

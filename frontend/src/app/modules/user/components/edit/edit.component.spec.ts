@@ -14,7 +14,7 @@ function checkBtn(is: boolean, fixture: ComponentFixture<EditComponent>) {
   expect(btn.disabled).toBe(is);
 }
 
-describe('EditComponent Test', () => {
+describe('2EditComponent Test', () => {
   let component: EditComponent;
   let fixture: ComponentFixture<EditComponent>;
 
@@ -32,6 +32,7 @@ describe('EditComponent Test', () => {
 
     fixture = TestBed.createComponent(EditComponent);
     component = fixture.componentInstance;
+    component.loading = false;
     fixture.detectChanges();
   });
 

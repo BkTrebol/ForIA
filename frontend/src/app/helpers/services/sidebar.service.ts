@@ -24,4 +24,8 @@ export class SidebarService {
   getForumStats(): Observable<any> {
     return this.http.get(`${this.apiSidebarURL}forumStats`);
   }
+
+  editSidebar(s: boolean): Observable<any> {
+    return this.http.put(`${Global.api}preferences/sidebar`, JSON.stringify({ 'sidebar': s }))
+  }
 }

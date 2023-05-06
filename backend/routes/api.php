@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PreferencesController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PollController;
 use App\Http\Controllers\PrivateMessageController;
@@ -45,6 +46,11 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::put('/preference','editUserPreference');
         Route::get('/list','getUserList');
 
+    });
+
+    // Preferences Routes
+    Route::controller(PreferencesController::class)->prefix('preferences')->group(function(){
+        Route::put('/sidebar','editSidebar');
     });
 
     // Topic routes.

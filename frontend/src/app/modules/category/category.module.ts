@@ -5,7 +5,6 @@ import { SharedModule } from '../share.module';
 import { CategoryRoutingModule } from './category-routing.module';
 import { ListComponent } from './components/list/list.component';
 import { ViewComponent } from './components/view/view.component';
-import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [ListComponent, ViewComponent],
@@ -13,7 +12,6 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     CategoryRoutingModule,
     SharedModule,
-    NgbCollapseModule,
   ],
 })
 export class CategoryModule {}

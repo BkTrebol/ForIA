@@ -1283,6 +1283,7 @@
       }
       .poll-view {
         margin-bottom: 16px;
+        width: 100%;
         .poll-title {
           @include row(flex-start, 16px);
         }
@@ -1290,6 +1291,10 @@
           @include col(space-evenly, 8px);
           margin-top: 16px;
           padding: 8px;
+          width: 100%;
+          ngb-progressbar {
+            width: 100%;
+          }
           .voted {
             padding: 2px;
             background-color: $color-gradient3;

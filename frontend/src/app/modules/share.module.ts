@@ -9,7 +9,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 // Ngb modules
-import { NgbModule, NgbToast, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbToast, NgbToastModule, NgbCollapse, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Extra (icons)
@@ -57,6 +57,8 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
     NgSelectModule,
     ToastsContainer,
     NgbTooltipModule,
+    NgbCollapse,
+    NgbProgressbarModule,
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
@@ -84,6 +86,8 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
     NgxEchartsModule,
     SidebarComponent,
     NgbTooltipModule,
+    NgbCollapse,
+    NgbProgressbarModule,
   ],
 })
 export class SharedModule {}
