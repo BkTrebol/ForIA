@@ -2,25 +2,27 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { LoginComponent } from './login.component';
+import { SharedModule } from 'src/app/modules/share.module';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { EditComponent } from './edit.component';
 
-describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+describe('EditComponent', () => {
+  let component: EditComponent;
+  let fixture: ComponentFixture<EditComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
+        AngularEditorModule,
+        SharedModule,
         FontAwesomeTestingModule,
-        ReactiveFormsModule,
       ],
-      declarations: [LoginComponent],
+      declarations: [EditComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LoginComponent);
+    fixture = TestBed.createComponent(EditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

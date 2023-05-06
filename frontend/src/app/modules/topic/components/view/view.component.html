@@ -131,7 +131,7 @@
                         <div class="post-header">
                             <p class="post-date">{{listPosts.topic.created_at | ago}}</p>
                             <div *ngIf="listPosts.can_edit" class="edit-buttons">
-                                <button class="btn-edit" ngbTooltip="Edit the Topic" type="button"><fa-icon
+                                <button routerLink="/topic/eidt/{{listPosts.topic.id}}" class="btn-edit" ngbTooltip="Edit the Topic" type="button"><fa-icon
                                         [icon]="['fas', 'pen']"></fa-icon></button>
                                 <button (click)="deleteTopic(listPosts.topic.id)" ngbTooltip="Delete the Topic"
                                     class="btn-delete" type="button"><fa-icon

@@ -4,6 +4,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 // Fonts
 @font-face {
   font-family: "Roboto";
@@ -13,6 +14,7 @@
   font-family: "Sans";
   src: url("./assets/fonts/OpenSans.ttf");
 }
+
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap-utilities';
 @import 'bootstrap/scss/transitions';

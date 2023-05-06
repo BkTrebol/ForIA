@@ -1,0 +1,58 @@
+<div class="list-page {{theme}}">
+  <div class="list">
+    <div class="list-header">
+      <h1>Edit Topic</h1>
+    </div>
+    <div class="list-body">
+      <div class="create-topic">
+        <div class="poll">
+          <div class="poll-options">
+            <input id="title" type="text" placeholder="Title" [(ngModel)]="topic.title">
+            <input placeholder="Description" type="text" [(ngModel)]="topic.description">
+            <button [ngClass]="pollToggle ? 'btn-d':'btn-a'" (click)="togglePoll()"><fa-icon
+                [icon]="['fas',  pollToggle ? 'trash':'plus']"></fa-icon>
+                {{pollToggle ? 'Remove Poll': 'Add Poll'}}</button>
+          </div>
+        </div>
+        <div class="poll" *ngIf="pollToggle">
+          <div class="poll-name">
+            <input type="text" placeholder="Poll Name" [(ngModel)]="topic.poll.name">
+          </div>
+          <div class="poll-options">
+            <div class="poll-option" *ngFor="let opt of topic.poll.options; index as i;">
+              <input type="text" placeholder="Option {{i+1}}" [(ngModel)]="topic.poll.options[i].option">
+              <button [disabled]="topic.poll.options.length <= 2" class="btn-delete" (click)="onDeleteOption(i)">
+                <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+              </button>
+            </div>
+            <div class="add-o">
+              <span>Add more options </span>
+              <button class="btn-add" (click)="onAddOption()">
+                <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="editor-parent" *ngIf="userLogged">
+        <div class="editor-user">
+          <div class="user-card">
+            <app-avatar [user]="userLogged.userData"></app-avatar>
+            <div class="text">
+              <a routerLink="/user/profile/{{userLogged.userData.id}}">{{userLogged.userData.nick}}</a>
+              <small>{{userLogged.userData.rol}}</small>
+            </div>
+          </div>
+          <div class="editor">
+            <angular-editor id="editor" [(ngModel)]="topic.content" [config]="editorConfig"></angular-editor>
+          </div>
+        </div>
+        <input type="submit" [disabled]="topic.content.length == 0 || topic.content.length > 10_000
+                || topic.title == ''" class="btn-s" (click)="onSubmit()">
+        <div *ngIf="error != ''" class="error">
+          <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
