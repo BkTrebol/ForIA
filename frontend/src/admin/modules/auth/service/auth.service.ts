@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, concatMap, map } from 'rxjs';
 import { AuthData } from 'src/admin/models/auth-data';
@@ -23,14 +23,29 @@ export class AuthService {
     this.apiUrl = Global.api+'admin/';
     this.userSubject = new BehaviorSubject(null);
     this.authData = this.userSubject.asObservable();
+
+  }
+  getCSRF(): Observable<any> {
+    return this._http.get<any>(`${Global.api}/sanctum/csrf-cookie`);
   }
 
   login(authData:AuthData): Observable<any> {
+    const patata = {
+      email: authData.email,
+      password: authData.password,
+      admin: true
+    };
     let params = JSON.stringify(authData);
+    console.log(params)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    });
     return this._http
-      .post(`${this.apiUrl}login`, params)
+      .post(`${this.apiUrl}login`, params,{headers:headers})
       .pipe(
         concatMap((r) => {
+          console.log(r)
           return this.checkLogin().pipe(
             map((checkR) => {
               return r;
@@ -41,9 +56,14 @@ export class AuthService {
   }
 
     checkLogin(): Observable<any> {
-    return this._http.get(`${this.apiUrl}check`).pipe(
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      });
+    return this._http.get(`${this.apiUrl}data`,{headers:headers,withCredentials:true}).pipe(
       map((r) => {
         this.userSubject.next(r);
+        console.log(r)
         return r;
       })
     );

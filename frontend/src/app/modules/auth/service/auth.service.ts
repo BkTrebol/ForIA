@@ -81,7 +81,7 @@ export class AuthService {
   }
 
   checkLogin(): Observable<any> {
-    return this.http.get(`${this.apiAuthURL}data`).pipe(
+    return this.http.get(`${this.apiAuthURL}data`,).pipe(
       map((r) => {
         this.userSubject.next(r);
         return r;

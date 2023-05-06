@@ -52,7 +52,11 @@ export class LoginComponent {
   }
 
   onSubmit(){
-    // this._authService.login();
+    this.authData.email = this.email?.value;
+    this.authData.password = this.password?.value;
+    this._authService.login(this.authData).subscribe({
+      next: (r) => console.log(r)
+    })
   }
 
   get email() {

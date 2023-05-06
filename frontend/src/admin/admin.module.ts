@@ -12,11 +12,13 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { SharedModule } from './modules/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HeadersInterceptor } from 'src/app/helpers/interceptors/headers.interceptor';
 
 @NgModule({
   declarations: [AdminComponent, SidenavComponent],
   imports: [BrowserModule,BrowserAnimationsModule, CommonModule, AdminRoutingModule,SharedModule,HttpClientModule],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true },],
   bootstrap: [AdminComponent],
 })
 export class AdminModule {
