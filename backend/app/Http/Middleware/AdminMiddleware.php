@@ -17,6 +17,7 @@ class AdminMiddleware
     {
         $isAdmin = $request->session()->pull('admin',false);
         if($isAdmin){
+            $request->session()->put('admin', true);
             return $next($request);
         }
         return response()->json(['error' => 'Unauthorized'],403);

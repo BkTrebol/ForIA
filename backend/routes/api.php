@@ -15,6 +15,7 @@ use App\Http\Controllers\PrivateMessageController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\SidebarController;
+use App\Http\Middleware\AdminMiddleware;
 
 use App\Models\Post;
 use App\Models\Topic;
@@ -103,11 +104,21 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/userStats','getUserSidebarStats');
     });
 
+    Route::middleware(AdminMiddleware::class)->prefix('admin')->group(function(){
+        Route::controller(LoginController::class)->group(function(){
+            // Route::get('/check','checkAdmin');
+        });
+    });
 });
 
+// Admin Login.
 Route::controller(LoginController::class)->prefix('admin')->group(function(){
     Route::post('/login','login');
-    Route::get('/check','check');
+    Route::get('/check','checkAdmin');
+});
+// Admin routes.
+Route::middleware(['auth:sanctum',AdminMiddleware::class])->prefix('admin')->group(function(){
+
 });
 
 // Public routes.

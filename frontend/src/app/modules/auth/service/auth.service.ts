@@ -14,6 +14,9 @@ import { ResetPassword } from 'src/app/models/reset-password';
 export class AuthService {
   private baseURL: string;
   private apiAuthURL: string;
+  private apiAdminURL: string;
+  public isAdmin: BehaviorSubject<any>;
+  public $isAdmin: Observable<boolean | null>;
   public loading$: Subject<boolean>;
 
   private userSubject: BehaviorSubject<any>;
@@ -25,7 +28,9 @@ export class AuthService {
   constructor(private http: HttpClient) {
     this.baseURL = Global.url;
     this.apiAuthURL = Global.api + 'auth/';
-
+    this.apiAdminURL = Global.api+'admin/';
+    this.isAdmin = new BehaviorSubject(null);
+    this.$isAdmin = this.isAdmin.asObservable();
     this.userSubject = new BehaviorSubject(null);
     this.authData = this.userSubject.asObservable();
 
@@ -80,8 +85,35 @@ export class AuthService {
       );
   }
 
+  adminLogin(authData: AuthData): Observable<any> {
+    let params = JSON.stringify(authData);
+    return this.http
+      .post(`${this.apiAdminURL}login`, params)
+      .pipe(
+        concatMap((r) => {
+          return this.checkLogin().pipe(
+            map((checkR) => {
+              return r;
+            })
+          );
+        })
+      );
+  }
+
+  checkAdmin(): Observable<any> {
+    return this.http.get(`${this.apiAdminURL}check`)
+    .pipe(map((r) => {
+      if(r){
+        this.isAdmin.next(true);
+      } else{
+        this.isAdmin.next(false);
+      }
+      return r;
+    }))
+  }
+
   checkLogin(): Observable<any> {
-    return this.http.get(`${this.apiAuthURL}data`).pipe(
+    return this.http.get(`${this.apiAuthURL}data`,).pipe(
       map((r) => {
         this.userSubject.next(r);
         return r;
@@ -117,6 +149,7 @@ export class AuthService {
 
   logout(): Observable<{ message: string }> {
     this.userSubject.next(null);
+    this.isAdmin.next(null);
     return this.http.get<{ message: string }>(`${this.apiAuthURL}logout`);
   }
 }

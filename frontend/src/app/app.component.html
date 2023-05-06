@@ -1,10 +1,18 @@
-<div [hidden]="loading" class="page-container">
+
+<div *ngIf="!isAdminRoute" [hidden]="loading" class="page-container">
   <app-header></app-header>
 
   <main class="container-wrap">
     <router-outlet></router-outlet>
+    <a routerLink="admin">Admin</a>
   </main>
+  
   <app-footer></app-footer>
+</div>
+
+<div *ngIf="isAdminRoute">
+  <app-admin></app-admin>
+  <a routerLink="">Home</a>
 </div>
 
 <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

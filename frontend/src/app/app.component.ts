@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, filter, takeUntil } from 'rxjs';
 import {
   ActivationEnd,
   ActivationStart,
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
   } | null;
   public loading: boolean;
   public theme: string;
-
+  public isAdminRoute:boolean;
   constructor(
     private _authService: AuthService,
     private router: Router,
@@ -46,6 +46,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loading = true;
     this._authService.autoAuthUser();
     this.theme = themeService.getTheme();
+    this.isAdminRoute = false;
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationStart))
+      .subscribe((event: any) => {
+        this.isAdminRoute = event.url.startsWith('/admin');
+      });
   }
 
   ngOnInit() {

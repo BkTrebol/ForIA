@@ -1,0 +1,39 @@
+@import 'bootstrap/scss/bootstrap';
+@import "../../../styles/_vars.scss";
+.nav-link{
+    @extend .link-dark;
+    &.active{
+        @extend .link-light;
+    }
+}
+
+.page-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    // Dark theme
+    &.dark {
+      background-color: $color-black-clear;
+    }
+    // Light theme
+    &.light {
+      background-color: $color-white-clear;
+    }
+
+    img {
+      height: 400px;
+      animation: gir 5s linear infinite;
+    }
+  }
+
+  @keyframes gir {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }

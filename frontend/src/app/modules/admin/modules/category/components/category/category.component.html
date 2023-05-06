@@ -1,0 +1,95 @@
+
+
+   <div class="container" *ngIf="!loading; else loadingTemplate">
+    <div cdkDropList (cdkDropListDropped)="dropSection($event)">
+      <div class="row" *ngFor="let section of sections; let index = index" cdkDrag>
+        <div class="col-md-12 mb-3">
+          <h3>{{ section.name }}</h3>
+          <div
+            #categoryList
+            cdkDropList
+            [id]="connectedTo[index]"
+            [cdkDropListData]="section.categories"
+            [cdkDropListConnectedTo]="connectedTo"
+            class="list-group cat-list"
+            (cdkDropListDropped)="dropCategory($event)"
+          >
+            <div class="list-group-item" *ngFor="let category of section.categories;let cindex = index" cdkDrag>
+              <div>{{ category.title }}</div>
+              <div class="btn-group">
+                <button class="btn btn-sm btn-primary" (click)="editCategory(categoryModal,index,cindex)">Editar</button>
+                <button class="btn btn-sm btn-danger" (click)="deleteCategory(deleteModal,index,cindex)">Borrar</button>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-sm btn-success" (click)="createCategory(section)">Crear categoría</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <button class="btn btn-sm btn-success" (click)="createSection(sectionModal)">Crear sección</button>
+      </div>
+    </div>
+	<button (click)="onSubmit()" class="btn btn-primary">Submit</button>
+  </div>
+  
+ 
+
+
+  <ng-template #sectionModal let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Category update</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="mb-3">
+
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+	</div>
+</ng-template>
+
+  <ng-template #categoryModal let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Category update</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="mb-3">
+
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+	</div>
+</ng-template>
+
+<ng-template #deleteModal let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Delete Category</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="mb-3">
+
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+	</div>
+</ng-template>
+<hr />
+<ng-template #loadingTemplate>
+	<div class="page-loading light">
+	  <img class="logoIA" src="/assets/svg/logoIA.svg" height="400" alt="loading spinner">
+	</div>
+  </ng-template>
