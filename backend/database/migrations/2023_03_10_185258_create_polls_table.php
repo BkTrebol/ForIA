@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('polls', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('topic_id')->constrained()->onDelete('cascade');;
+            $table->foreignId('topic_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('name');
             $table->date('finish_date')->nullable();
             $table->timestamps();

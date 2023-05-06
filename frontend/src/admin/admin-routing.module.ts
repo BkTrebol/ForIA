@@ -11,7 +11,7 @@ const routes: Routes = [
     path: 'admin', children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {
-        path: 'category',
+        path: 'categories',
         loadChildren: () =>
           import('./modules/category/category.module').then(
             (m) => m.CategoryModule
