@@ -59,6 +59,17 @@ class User extends Authenticatable
         'roles' => 'array',
     ];
 
+        /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'roles' => '{
+            "roles" : ["ROLE_GUEST","ROLE_USER"]
+        }'
+    ];
+
     public function preferences()
     {
         return $this->hasOne(UserPreference::class);

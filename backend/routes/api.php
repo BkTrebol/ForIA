@@ -15,6 +15,7 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Controllers\Admin\AdminCategoryController;
 
 use App\Models\Post;
 use App\Models\Topic;
@@ -98,9 +99,11 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/userStats','getUserSidebarStats');
     });
 
+// Admin routes.
     Route::middleware(AdminMiddleware::class)->prefix('admin')->group(function(){
-        Route::controller(LoginController::class)->group(function(){
-            // Route::get('/check','checkAdmin');
+        Route::controller(AdminCategoryController::class)->prefix('category')->group(function(){
+            Route::get('/list','getList');
+            Route::post('/update','updateCategories');
         });
     });
 });
@@ -109,10 +112,6 @@ Route::middleware('auth:sanctum')->group(function(){
 Route::controller(LoginController::class)->prefix('admin')->group(function(){
     Route::post('/login','login');
     Route::get('/check','checkAdmin');
-});
-// Admin routes.
-Route::middleware(['auth:sanctum',AdminMiddleware::class])->prefix('admin')->group(function(){
-
 });
 
 // Public routes.

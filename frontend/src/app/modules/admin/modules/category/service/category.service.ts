@@ -16,7 +16,7 @@ export class CategoryService {
 
 
   categories(): Observable<any> {
-    return this._http.get<any>(`${Global.api}category/`);
+    return this._http.get<any>(`${this.apiUrl}category/list`);
   }
 
 }

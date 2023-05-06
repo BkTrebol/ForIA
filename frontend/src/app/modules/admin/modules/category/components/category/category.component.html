@@ -1,95 +1,140 @@
-
-
-   <div class="container" *ngIf="!loading; else loadingTemplate">
-    <div cdkDropList (cdkDropListDropped)="dropSection($event)">
-      <div class="row" *ngFor="let section of sections; let index = index" cdkDrag>
-        <div class="col-md-12 mb-3">
-          <h3>{{ section.name }}</h3>
-          <div
-            #categoryList
-            cdkDropList
-            [id]="connectedTo[index]"
-            [cdkDropListData]="section.categories"
-            [cdkDropListConnectedTo]="connectedTo"
-            class="list-group cat-list"
-            (cdkDropListDropped)="dropCategory($event)"
-          >
-            <div class="list-group-item" *ngFor="let category of section.categories;let cindex = index" cdkDrag>
-              <div>{{ category.title }}</div>
-              <div class="btn-group">
-                <button class="btn btn-sm btn-primary" (click)="editCategory(categoryModal,index,cindex)">Editar</button>
-                <button class="btn btn-sm btn-danger" (click)="deleteCategory(deleteModal,index,cindex)">Borrar</button>
-              </div>
-            </div>
-          </div>
-          <button class="btn btn-sm btn-success" (click)="createCategory(section)">Crear categoría</button>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <button class="btn btn-sm btn-success" (click)="createSection(sectionModal)">Crear sección</button>
-      </div>
-    </div>
+<div class="container" *ngIf="!loading; else loadingTemplate">
+	<div cdkDropList (cdkDropListDropped)="dropSection($event)">
+		<div class="row" *ngFor="let section of sections; let index = index" cdkDrag>
+			<div class="col-md-12 mb-3">
+				<div style="cursor:grab;" class="d-flex flex-wrap">
+					<h3 >{{ section.name }}</h3>
+						<fa-icon style="cursor:pointer;" (click)="editSection(sectionModal,index)" [icon]="['far', 'pen-to-square']" ></fa-icon>
+				</div>
+				
+				<div #categoryList cdkDropList [id]="connectedTo[index]" [cdkDropListData]="section.categories"
+					[cdkDropListConnectedTo]="connectedTo" class="list-group cat-list"
+					(cdkDropListDropped)="dropCategory($event)">
+					<div style="cursor:grab;" class="list-group-item" *ngFor="let category of section.categories;let cindex = index" cdkDrag>
+						<div>{{ category.title }}</div>
+						<div class="btn-group">
+							<button class="btn btn-sm btn-primary"
+								(click)="editCategory(categoryModal,index,cindex)">Edit</button>
+							<button class="btn btn-sm btn-danger"
+								(click)="deleteCategory(deleteModal,index,cindex)">Delete</button>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	<div class="row mt-4">
+		<div class="col-md-12">
+			<button class="btn btn-sm btn-success" (click)="createCategory(categoryModal)">Add Category</button>
+			<button class="btn btn-sm btn-success" (click)="createSection(sectionModal)">Add Section</button>
+		</div>
+	</div>
 	<button (click)="onSubmit()" class="btn btn-primary">Submit</button>
-  </div>
-  
- 
+</div>
 
-
-  <ng-template #sectionModal let-modal>
+<ng-template #sectionModal let-modal>
 	<div class="modal-header">
-		<h4 class="modal-title" id="modal-basic-title">Category update</h4>
-		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+		<h4 class="modal-title" id="modal-basic-title">Add Section</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
 	</div>
 	<div class="modal-body">
-		<form>
+		<form [formGroup]="sectionForm">
 			<div class="mb-3">
-
+				<div class="form-group">
+					<label for="name">Name</label>
+					<input type="text" id="name" class="form-control" formControlName="name">
+				</div>
 			</div>
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+		<button type="button" class="btn btn-outline-success" (click)="modal.close()">Cancel</button>
+		<button type="button" class="btn btn-outline-dark" (click)="modal.close(true)">Save</button>
 	</div>
 </ng-template>
 
-  <ng-template #categoryModal let-modal>
+<ng-template #categoryModal let-modal>
 	<div class="modal-header">
-		<h4 class="modal-title" id="modal-basic-title">Category update</h4>
-		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+		<h4 class="modal-title" id="modal-basic-title" *ngIf="!newCategoryMode">Category update</h4>
+		<h4 class="modal-title" id="modal-basic-title" *ngIf="newCategoryMode">Add Category</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
 	</div>
 	<div class="modal-body">
 		<form>
 			<div class="mb-3">
+				<div class="container">
+					<ng-container *ngIf="categoryForm">
+						<form [formGroup]="categoryForm">
+							<div class="form-group">
+								<label for="title">Title</label>
+								<input type="text" id="title" class="form-control" formControlName="title">
+							</div>
+							<div class="form-group">
+								<label for="description">Description</label>
+								<textarea type="text" id="description" class="form-control" formControlName="description">
+									</textarea>
+							</div>
+							<div class="form-group" *ngIf="newCategoryMode">
+								<label for="section">Section</label>
+								<ng-select
+								[items]="sectionList"
+								[searchable]="true"
+								bindLabel="name"
+								bindValue="id"
+								formControlName="section"
+								>
+								</ng-select>
+							</div>
+							<div class="form-group">
+								<label for="can_mod">Can Mod</label>
+								<input type="text" id="can_mod" class="form-control" formControlName="can_mod">
+							</div>
+							<div class="form-group">
+								<label for="can_post">Can Post</label>
+								<input type="text" id="can_post" class="form-control" formControlName="can_post">
+							</div>
+							<div class="form-group">
+								<label for="can_view">Can View</label>
+								<input type="text" id="can_view" class="form-control" formControlName="can_view">
+							</div>
 
+							<div class="form-group">
+								<label for="image">Image</label>
+								<input type="text" id="image" class="form-control" formControlName="image">
+							</div>
+							<div class="form-group">
+								<label for="music">Music</label>
+								<input type="text" id="music" class="form-control" formControlName="music">
+							</div>
+
+						</form>
+					</ng-container>
+				</div>
 			</div>
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+		<button type="button" class="btn btn-outline-danger" (click)="modal.close()" >Cancel</button>
+		<button type="button" class="btn btn-outline-dark" (click)="modal.close(true)"  [disabled]="categoryForm.invalid">Save</button>
 	</div>
 </ng-template>
 
 <ng-template #deleteModal let-modal>
-	<div class="modal-header">
-		<h4 class="modal-title" id="modal-basic-title">Delete Category</h4>
-		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-	</div>
 	<div class="modal-body">
-		<form>
+		<button type="button" class="btn-close float-right" aria-label="Close" (click)="modal.dismiss()"></button>
 			<div class="mb-3">
-
+				Confirm deleting category with title: {{catToDelete}}
 			</div>
-		</form>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+		<button type="button" class="btn btn-outline-success" (click)="modal.close()">Cancel</button>
+		<button type="button" class="btn btn-outline-danger" (click)="modal.close(true)">Confirm</button>
 	</div>
 </ng-template>
 <hr />
 <ng-template #loadingTemplate>
 	<div class="page-loading light">
-	  <img class="logoIA" src="/assets/svg/logoIA.svg" height="400" alt="loading spinner">
+		<img class="logoIA" src="/assets/svg/logoIA.svg" height="400" alt="loading spinner">
 	</div>
-  </ng-template>
+</ng-template>

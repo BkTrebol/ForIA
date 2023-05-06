@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -20,7 +21,8 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->date('birthday')->nullable();
             $table->string('avatar')->nullable();
-            $table->json('roles')->default(json_encode(['ROLE_USER','ROLE_GUEST']));
+            // $table->json('roles')->default(json_encode(['ROLE_USER','ROLE_GUEST']));
+            $table->json('roles');
             $table->string('rol')->default('User');
             $table->boolean('google_auth')->default(false); 
             $table->date('suspension')->nullable();

@@ -5,6 +5,7 @@ import { CategoryRoutingModule } from './category-routing.module';
 import { CategoryComponent } from './components/category/category.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from '../shared.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     DragDropModule,
     NgbModule,
     CommonModule,
-    CategoryRoutingModule
+    CategoryRoutingModule,
+    SharedModule
   ]
 })
 export class CategoryModule { }
