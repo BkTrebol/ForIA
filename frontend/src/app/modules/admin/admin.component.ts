@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './modules/auth/service/auth.service';
+import { AuthService } from '../auth/service/auth.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
 })
@@ -14,6 +14,6 @@ export class AdminComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    this._authService.autoAuthUser();
+    this._authService.checkAdmin();
   }
 }

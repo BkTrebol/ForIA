@@ -14,6 +14,8 @@ import { ResetPassword } from 'src/app/models/reset-password';
 export class AuthService {
   private baseURL: string;
   private apiAuthURL: string;
+  private apiAdminURL: string;
+  private isAdmin: boolean;
   public loading$: Subject<boolean>;
 
   private userSubject: BehaviorSubject<any>;
@@ -25,7 +27,8 @@ export class AuthService {
   constructor(private http: HttpClient) {
     this.baseURL = Global.url;
     this.apiAuthURL = Global.api + 'auth/';
-
+    this.apiAdminURL = Global.api+'admin/';
+    this.isAdmin = false;
     this.userSubject = new BehaviorSubject(null);
     this.authData = this.userSubject.asObservable();
 
@@ -78,6 +81,29 @@ export class AuthService {
           );
         })
       );
+  }
+
+  adminLogin(authData: AuthData): Observable<any> {
+    let params = JSON.stringify(authData);
+    return this.http
+      .post(`${this.apiAdminURL}login`, params)
+      .pipe(
+        concatMap((r) => {
+          return this.checkLogin().pipe(
+            map((checkR) => {
+              return r;
+            })
+          );
+        })
+      );
+  }
+
+  checkAdmin(): Observable<any> {
+    return this.http.get(`${this.apiAdminURL}check`)
+    .pipe((r) => {
+      this.isAdmin = true;
+      return r;
+    })
   }
 
   checkLogin(): Observable<any> {

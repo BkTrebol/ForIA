@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
-import { AuthData } from 'src/admin/models/auth-data';
-import { AuthService } from '../../service/auth.service';
+import { AuthData } from 'src/app/models/auth-data';
+import { AuthService } from '../../../auth/service/auth.service';
 
 @Component({
   selector: 'app-login',

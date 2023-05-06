@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, concatMap, map } from 'rxjs';
-import { AuthData } from 'src/admin/models/auth-data';
-import { User } from 'src/admin/models/user';
-import { UserPreferences } from 'src/admin/models/user-preferences';
+import { AuthData } from 'src/app/models/auth-data';
+import { User } from 'src/app/models/user';
+import { UserPreferences } from 'src/app/models/user-preferences';
 import { Global } from 'src/environment/global';
 
 @Injectable({
@@ -30,22 +30,11 @@ export class AuthService {
   }
 
   login(authData:AuthData): Observable<any> {
-    const patata = {
-      email: authData.email,
-      password: authData.password,
-      admin: true
-    };
     let params = JSON.stringify(authData);
-    console.log(params)
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    });
     return this._http
-      .post(`${this.apiUrl}login`, params,{headers:headers})
+      .post(`${this.apiUrl}login`, params)
       .pipe(
         concatMap((r) => {
-          console.log(r)
           return this.checkLogin().pipe(
             map((checkR) => {
               return r;
@@ -56,14 +45,9 @@ export class AuthService {
   }
 
     checkLogin(): Observable<any> {
-      const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      });
-    return this._http.get(`${this.apiUrl}data`,{headers:headers,withCredentials:true}).pipe(
+    return this._http.get(`${this.apiUrl}data`).pipe(
       map((r) => {
         this.userSubject.next(r);
-        console.log(r)
         return r;
       })
     );

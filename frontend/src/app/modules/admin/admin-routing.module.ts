@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'admin/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   {
-    path: 'admin/login', loadChildren: () =>
+    path: 'login', loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'admin', children: [
+    path: '', children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {
         path: 'categories',
@@ -39,7 +39,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class AdminRoutingModule { }

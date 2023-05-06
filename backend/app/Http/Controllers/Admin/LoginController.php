@@ -30,11 +30,9 @@ class LoginController extends Controller
         ;
     }
 
-    function adminData(Request $request){
-        $user = Auth::user();
+    function checkAdmin(Request $request){
         return response()->json([
-            'userData'=> $user,
+            true,
         ],200);
-
     }
 }

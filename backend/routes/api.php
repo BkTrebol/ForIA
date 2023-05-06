@@ -100,7 +100,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::middleware(AdminMiddleware::class)->prefix('admin')->group(function(){
         Route::controller(LoginController::class)->group(function(){
-            Route::get('/data','adminData');
+            Route::get('/check','checkAdmin');
         });
     });
 });
