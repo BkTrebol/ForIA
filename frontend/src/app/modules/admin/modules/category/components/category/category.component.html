@@ -1,4 +1,12 @@
+<div class="save-loading" *ngIf="saveLoading">
+
+	<div class="spinner-border text-dark" role="status">
+	  <span class="visually-hidden">Loading...</span>
+	</div>
+
+</div>
 <div class="container" *ngIf="!loading; else loadingTemplate">
+
 	<div cdkDropList (cdkDropListDropped)="dropSection($event)">
 		<div class="row" *ngFor="let section of sections; let index = index" cdkDrag>
 			<div class="col-md-12 mb-3">
@@ -26,12 +34,15 @@
 	</div>
 	<div class="row mt-4">
 		<div class="col-md-12">
-			<button (click)="onSubmit()" class="btn btn-primary m-1">Save</button>
+			<button (click)="onSubmit()" [disabled]="saveLoading" class="btn btn-primary m-1">
+				<div *ngIf="saveLoading" class="spinner-border spinner-border-sm" role="status">
+					<span class="visually-hidden">Loading...</span>
+				  </div>
+				Save</button>
 			<button class="btn btn-sm btn-success m-1" (click)="createCategory(categoryModal)">Add Category</button>
 			<button class="btn btn-sm btn-success m-1" (click)="createSection(sectionModal)">Add Section</button>
 		</div>
 	</div>
-	
 </div>
 
 <ng-template #sectionModal let-modal>

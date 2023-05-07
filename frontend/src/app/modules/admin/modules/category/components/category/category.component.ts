@@ -21,11 +21,13 @@ export class CategoryComponent implements OnInit {
   public newCategoryMode:boolean;
   public sectionList:Array<any>
   public titleList:Array<string>
+  public saveLoading:boolean;
   constructor(
     private _fb: FormBuilder,
     private _categoryService: CategoryService,
     private _modalService: NgbModal,
   ){
+    this.saveLoading = false;
     this.sectionList = [];
     this.titleList = [];
     this.newCategoryMode = false;
@@ -35,14 +37,13 @@ export class CategoryComponent implements OnInit {
     this.catToDelete = '';
   }
   ngOnInit() {
+    this.loading = true;
     this.getData()
   }
 
   getData(){
-    this.loading = true;
     this._categoryService.getCategories().subscribe(
       (r) => {
-        console.log(r)
       this.sections = r;
       this.sectionList = r.map((section:any,index:number) =>{
         return {
@@ -50,9 +51,9 @@ export class CategoryComponent implements OnInit {
           id:index,
         }
       })
-
       this.sectionList.unshift({name:''});
       this.loading = false;
+      this.saveLoading = false;
       this.connectedTo = this.sections.map((_, index) => `list${index}`);
       }
     );
@@ -181,7 +182,7 @@ export class CategoryComponent implements OnInit {
     onSubmit(){
       let index = 1;
       const sendCatList = [];
-
+      this.saveLoading = true;
       for (let section of this.sections) {
         for(let category of section.categories) {
           // const newCat = ...category
