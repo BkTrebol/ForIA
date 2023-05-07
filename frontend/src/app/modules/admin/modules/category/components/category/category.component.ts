@@ -1,13 +1,15 @@
-import { AfterViewInit, Component, OnInit  } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewEncapsulation  } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { CategoryService } from '../../service/category.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { uniqueTitleValidator } from '../../helpers';
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CategoryComponent implements OnInit {
   public loading:boolean;
@@ -17,13 +19,15 @@ export class CategoryComponent implements OnInit {
   public sectionForm: FormGroup;
   public catToDelete:string;
   public newCategoryMode:boolean;
-  public sectionList:Array<{name:string,id:number}>
+  public sectionList:Array<any>
+  public titleList:Array<string>
   constructor(
     private _fb: FormBuilder,
     private _categoryService: CategoryService,
     private _modalService: NgbModal,
   ){
     this.sectionList = [];
+    this.titleList = [];
     this.newCategoryMode = false;
     this.categoryForm = this._fb.group({});
     this.sectionForm = this._fb.group({});
@@ -36,8 +40,9 @@ export class CategoryComponent implements OnInit {
 
   getData(){
     this.loading = true;
-    this._categoryService.categories().subscribe(
-      (r) => {console.log(r)
+    this._categoryService.getCategories().subscribe(
+      (r) => {
+        console.log(r)
       this.sections = r;
       this.sectionList = r.map((section:any,index:number) =>{
         return {
@@ -45,14 +50,13 @@ export class CategoryComponent implements OnInit {
           id:index,
         }
       })
-      this.sectionList.unshift({name:'',id:NaN});
-      console.log(this.sectionList)
+
+      this.sectionList.unshift({name:''});
       this.loading = false;
       this.connectedTo = this.sections.map((_, index) => `list${index}`);
       }
     );
   }
-
 
   dropCategory(event: CdkDragDrop<any[]>) {
     // console.log(event)
@@ -76,13 +80,13 @@ export class CategoryComponent implements OnInit {
         id:[this.sections[index].categories[cindex].id],
         section:[this.sections[index].categories[cindex].section],
         newId:[this.sections[index].categories[cindex].newId??this.sections[index].categories[cindex].id],
-        can_mod: [this.sections[index].categories[cindex].can_mod],
-        can_post: [this.sections[index].categories[cindex].can_post],
-        can_view: [this.sections[index].categories[cindex].can_view],
+        can_mod: [this.sections[index].categories[cindex].can_mod,[Validators.required]],
+        can_post: [this.sections[index].categories[cindex].can_post,[Validators.required]],
+        can_view: [this.sections[index].categories[cindex].can_view,[Validators.required]],
         description: [this.sections[index].categories[cindex].description,[Validators.maxLength(250)]],
         image: [this.sections[index].categories[cindex].image],
         music: [this.sections[index].categories[cindex].music],
-        title: [this.sections[index].categories[cindex].title, [Validators.required, Validators.maxLength(50)]]
+        title: [this.sections[index].categories[cindex].title, [Validators.required, Validators.maxLength(50),uniqueTitleValidator(this.sections,this.sections[index].categories[cindex].title)]]
       });
       this._modalService.open(category).result.then(
         (result) => {
@@ -111,13 +115,13 @@ export class CategoryComponent implements OnInit {
         id:[],
         section:[null,[Validators.required]],
         newId:[],
-        can_mod: [],
-        can_post: [],
-        can_view: [],
+        can_mod: [null,[Validators.required]],
+        can_post: [null,[Validators.required]],
+        can_view: [null,[Validators.required]],
         description: ['',[Validators.maxLength(250)]],
         image: [],
         music: [],
-        title: ['',[Validators.required, Validators.maxLength(50)]]
+        title: ['',[Validators.required, Validators.maxLength(50),uniqueTitleValidator(this.sections)]]
       });
       this._modalService.open(category).result.then(
         (result) => {
@@ -181,12 +185,27 @@ export class CategoryComponent implements OnInit {
       for (let section of this.sections) {
         for(let category of section.categories) {
           // const newCat = ...category
-          category.newId = index;
+          category.order = index;
           category.section = section.name;
           sendCatList.push(category);
           index++
         }
       }
-      console.log(sendCatList);
+      this._categoryService.saveCategories(sendCatList).subscribe({
+        next: r => {
+          this.getData();
+          console.log(r);
+        },
+        error: e => {
+          this.getData();
+          console.log(e);
+        }
+      });
     }
+
+    get title() { return this.categoryForm.get('title')}
+    get can_mod() { return this.categoryForm.get('can_mod')}
+    get can_post() { return this.categoryForm.get('can_post')}
+    get can_view() { return this.categoryForm.get('can_view')}
+    get section() { return this.categoryForm.get('section')}
 }

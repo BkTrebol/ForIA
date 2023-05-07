@@ -10,7 +10,7 @@
 				<div #categoryList cdkDropList [id]="connectedTo[index]" [cdkDropListData]="section.categories"
 					[cdkDropListConnectedTo]="connectedTo" class="list-group cat-list"
 					(cdkDropListDropped)="dropCategory($event)">
-					<div style="cursor:grab;" class="list-group-item" *ngFor="let category of section.categories;let cindex = index" cdkDrag>
+					<div style="cursor:grab;" class="list-group-item d-flex justify-content-between" *ngFor="let category of section.categories;let cindex = index" cdkDrag>
 						<div>{{ category.title }}</div>
 						<div class="btn-group">
 							<button class="btn btn-sm btn-primary"
@@ -26,11 +26,12 @@
 	</div>
 	<div class="row mt-4">
 		<div class="col-md-12">
-			<button class="btn btn-sm btn-success" (click)="createCategory(categoryModal)">Add Category</button>
-			<button class="btn btn-sm btn-success" (click)="createSection(sectionModal)">Add Section</button>
+			<button (click)="onSubmit()" class="btn btn-primary m-1">Save</button>
+			<button class="btn btn-sm btn-success m-1" (click)="createCategory(categoryModal)">Add Category</button>
+			<button class="btn btn-sm btn-success m-1" (click)="createSection(sectionModal)">Add Section</button>
 		</div>
 	</div>
-	<button (click)="onSubmit()" class="btn btn-primary">Submit</button>
+	
 </div>
 
 <ng-template #sectionModal let-modal>
@@ -66,46 +67,91 @@
 				<div class="container">
 					<ng-container *ngIf="categoryForm">
 						<form [formGroup]="categoryForm">
-							<div class="form-group">
-								<label for="title">Title</label>
-								<input type="text" id="title" class="form-control" formControlName="title">
+							<div class="form-floating form-group my-1">
+								<input type="text" id="title" placeholder="Title" class="form-control" formControlName="title"
+								[ngClass]="{ 'is-invalid': title?.invalid && title?.touched}"
+								>
+								<label class="text-secondary" for="title">Title<sup class="text-danger">*</sup></label>
+								<div class="invalid-feedback d-block mt-1" *ngIf="!title?.valid && title?.touched">
+										<p *ngIf="title?.errors?.['uniqueTitle']">
+											<fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Title must be unique.
+										</p>
+										<p *ngIf="title?.errors?.['required']">
+											<fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Title is required.
+										</p>
+								</div>
 							</div>
-							<div class="form-group">
-								<label for="description">Description</label>
-								<textarea type="text" id="description" class="form-control" formControlName="description">
+							<div class="form-floating form-group my-1">
+								
+								<textarea  style="height:10rem;" type="text" id="description" placeholder="Description" class="form-control" formControlName="description">
 									</textarea>
+									<label class="text-secondary" for="description">Description</label>
 							</div>
-							<div class="form-group" *ngIf="newCategoryMode">
-								<label for="section">Section</label>
+							<div class="form-floating form-group my-1" *ngIf="newCategoryMode">
+								
 								<ng-select
 								[items]="sectionList"
 								[searchable]="true"
 								bindLabel="name"
 								bindValue="id"
 								formControlName="section"
+								class="select"
+								[ngClass]="{ 'is-invalid': section?.invalid && section?.touched}"
 								>
 								</ng-select>
+								<label class="text-secondary" for="section">Section<sup class="text-danger">*</sup></label>
+								<div class="invalid-feedback d-block mt-1" *ngIf="!section?.valid && section?.touched">
+									<p *ngIf="section?.errors?.['required']">
+										<fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Section is required.
+									</p>
 							</div>
-							<div class="form-group">
-								<label for="can_mod">Can Mod</label>
-								<input type="text" id="can_mod" class="form-control" formControlName="can_mod">
 							</div>
-							<div class="form-group">
-								<label for="can_post">Can Post</label>
-								<input type="text" id="can_post" class="form-control" formControlName="can_post">
+							<div class="form-floating form-group my-1">
+								
+								<input type="text" id="can_mod" class="form-control" placeholder="Can Mod" formControlName="can_mod"
+								[ngClass]="{ 'is-invalid': can_mod?.invalid && can_mod?.touched}"
+								>
+								<label class="text-secondary" for="can_mod">Can Mod<sup class="text-danger">*</sup></label>
+								<div class="invalid-feedback d-block mt-1" *ngIf="!can_mod?.valid && can_mod?.touched">
+									<p *ngIf="can_mod?.errors?.['required']">
+										<fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Can Mod is required.
+									</p>
 							</div>
-							<div class="form-group">
-								<label for="can_view">Can View</label>
-								<input type="text" id="can_view" class="form-control" formControlName="can_view">
+							</div>
+							<div class="form-floating form-group my-1">
+								
+								<input type="text" id="can_post" class="form-control" placeholder="Can Post" formControlName="can_post"
+								[ngClass]="{ 'is-invalid': can_post?.invalid && can_post?.touched}"
+								>
+								<label class="text-secondary" for="can_post">Can Post<sup class="text-danger">*</sup></label>
+								<div class="invalid-feedback d-block mt-1" *ngIf="!can_post?.valid && can_post?.touched">
+									<p *ngIf="can_post?.errors?.['required']">
+										<fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Can Post is required.
+									</p>
+							</div>
+							</div>
+							<div class="form-floating form-group my-1">
+								
+								<input type="text" id="can_view" class="form-control" placeholder="Can View" formControlName="can_view"
+								[ngClass]="{ 'is-invalid': can_view?.invalid && can_view?.touched}"
+								>
+								<label class="text-secondary" for="can_view">Can View<sup class="text-danger">*</sup></label>
+								<div class="invalid-feedback d-block mt-1" *ngIf="!can_view?.valid && can_view?.touched">
+									<p *ngIf="can_view?.errors?.['required']">
+										<fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Can View is required.
+									</p>
+							</div>
 							</div>
 
-							<div class="form-group">
-								<label for="image">Image</label>
-								<input type="text" id="image" class="form-control" formControlName="image">
+							<div class="form-floating form-group my-1">
+								
+								<input type="text" id="image" class="form-control" placeholder="Image" formControlName="image">
+								<label class="text-secondary" for="image">Image</label>
 							</div>
-							<div class="form-group">
-								<label for="music">Music</label>
-								<input type="text" id="music" class="form-control" formControlName="music">
+							<div class="form-floating form-group my-1">
+								
+								<input type="text" id="music" class="form-control" placeholder="Music" formControlName="music">
+								<label class="text-secondary" for="music">Music</label>
 							</div>
 
 						</form>

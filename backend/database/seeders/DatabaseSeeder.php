@@ -58,12 +58,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->count(10)->create();
         Category::factory()->create([
             'id' => 1,
-            'title' => 'privateMessages',
-            'section' => 'none',
-            'can_view' => 'NONE',
-        ]);
-        Category::factory()->create([
-            'id' => 2,
+            'order' => 1,
             'title' => 'Trash',
             'section' => 'ADMIN',
             'can_view' => 'ROLE_ADMIN',

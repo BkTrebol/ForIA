@@ -12,7 +12,7 @@ class CategoryController extends Controller
     {
         $user = Auth::user();
         $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
-        return Category::whereIn('can_view', $roles)->select('id', 'title')->orderBy('section')->get();
+        return Category::whereIn('can_view', $roles)->select('id', 'title')->orderBy('order')->get();
     }
 
     function getCategories()
@@ -21,7 +21,7 @@ class CategoryController extends Controller
         $user = Auth::user();
         $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
 
-        $categories = Category::get()->whereIn('can_view', $roles)->groupBy('section')->map(
+        $categories = Category::orderBy('order')->get()->whereIn('can_view', $roles)->groupBy('section')->map(
             function ($section, $sectionName) use ($roles) {
                 $sectionTemp['name'] = $sectionName;
                 $sectionTemp['categories'] = $section->map(function ($category) use ($roles) {

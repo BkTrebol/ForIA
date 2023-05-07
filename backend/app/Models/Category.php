@@ -22,6 +22,7 @@ class Category extends Model
         'music',
         'can_view',
         'section',
+        'order',
     ];
 
 

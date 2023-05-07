@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CategoryFactory extends Factory
 {
+    private static $order = 1;
+    protected $model = Category::class;
     /**
      * Define the model's default state.
      *
@@ -16,7 +19,9 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
+        
         return [
+            'order' => self::$order++,
             'title' => fake()->unique()->word(),
             'section' => fake()->word(),
             'description' => fake()->sentence(),
