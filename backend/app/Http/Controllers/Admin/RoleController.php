@@ -16,4 +16,9 @@ class RoleController extends Controller
         $roles = Role::where('id','<=',$userMaxrol)->get();
         return response()->json($roles);
     }
+
+    function getAll(Request $request){
+        $roles = Role::all();
+        return response()->json($roles);
+    }
 }

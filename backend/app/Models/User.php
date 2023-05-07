@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 
+use App\Listeners\DefaulRole;
 use App\Models\UserPreference;
 use App\Models\PrivateMessage;
 use App\Models\Post;
@@ -59,6 +60,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'roles' => 'array',
+        'last_seen' => 'datetime',
     ];
 
         /**

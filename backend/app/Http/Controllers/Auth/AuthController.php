@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -49,6 +50,8 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        $defaultRole = Role::find(2)->first();
+        $user->roles()->attach($defaultRole);
 
         if (env('APP_DEBUG')==false && !$user->hasVerifiedEmail()) {
             $user->notify(new VerifyEmail());
@@ -68,9 +71,13 @@ class AuthController extends Controller
 
     function userData(Request $request){
         $user = Auth::user();
+        $user->last_seen = now();
+        $user->save();
         $preferences = Auth::user()->preferences->only('sidebar','allow_music');
         $user['isAdmin'] = $user->isAdmin();
         $user['isVerified'] = $user->hasVerifiedEmail();
+        
+        
 
         return response()->json([
             'userData'=> $user,
@@ -141,6 +148,8 @@ class AuthController extends Controller
                     'avatar' => $payload['picture'],
                     'email_verified_at' => now(),
                 ]);
+                $defaultRole = Role::find(2)->first();
+                $user->roles()->attach($defaultRole);
                 // Auth::login($user);
             }
             if(Carbon::parse($user->suspension)->isFuture()){

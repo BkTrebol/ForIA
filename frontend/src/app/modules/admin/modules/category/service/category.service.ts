@@ -26,7 +26,7 @@ export class CategoryService {
   }
 
   getRoles(): Observable<any> {
-    return this._http.get<any>(`${this.apiUrl}role`);
+    return this._http.get<any>(`${this.apiUrl}role/all`);
   }
 
 }

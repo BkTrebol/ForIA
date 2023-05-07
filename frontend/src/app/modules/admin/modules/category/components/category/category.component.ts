@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewEncapsulation  } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation  } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { CategoryService } from '../../service/category.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { uniqueTitleValidator } from '../../helpers';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-category',
@@ -11,7 +12,8 @@ import { uniqueTitleValidator } from '../../helpers';
   styleUrls: ['./category.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent implements OnInit,OnDestroy {
+  private unsubscribe$: Subject<void>;
   public loading:boolean;
   public sections: Array<any> = [];
   public connectedTo: string[] = [];
@@ -28,6 +30,7 @@ export class CategoryComponent implements OnInit {
     private _categoryService: CategoryService,
     private _modalService: NgbModal,
   ){
+    this.unsubscribe$ = new Subject();
     this.roleList = [];
     this.saveLoading = false;
     this.sectionList = [];
@@ -45,7 +48,9 @@ export class CategoryComponent implements OnInit {
   }
 
   getData(){
-    this._categoryService.getCategories().subscribe(
+    this._categoryService.getCategories()
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe(
       (r) => {
       this.sections = r;
       this.sectionList = r.map((section:any,index:number) =>{
@@ -62,7 +67,9 @@ export class CategoryComponent implements OnInit {
     );
   }
   getRoles(){
-    this._categoryService.getRoles().subscribe({
+    this._categoryService.getRoles()
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe({
       next: r =>{
         this.roleList = r;
       }}
@@ -202,7 +209,9 @@ export class CategoryComponent implements OnInit {
           index++
         }
       }
-      this._categoryService.saveCategories(sendCatList).subscribe({
+      this._categoryService.saveCategories(sendCatList)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
         next: r => {
           this.getData();
           console.log(r);
@@ -219,4 +228,9 @@ export class CategoryComponent implements OnInit {
     get can_post() { return this.categoryForm.get('can_post')}
     get can_view() { return this.categoryForm.get('can_view')}
     get section() { return this.categoryForm.get('section')}
+
+    ngOnDestroy(): void {
+      this.unsubscribe$.next();
+      this.unsubscribe$.complete();
+    }
 }

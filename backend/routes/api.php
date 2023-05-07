@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\RoleController;
 
 use App\Models\Post;
@@ -30,7 +31,6 @@ use App\Models\Topic;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
 // Authenticated routes.
 Route::middleware('auth:sanctum')->group(function(){
 
@@ -109,7 +109,15 @@ Route::middleware('auth:sanctum')->group(function(){
         });
 
         Route::controller(RoleController::class)->prefix('role')->group(function(){
+            Route::get('/all','getAll');
             Route::get('/','getList');
+        });
+
+        Route::controller(AdminUserController::class)->prefix('user')->group(function(){
+            Route::get('/list','getList');
+            Route::get('/user/{user}','getUser');
+            Route::post('/update/{user}','updateUser'); 
+            Route::delete('/user/{user}','deleteUser');
         });
     });
 });
@@ -191,14 +199,6 @@ Route::get('/checklogin', function (){
         ,200);
 });
 
-Route::get('holi',function(Request $request) {
-    $request->validate([
-        'nick' => ['required', 'string', 'max:255'],
-        'password' => ['required', 'string', 'min:8'],
-        'email' => ['required', 'string', 'max:255'],
-    ],
-    );
-});
 
 Route::get('testing/{post}', function(Post $post){
     $topic = Topic::find($post->topic_id);
