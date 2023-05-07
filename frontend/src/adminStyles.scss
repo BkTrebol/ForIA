@@ -1,39 +1,55 @@
 @import '../node_modules/bootstrap/scss/bootstrap.scss';
 @import "app/styles/_vars.scss";
-.nav-link{
-    @extend .link-dark;
-    &.active{
-        @extend .link-light;
-    }
+
+.nav-link {
+  @extend .link-dark;
+
+  &.active {
+    @extend .link-light;
+  }
 }
 
 .page-loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-    width: 100%;
-    height: 100%;
-    // Dark theme
-    &.dark {
-      background-color: $color-black-clear;
-    }
-    // Light theme
-    &.light {
-      background-color: $color-white-clear;
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
 
-    img {
-      height: 400px;
-      animation: gir 5s linear infinite;
-    }
+  // Dark theme
+  &.dark {
+    @extend .bg-dark;
   }
 
-  @keyframes gir {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+  // Light theme
+  &.light {
+    @extend .bg-light
   }
+
+  img {
+    height: 400px;
+    animation: gir 5s linear infinite;
+  }
+}
+
+@keyframes gir {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity));
+  /* El color de fondo que prefieras */
+  background-attachment: fixed;
+  /* Asegura que el fondo permanezca fijo al hacer scroll */
+}

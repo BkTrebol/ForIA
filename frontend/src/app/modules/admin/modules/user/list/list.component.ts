@@ -23,6 +23,7 @@ export class ListComponent implements OnInit,OnDestroy {
     suspension?:boolean,
     google?:boolean,
     roles?:Array<number>,
+    rolesAll?:boolean;
   };
 
 
@@ -90,9 +91,14 @@ export class ListComponent implements OnInit,OnDestroy {
     const params = new URLSearchParams();
 
   Object.entries(this.filters).forEach(([key,value]) => {
-    if ( value !== undefined &&  value !== null && value !== 'null' && value !== '') {
-      console.log(value)
-      params.set(key, value.toString());
+    if ( value !== undefined &&  value !== null && value !== 'null' 
+        && value !== '' && value !== 'undefined') {
+          if(key === 'roles' && this.filters.roles?.length !== 0){
+            params.set(key, value.toString());
+          } else if(key !== 'roles'){
+            params.set(key, value.toString());
+          }
+      
     }
   })
   return params.toString() ? '?' + params.toString() : '';

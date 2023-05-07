@@ -13,7 +13,6 @@ class AdminUserController extends Controller
     function getList(Request $request){
         // Consulta base
         $query = User::withCount('posts');
-
         // Filtro por nick (LIKE)
         if ($request->has('nick')) {
             $query->where('nick', 'like', '%' . $request->nick . '%');
@@ -46,14 +45,24 @@ class AdminUserController extends Controller
             $query->where('google_auth', false);
         }
         }
+        
 
-        // Filtro por roles (relación role_user)
         if ($request->has('roles')) {
             $roles = explode(',', $request->roles);
-            $query->whereHas('roles', function ($q) use ($roles) {
-                $q->whereIn('role_id', $roles);
-            });
+            if($request->has('rolesAll') && $request->rolesAll == 'true'){
+                foreach ($roles as $role) {
+                    $query->whereHas('roles', function ($q) use ($role) {
+                        $q->where('role_id', $role);
+                    });
+                }
+            } else{
+                $query->whereHas('roles', function ($q) use ($roles) {
+                    $q->whereIn('role_id', $roles);
+                });
+            }
+
         }
+
         if ($request->has('order') && $request->has('dir')) {
             $query->orderBy($request->order, $request->dir);
         }

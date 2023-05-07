@@ -6546,11 +6546,11 @@ textarea.form-control-lg {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-danger-rgb), var(--bs-bg-opacity)) !important; }
 
-.bg-light {
+.bg-light, .page-loading.light {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; }
 
-.bg-dark {
+.bg-dark, .page-loading.dark {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important; }
 
@@ -8391,10 +8391,6 @@ textarea.form-control-lg {
   z-index: 999;
   width: 100%;
   height: 100%; }
-  .page-loading.dark {
-    background-color: #111; }
-  .page-loading.light {
-    background-color: #eee; }
   .page-loading img {
     height: 400px;
     animation: gir 5s linear infinite; }
@@ -8404,3 +8400,13 @@ textarea.form-control-lg {
     transform: rotate(0deg); }
   to {
     transform: rotate(360deg); } }
+
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity));
+  /* El color de fondo que prefieras */
+  background-attachment: fixed;
+  /* Asegura que el fondo permanezca fijo al hacer scroll */ }

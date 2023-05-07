@@ -6,10 +6,11 @@ import { SharedModule } from './modules/shared.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HeadersInterceptor } from 'src/app/helpers/interceptors/headers.interceptor';
 import { AuthService } from '../auth/service/auth.service';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [],
-  imports: [ CommonModule, AdminRoutingModule,SharedModule,HttpClientModule],
+  imports: [ CommonModule, AdminRoutingModule,SharedModule,HttpClientModule,NgbCollapse],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true },
   ],
