@@ -118,8 +118,8 @@ class UserController extends Controller
 
     function profile(User $user){
         $viewer = Auth::user();
-        $roles = $viewer ? $viewer->roles : ['ROLE_GUEST'];
-        $isAdmin = count(collect($roles)->intersect(config('app.adminRoles'))) > 0;
+        $roles = $viewer ? $viewer->roles()->pluck('role_id')->toArray() : [1];
+        $isAdmin = $user->isAdmin();
         if ($isAdmin || $user->preferences->allow_view_profile){
             $user['can_pm'] = $user->preferences->allow_user_to_mp ? true : false;
             if($user->last_post()->count() > 0){
@@ -158,8 +158,8 @@ class UserController extends Controller
     function getUserStatistics(User $user){
 
         $viewer = Auth::user();
-        $roles = $viewer ? $viewer->roles : ['ROLE_GUEST'];
-        $isAdmin = count(collect($roles)->intersect(config('app.adminRoles'))) > 0;
+        $roles = $viewer ? $viewer->roles()->pluck('role_id')->toArray() : [1];
+        $isAdmin = $user->isAdmin();
 
         if ($isAdmin || $user->preferences->allow_view_profile){
             $res = ['user' => $user->only('id', 'nick', 'avatar', 'rol'),
@@ -183,8 +183,8 @@ class UserController extends Controller
     function getUserStatistics2(User $user){
 
         $viewer = Auth::user();
-        $roles = $viewer ? $viewer->roles : ['ROLE_GUEST'];
-        $isAdmin = count(collect($roles)->intersect(config('app.adminRoles'))) > 0;
+        $roles = $viewer ? $viewer->roles()->pluck('role_id')->toArray() : [1];
+        $isAdmin = $user->isAdmin();
 
         if ($isAdmin || $user->preferences->allow_view_profile){
             $res = ['topics' => Topic::limit(5)->where('user_id', $user->id)

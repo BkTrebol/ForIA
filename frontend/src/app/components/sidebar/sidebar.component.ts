@@ -93,7 +93,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r: any) => {
-          console.log(r)
           this.forumStats = r;
           this.loading[3] = false;
         },

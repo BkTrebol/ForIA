@@ -69,7 +69,7 @@ class AuthController extends Controller
     function userData(Request $request){
         $user = Auth::user();
         $preferences = Auth::user()->preferences->only('sidebar','allow_music');
-        $user['isAdmin'] = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
+        $user['isAdmin'] = $user->isAdmin();
         $user['isVerified'] = $user->hasVerifiedEmail();
 
         return response()->json([

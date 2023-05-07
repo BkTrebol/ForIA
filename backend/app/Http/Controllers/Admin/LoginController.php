@@ -18,7 +18,7 @@ class LoginController extends Controller
         }
 
         $user = Auth::user();
-        $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
+        $isAdmin = $user->isAdmin();
 
         if(!$isAdmin){
             return response()->json("Unauthorized",403);

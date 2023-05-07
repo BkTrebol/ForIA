@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\RoleController;
 
 use App\Models\Post;
 use App\Models\Topic;
@@ -32,6 +33,7 @@ use App\Models\Topic;
 
 // Authenticated routes.
 Route::middleware('auth:sanctum')->group(function(){
+
     // Authentication routes.
     Route::controller(AuthController::class)->prefix('auth')->group(function(){
         Route::get('/data','userData');
@@ -104,6 +106,10 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::controller(AdminCategoryController::class)->prefix('category')->group(function(){
             Route::get('/list','getList');
             Route::post('/update','updateCategories');
+        });
+
+        Route::controller(RoleController::class)->prefix('role')->group(function(){
+            Route::get('/','getList');
         });
     });
 });

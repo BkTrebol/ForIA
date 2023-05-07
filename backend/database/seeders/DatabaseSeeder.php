@@ -14,6 +14,7 @@ use App\Models\Poll;
 use App\Models\PollOption;
 use App\Models\PollAnswer;
 use App\Models\PrivateMessage;
+use App\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,29 +23,49 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create(
+        $guestRole = Role::create([
+            'name' => 'ROLE_GUEST'
+        ]);
+        $userRole =Role::create([
+            'name' => 'ROLE_USER'
+        ]);
+        $modRole = Role::create([
+            'name' => 'ROLE_MOD'
+        ]);
+        $adminRole = Role::create([
+            'name' => 'ROLE_ADMIN',
+            'admin' => true
+        ]);
+
+        $user = User::factory()->create(
             [
             'email' => 'admin@admin.com',
-            'roles' => ['ROLE_ADMIN','ROLE_USER','ROLE_GUEST']
             ]
         );
-        User::factory()->create(
+        $user->roles()->attach([$adminRole->id]);
+
+        $user = User::factory()->create(
             [
             'email' => 'mod@mod.com',
-            'roles' => ['ROLE_MOD','ROLE_USER','ROLE_GUEST']
+
             ]
         );
-        User::factory()->create(
+        $user->roles()->attach([$modRole->id]);
+
+        $user = User::factory()->create(
             [
             'email' => 'welcome@mod.com',
-            'roles' => ['MOD_WELCOME','ROLE_USER','ROLE_GUEST']
+
             ]
         );
+        $modWelcomeRole = Role::create([
+            'name' => 'WELCOME_MOD'
+        ]);
+        $user->roles()->attach([$modWelcomeRole->id]);
 
         User::factory()->create(
             [
             'email' => 'suspended@user.com',
-            'roles' => ['ROLE_USER','ROLE_GUEST'],
             'suspension' => fake()->dateTimeBetween('+1year', '+10 year'),
             ]
         );
@@ -61,7 +82,7 @@ class DatabaseSeeder extends Seeder
             'order' => 1,
             'title' => 'Trash',
             'section' => 'ADMIN',
-            'can_view' => 'ROLE_ADMIN',
+            'can_view' => 4,
         ]);
 
         Category::factory()->count(3)->has(
@@ -74,7 +95,7 @@ class DatabaseSeeder extends Seeder
         )
         ->create([
             'section' => 'Welcome',
-            'can_mod' => 'MOD_WELCOME'
+            'can_mod' => $modWelcomeRole->id
         ])
         // ->afterCreating(function (Category $category){
         //     Topic::factory()->count(rand(1,6))->create([

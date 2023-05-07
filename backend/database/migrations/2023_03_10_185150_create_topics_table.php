@@ -18,10 +18,16 @@ return new class extends Migration
             $table->string('title');
             $table->string('description')->nullable();
             $table->text('content')->nullable();
-            $table->string('can_view')->default('ROLE_GUEST');
-            $table->string('can_post')->default('ROLE_USER');
-            $table->timestamps();
+            // $table->string('can_view')->default('ROLE_GUEST');
+            // $table->string('can_post')->default('ROLE_USER');
 
+            $table->unsignedBigInteger('can_view')->default(1);
+            $table->unsignedBigInteger('can_post')->default(2);
+
+            $table->foreign('can_view')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('can_post')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
+
+            $table->timestamps();
             $table->index(['updated_at']);
         });
     }

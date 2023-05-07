@@ -31,8 +31,8 @@ class SidebarController extends Controller
     function lastFive()
     {
         $user = Auth::user();
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
-        $isAdmin = count(collect($roles)->intersect(config('app.adminRoles'))) > 0;
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
+        $isAdmin = $user->isAdmin();
         $posts = Post::selectRaw('posts.id as post_id,topics.id as id, posts.created_at as created_at, topics.title as title,(select count(*) from posts where topic_id = topics.id) as num_posts, (select nick from users where id = posts.user_id) as user_nick, (select id from users where id = posts.user_id) as user_id, (select avatar from users where id = posts.user_id) as user_avatar')
         ->whereHas('topic', function ($query) use ($roles) {
             $query->whereIn('can_view', $roles)

@@ -19,8 +19,8 @@ class TopicController extends Controller
     {
         // Returns the posts in a topic if the user can view the topic and its category.
         $user = Auth::user();
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
-        $isAdmin = count(collect($roles)->intersect(config('app.adminRoles'))) > 0;
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
+        $isAdmin = $user->isAdmin();
         $isMod = in_array($topic->category->can_mod, $roles);
 
         if (!in_array($topic->category->can_view, $roles) || !in_array($topic->can_view, $roles)) {
@@ -122,9 +122,9 @@ class TopicController extends Controller
     function getTopicData(Topic $topic)
     {
         $user = Auth::user();
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
-        $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
-        $isMod = in_array($topic->category->can_mod, $user->roles);
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
+        $isAdmin = $user->isAdmin();
+        $isMod = in_array($topic->category->can_mod, $roles);
 
         if (!$isAdmin && !$isMod && $user->id != $topic->user_id) {
             return response()->json([
@@ -148,8 +148,9 @@ class TopicController extends Controller
         ]);
 
         $user = Auth::user();
-        $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
-        $isMod = in_array($topic->category->can_mod, $user->roles);
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
+        $isAdmin = $user->isAdmin();
+        $isMod = in_array($topic->category->can_mod,$roles);
         // Edits/Creates poll if exists in request.
 
         // Checks if user owns the topic or can edit it.
@@ -183,13 +184,14 @@ class TopicController extends Controller
         // Checks if user is admin, else if user has right to delete the topic.
         // If user is not admin just moves the topic to the Trash Category.
         $user = Auth::user();
-        $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
+        $isAdmin = $user->isAdmin();
         if ($isAdmin) {
             $topic->delete();
             return response()->json(['message' => 'Topic deleted succesfully'], 200);
         } elseif (
             in_array($topic->category->can_mod,
-                $user->roles) ||
+            $roles) ||
             ($topic->user->id == $user->id && $topic->posts->count() <= 1)
         ) {
             $topic->category_id = config('app.trash');
@@ -208,8 +210,10 @@ class TopicController extends Controller
         $user = Auth::user();
         if (!$user)
             return false;
-        $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
-        $isMod = in_array($post->topic->category->can_mod, $user->roles);
+
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
+        $isAdmin = $user->isAdmin();
+        $isMod = in_array($post->topic->category->can_mod, $roles);
         if (!$isAdmin && !$isMod) {
             // IF the used isn't either an admin or a mod, chekcs if is the owner of the post and the post is the last one of the topic.
             if (

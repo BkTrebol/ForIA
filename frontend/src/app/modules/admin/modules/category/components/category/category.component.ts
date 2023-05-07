@@ -22,11 +22,13 @@ export class CategoryComponent implements OnInit {
   public sectionList:Array<any>
   public titleList:Array<string>
   public saveLoading:boolean;
+  public roleList:Array<any>;
   constructor(
     private _fb: FormBuilder,
     private _categoryService: CategoryService,
     private _modalService: NgbModal,
   ){
+    this.roleList = [];
     this.saveLoading = false;
     this.sectionList = [];
     this.titleList = [];
@@ -39,6 +41,7 @@ export class CategoryComponent implements OnInit {
   ngOnInit() {
     this.loading = true;
     this.getData()
+    this.getRoles();
   }
 
   getData(){
@@ -57,6 +60,13 @@ export class CategoryComponent implements OnInit {
       this.connectedTo = this.sections.map((_, index) => `list${index}`);
       }
     );
+  }
+  getRoles(){
+    this._categoryService.getRoles().subscribe({
+      next: r =>{
+        this.roleList = r;
+      }}
+    )
   }
 
   dropCategory(event: CdkDragDrop<any[]>) {

@@ -25,7 +25,9 @@ class Category extends Model
         'order',
     ];
 
-
+    public function view(){
+        return $this->hasOne(Role::class);
+    }
     public function topics(){
         return $this->hasMany(Topic::class)->orderBy('updated_at','desc');
     }

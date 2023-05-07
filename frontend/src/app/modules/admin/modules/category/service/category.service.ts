@@ -25,4 +25,8 @@ export class CategoryService {
     return this._http.post<any>(`${this.apiUrl}category/update`,params);
   }
 
+  getRoles(): Observable<any> {
+    return this._http.get<any>(`${this.apiUrl}role`);
+  }
+
 }
