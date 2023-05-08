@@ -32,6 +32,7 @@ class CategoryController extends Controller
                         'topic' => [
                             'id' => $lastPostTemp->topic->id ?? $lastPostTemp->id,
                             'title' => $lastPostTemp->topic->title ?? $lastPostTemp->title,
+                            'last_page' => ceil($lastPostTemp->posts->count() / config('app.pagination.topic')),
                         ],
                         'user' => [
                             'id' => $lastPostTemp->user->id,
