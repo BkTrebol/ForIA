@@ -180,6 +180,10 @@
       @include btn2($color-gradient1);
       text-decoration: none;
     }
+    .center {
+      @include center;
+      width: 100%;
+    }
     // All the input fileds
     .fields {
       // Space between the group input
@@ -318,6 +322,7 @@
     }
     // Links in the form
     .form-links {
+      width: 100%;
       @include col(space-around, 16px);
       hr {
         width: 100%;

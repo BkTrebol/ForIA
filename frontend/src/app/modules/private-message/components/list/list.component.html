@@ -4,12 +4,12 @@
             <h1>Private Messages</h1>
             <div class="subt">
                 <div class="two-options">
-                    <button class="btn2" (click)="onShowReceived()">
+                    <button class="btn2" disabled (click)="onShowReceived()">
                         <fa-icon [icon]="['fas', 'message']"></fa-icon>
-                        Received Messages</button>
+                        View Received</button>
                     <button class="btn2" (click)="onShowSent()">
                         <fa-icon [icon]="['fas', 'paper-plane']"></fa-icon>
-                        Sent Messages</button>
+                        View Sent</button>
                 </div>
                 <a class="btn-a" routerLink="new"><fa-icon [icon]="['fas', 'plus']"></fa-icon> New</a>
             </div>
@@ -45,14 +45,14 @@
             <h1>Private Messages</h1>
             <div class="subt">
                 <div class="two-options">
-                    <button class="btn2" (click)="onShowReceived()">
+                    <button class="btn2" [disabled]="showReceived" (click)="onShowReceived()">
                         <fa-icon [icon]="['fas', 'message']"></fa-icon>
-                        Received Messages</button>
-                    <button class="btn2" (click)="onShowSent()">
+                        View Received</button>
+                    <button class="btn2" [disabled]="!showReceived" (click)="onShowSent()">
                         <fa-icon [icon]="['fas', 'paper-plane']"></fa-icon>
-                        Sent Messages</button>
+                        View Sent</button>
                 </div>
-                <a class="btn-a" routerLink="new"><fa-icon [icon]="['fas', 'plus']"></fa-icon> New</a>
+                <a class="btn-a" ngbTooltip="Create New Private Message" routerLink="new"><fa-icon [icon]="['fas', 'plus']"></fa-icon> New</a>
             </div>
         </div>
         <div class="list-body">
@@ -61,22 +61,23 @@
                     <div class="message" *ngFor="let pm of messages.received.messages">
                         <div class="mess">
                             <fa-icon [icon]="[pm.viewed ?'far' : 'fas', 'message']"
-                            ngbTooltip="{{pm.viewed ? 'Already Viewed' : 'Not Viewed'}}">
-
+                                ngbTooltip="{{pm.viewed ? 'Already Viewed' : 'Not Viewed'}}">
                             </fa-icon>
                             <div class="message-body">
                                 <a class="user-link" routerLink="{{pm.id}}">{{pm.title}}</a>
                                 <div class="user-date">
-                                    <a
-                                        routerLink="/user/profile/{{pm.sender?.id}}">{{pm.sender?.nick}}</a>
+                                    <a routerLink="/user/profile/{{pm.sender?.id}}">{{pm.sender?.nick}}</a>
                                     {{pm.created_at | ago}}
                                 </div>
                             </div>
                         </div>
                         <div class="message-checkbox"><input type="checkbox" (click)="deletePm(pm.id,'received')"
-                            [checked]="deleteReceived.includes(pm.id)"></div>
+                                [checked]="deleteReceived.includes(pm.id)"></div>
                     </div>
-                    <div class="list-footer">
+                    <div class="list-footer" *ngIf="messages.received.messages.length == 0">
+                        No Received Messages
+                    </div>
+                    <div class="list-footer" *ngIf="messages.received.messages.length > 0">
                         <div class="align-right">
                             <button class="btn2" [disabled]="deleteReceived.length == 0" (click)="onDeletePms()">
                                 <fa-icon [icon]="['fas', 'trash']"></fa-icon>
@@ -102,7 +103,7 @@
     <ng-container *ngIf="messages.sent">
         <div class="message" *ngFor="let pm of messages.sent.messages">
             <div class="mess">
-                <fa-icon [icon]="[pm.viewed ?'far' : 'fas', 'paper-plane']"></fa-icon>
+                <fa-icon [icon]="[pm.viewed ?'far' : 'fas', 'paper-plane']" ngbTooltip="{{pm.viewed ? 'Already Viewed' : 'Not Viewed'}}">></fa-icon>
                 <div class="message-body">
                     <a routerLink="{{pm.id}}">{{pm.title}}</a>
                     <div class="user-date"><a class="user-link"
@@ -111,9 +112,12 @@
                 </div>
             </div>
             <div class="message-checkbox"><input type="checkbox" (click)="deletePm(pm.id,'sent')"
-                [checked]="deleteSent.includes(pm.id)"></div>
+                    [checked]="deleteSent.includes(pm.id)"></div>
         </div>
-        <div class="list-footer">
+        <div class="list-footer" *ngIf="messages.sent.messages.length == 0">
+            No Send Messages
+        </div>
+        <div class="list-footer" *ngIf="messages.sent.messages.length > 0">
             <div class="align-right">
                 <button class="btn2" [disabled]="deleteSent.length == 0" (click)="onDeletePms()">
                     <fa-icon [icon]="['fas', 'trash']"></fa-icon>

@@ -64,7 +64,7 @@
           }
         }
         .btns {
-          @include col(space-between, 16px);
+          @include flex(column, flex-end, space-between, 16px);
         }
       }
       .data {

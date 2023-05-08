@@ -47,7 +47,7 @@ export class CreateComponent implements OnInit, OnDestroy {
       editable: true,
     };
     this.topic = {
-      category_id: 0,
+      category_id: parseInt(this.route.snapshot.paramMap.get('id') ?? '0'),
       title: '',
       content: '',
       description: '',
@@ -59,9 +59,9 @@ export class CreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.topic.category_id = parseInt(
-      this.route.snapshot.paramMap.get('id') ?? '1'
-    );
+    if (this.topic.category_id == 0) {
+      this.router.navigate([`/error`]);
+    }
 
     this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {

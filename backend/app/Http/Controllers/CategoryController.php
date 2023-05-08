@@ -10,6 +10,7 @@ class CategoryController extends Controller
 {
     function getCategoryList()
     {
+        //crec que no es fa servir?
         $user = Auth::user();
         $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
         return Category::whereIn('can_view', $roles)->select('id', 'title')->orderBy('section')->get();
@@ -60,7 +61,7 @@ class CategoryController extends Controller
                     // }
                     return $category->only('id', 'title', 'lastPost', 'description', 'image', 'posts', 'topics');
                 });
-                
+
                 return $sectionTemp;
             }
         )->values();
@@ -114,4 +115,10 @@ class CategoryController extends Controller
         ], 200);
     }
 
+
+    function getAllCategory(){
+        $user = Auth::user();
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
+        return Category::whereIn('can_view', $roles)->select('id', 'title')->orderBy('section')->get();
+    }
 }

@@ -60,6 +60,13 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/edit/{topic}','getTopicData');
         Route::put('/{topic}','editTopic');
         Route::delete('/{topic}','deleteTopic');
+
+        Route::get('one-topic/{topic}', 'getOneTopic');
+    });
+
+    // Category routes.
+    Route::controller(CategoryController::class)->prefix('category')->group(function(){
+        Route::get('all-category', 'getAllCategory');
     });
 
     // Post routes.

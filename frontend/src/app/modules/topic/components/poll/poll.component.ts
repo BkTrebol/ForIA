@@ -49,7 +49,6 @@ export class PollComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (r) => {
-            console.log(r);
             this.title = r.title;
             this.poll = r.poll;
             this.poll.options = r.poll.options;
