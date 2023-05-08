@@ -22,7 +22,6 @@ export interface Topic {
   last_page: number;
   posts: number;
   last_post: {
-    id: number;
     created_at: string;
     user: UserCard;
   };

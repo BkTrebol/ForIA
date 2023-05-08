@@ -55,8 +55,8 @@
             <div class="option-btns">
                 <button class="btn2" type="button" (click)="toogleSections()">
                     <fa-icon [icon]="['fas', allSections ? 'chevron-right': 'chevron-down']"></fa-icon> {{allSections ?
-                    'Expand sections':
-                    'Collapse sections'}}</button>
+                    'Expand Sections':
+                    'Collapse Sections'}}</button>
             </div>
         </div>
         <div class="list-body">
@@ -64,7 +64,7 @@
                 <li *ngFor="let section of forum" class="section">
                     <fieldset>
                         <legend>
-                            <h1 (click)="toggle(section.name)"><fa-icon
+                            <h1 (click)="toggle(section.name)" ngbTooltip="{{ocults[section.name] ? 'Expand': 'Collapse'}} {{section.name}}"><fa-icon
                                     [icon]="['fas', ocults[section.name] ? 'chevron-right': 'chevron-down']"></fa-icon>
                                 {{section.name | capitalize}}</h1>
                         </legend>
@@ -79,7 +79,8 @@
                                 <div class="last-post" *ngIf="category.lastPost">
                                     <div class="text">
                                         <h3><a routerLink="/topic/{{category.lastPost.topic.id}}"
-                                                [queryParams]="{'page': category.lastPost.created_at}" fragment="last">
+                                                [queryParams]="{'page': 999}" fragment="last"
+                                                ngbTooltip="View Last Post {{category.lastPost.topic.title}}">
                                                 {{ ((category.lastPost.topic.title.length > 8) ?
                                                 (category.lastPost.topic.title |
                                                 slice:0:8)+'...':(category.lastPost.topic.title)) | capitalize}}</a>
@@ -87,7 +88,8 @@
                                         <div class="nom-data">
                                             <h4>
                                                 <a
-                                                    routerLink="/user/profile/{{category.lastPost.user.id}}">{{category.lastPost.user.nick}}</a>
+                                                    routerLink="/user/profile/{{category.lastPost.user.id}}"
+                                                    ngbTooltip="View Profile of {{category.lastPost.user.nick}}" placement="bottom">{{category.lastPost.user.nick}}</a>
                                             </h4>
                                             <h5>{{category.lastPost.created_at | ago }}</h5>
                                         </div>
@@ -104,7 +106,7 @@
             </ul>
         </div>
         <div class="list-footer">
-            <button class="btn2" type="button" (click)="scrollToTop()">Back to top</button>
+            <button class="btn2" type="button" (click)="scrollToTop()"><fa-icon [icon]="['fas', 'arrow-up']"></fa-icon> Back to top</button>
         </div>
     </div>
 </div>

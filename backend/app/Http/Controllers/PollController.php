@@ -60,8 +60,8 @@ class PollController extends Controller
     function closePoll(Poll $poll)
     {
         $user = Auth::user();
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
-        $isAdmin = $user->isAdmin();
+        $roles = self::roles();
+        $isAdmin = self::is_admin();
         $isMod = in_array($poll->topic->category->can_mod, $roles);
 
         if (!$isAdmin && !$isMod && $user->id != $poll->topic->user_id) {
@@ -85,8 +85,8 @@ class PollController extends Controller
     function deletePoll(Poll $poll)
     {
         $user = Auth::user();
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
-        $isAdmin = $user->isAdmin();
+        $roles = self::roles();
+        $isAdmin = self::is_admin();
         $isMod = in_array($poll->topic->category->can_mod, $roles);
 
         if (!$isAdmin && !$isMod && $user->id != $poll->topic->user_id) {
@@ -105,8 +105,8 @@ class PollController extends Controller
     function createPoll(Topic $topic, Request $request)
     {
         $user = Auth::user();
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
-        $isAdmin = $user->isAdmin();
+        $roles = self::roles();
+        $isAdmin = self::is_admin();
         $isMod = in_array($topic->category->can_mod, $roles);
 
         $request->validate([
@@ -161,8 +161,8 @@ class PollController extends Controller
     function editPoll(Poll $poll, Request $request)
     {
         $user = Auth::user();
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
-        $isAdmin = $user->isAdmin();
+        $roles = self::roles();
+        $isAdmin = self::is_admin();
         $isMod = in_array($poll->topic->category->can_mod, $roles);
 
         if (!$poll->answers->count() == 0 && !$isAdmin && !$isMod) {
@@ -177,8 +177,8 @@ class PollController extends Controller
     {
 
         $user = Auth::user();
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
-        $isAdmin = $user->isAdmin();
+        $roles = self::roles();
+        $isAdmin = self::is_admin();
         $isMod = in_array($topic->poll->topic->category->can_mod, $roles);
 
 

@@ -119,7 +119,7 @@ class UserController extends Controller
     function profile(User $user){
         $viewer = Auth::user();
         $roles = $viewer ? $viewer->roles()->pluck('role_id')->toArray() : [1];
-        $isAdmin = $user->isAdmin();
+        $isAdmin = self::is_admin();
         if ($isAdmin || $user->preferences->allow_view_profile){
             $user['can_pm'] = $user->preferences->allow_user_to_mp ? true : false;
             if($user->last_post()->count() > 0){
@@ -159,16 +159,27 @@ class UserController extends Controller
 
         $viewer = Auth::user();
         $roles = $viewer ? $viewer->roles()->pluck('role_id')->toArray() : [1];
-        $isAdmin = $user->isAdmin();
+        $isAdmin = self::is_admin();
 
-        if ($isAdmin || $user->preferences->allow_view_profile){
+        if($isAdmin || $user->id == $viewer->id){
             $res = ['user' => $user->only('id', 'nick', 'avatar', 'rol'),
                     'posts' => $user->posts()->get()->map->only(['id', 'topic_id', 'created_at']),
                     'topics' => $user->topics()->get()->map->only(['id', 'category_id', 'created_at']),
                     'private_message_sender' => $user->private_message_sender()->get()
                     ->map->only(['id', 'reciever_id', 'created_at']),
                     'private_message_reciever' => $user->private_message_reciever()->get()
-                    ->map->only(['id', 'sender_id', 'created_at'])
+                    ->map->only(['id', 'sender_id', 'created_at']),
+                    'no' => false,
+            ];
+            return response()->json(
+                $res
+            ,200);
+        }
+        else if ($user->preferences->allow_view_profile){
+            $res = ['user' => $user->only('id', 'nick', 'avatar', 'rol'),
+                    'posts' => $user->posts()->get()->map->only(['id', 'topic_id', 'created_at']),
+                    'topics' => $user->topics()->get()->map->only(['id', 'category_id', 'created_at']),
+                    'no' => true,
             ];
             return response()->json(
                 $res
@@ -183,8 +194,8 @@ class UserController extends Controller
     function getUserStatistics2(User $user){
 
         $viewer = Auth::user();
-        $roles = $viewer ? $viewer->roles()->pluck('role_id')->toArray() : [1];
-        $isAdmin = $user->isAdmin();
+        $roles = self::roles();
+        $isAdmin = self::is_admin();
 
         if ($isAdmin || $user->preferences->allow_view_profile){
             $res = ['topics' => Topic::limit(5)->where('user_id', $user->id)

@@ -11,6 +11,8 @@ export interface Category {
   title: string;
   description: string;
   image: null | string;
+  topics: number,
+  posts: number,
   lastPost: {
     created_at: string;
     topic: {

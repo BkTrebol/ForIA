@@ -15,7 +15,7 @@
                         [icon]="['fas', 'vial']"></fa-icon><span>Topic1</span></a>
             </li>
             <li>
-                <button ngbTooltip="Change to {{theme=='light' ? 'dark': 'light'}} theme" aria-albel="Change the theme" type="button" (click)="changeTheme()"><fa-icon
+                <button ngbTooltip="Change to {{theme=='light' ? 'Dark': 'Light'}} Theme" aria-albel="Change the theme" type="button" (click)="changeTheme()"><fa-icon
                         [icon]="['fas', theme=='light' ? 'moon': 'sun']"></fa-icon></button>
             </li>
         </ul>
@@ -50,7 +50,7 @@
                         [icon]="['fas', 'vial']"></fa-icon><span>Topic1</span></a>
             </li>
             <li>
-                <button ngbTooltip="Change to {{theme=='light' ? 'dark': 'light'}} theme" aria-albel="Change the theme" type="button"
+                <button ngbTooltip="Change to {{theme=='light' ? 'Dark': 'Light'}} Theme" aria-albel="Change the theme" type="button"
                     (click)="changeTheme()"><fa-icon [icon]="['fas', theme=='light' ? 'moon': 'sun']"></fa-icon></button>
             </li>
         </ul>
@@ -68,7 +68,7 @@
     </nav>
     <ul class="ng-select">
         <li>
-            <ng-select [(ngModel)]="user" (change)="changeUser()">
+            <ng-select [(ngModel)]="user" (change)="changeUser()" ngbTooltip="Log in as Selected User">
                 <ng-option *ngFor="let user of userList$ | async" [value]="user.id">{{user.id + '-' +
                     user.nick}}</ng-option>
             </ng-select>

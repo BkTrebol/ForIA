@@ -1,8 +1,8 @@
 <div class="form-page {{theme}}">
-    <form *ngIf="loading" class="form-container">
+    <form *ngIf="loading" class="form-container m">
         <h2>Edit Profile</h2>
-        <div class="fields" *ngFor="let _ of [0, 1, 2, 3, 4, 5, 6]">
-            <app-loading width="300px" height="40px"></app-loading>
+        <div class="fields m" *ngFor="let _ of [0, 1, 2, 3, 4, 5, 6]">
+            <app-loading width="300px" height="45px"></app-loading>
         </div>
     </form>
     <form [ngClass]="{'view': !view}" [formGroup]="formEditProfile" *ngIf="!loading" (ngSubmit)="submit()"

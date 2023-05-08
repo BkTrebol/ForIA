@@ -77,16 +77,10 @@ class DatabaseSeeder extends Seeder
         );
 
         User::factory()->count(10)->create();
-<<<<<<< HEAD
 
-
-        Category::factory()->create([
-            'id' => 2,
-=======
         Category::factory()->create([
             'id' => 1,
             'order' => 1,
->>>>>>> 0317605b897889f5783aaf49706f567d7c30d263
             'title' => 'Trash',
             'section' => 'ADMIN',
             'can_view' => 4,

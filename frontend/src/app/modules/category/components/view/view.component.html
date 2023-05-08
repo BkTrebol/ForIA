@@ -76,17 +76,17 @@
                             </div>
                             <div class="text">
                                 <div class="primer">
-                                    <a routerLink="/user/profile/{{topic.user.id}}">{{topic.user.nick}}</a>
+                                    <a routerLink="/user/profile/{{topic.user.id}}" ngbTooltip="Created by {{topic.user.nick}}" placement="bottom">{{topic.user.nick}}</a>
                                     <small>{{topic.created_at | date}}</small>
                                 </div>
                                 <div class="petit">
-                                    <span class="mostrar-petit">3 <fa-icon [icon]="['fas', 'message']"></fa-icon></span>
+                                    <span class="mostrar-petit" ngbTooltip="{{topic.posts+1}} Post{{topic.posts == 0 ? '': 's'}}" placement="bottom">{{topic.posts +1}} <fa-icon [icon]="['fas', 'message']"></fa-icon></span>
                                     <div class="mostrar-dos" *ngIf="topic.last_post">
                                         <a
-                                            routerLink="/user/profile/{{topic.last_post.user.id}}">{{topic.last_post.user.nick}}</a>
+                                            routerLink="/user/profile/{{topic.last_post.user.id}}" ngbTooltip="View Profile of {{topic.last_post.user.nick}}" placement="bottom">{{topic.last_post.user.nick}}</a>
                                         <small><a routerLink="/topic/{{topic.id}}"
                                                 [queryParams]="{'page': topic.last_page}"
-                                                fragment="last">{{topic.last_post.created_at | ago}}</a>
+                                                fragment="last" ngbTooltip="View Last Page of {{topic.title |capitalize}}" placement="bottom">{{topic.last_post.created_at | ago}}</a>
                                         </small>
                                     </div>
                                 </div>
@@ -95,14 +95,14 @@
                     </div>
                     <div class="topic-info">
                         <div class="topic-stats">
-                            <p>{{topic.posts}} post<span *ngIf="topic.posts != 1">s</span></p>
+                            <p>{{topic.posts+1}} post<span *ngIf="topic.posts != 0">s</span></p>
                         </div>
                         <div class="last-post" *ngIf="topic.last_post">
                             <div class="text">
                                 <a
-                                    routerLink="/user/profile/{{topic.last_post.user.id}}">{{topic.last_post.user.nick}}</a>
+                                    routerLink="/user/profile/{{topic.last_post.user.id}}" ngbTooltip="View Profile of {{topic.last_post.user.nick}}">{{topic.last_post.user.nick}}</a>
                                 <small><a routerLink="/topic/{{topic.id}}" [queryParams]="{'page': topic.last_page}"
-                                        fragment="last">{{topic.last_post.created_at | ago}}</a>
+                                        fragment="last" ngbTooltip="View Last Page of {{topic.title |capitalize}}" placement="bottom">{{topic.last_post.created_at | ago}}</a>
                                 </small>
                             </div>
                             <app-avatar [user]="topic.last_post.user" width="75" height="75"></app-avatar>

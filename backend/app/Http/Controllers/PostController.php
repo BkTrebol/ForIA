@@ -19,7 +19,7 @@ class PostController extends Controller
         ]);
         $topic = Topic::find($request->topic_id);
         $user = Auth::user();
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
+        $roles = self::roles();
         if (!in_array($topic->can_view, $roles) || !in_array($topic->category->can_view, $roles)) {
             return response()->json([
                 'message' => 'Unauthorized',
@@ -54,7 +54,7 @@ class PostController extends Controller
 
             $post->content = $request->content;
             $user = Auth::user();
-            $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
+            $roles = self::roles();
             if($user->isAdmin()){
                 $post->topic_id = $request->topic_id;
             }

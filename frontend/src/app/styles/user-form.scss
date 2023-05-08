@@ -150,6 +150,9 @@
   .form-container {
     // Space that separate the items of the form
     @include col(space-around, 40px);
+    &.m {
+      @include col(space-around, 30px);
+    }
     // background: $color-opacity;
     backdrop-filter: blur(16px);
     // color: $color-white-clear;

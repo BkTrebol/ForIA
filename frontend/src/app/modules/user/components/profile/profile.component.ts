@@ -253,57 +253,101 @@ export class ProfileComponent implements OnInit, OnDestroy {
           //     },
           //   ],
           // };
-          this.chartOption = {
-            title: {
-              left: '50%',
-              text: 'Activity',
-              textAlign: 'center',
-              textStyle: {
-                fontSize: '30',
-              },
-            },
-            tooltip: {
-              trigger: 'item',
-              formatter: '{b} : {c} ({d}%)',
-              textStyle: {
-                fontSize: '25',
-              },
-            },
-            legend: {
-              align: 'auto',
-              bottom: 10,
-              textStyle: {
-                fontSize: '20',
-              },
-              data: ['posts', 'topics', 'messages send', 'messages recived'],
-            },
-            calculable: true,
-            series: [
-              {
-                name: 'activity',
-                type: 'pie',
-                radius: '55%',
-                label: {
-                  fontSize: 20,
+          if (res.no) {
+            this.chartOption = {
+              title: {
+                left: '50%',
+                text: 'Activity',
+                textAlign: 'center',
+                textStyle: {
+                  fontSize: '30',
                 },
-                // roseType: 'area',
-                // roseType: 'radius',
-                center: ['50%', '50%'],
-                data: [
-                  { value: res.posts.length, name: 'posts' },
-                  { value: res.topics.length, name: 'topics' },
-                  {
-                    value: res.private_message_sender.length,
-                    name: 'messages send',
-                  },
-                  {
-                    value: res.private_message_reciever.length,
-                    name: 'messages recived',
-                  },
-                ].sort((a, b) => a.value - b.value),
               },
-            ],
-          };
+              tooltip: {
+                trigger: 'item',
+                formatter: '{b} : {c} ({d}%)',
+                textStyle: {
+                  fontSize: '25',
+                },
+              },
+              legend: {
+                align: 'auto',
+                bottom: 10,
+                textStyle: {
+                  fontSize: '20',
+                },
+                data: ['posts', 'topics'],
+              },
+              calculable: true,
+              series: [
+                {
+                  name: 'activity',
+                  type: 'pie',
+                  radius: '55%',
+                  label: {
+                    fontSize: 20,
+                  },
+                  center: ['50%', '50%'],
+                  data: [
+                    { value: res.posts.length, name: 'posts' },
+                    { value: res.topics.length, name: 'topics' },
+                  ].sort((a, b) => a.value - b.value),
+                },
+              ],
+            };
+          } else {
+            this.chartOption = {
+              title: {
+                left: '50%',
+                text: 'Activity',
+                textAlign: 'center',
+                textStyle: {
+                  fontSize: '30',
+                },
+              },
+              tooltip: {
+                trigger: 'item',
+                formatter: '{b} : {c} ({d}%)',
+                textStyle: {
+                  fontSize: '25',
+                },
+              },
+              legend: {
+                align: 'auto',
+                bottom: 10,
+                textStyle: {
+                  fontSize: '20',
+                },
+                data: ['posts', 'topics', 'messages send', 'messages recived'],
+              },
+              calculable: true,
+              series: [
+                {
+                  name: 'activity',
+                  type: 'pie',
+                  radius: '55%',
+                  label: {
+                    fontSize: 20,
+                  },
+                  // roseType: 'area',
+                  // roseType: 'radius',
+                  center: ['50%', '50%'],
+                  data: [
+                    { value: res.posts.length, name: 'posts' },
+                    { value: res.topics.length, name: 'topics' },
+                    {
+                      value: res.private_message_sender.length,
+                      name: 'messages send',
+                    },
+                    {
+                      value: res.private_message_reciever.length,
+                      name: 'messages recived',
+                    },
+                  ].sort((a, b) => a.value - b.value),
+                },
+              ],
+            };
+          }
         },
         error: (err) => {
           console.log(err);

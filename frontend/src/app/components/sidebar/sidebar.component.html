@@ -1,12 +1,20 @@
 <div class="sidebar {{coll}} {{theme}}">
     <div class="toggle {{order? 'start': 'end'}} {{userLoggedIn? '': 'sol'}}">
-        <button class="btn2" (click)="coll = !coll; width = coll ? '45px':'240px';margin = coll?'0':'0 1rem'" type="button"><fa-icon [icon]="['fas', coll ? order ? 'chevron-right': 'chevron-left': 'chevron-down']"></fa-icon></button>
-        <button *ngIf="userLoggedIn" class="btn-a" type="button" (click)="editSidebar()">{{order  ? 'Left': 'Right'}}</button>
+        <button class="btn2" (click)="coll = !coll; width = coll ? '45px':'240px';margin = coll?'0':'0 1rem'"
+            type="button" ngbTooltip="{{coll? 'Expand': 'Collapse'}} Sidebar"><fa-icon
+                [icon]="['fas', coll ? order ? 'chevron-right': 'chevron-left': 'chevron-down']"></fa-icon></button>
+        <button *ngIf="userLoggedIn" class="btn-a" type="button" (click)="editSidebar()" ngbTooltip="Move Sidebar to the {{order ? 'Left':
+            'Right'}}">{{order ? 'Left':
+            'Right'}}</button>
     </div>
     <div [(ngbCollapse)]="coll">
         <div class="sidebar-title" *ngIf="userLoggedIn;else notLoggedHeader">
-            <p routerLink="/user/profile/{{userLocalData?.id}}" class="nick">{{userLocalData?.nick}}</p>
             <app-avatar [user]="userLocalData"></app-avatar>
+            <div class="text">
+                <a routerLink="/user/profile/{{userLocalData?.id}}" ngbTooltip="View Profile of {{userLocalData.nick}}">{{userLocalData?.nick}}</a>
+                <small ngbTooltip="Description of the rol {{userLocalData.rol}}" placement="bottom">{{userLocalData.rol}}
+                </small>
+            </div>
         </div>
         <ng-template #notLoggedHeader>
             <div class="sidebar-title">
@@ -19,12 +27,15 @@
                 <p>Private messages: {{userData.pms}}</p>
                 <p>New Private Messages: {{userData.newPms}}</p>
             </div>
+            <div class="create-post" *ngIf="userLoggedIn">
+                <a class="btn-a" routerLink="post/create"><fa-icon [icon]="['fas', 'plus']"></fa-icon> Create a Post</a>
+            </div>
             <div class="sidebar-posts" *ngIf="lastPosts">
                 <p>Last {{lastPosts.length}} Posts</p>
                 <div class="sidebar-post" *ngFor="let post of lastPosts">
-                    <a routerLink="/topic/{{post.id}}" [queryParams]="{page:post.last_page}">{{post.title |
+                    <a routerLink="/topic/{{post.id}}" [queryParams]="{page:post.last_page}" ngbTooltip="View Post {{post.title | capitalize}}" placement="bottom">{{post.title |
                         capitalize}}</a><br>
-                    By <a routerLink="/user/profile/{{post.user_id}}" class="sidebar-nick">{{post.user_nick}}</a>
+                    By <a routerLink="/user/profile/{{post.user_id}}" class="sidebar-nick" ngbTooltip="View Profile of {{post.user_nick}}" placement="bottom">{{post.user_nick}}</a>
                     {{post.created_at | ago}}
                 </div>
             </div>
@@ -32,9 +43,10 @@
                 <p>Topics: {{forumStats.topics}}</p>
                 <p>Posts: {{forumStats.posts}}</p>
                 <p>Users: {{forumStats.users}}</p>
-                <p>Last User: <a routerLink="/user/profile/{{forumStats.lastUser.id}}">{{forumStats.lastUser.nick}}</a>
+                <p>Last User: <a routerLink="/user/profile/{{forumStats.lastUser.id}}" ngbTooltip="View Profile of {{forumStats.lastUser.nick}}" placement="bottom">{{forumStats.lastUser.nick}}</a>
                 </p>
-                <p>Last Poll: <a routerLink="/topic/{{forumStats.lastPoll.topic_id}}">{{forumStats.lastPoll.name}}</a></p>
+                <p>Last Poll: <a routerLink="/topic/{{forumStats.lastPoll.topic_id}}" ngbTooltip="View Poll {{forumStats.lastPoll.name}}" placement="bottom">{{forumStats.lastPoll.name}}</a>
+                </p>
             </div>
         </div>
     </div>

@@ -19,7 +19,7 @@ export class ListComponent implements OnInit, OnDestroy {
   public allSections: boolean;
   public theme: string;
   public isCollapsed = false;
-  
+
   constructor(
     private categoryService: CategoryService,
     private themeService: ThemeService,

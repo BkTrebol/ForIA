@@ -78,10 +78,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+    
     public function isAdmin()
     {
         return $this->roles()->where('admin', true)->exists();
     }
+
     public function preferences()
     {
         return $this->hasOne(UserPreference::class);

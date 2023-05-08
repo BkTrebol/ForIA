@@ -25,8 +25,12 @@
       }
     }
   }
+  .btn-a {
+    @include btn2($color-gradient1);
+    text-decoration: none;
+  }
   .toggle {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     &.start {
       @include row(space-between);
       .btn2 {
@@ -45,7 +49,7 @@
         order: 1;
       }
     }
-    &.sol{
+    &.sol {
       @include row(flex-end);
     }
     .btn2 {
@@ -56,9 +60,12 @@
     }
   }
   .sidebar-title {
-    text-align: center;
-    p {
-      margin-bottom: 8px;
+    @include row(flex-start, 16px);
+    .text{
+      @include col(space-between, 16px);
+      small{
+        font-size: $size-p;
+      }
     }
   }
   .sidebar-posts {
@@ -68,11 +75,15 @@
       margin-bottom: 4px;
     }
   }
+  .create-post {
+    width: 100%;
+    margin: 16px 0;
+    text-align: center;
+  }
   &.dark {
     background-color: opacity($color-primary1, 0.95);
     color: $color-white-clear;
-    .sidebar-post,
-    .sidebar-title .nick {
+    .sidebar-post{
       background-color: $color-black-grey;
       border: 2px solid $color-black;
     }
@@ -82,12 +93,18 @@
     .toggle button {
       color: $color-white-clear;
     }
+    .btn-a {
+      @include a-link(
+        $color-white-clear,
+        $color-white-clear,
+        $color-white-clear
+      );
+    }
   }
   &.light {
     background-color: $color-white-clear;
     color: $color-black-clear;
-    .sidebar-post,
-    .sidebar-title .nick {
+    .sidebar-post {
       background-color: $color-grey-clear;
       border: 2px solid $color-white;
     }
@@ -96,6 +113,13 @@
     }
     .toggle button {
       color: $color-black-clear;
+    }
+    .btn-a {
+      @include a-link(
+        $color-black-clear,
+        $color-black-clear,
+        $color-black-clear
+      );
     }
   }
 }
