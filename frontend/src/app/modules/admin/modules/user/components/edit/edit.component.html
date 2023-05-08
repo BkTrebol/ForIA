@@ -1,0 +1,86 @@
+<form [formGroup]="editUserForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" formControlName="nick" id="nick" placeholder="Nick"
+        [ngClass]="{ 'is-invalid': (nick?.invalid && nick?.touched) || nickUnique}"
+        (blur)="checkNick()"
+        (focus)="nickUnique = null"
+        >
+        <label class="text-secondary" for="nick">Nick</label>
+        <div *ngIf="nick?.invalid && (nick?.dirty || nick?.touched)" class="invalid-feedback d-block mt-1">
+            <div *ngIf="nick?.errors?.['required']">Nickname is required.</div>
+            <div *ngIf="nickUnique">Nickname already in use.</div>
+          </div>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="email" class="form-control" formControlName="email" id="email" placeholder="Email"
+        [ngClass]="{ 'is-invalid': (email?.invalid && email?.touched) || emailUnique}"
+        (blur)="checkEmail()"
+        (focus)="emailUnique = null"
+        >
+        <label class="text-secondary" for="email">Email</label>
+        <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="invalid-feedback d-block mt-1">
+            <div *ngIf="email?.errors?.['required']">Email is required.</div>
+            <div *ngIf="email?.errors?.['email']">Email is not valid.</div>
+            <div *ngIf="emailUnique">Email already in use.</div>
+          </div>
+    </div>
+
+    <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" formControlName="email_verified_at" id="email_verified_at">
+        <label class="form-check-label text-secondary" for="email_verified_at">Email Verified</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="password" class="form-control" formControlName="password" id="password" placeholder="Password">
+        <label class="text-secondary" for="password">Password</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" formControlName="location" id="location" placeholder="Location">
+        <label class="text-secondary" for="location">Location</label>
+    </div>
+
+    <div class="mb-3">
+        <div class="input-group">
+            <div class="form-floating">
+                <input class="form-control" formControlName="birthday" ngbDatepicker (click)="birthdayDp.toggle()"
+                #birthdayDp="ngbDatepicker" id="birthday" placeholder="Birthday" [maxDate]="dateToday">
+                <label for="birthday" class="text-secondary" >Birthday</label>
+            </div>
+            <button class="btn btn-outline-secondary" (click)="birthdayDp.toggle()"
+                type="button"><fa-icon [icon]="['far', 'calendar']"></fa-icon></button> 
+        </div>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" formControlName="avatar" id="avatar" placeholder="Avatar">
+        <label class="text-secondary" for="avatar">Avatar</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" formControlName="rol" id="rol" placeholder="Rol">
+        <label class="text-secondary" for="rol">Rol</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <div class="input-group">
+            <div class="form-floating">
+                <input class="form-control" formControlName="suspension" ngbDatepicker (click)="suspensionDp.toggle()"
+                #suspensionDp="ngbDatepicker" id="suspension" placeholder="Suspension" [minDate]="dateToday">
+                <label for="suspension" class="text-secondary">Suspension</label>
+            </div>
+            <button class="btn btn-outline-secondary" (click)="birthdayDp.toggle()"
+                type="button"><fa-icon [icon]="['far', 'calendar']"></fa-icon></button> 
+        </div>
+    </div>
+
+    <div class="form-floating mb-3">
+        <ng-select [items]="roleList" bindLabel="name" bindValue="id" [multiple]="true" [clearable]="false"
+            formControlName="roles"></ng-select>
+        <label class="text-secondary" for="roles">Roles</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="editUserForm.invalid">Save</button>
+</form>

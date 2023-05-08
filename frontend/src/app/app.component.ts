@@ -48,13 +48,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.theme = themeService.getTheme();
     this.isAdminRoute = false;
     this.router.events
-      .pipe(filter((event) => event instanceof NavigationStart))
+      .pipe(filter((event) => event instanceof NavigationStart || event instanceof NavigationEnd))
       .subscribe((event: any) => {
-        if( event.url.startsWith('/admin')){
-          
-        }
         this.isAdminRoute = event.url.startsWith('/admin');
-
+        if(event instanceof NavigationEnd){
+          this.loading = false;
+        }
       });
   }
 

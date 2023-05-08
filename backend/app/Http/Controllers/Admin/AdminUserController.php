@@ -81,10 +81,33 @@ class AdminUserController extends Controller
         ]);
     }
 
-    function getUser(){
-
+    function getUser(User $user){
+        $user->makeVisible(['suspension','roles']);
+        $user['verified'] = $user->hasVerifiedEmail();
+        return response()->json($user,200);
     }
 
+    function checkNick(string $newNick,string $oldNick){
+        if($newNick != $oldNick){
+            $user = User::select('id')->where('nick',$newNick)->first();
+            if($user !== null){
+                return response()->json($user->id,200);
+            } else{
+                return response()->json(false,200);
+            }
+        }
+    }
+
+    function checkEmail(string $newEmail, string $oldEmail){
+        if($newEmail != $oldEmail){
+            $user = User::select('id')->where('email',$newEmail)->first();
+            if($user !== null){
+                return response()->json($user->id,200);
+            } else{
+                return response()->json(false,200);
+            }
+        }
+    }
     function updateUser(){
 
     }

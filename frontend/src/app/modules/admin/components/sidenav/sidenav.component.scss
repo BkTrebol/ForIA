@@ -6,25 +6,38 @@
     padding: 0 10px;
     .nav-link{
         font-size:20px;
+        white-space: nowrap;
+        display:flex;
+        justify-content: left;
+        align-items: center;
+        transition: all 0.5s;
+        .nav-item{
+            // transition: all 0.5s;
+            display:inline-block;   
+        }
     }
-
-    
 }
+
 .collapsed{
     width: 60px;
     padding-left:0;
     padding:0 2px;
-    *{
+    ul{
         margin-left:0;
         padding-left:0;
     }
     .nav-link{
-        text-align: center;
         padding:0px;
         font-size:25px;
-        .nav-item{
-            display:none;   
-        }
+        overflow:hidden;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav-item{
+        width:0px; 
+        display:inline-block; 
+        overflow:hidden;          
     }
     
 }

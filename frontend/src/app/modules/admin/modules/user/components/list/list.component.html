@@ -82,7 +82,12 @@
           {{ value | date: 'short' }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Posts Count" prop="posts_count"></ngx-datatable-column>
+      <ngx-datatable-column name="Posts" prop="posts_count" [width]="45"></ngx-datatable-column>
+      <ngx-datatable-column name="Actions" prop="id" [sortable]="false" [width]="45">
+        <ng-template ngx-datatable-cell-template let-value="value">
+          <a routerLink="{{value}}"><fa-icon [icon]="['far', 'pen-to-square']"></fa-icon></a>
+        </ng-template>
+      </ngx-datatable-column>
     </ngx-datatable>
   </div>
 </div>
