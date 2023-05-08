@@ -68,6 +68,7 @@
     </div>
     <ngx-datatable class="bootstrap" [rows]="tableData.users" [count]="tableData.page.total"
       [offset]="tableData.page.current-1" [limit]="tableData.page.perPage" [externalPaging]="true"
+      [scrollbarH]="true"
       [externalSorting]="true" [loadingIndicator]="tableLoading" [columnMode]="'force'" [headerHeight]="50"
       [footerHeight]="50" [rowHeight]="'auto'" (page)="onChangePage($event)" (sort)="onSort($event)">
       <ngx-datatable-column name="Nick" prop="nick"></ngx-datatable-column>
