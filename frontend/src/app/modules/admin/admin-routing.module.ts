@@ -4,7 +4,7 @@ import { canActivateAdmin } from 'src/app/helpers/guards/canActivateChild/admin.
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
   {
     path: 'login', loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
