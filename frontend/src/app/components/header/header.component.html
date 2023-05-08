@@ -27,7 +27,7 @@
                     <span>{{userIsAuthenticated.userData.nick}}</span>
                 </p>
                 <div class="dropdown-content {{hover ? 'noo': ''}}" (click)="hover=true">
-                    <a routerLink="admin" routerLinkActive="active"><fa-icon [icon]="['fas', 'hammer']"></fa-icon> Admin</a>
+                    <a *ngIf="userIsAuthenticated.userData.isAdmin" routerLink="admin" routerLinkActive="active"><fa-icon [icon]="['fas', 'hammer']"></fa-icon> Admin</a>
                     <a routerLink="/private-message" routerLinkActive="active">
                         <fa-icon [icon]="['fas', 'message']"></fa-icon><span>Messages</span>
                     </a>

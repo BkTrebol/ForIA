@@ -27,7 +27,10 @@ export class HeadersInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     // Check if our Api Url
     const isApiUrl = request.url.startsWith(this.url);
-    const isFormData = request.url.startsWith(this.url + 'api/user/edit');
+    const isFormData =
+      request.url.startsWith(this.url + 'api/user/edit') ||
+      request.url.startsWith(this.url + 'api/admin/user/update') ||
+      request.url.startsWith(this.url + 'api/admin/category/update');
     const isPost = request.method === 'POST'
     if (isApiUrl) {
       // Check if doesen't need to change the headers

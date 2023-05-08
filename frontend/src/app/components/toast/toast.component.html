@@ -10,7 +10,7 @@
 </ngb-toast>
 
 <ngb-toast *ngFor="let toast of toastService.dangerToasts" class="text-black bg-danger" [class]="toast.classname"
-    [autohide]="false" [delay]="toast.delay || 5000" (hidden)="toastService.remove(toast,'dangerToasts')">
+    [autohide]="true" [delay]="toast.delay || 5000" (hidden)="toastService.remove(toast,'dangerToasts')">
     <div class="toast-body">
         <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
             <ng-template [ngTemplateOutlet]="toast.textOrTpl">
@@ -18,6 +18,6 @@
         </ng-template>
         <ng-template #text>{{ toast.textOrTpl }}</ng-template>
 
-        <button class="btn-close" (click)="toastService.remove(toast,'dangerToasts')"></button>
+        <button class="btn-close" (click)="toastService.remove(toast,'dangerToasts')"><b>&#10006;</b></button>
     </div>
 </ngb-toast>
