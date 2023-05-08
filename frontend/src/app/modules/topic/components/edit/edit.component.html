@@ -1,0 +1,54 @@
+<div class="list-page {{theme}}">
+  <div class="list">
+    <div class="list-header">
+      <h1>Edit Topic</h1>
+    </div>
+    <div class="list-body">
+      <!-- TODO new style for lavel options form -->
+      <div class="create-topic" *ngIf="userLogged">
+        <div class="poll">
+          <div class="poll-options">
+            <div class="custom-search" *ngIf="userLogged.userData.isAdmin">
+              <label for="topic-choose">Category: </label>
+              <div class="user-search">
+                <ng-select labelForId="topic-choose" [items]="categoryList" class="select" bindLabel="title" bindValue="id"
+                  [(ngModel)]="topic.category_id">
+                </ng-select>
+              </div>
+            </div>
+            <div class="custom-search" *ngIf="!userLogged.userData.isAdmin">
+              <h2>Category: {{category_title}}</h2>
+            </div>
+            <div>
+              <label for="title">Title</label>
+              <input id="title" type="text" placeholder="Title" [(ngModel)]="topic.title">
+            </div>
+            <div>
+              <label for="description">Description</label>
+              <input id="description" placeholder="Description" type="text" [(ngModel)]="topic.description">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="editor-parent" *ngIf="userLogged">
+        <div class="editor-user">
+          <div class="user-card">
+            <app-avatar [user]="userLogged.userData"></app-avatar>
+            <div class="text">
+              <a routerLink="/user/profile/{{userLogged.userData.id}}">{{userLogged.userData.nick}}</a>
+              <small>{{userLogged.userData.rol}}</small>
+            </div>
+          </div>
+          <div class="editor">
+            <angular-editor id="editor" [(ngModel)]="topic.content" [config]="editorConfig"></angular-editor>
+          </div>
+        </div>
+        <input type="submit" [disabled]="topic.content.length == 0 || topic.content.length > 10_000
+                || topic.title == ''" class="btn-s" (click)="onSubmit()">
+        <div *ngIf="error != ''" class="error">
+          <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

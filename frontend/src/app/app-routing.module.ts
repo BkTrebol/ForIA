@@ -14,7 +14,8 @@ import { ErrorComponent } from './components/error/error.component';
 const routes: Routes = [
   {
     path: 'admin',
-    loadChildren: () => import('./modules/admin/admin.module').then((m) => m.AdminModule)
+    loadChildren: () =>
+      import('./modules/admin/admin.module').then((m) => m.AdminModule),
   },
   {
     path: 'auth',

@@ -1,5 +1,9 @@
-<div class="sidebar {{theme}}">
-    <div>
+<div class="sidebar {{coll}} {{theme}}">
+    <div class="toggle {{order? 'start': 'end'}} {{userLoggedIn? '': 'sol'}}">
+        <button class="btn2" (click)="coll = !coll; width = coll ? '45px':'240px';margin = coll?'0':'0 1rem'" type="button"><fa-icon [icon]="['fas', coll ? order ? 'chevron-right': 'chevron-left': 'chevron-down']"></fa-icon></button>
+        <button *ngIf="userLoggedIn" class="btn-a" type="button" (click)="editSidebar()">{{order  ? 'Left': 'Right'}}</button>
+    </div>
+    <div [(ngbCollapse)]="coll">
         <div class="sidebar-title" *ngIf="userLoggedIn;else notLoggedHeader">
             <p routerLink="/user/profile/{{userLocalData?.id}}" class="nick">{{userLocalData?.nick}}</p>
             <app-avatar [user]="userLocalData"></app-avatar>
@@ -16,6 +20,7 @@
                 <p>New Private Messages: {{userData.newPms}}</p>
             </div>
             <div class="sidebar-posts" *ngIf="lastPosts">
+                <p>Last {{lastPosts.length}} Posts</p>
                 <div class="sidebar-post" *ngFor="let post of lastPosts">
                     <a routerLink="/topic/{{post.id}}" [queryParams]="{page:post.last_page}">{{post.title |
                         capitalize}}</a><br>

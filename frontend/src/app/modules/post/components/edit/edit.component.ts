@@ -62,30 +62,20 @@ export class EditComponent implements OnInit, OnDestroy {
       this.router.navigate([`/error`]);
     }
 
-    this.postService.onePost(this.post_id).subscribe({
-      next: res => {
-        this.post = res.post
-        this.topic = res.topic.title
-      }, error: err => {
-        if (err.status == 403) {
-          this.router.navigate([`/error`]);
-        } else {
-          console.log(err);
-        }
-      }, complete: () => {
-        this.loading = false;
-      }
-    })
-
     this.postService
-      .allTopic()
+      .onePost(this.post_id)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          this.topicList = res;
+          this.post = res.post;
+          this.topic = res.topic.title;
         },
         error: (err) => {
-          console.log(err);
+          if (err.status == 403) {
+            this.router.navigate([`/error`]);
+          } else {
+            console.log(err);
+          }
         },
         complete: () => {
           this.loading = false;
@@ -95,6 +85,22 @@ export class EditComponent implements OnInit, OnDestroy {
     this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {
         this.userLogged = r;
+        if (this.userLogged && this.userLogged.userData.isAdmin) {
+          this.postService
+            .allTopic()
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe({
+              next: (res) => {
+                this.topicList = res;
+              },
+              error: (err) => {
+                console.log(err);
+              },
+              complete: () => {
+                this.loading = false;
+              },
+            });
+        }
       },
     });
 

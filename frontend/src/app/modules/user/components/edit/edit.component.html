@@ -8,9 +8,11 @@
     <form [ngClass]="{'view': !view}" [formGroup]="formEditProfile" *ngIf="!loading" (ngSubmit)="submit()"
         class="form-container">
         <h2>Edit Profile</h2>
-        <button class="btn-a" type="button" (click)="toggleView()">
-            <fa-icon [icon]="['fas', 'pen']"></fa-icon>
-            Edit Preferences</button>
+        <div class="center">
+            <button class="btn-a" type="button" (click)="toggleView()">
+                <fa-icon [icon]="['fas', 'pen']"></fa-icon>
+                Edit Preferences</button>
+        </div>
         <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}</h3>
         <h4 *ngIf="loading2"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="fields">
@@ -120,17 +122,19 @@
             <fa-icon class="btn-icon" [icon]="['fas', 'thumbs-up']"></fa-icon>
         </div>
         <div class="form-links">
-            <p><a class="btn2" routerLink="/user/profile/{{userId}}">
+            <div class="center"><a class="btn2" routerLink="/user/profile/{{userId}}">
                     <fa-icon [icon]="['fas', 'user-circle']"></fa-icon>
-                    View Profile</a></p>
+                    View Profile</a></div>
         </div>
     </form>
     <form [ngClass]="{'no': !view, 'default': view}" *ngIf="!loading" [formGroup]="formEditPreferences"
         (ngSubmit)="editPreferences()" class="form-container">
         <h2>Edit Preferences</h2>
+        <div class="center">
         <button class="btn-a" type="button" (click)="toggleView()">
             <fa-icon [icon]="['fas', 'pen']"></fa-icon>
             Edit Profile</button>
+            </div>
         <h4 *ngIf="loading2"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="fields">
             <div class="group">
@@ -195,9 +199,9 @@
             <fa-icon class="btn-icon" [icon]="['fas', 'thumbs-up']"></fa-icon>
         </div>
         <div class="form-links">
-            <p><a class="btn2" routerLink="/user/profile/{{userId}}">
+            <div class="center"><a class="btn2" routerLink="/user/profile/{{userId}}">
                     <fa-icon [icon]="['fas', 'user-circle']"></fa-icon>
-                    View Profile</a></p>
+                    View Profile</a></div>
         </div>
     </form>
 </div>

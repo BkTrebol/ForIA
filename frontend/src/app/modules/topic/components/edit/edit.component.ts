@@ -4,20 +4,23 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Subject, takeUntil } from 'rxjs';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
-import { Topic } from 'src/app/models/send/create-topic';
+import { OneTopic } from 'src/app/models/receive/edit-topic';
 import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { CategoryService } from 'src/app/modules/category/service/category.service';
 
 @Component({
-  selector: 'app-create',
-  templateUrl: './create.component.html',
-  styleUrls: ['./create.component.scss', '../../../../styles/card.scss'],
+  selector: 'app-edit',
+  templateUrl: './edit.component.html',
+  styleUrls: ['./edit.component.scss', '../../../../styles/card.scss'],
 })
-export class CreateComponent implements OnInit, OnDestroy {
+export class EditComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
-  public topic: Topic;
+  public topic: OneTopic;
+  public topic_id: string;
+  public category_title: string;
+  public categoryList: { id: number; title: string }[];
   public theme: string;
   public loading: boolean;
   public error: string;
@@ -47,25 +50,50 @@ export class CreateComponent implements OnInit, OnDestroy {
       editable: true,
     };
     this.topic = {
-      category_id: parseInt(this.route.snapshot.paramMap.get('id') ?? '0'),
+      category_id: 0,
       title: '',
       content: '',
       description: '',
-      poll: {
-        name: '',
-        options: [{ option: '' }, { option: '' }],
-      },
     };
+    this.topic_id = this.route.snapshot.paramMap.get('id') ?? '0';
+    this.category_title = '';
+    this.categoryList = [];
   }
 
   ngOnInit(): void {
-    if (this.topic.category_id == 0) {
+    if (this.topic_id == '0') {
       this.router.navigate([`/error`]);
     }
+
+    this.categoryService
+      .oneTopic(this.topic_id)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (res) => {
+          this.topic = res.topic;
+          this.category_title = res.category.title;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
 
     this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {
         this.userLogged = r;
+        if (this.userLogged && this.userLogged.userData.isAdmin) {
+          this.categoryService
+            .allCateogry()
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe({
+              next: (res) => {
+                this.categoryList = res;
+              },
+              error: (err) => {
+                console.log(err);
+              },
+            });
+        }
       },
     });
 
@@ -76,35 +104,17 @@ export class CreateComponent implements OnInit, OnDestroy {
       });
   }
 
-  onAddOption(): void {
-    this.topic.poll.options.push({ option: '' });
-  }
-
-  onDeleteOption(index: number): void {
-    this.topic.poll.options.splice(index, 1);
-  }
-
   onSubmit(): void {
     this.categoryService
-      .post(this.topic)
+      .editTopic(this.topic_id, this.topic)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          this.router.navigate([`/topic/${res.id}`]);
+          this.router.navigate([`/topic/${this.topic_id}`]);
           this.toastService.show(res.message);
         },
         error: (e) => console.log(e),
       });
-  }
-
-  togglePoll(): void {
-    this.pollToggle = !this.pollToggle;
-    if (!this.pollToggle) {
-      this.topic.poll = {
-        name: '',
-        options: [{ option: '' }, { option: '' }],
-      };
-    }
   }
 
   ngOnDestroy(): void {

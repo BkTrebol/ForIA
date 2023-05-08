@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PreferencesController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PollController;
 use App\Http\Controllers\PrivateMessageController;
@@ -51,12 +52,24 @@ Route::middleware('auth:sanctum')->group(function(){
 
     });
 
+    // Preferences Routes
+    Route::controller(PreferencesController::class)->prefix('preferences')->group(function(){
+        Route::put('/sidebar','editSidebar');
+    });
+
     // Topic routes.
     Route::controller(TopicController::class)->prefix('topic')->group(function(){
         Route::post('/','createTopic');
         Route::get('/edit/{topic}','getTopicData');
         Route::put('/{topic}','editTopic');
         Route::delete('/{topic}','deleteTopic');
+
+        Route::get('one-topic/{topic}', 'getOneTopic');
+    });
+
+    // Category routes.
+    Route::controller(CategoryController::class)->prefix('category')->group(function(){
+        Route::get('all-category', 'getAllCategory');
     });
 
     // Post routes.

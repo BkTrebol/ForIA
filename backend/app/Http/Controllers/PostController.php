@@ -76,9 +76,6 @@ class PostController extends Controller
             ], 403);
         } else {
             $post->delete();
-            // if ($post->topic->posts->count() == 0) {
-            //     $post->topic->delete();
-            // }
             return response()->json([
                 'message' => 'Post deleted successfully'
             ], 200);

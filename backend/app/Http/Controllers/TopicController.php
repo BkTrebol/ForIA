@@ -8,6 +8,7 @@ use App\Rules\CanPostInCategory;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\Paginator;
 
+use App\Models\Category;
 use App\Models\Topic;
 use App\Models\Post;
 use App\Models\Poll;
@@ -45,7 +46,7 @@ class TopicController extends Controller
         }
 
         $response = [
-            'can_edit' => $isMod || $isAdmin || ($user && $topic->user_id == $user->id),
+            'can_edit' => $isMod || $isAdmin || ($user && $topic->user_id == $user->id && $topic->posts->count() == 0),
             'can_post' => in_array($topic->can_post, $roles),
             'can_poll' => $poll == null && (($user && $user->id == $topic->user_id) || $isAdmin || $isMod),
             'category' => $topic->category->only('id', 'title'),
@@ -204,6 +205,24 @@ class TopicController extends Controller
         }
     }
 
+    function getOneTopic(Topic $topic)
+    {
+        $user = Auth::user();
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
+        $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
+        $isMod = in_array($topic->category->can_mod, $user->roles);
+
+        if (!$isAdmin && !$isMod && $user->id != $topic->user_id) {
+            return response()->json([
+                'message' => 'Unauthorized',
+            ], 403);
+        }
+
+        return response()->json([
+            "topic" => $topic->only('title', 'description', 'content', 'category_id'),
+            "category" => Category::where('id', $topic->category_id)->first()->only('title')
+        ]);
+    }
 
     function checkPostPermission(Post $post)
     {

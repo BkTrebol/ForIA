@@ -7,7 +7,11 @@
     display: block;
     clear: both;
   }
+  transition: all 1s;
   height: 900px;
+  &.true{
+    height: 500px;
+  }
   .card {
     position: absolute;
     backface-visibility: hidden;
