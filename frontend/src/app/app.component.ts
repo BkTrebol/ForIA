@@ -54,6 +54,9 @@ export class AppComponent implements OnInit, OnDestroy {
         if(event instanceof NavigationEnd && event.url.startsWith('/admin')){
           this.loading = false;
         }
+        if (event instanceof NavigationStart && event.url.startsWith('/admin')) {
+          this.loading = true;
+        }
       });
   }
 

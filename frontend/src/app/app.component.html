@@ -4,7 +4,7 @@
 
   <main class="container-wrap">
     <router-outlet></router-outlet>
-    <a routerLink="admin" (click)="loading = true">Admin</a>
+    <a routerLink="admin">Admin</a>
   </main>
 
   <app-footer></app-footer>
@@ -12,7 +12,7 @@
 
 <div *ngIf="isAdminRoute">
   <app-admin></app-admin>
-  <a routerLink="" (click)="loading = true">Home</a>
+  <a routerLink="">Home</a>
 </div>
 
 <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

@@ -11,13 +11,14 @@ export interface Category {
   title: string;
   description: string;
   image: null | string;
-  topics: number,
-  posts: number,
+  topics: number;
+  posts: number;
   lastPost: {
     created_at: string;
     topic: {
       id: number;
       title: string;
+      last_page: number;
     };
     user: UserCard;
   };

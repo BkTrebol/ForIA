@@ -79,7 +79,7 @@
                                 <div class="last-post" *ngIf="category.lastPost">
                                     <div class="text">
                                         <h3><a routerLink="/topic/{{category.lastPost.topic.id}}"
-                                                [queryParams]="{'page': 999}" fragment="last"
+                                                [queryParams]="{'page': category.lastPost.topic.last_page}" fragment="last"
                                                 ngbTooltip="View Last Post {{category.lastPost.topic.title}}">
                                                 {{ ((category.lastPost.topic.title.length > 8) ?
                                                 (category.lastPost.topic.title |
