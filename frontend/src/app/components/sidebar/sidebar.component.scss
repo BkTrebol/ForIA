@@ -80,6 +80,9 @@
     margin: 16px 0;
     text-align: center;
   }
+  .last-post-toggle {
+    cursor: pointer;
+  }
   &.dark {
     background-color: opacity($color-primary1, 0.95);
     color: $color-white-clear;

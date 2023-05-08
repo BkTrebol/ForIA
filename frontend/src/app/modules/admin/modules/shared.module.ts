@@ -4,7 +4,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
-
+import {
+  NgbDateStruct,
+  NgbCalendar,
+  NgbDatepickerModule,
+} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -15,14 +19,16 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ReactiveFormsModule,
     FontAwesomeModule,
     NgbModalModule,
-    NgSelectModule
+    NgSelectModule,
+    NgbDatepickerModule,
   ],
   exports: [
     FormsModule,
     ReactiveFormsModule,
     FontAwesomeModule,
     NgbModalModule,
-    NgSelectModule
-  ]
+    NgSelectModule,
+    NgbDatepickerModule,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

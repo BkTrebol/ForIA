@@ -31,8 +31,8 @@
                 <a class="btn-a" routerLink="post/create"><fa-icon [icon]="['fas', 'plus']"></fa-icon> Create a Post</a>
             </div>
             <div class="sidebar-posts" *ngIf="lastPosts">
-                <p>Last {{lastPosts.length}} Posts</p>
-                <div class="sidebar-post" *ngFor="let post of lastPosts">
+                <p class="last-post-toggle" (click)="lastPostToggle = !lastPostToggle"><fa-icon [icon]="['fas', lastPostToggle ? 'chevron-right': 'chevron-down']"></fa-icon> Last {{lastPosts.length}} Posts</p>
+                <div [(ngbCollapse)]="lastPostToggle" class="sidebar-post" *ngFor="let post of lastPosts">
                     <a routerLink="/topic/{{post.id}}" [queryParams]="{page:post.last_page}" ngbTooltip="View Post {{post.title | capitalize}}" placement="bottom">{{post.title |
                         capitalize}}</a><br>
                     By <a routerLink="/user/profile/{{post.user_id}}" class="sidebar-nick" ngbTooltip="View Profile of {{post.user_nick}}" placement="bottom">{{post.user_nick}}</a>
