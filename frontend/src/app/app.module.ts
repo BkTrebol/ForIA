@@ -24,7 +24,7 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 
 import { SharedModule } from './modules/share.module';
-import { NgbModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import {  NgbModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsContainer } from './components/toast/toast.component';
 import { AdminComponent } from './modules/admin/admin.component';
 import { SidenavComponent } from './modules/admin/components/sidenav/sidenav.component';

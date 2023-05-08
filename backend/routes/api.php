@@ -16,6 +16,9 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\RoleController;
 
 use App\Models\Post;
 use App\Models\Topic;
@@ -29,9 +32,9 @@ use App\Models\Topic;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
 // Authenticated routes.
 Route::middleware('auth:sanctum')->group(function(){
+
     // Authentication routes.
     Route::controller(AuthController::class)->prefix('auth')->group(function(){
         Route::get('/data','userData');
@@ -111,9 +114,23 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/userStats','getUserSidebarStats');
     });
 
+// Admin routes.
     Route::middleware(AdminMiddleware::class)->prefix('admin')->group(function(){
-        Route::controller(LoginController::class)->group(function(){
-            // Route::get('/check','checkAdmin');
+        Route::controller(AdminCategoryController::class)->prefix('category')->group(function(){
+            Route::get('/list','getList');
+            Route::post('/update','updateCategories');
+        });
+
+        Route::controller(RoleController::class)->prefix('role')->group(function(){
+            Route::get('/all','getAll');
+            Route::get('/','getList');
+        });
+
+        Route::controller(AdminUserController::class)->prefix('user')->group(function(){
+            Route::get('/list','getList');
+            Route::get('/user/{user}','getUser');
+            Route::post('/update/{user}','updateUser'); 
+            Route::delete('/user/{user}','deleteUser');
         });
     });
 });
@@ -122,10 +139,6 @@ Route::middleware('auth:sanctum')->group(function(){
 Route::controller(LoginController::class)->prefix('admin')->group(function(){
     Route::post('/login','login');
     Route::get('/check','checkAdmin');
-});
-// Admin routes.
-Route::middleware(['auth:sanctum',AdminMiddleware::class])->prefix('admin')->group(function(){
-
 });
 
 // Public routes.
@@ -199,14 +212,6 @@ Route::get('/checklogin', function (){
         ,200);
 });
 
-Route::get('holi',function(Request $request) {
-    $request->validate([
-        'nick' => ['required', 'string', 'max:255'],
-        'password' => ['required', 'string', 'min:8'],
-        'email' => ['required', 'string', 'max:255'],
-    ],
-    );
-});
 
 Route::get('testing/{post}', function(Post $post){
     $topic = Topic::find($post->topic_id);

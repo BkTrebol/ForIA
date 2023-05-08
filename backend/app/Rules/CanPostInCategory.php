@@ -27,7 +27,7 @@ class CanPostInCategory implements ValidationRule
             $fail('Category not found');
         } else{
             $user = Auth::user();        
-            $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];    
+            $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];    
             if(!in_array($category->can_post, $roles) || !in_array($category->can_view, $roles)){
                $fail('User not allowed');
             }

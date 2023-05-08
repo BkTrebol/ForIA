@@ -60,8 +60,9 @@ class PollController extends Controller
     function closePoll(Poll $poll)
     {
         $user = Auth::user();
-        $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
-        $isMod = in_array($poll->topic->category->can_mod, $user->roles);
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
+        $isAdmin = $user->isAdmin();
+        $isMod = in_array($poll->topic->category->can_mod, $roles);
 
         if (!$isAdmin && !$isMod && $user->id != $poll->topic->user_id) {
             return response()->json([
@@ -84,8 +85,9 @@ class PollController extends Controller
     function deletePoll(Poll $poll)
     {
         $user = Auth::user();
-        $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
-        $isMod = in_array($poll->topic->category->can_mod, $user->roles);
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
+        $isAdmin = $user->isAdmin();
+        $isMod = in_array($poll->topic->category->can_mod, $roles);
 
         if (!$isAdmin && !$isMod && $user->id != $poll->topic->user_id) {
             return response()->json([
@@ -103,9 +105,9 @@ class PollController extends Controller
     function createPoll(Topic $topic, Request $request)
     {
         $user = Auth::user();
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
-        $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
-        $isMod = in_array($topic->category->can_mod, $user->roles);
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
+        $isAdmin = $user->isAdmin();
+        $isMod = in_array($topic->category->can_mod, $roles);
 
         $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
@@ -159,9 +161,9 @@ class PollController extends Controller
     function editPoll(Poll $poll, Request $request)
     {
         $user = Auth::user();
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
-        $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
-        $isMod = in_array($poll->topic->category->can_mod, $user->roles);
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
+        $isAdmin = $user->isAdmin();
+        $isMod = in_array($poll->topic->category->can_mod, $roles);
 
         if (!$poll->answers->count() == 0 && !$isAdmin && !$isMod) {
             return response()->json([
@@ -175,9 +177,9 @@ class PollController extends Controller
     {
 
         $user = Auth::user();
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
-        $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
-        $isMod = in_array($topic->poll->topic->category->can_mod, $user->roles);
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
+        $isAdmin = $user->isAdmin();
+        $isMod = in_array($topic->poll->topic->category->can_mod, $roles);
 
 
         // if (($topic->poll->answers->count() != 0 || $user->id != $topic->user_id) && !$isAdmin && !$isMod) {

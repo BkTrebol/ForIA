@@ -1,2 +1,30 @@
 // @import 'bootstrap/scss/bootstrap';
 
+.sidebar{
+    width:200px;
+    transition: all 0.5s;
+    padding: 0 10px;
+    .nav-link{
+        font-size:20px;
+    }
+
+    
+}
+.collapsed{
+    width: 60px;
+    padding-left:0;
+    padding:0 2px;
+    *{
+        margin-left:0;
+        padding-left:0;
+    }
+    .nav-link{
+        text-align: center;
+        padding:0px;
+        font-size:25px;
+        .nav-item{
+            display:none;   
+        }
+    }
+    
+}

@@ -4,15 +4,18 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 
+use App\Listeners\DefaulRole;
 use App\Models\UserPreference;
 use App\Models\PrivateMessage;
 use App\Models\Post;
 use App\Models\Topic;
+use App\Models\Role;
 
 class User extends Authenticatable
 {
@@ -57,8 +60,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'roles' => 'array',
+        'last_seen' => 'datetime',
     ];
 
+        /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    // protected $attributes = [
+    //     'roles' => '{
+    //         "roles" : ["ROLE_GUEST","ROLE_USER"]
+    //     }'
+    // ];
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+    public function isAdmin()
+    {
+        return $this->roles()->where('admin', true)->exists();
+    }
     public function preferences()
     {
         return $this->hasOne(UserPreference::class);

@@ -1,47 +1,56 @@
 <div class="container">
     <div class="row justify-content-center align-content-center vh-100">
-        <div class="card bg-light text-dark w-25 col-lg-5">
-            <div class="card-header">
-                <h3 class="text-center mb-3">Log-in</h3>
-            </div>
-            <div class="card-body">
-                <form [formGroup]="formLogin" (submit)="onSubmit()">
-                    <div class="form-floating mb-1 row">
-                        <input class="form-control" type="text" placeholder="Email" id="email" name="email"
-                            formControlName="email"
-                            [ngClass]="{ 'is-invalid': email?.invalid && email?.touched}"
-                            >
-                        <label class="form-label text-secondary" for="email">Email</label>
-                        <div class="invalid-feedback mt-1" *ngIf="!email?.valid && email?.touched">
-                            <ng-container *ngFor="let validation of validationMessagesLogin.email | keyvalue">
-                                <p *ngIf="email?.errors?.[validation.key]">
-                                    <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{ validation.value }}
-                                </p>
-                            </ng-container>
+        <div class="d-flex justify-content-center">
+        <div class="card col-12 col-sm-4 bg-light text-dark" style="min-width:360px">
+                <div class="card-header">
+                    <h3 class="text-center mb-3">Log-in</h3>
+                    <p *ngIf="error" class="alert alert-danger"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}</p>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="formLogin" >
+                        <div class="form-floating mb-1 row">
+                            <input class="form-control" type="text" placeholder="Email" id="email" name="email"
+                                formControlName="email"
+                                [ngClass]="{ 'is-invalid': email?.invalid && email?.touched}"
+                                >
+                            <label class="form-label text-secondary" for="email">Email</label>
+                            <div class="invalid-feedback mt-1" *ngIf="!email?.valid && email?.touched">
+                                <ng-container *ngFor="let validation of validationMessagesLogin.email | keyvalue">
+                                    <p *ngIf="email?.errors?.[validation.key]">
+                                        <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{ validation.value }}
+                                    </p>
+                                </ng-container>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="form-floating mb-1 row">
-                        <input class="form-control" type="password" placeholder="Password" id="password" name="password"
-                            formControlName="password"
-                            [ngClass]="{ 'is-invalid': password?.invalid && password?.touched }"
-                            >
-                        <label class="form-label text-secondary" for="password">Password</label>
-                        <div class="invalid-feedback mt-1" *ngIf="!password?.valid && password?.touched">
-                            <ng-container *ngFor="let validation of validationMessagesLogin.password | keyvalue">
-                                <p *ngIf="password?.errors?.[validation.key]">
-                                    <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{ validation.value }}
-                                </p>
-                            </ng-container>
+    
+                        <div class="form-floating mb-1 row">
+                            <input class="form-control" type="password" placeholder="Password" id="password" name="password"
+                                formControlName="password"
+                                [ngClass]="{ 'is-invalid': password?.invalid && password?.touched }"
+                                >
+                            <label class="form-label text-secondary" for="password">Password</label>
+                            <div class="invalid-feedback mt-1" *ngIf="!password?.valid && password?.touched">
+                                <ng-container *ngFor="let validation of validationMessagesLogin.password | keyvalue">
+                                    <p *ngIf="password?.errors?.[validation.key]">
+                                        <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{ validation.value }}
+                                    </p>
+                                </ng-container>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="row align-content-center">
-                        <input type="submit" class="btn btn-primary" value="Log-in" [disabled]="formLogin.invalid">
-                    </div>
-                    
-                </form>
+    
+                        <div class="row align-content-center">
+                            <button class="btn btn-primary" type="submit" (click)="onSubmit()" [disabled]="formLogin.invalid || loginLoading">
+                                <div *ngIf="loginLoading" class="spinner-border spinner-border-sm" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                  </div>
+                                  Log-in
+                                </button>
+                        </div>
+                        
+                    </form>
+                </div>
             </div>
+
 
         </div>
     </div>

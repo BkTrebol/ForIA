@@ -1,0 +1,94 @@
+<div class="save-loading" *ngIf="false">
+
+  <div class="spinner-border text-dark" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+
+</div>
+
+<div class="container row align-items-center h-100 min-vh-100 " *ngIf="!loading; else loadingTemplate">
+  <div class="">
+    <div class="filters ">
+      <form class="" (ngSubmit)="onFilter()">
+        <div class="row mb-2 mx-auto">
+          <div class="col-12 row my-auto col-sm-4">
+            <div class="my-auto form-floating px-0">
+              <input type="text" placeholder="Nick" class="form-control" [(ngModel)]="filters.nick" name="nick"
+                id="nick">
+              <label for="nick" class="form-label text-secondary">Nick</label>
+            </div>
+          </div>
+
+          <div class="col-12 row my-auto col-sm-8">
+            <div class="m-2 my-auto col-7 form-floating px-0">
+              <ng-select [items]="roleList" [searchable]="true" bindLabel="name" bindValue="id" id="rol" name="rol"
+                [multiple]="true" [(ngModel)]="filters.roles" class="select"></ng-select>
+              <label for="rol" class="form-label text-secondary">Role</label>
+            </div>
+            <div class="col-4 my-auto d-flex align-items-center">
+              <input id="rolesAll" type="checkbox" class="form-check-input mr-1" style="min-width:16px" name="rolesAll"
+                [(ngModel)]="filters.rolesAll">
+              <label class="form-label" for="rolesAll">All roles<br>(Default is Any)</label>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-2 mx-auto">
+          <div class=" col-3 form-floating px-1">
+            <select class="form-select " placeholder="Verified" id="verified" name="verified"
+              [(ngModel)]="filters.verified">
+              <option [value]="null">-</option>
+              <option [value]="true">True</option>
+              <option [value]="false">False</option>
+            </select>
+            <label class="form-label text-secondary" for="verified">Verified</label>
+          </div>
+
+          <div class=" col-3 form-floating px-1">
+            <select class="form-select" id="suspension" placeholder="Suspended" name="suspension"
+              [(ngModel)]="filters.suspension">
+              <option [value]="null">-</option>
+              <option [value]="true">True</option>
+              <option [value]="false">False</option>
+            </select>
+            <label class="form-label text-secondary" for="suspension">Suspended</label>
+          </div>
+          <div class="col-3 form-floating px-1">
+            <select class="form-select" placeholder="Linked google" id="google" name="google"
+              [(ngModel)]="filters.google">
+              <option [value]="null">-</option>
+              <option [value]="true">True</option>
+              <option [value]="false">False</option>
+            </select>
+            <label class="form-label text-secondary" for="google">Linked google</label>
+          </div>
+          <button type="submit" class="col-2 btn btn-primary">Filter</button>
+        </div>
+
+      </form>
+    </div>
+    <ngx-datatable class="bootstrap" [rows]="tableData.users" [count]="tableData.page.total"
+      [offset]="tableData.page.current-1" [limit]="tableData.page.perPage" [externalPaging]="true"
+      [externalSorting]="true" [loadingIndicator]="tableLoading" [columnMode]="'force'" [headerHeight]="50"
+      [footerHeight]="50" [rowHeight]="'auto'" (page)="onChangePage($event)" (sort)="onSort($event)">
+      <ngx-datatable-column name="Nick" prop="nick"></ngx-datatable-column>
+      <ngx-datatable-column name="Email" prop="email"></ngx-datatable-column>
+      <ngx-datatable-column name="Last Seen" prop="last_seen">
+        <ng-template ngx-datatable-cell-template let-value="value">
+          {{ value | date: 'short' }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Created At" prop="created_at">
+        <ng-template ngx-datatable-cell-template let-value="value">
+          {{ value | date: 'short' }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Posts Count" prop="posts_count"></ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>
+
+<ng-template #loadingTemplate>
+  <div class="page-loading dark">
+    <img class="logoIA" src="/assets/svg/logoIA.svg" height="400" alt="loading spinner">
+  </div>
+</ng-template>

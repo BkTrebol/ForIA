@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -16,11 +17,12 @@ return new class extends Migration
             $table->string('nick')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('last_seen')->nullable();
             $table->string('password')->nullable();
             $table->string('location')->nullable();
             $table->date('birthday')->nullable();
             $table->string('avatar')->nullable();
-            $table->json('roles')->default(json_encode(['ROLE_USER','ROLE_GUEST']));
+            // $table->json('roles')->default(json_encode(['ROLE_USER','ROLE_GUEST']));
             $table->string('rol')->default('User');
             $table->boolean('google_auth')->default(false); 
             $table->date('suspension')->nullable();

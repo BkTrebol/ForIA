@@ -19,7 +19,7 @@ class PostController extends Controller
         ]);
         $topic = Topic::find($request->topic_id);
         $user = Auth::user();
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
         if (!in_array($topic->can_view, $roles) || !in_array($topic->category->can_view, $roles)) {
             return response()->json([
                 'message' => 'Unauthorized',
@@ -53,8 +53,9 @@ class PostController extends Controller
             ]);
 
             $post->content = $request->content;
-
-            if(count(collect(Auth::user()->roles)->intersect(config('app.adminRoles'))) > 0){
+            $user = Auth::user();
+            $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
+            if($user->isAdmin()){
                 $post->topic_id = $request->topic_id;
             }
 
@@ -116,8 +117,9 @@ class PostController extends Controller
 function checkPermission(Post $post)
 {
     $user = Auth::user();
-    $isAdmin = count(collect($user->roles)->intersect(config('app.adminRoles'))) > 0;
-    $isMod = in_array($post->topic->category->can_mod, $user->roles);
+    $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
+    $isAdmin = $user->isAdmin();
+    $isMod = in_array($post->topic->category->can_mod, $roles);
     if (!$isAdmin && !$isMod) {
         // IF the used isn't either an admin or a mod, chekcs if is the owner of the post and the post is the last one of the topic.
         if (

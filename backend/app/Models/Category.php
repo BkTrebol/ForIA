@@ -22,9 +22,12 @@ class Category extends Model
         'music',
         'can_view',
         'section',
+        'order',
     ];
 
-
+    public function view(){
+        return $this->hasOne(Role::class);
+    }
     public function topics(){
         return $this->hasMany(Topic::class)->orderBy('updated_at','desc');
     }

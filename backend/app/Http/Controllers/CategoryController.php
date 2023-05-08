@@ -12,17 +12,18 @@ class CategoryController extends Controller
     {
         //crec que no es fa servir?
         $user = Auth::user();
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
-        return Category::whereIn('can_view', $roles)->select('id', 'title')->orderBy('section')->get();
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
+        return Category::whereIn('can_view', $roles)->select('id', 'title')->orderBy('order')->get();
     }
 
     function getCategories()
     {
         // Gets the categories that the user can view.
         $user = Auth::user();
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
+        // echo Category::find(1)->can_view()->name;
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
 
-        $categories = Category::get()->whereIn('can_view', $roles)->groupBy('section')->map(
+        $categories = Category::orderBy('order')->get()->whereIn('can_view', $roles)->groupBy('section')->map(
             function ($section, $sectionName) use ($roles) {
                 $sectionTemp['name'] = $sectionName;
                 $sectionTemp['categories'] = $section->map(function ($category) use ($roles) {
@@ -76,7 +77,7 @@ class CategoryController extends Controller
         // Returns the topics in a category that a user can view, if the user can view the category.
         $user = Auth::user();
 
-        $roles = $user && $user->hasVerifiedEmail() ? $user->roles : ['ROLE_GUEST'];
+        $roles = $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
         if (!in_array($category->can_view, $roles)) {
             return response()->json([
                 'message' => 'Unauthorized'
