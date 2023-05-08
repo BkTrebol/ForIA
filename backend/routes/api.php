@@ -115,9 +115,11 @@ Route::middleware('auth:sanctum')->group(function(){
 
         Route::controller(AdminUserController::class)->prefix('user')->group(function(){
             Route::get('/list','getList');
-            Route::get('/user/{user}','getUser');
-            Route::post('/update/{user}','updateUser'); 
-            Route::delete('/user/{user}','deleteUser');
+            Route::get('/check/nick/{newNick}/{oldNick}','checkNick');
+            Route::get('/check/email/{neEmail}/{oldEmail}','checkEmail');
+            Route::put('/update','updateUser'); 
+            Route::get('/{user}','getUser');
+            Route::delete('/{user}','deleteUser');
         });
     });
 });
