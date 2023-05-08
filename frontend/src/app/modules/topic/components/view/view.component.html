@@ -73,7 +73,7 @@
                     <h3>Poll: {{listPosts.poll.name}}</h3>
                     <button
                         ngbTooltip="{{(listPosts.poll.finish_date | finished) <= 0 ? 'Finish the poll' : 'Reopen the Poll'}}"
-                        class="btn-add" type="button" (click)="closePoll()" *ngIf="listPosts.poll.can_edit"><fa-icon
+                        class="btn-add" type="button" (click)="closePoll()" *ngIf="listPosts.poll.can_close"><fa-icon
                             [icon]="['fas', 'flag-checkered']"></fa-icon></button>
                     <a class="btn-edit" ngbTooltip="Edit the Poll" routerLink="/topic/{{listPosts.topic.id}}/poll/edit"
                         *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'pen']"></fa-icon></a>
@@ -99,16 +99,19 @@
                     <h3>Poll: {{pollResults.name}}</h3>
                     <button
                         ngbTooltip="{{(listPosts.poll.finish_date | finished) <= 0 ? 'Finish the poll' : 'Reopen the Poll'}}"
-                        class="btn-add" type="button" (click)="closePoll()" *ngIf="listPosts.poll.can_edit"><fa-icon
+                        class="btn-add" type="button" (click)="closePoll()" *ngIf="listPosts.poll.can_close"><fa-icon
                             [icon]="['fas', (listPosts.poll.finish_date | finished) <= 0 ? 'flag-checkered' : 'lock-open']"></fa-icon></button>
-                            <a class="btn-edit" ngbTooltip="Edit the Poll" routerLink="/topic/{{listPosts.topic.id}}/poll/edit"
-                                *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'pen']"></fa-icon></a>
-                            <button class="btn-delete" ngbTooltip="Delete the Poll" type="button" (click)="deletePoll()"
-                                *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
+                    <a class="btn-edit" ngbTooltip="Edit the Poll" routerLink="/topic/{{listPosts.topic.id}}/poll/edit"
+                        *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'pen']"></fa-icon></a>
+                    <button class="btn-delete" ngbTooltip="Delete the Poll" type="button" (click)="deletePoll()"
+                        *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
                 </div>
                 <div class="poll-vote">
-                    <ng-container *ngFor="let option of pollResults.options"><span>{{option.option}} -  {{option.votes}} votes</span><ngb-progressbar [showValue]="true" type="{{option.voted ? 'success' : 'primary'}}" [value]="(option?.votes??0)* 100/pollResults.votes" [striped]="true"></ngb-progressbar>
-                </ng-container>
+                    <ng-container *ngFor="let option of pollResults.options"><span>{{option.option}} - {{option.votes}}
+                            votes</span><ngb-progressbar [showValue]="true"
+                            type="{{option.voted ? 'success' : 'primary'}}"
+                            [value]="(option?.votes??0)* 100/pollResults.votes" [striped]="true"></ngb-progressbar>
+                    </ng-container>
                 </div>
                 <button class="btn2" (click)="onShowPollResults()" *ngIf="listPosts.poll.can_vote">
                     <fa-icon [icon]="['fas', 'backward']"></fa-icon>
@@ -127,16 +130,20 @@
                 <div class="user-card">
                     <app-avatar [user]="listPosts.topic.user"></app-avatar>
                     <div class="text">
-                        <a routerLink="/user/profile/{{listPosts.topic.user.id}}" ngbTooltip="View Profile of {{listPosts.topic.user.nick}}">{{listPosts.topic.user.nick}}</a>
-                        <small ngbTooltip="Description of the role {{listPosts.topic.user.rol}}" placement="bottom">{{listPosts.topic.user.rol}}</small>
+                        <a routerLink="/user/profile/{{listPosts.topic.user.id}}"
+                            ngbTooltip="View Profile of {{listPosts.topic.user.nick}}">{{listPosts.topic.user.nick}}</a>
+                        <small ngbTooltip="Description of the role {{listPosts.topic.user.rol}}"
+                            placement="bottom">{{listPosts.topic.user.rol}}</small>
                     </div>
                 </div>
                 <div class="post-main">
                     <div class="post-body">
                         <div class="post-header">
-                            <p class="post-date" ngbTooltip="Created {{listPosts.topic.created_at | ago}}">{{listPosts.topic.created_at | ago}}</p>
+                            <p class="post-date" ngbTooltip="Created {{listPosts.topic.created_at | ago}}">
+                                {{listPosts.topic.created_at | ago}}</p>
                             <div *ngIf="listPosts.can_edit" class="edit-buttons">
-                                <button routerLink="/topic/edit/{{listPosts.topic.id}}" class="btn-edit" ngbTooltip="Edit the Topic" type="button"><fa-icon
+                                <button routerLink="/topic/edit/{{listPosts.topic.id}}" class="btn-edit"
+                                    ngbTooltip="Edit the Topic" type="button"><fa-icon
                                         [icon]="['fas', 'pen']"></fa-icon></button>
                                 <button (click)="deleteTopic(listPosts.topic.id)" ngbTooltip="Delete the Topic"
                                     class="btn-delete" type="button"><fa-icon
@@ -146,7 +153,8 @@
                         <p class="content" [innerHTML]="listPosts.topic.content"></p>
                     </div>
                     <div *ngIf="listPosts.topic.created_at != listPosts.topic.updated_at" class="post-footer">
-                        <p ngbTooltip="Updated {{listPosts.topic.updated_at | ago}}">{{listPosts.topic.updated_at | ago}}</p>
+                        <p ngbTooltip="Updated {{listPosts.topic.updated_at | ago}}">{{listPosts.topic.updated_at |
+                            ago}}</p>
                     </div>
                 </div>
             </div>
@@ -154,14 +162,17 @@
                 <div class="user-card">
                     <app-avatar [user]="post.user"></app-avatar>
                     <div class="text">
-                        <a routerLink="/user/profile/{{post.user.id}}" ngbTooltip="View Profile of {{post.user.nick}}">{{post.user.nick}}</a>
-                        <small ngbTooltip="Description of the role {{post.user.rol}}" placement="bottom">{{post.user.rol}}</small>
+                        <a routerLink="/user/profile/{{post.user.id}}"
+                            ngbTooltip="View Profile of {{post.user.nick}}">{{post.user.nick}}</a>
+                        <small ngbTooltip="Description of the role {{post.user.rol}}"
+                            placement="bottom">{{post.user.rol}}</small>
                     </div>
                 </div>
                 <div class="post-main">
                     <div class="post-body">
                         <div class="post-header">
-                            <p class="post-date" ngbTooltip="Created {{post.created_at | ago}}">{{post.created_at | ago}}</p>
+                            <p class="post-date" ngbTooltip="Created {{post.created_at | ago}}">{{post.created_at |
+                                ago}}</p>
                             <div *ngIf="post.can_edit" class="edit-buttons">
                                 <button class="btn-edit" ngbTooltip="Edit the Post" type="button"
                                     routerLink="/post/edit/{{post.id}}"><fa-icon
@@ -182,8 +193,10 @@
                     <div class="user-card">
                         <app-avatar [user]="userLogged.userData"></app-avatar>
                         <div class="text">
-                            <a routerLink="/user/profile/{{userLogged.userData.id}}" ngbTooltip="View Your Profile">{{userLogged.userData.nick}}</a>
-                            <small ngbTooltip="Description of the role {{userLogged.userData.rol}}" placement="bottom">{{userLogged.userData.rol}}</small>
+                            <a routerLink="/user/profile/{{userLogged.userData.id}}"
+                                ngbTooltip="View Your Profile">{{userLogged.userData.nick}}</a>
+                            <small ngbTooltip="Description of the role {{userLogged.userData.rol}}"
+                                placement="bottom">{{userLogged.userData.rol}}</small>
                         </div>
                     </div>
                     <div class="editor">

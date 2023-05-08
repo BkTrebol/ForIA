@@ -8,7 +8,7 @@
     </form>
     <nav *ngIf="userIsAuthenticated">
         <ul>
-            <li><a routerLink="/category/3" routerLinkActive="active"><fa-icon
+            <li><a routerLink="/category/2" routerLinkActive="active"><fa-icon
                         [icon]="['fas', 'newspaper']"></fa-icon><span>News</span></a>
             </li>
             <li><a routerLink="/topic/1" routerLinkActive="active"><fa-icon
@@ -43,7 +43,7 @@
 
     <nav *ngIf="!userIsAuthenticated">
         <ul>
-            <li><a routerLink="/category/3" routerLinkActive="active"><fa-icon
+            <li><a routerLink="/category/2" routerLinkActive="active"><fa-icon
                         [icon]="['fas', 'newspaper']"></fa-icon><span>News</span></a>
             </li>
             <li><a routerLink="/topic/1" routerLinkActive="active"><fa-icon

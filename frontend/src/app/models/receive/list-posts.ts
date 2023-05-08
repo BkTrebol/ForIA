@@ -14,6 +14,7 @@ export interface ListPosts {
 export interface Poll {
   can_vote: boolean;
   can_edit?: boolean;
+  can_close?: boolean;
   finish_date: string;
   id: number;
   name: string;

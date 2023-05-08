@@ -29,6 +29,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   public authData: AuthData;
   public loading: boolean[];
   public coll: boolean;
+  public lastPostToggle: boolean;
 
   @HostBinding('style.order') order = 0;
   @HostBinding('style.width') width = '240px';
@@ -62,6 +63,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     });
     this.loading = [true, true, true, true, true];
     this.coll = false;
+    this.lastPostToggle = false;
   }
 
   ngOnInit(): void {

@@ -43,6 +43,7 @@ class TopicController extends Controller
             $poll['can_vote'] = !$user ? false :
                 !$poll->voted($user->id) && ($poll->finish_date == null || $poll->finish_date > now());
             $poll['can_edit'] = ($poll->answers->count() == 0 && $user->id == $topic->user_id) || $isAdmin || $isMod;
+            $poll['can_close'] = ($user->id == $topic->user_id) || $isAdmin || $isMod;
         }
 
         $response = [
