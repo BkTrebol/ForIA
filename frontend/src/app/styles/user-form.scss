@@ -322,16 +322,22 @@
           border-radius: 8px;
         }
       }
+      hr {
+        margin-top: 16px;
+        margin-bottom: -8px;
+        width: 100%;
+        border-radius: 8px;
+      }
     }
     // Links in the form
     .form-links {
       width: 100%;
       @include col(space-around, 16px);
-      hr {
-        width: 100%;
-        border-radius: 8px;
-        margin-bottom: 12px;
-      }
+      // hr {
+      //   width: 100%;
+      //   border-radius: 8px;
+      //   margin-bottom: 12px;
+      // }
       a {
         cursor: pointer;
       }

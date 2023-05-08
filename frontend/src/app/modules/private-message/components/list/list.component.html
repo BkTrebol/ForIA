@@ -64,14 +64,14 @@
                                 ngbTooltip="{{pm.viewed ? 'Already Viewed' : 'Not Viewed'}}">
                             </fa-icon>
                             <div class="message-body">
-                                <a class="user-link" routerLink="{{pm.id}}">{{pm.title}}</a>
+                                <a class="user-link" routerLink="{{pm.id}}" ngbTooltip="View the History of {{pm.title}}">{{pm.title}}</a>
                                 <div class="user-date">
-                                    <a routerLink="/user/profile/{{pm.sender?.id}}">{{pm.sender?.nick}}</a>
+                                    <a routerLink="/user/profile/{{pm.sender?.id}}" ngbTooltip="View the Profile of {{pm.sender?.nick}}" placement="bottom">{{pm.sender?.nick}}</a>
                                     {{pm.created_at | ago}}
                                 </div>
                             </div>
                         </div>
-                        <div class="message-checkbox"><input type="checkbox" (click)="deletePm(pm.id,'received')"
+                        <div class="message-checkbox" ngbTooltip="Check for delete"><input type="checkbox" (click)="deletePm(pm.id,'received')"
                                 [checked]="deleteReceived.includes(pm.id)"></div>
                     </div>
                     <div class="list-footer" *ngIf="messages.received.messages.length == 0">
@@ -81,7 +81,7 @@
                         <div class="align-right">
                             <button class="btn2" [disabled]="deleteReceived.length == 0" (click)="onDeletePms()">
                                 <fa-icon [icon]="['fas', 'trash']"></fa-icon>
-                                Delete Selected</button>
+                                Delete Selected ({{deleteReceived.length}})</button>
                         </div>
                         <app-pagination [current_page]="messages.received.page.current"
                             [last_page]="messages.received.page.last" [ignoreParams]="true"
@@ -105,13 +105,13 @@
             <div class="mess">
                 <fa-icon [icon]="[pm.viewed ?'far' : 'fas', 'paper-plane']" ngbTooltip="{{pm.viewed ? 'Already Viewed' : 'Not Viewed'}}">></fa-icon>
                 <div class="message-body">
-                    <a routerLink="{{pm.id}}">{{pm.title}}</a>
+                    <a routerLink="{{pm.id}}" ngbTooltip="View the History of {{pm.title}}">{{pm.title}}</a>
                     <div class="user-date"><a class="user-link"
-                            routerLink="/user/profile/{{pm.receiver?.id}}">{{pm.receiver?.nick}}</a>
+                            routerLink="/user/profile/{{pm.receiver?.id}}" ngbTooltip="View the Profile of {{pm.receiver?.nick}}" placement="bottom">{{pm.receiver?.nick}}</a>
                         {{pm.created_at | ago}}</div>
                 </div>
             </div>
-            <div class="message-checkbox"><input type="checkbox" (click)="deletePm(pm.id,'sent')"
+            <div class="message-checkbox" ngbTooltip="Check for delete"><input type="checkbox" (click)="deletePm(pm.id,'sent')"
                     [checked]="deleteSent.includes(pm.id)"></div>
         </div>
         <div class="list-footer" *ngIf="messages.sent.messages.length == 0">
@@ -121,7 +121,7 @@
             <div class="align-right">
                 <button class="btn2" [disabled]="deleteSent.length == 0" (click)="onDeletePms()">
                     <fa-icon [icon]="['fas', 'trash']"></fa-icon>
-                    Delete Selected</button>
+                    Delete Selected ({{deleteSent.length}})</button>
             </div>
             <app-pagination [current_page]="messages.sent.page.current" [last_page]="messages.sent.page.last"
                 [ignoreParams]="true" (changePage)="changeSentPage($event)">

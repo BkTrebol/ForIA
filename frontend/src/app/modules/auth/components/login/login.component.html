@@ -27,7 +27,7 @@
                             placeholder="Password" required>
                         <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
                     </div>
-                    <fa-icon class="eye" [icon]="['fas', canShow ? 'eye':'eye-slash']" (click)="changeShow()"></fa-icon>
+                    <fa-icon class="eye" [icon]="['fas', canShow ? 'eye':'eye-slash']" (click)="changeShow()" ngbTooltip="{{canShow ? 'Hide': 'Show'}} the Password" placement="bottom"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!password?.valid && password?.touched">
                     <ng-container *ngFor="let validation of validationMessagesLogin.password | keyvalue">
@@ -63,11 +63,12 @@
                 data-auto_prompt="false">
             </div>
             <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="filled_black"
-                data-text="signin" data-size="large" data-logo_alignment="left">
+                data-text="signin" data-size="large" data-logo_alignment="left" ngbTooltip="Log in with google" placement="bottom">
             </div>
+            <hr>
         </div>
         <div class="form-links">
-            <hr>
+            <!-- <hr> -->
             <p>Forgot your password? <a routerLink="/auth/reset-password">Reset Password</a></p>
             <p>New user? <a routerLink="/auth/register">Register</a></p>
         </div>

@@ -40,7 +40,7 @@
                             required>
                         <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
                     </div>
-                    <fa-icon class="eye" [icon]="['fas', canShow ? 'eye':'eye-slash']" (click)="changeShow()"></fa-icon>
+                    <fa-icon class="eye" [icon]="['fas', canShow ? 'eye':'eye-slash']" (click)="changeShow()" ngbTooltip="{{canShow ? 'Hide': 'Show'}} the Password" placement="bottom"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!password?.valid && password?.touched">
                     <ng-container *ngFor="let validation of validationMessagesRegister.password | keyvalue">
@@ -59,7 +59,7 @@
                         <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
                     </div>
                     <fa-icon class="eye" [icon]="['fas', canShowConf ? 'eye':'eye-slash']"
-                        (click)="changeShowConf()"></fa-icon>
+                        (click)="changeShowConf()" ngbTooltip="{{canShowConf ? 'Hide': 'Show'}} the Password Confirmation" placement="bottom"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!password_confirmation?.valid && password_confirmation?.touched">
                     <ng-container
@@ -77,17 +77,11 @@
                         <label for="terms">Terms and Conditions</label>
                     </div>
                 </div>
-                <div *ngIf="!terms?.value" class="row-field" (click)="openTermsModal(termsModal)">
-                    <span><span class="red">* </span> <span class="und">Read Terms and Conditions</span></span>
+                <div *ngIf="!terms?.value" class="row-field" (click)="openTermsModal(termsModal)" ngbTooltip="Read Terms and Conditions" placement="bottom">
+                    <span><span class="red">* </span> <span class="und">Terms and Conditions</span></span>
                     <fa-icon [icon]="['fas', 'file']"></fa-icon>
                 </div>
             </div>
-            <!-- <div class="group">
-                <div class="row-field">
-                    <input type="checkbox" id="newsletter" formControlName="remember_me">
-                    <label for="newsletter">Recieve Newsletters</label>
-                </div>
-            </div> -->
         </div>
         <div class="btn-field">
             <button [disabled]="formRegister.invalid" class="btn-send">

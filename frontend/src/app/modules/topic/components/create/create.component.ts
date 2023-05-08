@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Subject, takeUntil } from 'rxjs';
@@ -14,6 +14,7 @@ import { CategoryService } from 'src/app/modules/category/service/category.servi
   selector: 'app-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss', '../../../../styles/card.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class CreateComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;

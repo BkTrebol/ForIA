@@ -32,14 +32,14 @@
             <h1>{{privateMessageList?.message?.title}}</h1>
         </div>
         <div class="list-body">
-            <button class="btn-a" routerLink="/private-message/reply/{{pmId}}">
+            <button class="btn-a" routerLink="/private-message/reply/{{pmId}}" ngbTooltip="Reply to {{privateMessageList?.message?.title}}">
                 <fa-icon [icon]="['fas', 'reply']"></fa-icon>
                 Reply
             </button>
             <ng-container *ngIf="privateMessageList">
                 <div *ngIf="privateMessageList.message.hasOwnProperty('content')" class="messages">
                     <ng-container *ngTemplateOutlet="message; context:{pm: privateMessageList.message}"></ng-container>
-                    <h2 class="title-history"><span (click)="toggle()">
+                    <h2 class="title-history"><span (click)="toggle()" ngbTooltip="{{ocult ? 'Expand': 'Hide'}} History" placement="bottom">
                             <fa-icon [icon]="['fas', ocult ? 'chevron-right': 'chevron-down']"></fa-icon>
                             Historial de missatges</span>
                         <fa-icon [icon]="[ocult ? 'far': 'fas', 'clock']"></fa-icon>
@@ -56,8 +56,8 @@
                             <app-avatar [user]="userLogged.userData"></app-avatar>
                             <div class="text">
                                 <a
-                                    routerLink="/user/profile/{{userLogged.userData.id}}">{{userLogged.userData.nick}}</a>
-                                <small>{{userLogged.userData.rol}}</small>
+                                    routerLink="/user/profile/{{userLogged.userData.id}}" ngbTooltip="View Your Profile">{{userLogged.userData.nick}}</a>
+                                <small ngbTooltip="Description of the role {{userLogged.userData.rol}}">{{userLogged.userData.rol}}</small>
                             </div>
                         </div>
                         <div class="editor">
@@ -90,7 +90,7 @@
         <div class="body">
             <div class="title">
                 <h3>{{pm.title}}</h3>
-                <p>From: <a routerLink="/user/profile/{{pm.sender.id}}">{{pm.sender.nick}}</a> on {{pm.created_at |
+                <p>From: <a routerLink="/user/profile/{{pm.sender.id}}" ngbTooltip="View Profile of {{pm.sender.nick}}" placement="bottom">{{pm.sender.nick}}</a> on {{pm.created_at |
                     date}}
                 </p>
             </div>
@@ -100,8 +100,8 @@
         <div class="user-avatar">
             <app-avatar [user]="pm.sender"></app-avatar>
             <div class="text">
-                <a routerLink="/user/profile/{{pm.sender.id}}">{{pm.sender.nick}}</a>
-                <p>{{pm.sender.rol}}</p>
+                <a routerLink="/user/profile/{{pm.sender.id}}" ngbTooltip="View Profile of {{pm.sender.nick}}">{{pm.sender.nick}}</a>
+                <p ngbTooltip="Description of the role {{pm.sender.rol}}" placement="bottom">{{pm.sender.rol}}</p>
             </div>
         </div>
     </div>

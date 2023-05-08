@@ -4,12 +4,12 @@
   font-size: $size-btn;
 }
 .dark {
-  background-color: $color-black-grey;
-  color: $color-white;
+  background-color: $color-white-grey;
+  color: $color-black;
 }
 .light {
-  background-color: $color-white-clear;
-  color: $color-black;
+  background-color: $color-black-clear;
+  color: $color-white;
 }
 .toast-body {
   display: flex;

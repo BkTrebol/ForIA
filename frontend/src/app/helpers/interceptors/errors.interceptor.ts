@@ -28,27 +28,23 @@ export class ErrorsInterceptor implements HttpInterceptor {
         if (error.error instanceof ErrorEvent) {
           // console.log('This is client side error');
           // errorMsg = `Error: ${error.error.message}`;
+
         } else {
           if (error.status === 500) {
-            this.toastService.showDanger('Server error', error.error.message);
+            this.toastService.showDanger('Server error');
           } else if (error.status === 403) {
-            this.toastService.showDanger('Unauthorized', error.error.message);
+            this.toastService.showDanger('Unauthorized');
           } else if (
             error.status === 401 &&
             !error.url?.includes('/auth/data')
           ) {
-            this.toastService.showDanger(
-              'Unauthenticated',
-              error.error.message
-            );
-          } else if (
-            error.status === 422
-          ) {
-            this.toastService.showDanger(
-              'Invalid form',
-              error.error.message
-            );
+            this.toastService.showDanger('Unauthenticated');
+          } else if (error.status === 422) {
+            this.toastService.showDanger('Invalid form data');
+          } else if (!error.url?.includes('/auth/data')) {
+            this.toastService.showDanger('Unknown Error');
           }
+
           // console.log('This is server side error');
           // errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
         }

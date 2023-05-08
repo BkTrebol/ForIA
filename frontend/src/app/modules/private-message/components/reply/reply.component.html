@@ -12,8 +12,8 @@
                     <div class="user-card">
                         <app-avatar [user]="userLogged.userData"></app-avatar>
                         <div class="text">
-                            <a routerLink="/user/profile/{{userLogged.userData.id}}">{{userLogged.userData.nick}}</a>
-                            <small>{{userLogged.userData.rol}}</small>
+                            <a routerLink="/user/profile/{{userLogged.userData.id}}" ngbTooltip="View Your Profile">{{userLogged.userData.nick}}</a>
+                            <small ngbTooltip="Description of the role {{userLogged.userData.rol}}" placement="bottom">{{userLogged.userData.rol}}</small>
                         </div>
                     </div>
                     <div class="editor">

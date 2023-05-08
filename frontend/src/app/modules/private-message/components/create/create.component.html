@@ -6,7 +6,7 @@
         <div class="list-body">
             <div class="editor-parent" *ngIf="userLogged">
                 <div class="custom-search">
-                    <input type="text" class="editor-title" placeholder="Title" [(ngModel)]="message.title">
+                    <input type="text" class="editor-title" placeholder="Title" [(ngModel)]="message.title" ngbTooltip="Title is Required">
                     <div class="user-search">
                         <ng-select [placeholder]="'User'" [items]="userList$ | async" class="select" bindLabel="nick"
                             bindValue="id" [(ngModel)]="message.recipient">
@@ -17,8 +17,8 @@
                     <div class="user-card">
                         <app-avatar [user]="userLogged.userData"></app-avatar>
                         <div class="text">
-                            <a routerLink="/user/profile/{{userLogged.userData.id}}">{{userLogged.userData.nick}}</a>
-                            <small>{{userLogged.userData.rol}}</small>
+                            <a routerLink="/user/profile/{{userLogged.userData.id}}" ngbTooltip="View Your Profile">{{userLogged.userData.nick}}</a>
+                            <small ngbTooltip="Description of the role {{userLogged.userData.rol}}" placement="bottom">{{userLogged.userData.rol}}</small>
                         </div>
                     </div>
                     <div class="editor">
