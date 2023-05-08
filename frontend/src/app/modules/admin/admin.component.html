@@ -1,8 +1,6 @@
-<div class="bg-dark text-white d-flex min-vw-100 w-100 min-vh-100 h-100 ">
+<div *ngIf="!loading" class="bg-dark text-white d-flex min-vw-100 w-100 min-vh-100 h-100 ">
   <app-sidenav *ngIf="isAdmin"></app-sidenav>
   <main class="container p-0">
     <router-outlet></router-outlet>
   </main>
 </div>
-
-<!-- <app-toasts aria-live="polite" aria-atomic="true"></app-toasts> -->

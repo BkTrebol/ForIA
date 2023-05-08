@@ -47,7 +47,6 @@ class DatabaseSeeder extends Seeder
         $user = User::factory()->create(
             [
             'email' => 'mod@mod.com',
-
             ]
         );
         $user->roles()->attach([$modRole->id]);
@@ -55,7 +54,6 @@ class DatabaseSeeder extends Seeder
         $user = User::factory()->create(
             [
             'email' => 'welcome@mod.com',
-
             ]
         );
         $modWelcomeRole = Role::create([
@@ -69,6 +67,7 @@ class DatabaseSeeder extends Seeder
             'suspension' => fake()->dateTimeBetween('+1year', '+10 year'),
             ]
         );
+
         User::factory()->create(
             [
             'email' => 'notverified@user.com',

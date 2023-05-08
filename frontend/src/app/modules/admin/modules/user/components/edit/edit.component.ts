@@ -38,18 +38,7 @@ export class EditComponent implements OnInit, OnDestroy {
     this.unsubscribe$ = new Subject();
     this.roleList = [];
     this.loading = true;
-    this.editUserForm = this.fb.group({
-      nick: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      email_verified_at: [null],
-      password: ['', Validators.required],
-      location: [''],
-      birthday: [null],
-      avatar: [''],
-      rol: ['User'],
-      suspension: [null],
-      roles:[null]
-    });
+    this.editUserForm = this.fb.group({});
   }
 
   ngOnInit() {
@@ -64,9 +53,20 @@ export class EditComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this.unsubscribe$))
     .subscribe({
       next: r => {
-        console.log(r)
         this.loading = false;
         this.user = r;
+        this.editUserForm = this.fb.group({
+          nick: [r.nick, Validators.required],
+          email: [r.email, [Validators.required, Validators.email]],
+          email_verified_at: [r.verified],
+          password: ['', Validators.required],
+          location: [r.location],
+          birthday: [r.birthday],
+          avatar: [r.avatar],
+          rol: [r.rol],
+          suspension: [r.suspension],
+          roles:[r.roles]
+        });
       }
     });
   }

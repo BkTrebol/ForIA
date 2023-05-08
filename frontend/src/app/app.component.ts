@@ -51,7 +51,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(filter((event) => event instanceof NavigationStart || event instanceof NavigationEnd))
       .subscribe((event: any) => {
         this.isAdminRoute = event.url.startsWith('/admin');
-        if(event instanceof NavigationEnd){
+        if(event instanceof NavigationEnd && event.url.startsWith('/admin')){
           this.loading = false;
         }
       });

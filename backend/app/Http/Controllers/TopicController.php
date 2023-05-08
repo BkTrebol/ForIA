@@ -63,6 +63,7 @@ class TopicController extends Controller
                 "total" => $posts->total()
             ],
         ];
+        
         if ($posts->onFirstPage()) {
             $response['topic'] = $topic->only('id', 'title', 'created_at', 'updated_at', 'content', 'user');
         } else {

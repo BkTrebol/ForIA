@@ -1,5 +1,7 @@
-<form [formGroup]="editUserForm" (ngSubmit)="onSubmit()">
+<div class="container row align-items-center h-100 min-vh-100 " *ngIf="!loading; else loadingTemplate">
 
+
+<form [formGroup]="editUserForm" (ngSubmit)="onSubmit()">
     <div class="form-floating mb-3">
         <input type="text" class="form-control" formControlName="nick" id="nick" placeholder="Nick"
         [ngClass]="{ 'is-invalid': (nick?.invalid && nick?.touched) || nickUnique}"
@@ -84,3 +86,10 @@
 
     <button type="submit" class="btn btn-primary" [disabled]="editUserForm.invalid">Save</button>
 </form>
+</div>
+
+<ng-template #loadingTemplate>
+    <div class="page-loading-admin dark">
+      <img class="logoIA" src="/assets/svg/logoIA.svg" height="400" alt="loading spinner">
+    </div>
+  </ng-template>
