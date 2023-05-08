@@ -6546,11 +6546,11 @@ textarea.form-control-lg {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-danger-rgb), var(--bs-bg-opacity)) !important; }
 
-.bg-light, .page-loading.light {
+.bg-light, .page-loading-admin.light {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; }
 
-.bg-dark, .page-loading.dark {
+.bg-dark, .page-loading-admin.dark {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important; }
 
@@ -8384,14 +8384,14 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important; } }
 
-.page-loading {
+.page-loading-admin {
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 999;
   width: 100%;
   height: 100%; }
-  .page-loading img {
+  .page-loading-admin img {
     height: 400px;
     animation: gir 5s linear infinite; }
 

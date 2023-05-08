@@ -1,7 +1,7 @@
 import {  Component,Renderer2, OnDestroy, OnInit, ViewEncapsulation, ElementRef } from '@angular/core';
 import { AuthService } from '../auth/service/auth.service';
-import { Subject, takeUntil } from 'rxjs';
-import {  Router } from '@angular/router';
+import { Subject, filter, takeUntil } from 'rxjs';
+import {  NavigationEnd, NavigationStart, Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -13,6 +13,7 @@ export class AdminComponent implements OnInit,OnDestroy {
   private unsubscribe$: Subject<void>;
   public isAdmin:boolean;
   private styleSheet: HTMLLinkElement |undefined;
+  public loading:boolean;;
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
@@ -21,8 +22,15 @@ export class AdminComponent implements OnInit,OnDestroy {
   ){
     this.unsubscribe$ = new Subject();
     this.isAdmin = false;
+    this.loading = true;
   }
   ngOnInit(): void {
+    this._router.events
+    .pipe(filter((event) => event instanceof NavigationEnd))
+    .subscribe((event: any) => {
+        this.loading = false;
+    });
+    
     this.styleSheet = this.renderer.createElement('link');
     this.renderer.setAttribute(this.styleSheet, 'rel', 'stylesheet');
     this.renderer.setAttribute(this.styleSheet, 'href', 'assets/adminStyles.css');
