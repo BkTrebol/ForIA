@@ -1,12 +1,14 @@
-<ngb-toast *ngFor="let toast of toastService.toasts" [class]="toast.classname"
-    [autohide]="true" [delay]="toast.delay || 4000" (hidden)="toastService.remove(toast)" class="{{theme}}">
-    <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
-        <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
-    </ng-template>
-
-    <ng-template #text>
-        {{ toast.textOrTpl }}
-    </ng-template>
+<ngb-toast *ngFor="let toast of toastService.toasts" [class]="toast.classname" [autohide]="true"
+    [delay]="toast.delay || 4000" (hidden)="toastService.remove(toast)" class="{{theme}}">
+    <div class="toast-body">
+        <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
+            <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
+        </ng-template>
+        <ng-template #text>
+            {{ toast.textOrTpl }}
+        </ng-template>
+        <button class="btn-close {{theme}}" (click)="toastService.remove(toast)"><b>&#10006;</b></button>
+    </div>
 </ngb-toast>
 
 <ngb-toast *ngFor="let toast of toastService.dangerToasts" class="text-black bg-danger" [class]="toast.classname"
@@ -18,6 +20,7 @@
         </ng-template>
         <ng-template #text>{{ toast.textOrTpl }}</ng-template>
 
-        <button class="btn-close" (click)="toastService.remove(toast,'dangerToasts')"><b>&#10006;</b></button>
+        <!-- <b>&#10006;</b> -->
+        <button class="btn-close" (click)="toastService.remove(toast,'dangerToasts')"></button>
     </div>
 </ngb-toast>

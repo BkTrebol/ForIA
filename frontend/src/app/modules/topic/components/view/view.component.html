@@ -77,7 +77,7 @@
                             [icon]="['fas', 'flag-checkered']"></fa-icon></button>
                     <a class="btn-edit" ngbTooltip="Edit the Poll" routerLink="/topic/{{listPosts.topic.id}}/poll/edit"
                         *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'pen']"></fa-icon></a>
-                    <button class="btn-delete" ngbTooltip="Delete the Poll" type="button" (click)="deletePoll()"
+                    <button class="btn-delete" ngbTooltip="Delete the Poll" type="button" (click)="openModal(deleteModalPoll)"
                         *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
                 </div>
                 <div class="poll-option-vote">
@@ -103,7 +103,7 @@
                             [icon]="['fas', (listPosts.poll.finish_date | finished) <= 0 ? 'flag-checkered' : 'lock-open']"></fa-icon></button>
                     <a class="btn-edit" ngbTooltip="Edit the Poll" routerLink="/topic/{{listPosts.topic.id}}/poll/edit"
                         *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'pen']"></fa-icon></a>
-                    <button class="btn-delete" ngbTooltip="Delete the Poll" type="button" (click)="deletePoll()"
+                    <button class="btn-delete" ngbTooltip="Delete the Poll" type="button" (click)="openModal(deleteModalPoll)"
                         *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
                 </div>
                 <div class="poll-vote">
@@ -118,7 +118,6 @@
                     Back to vote</button>
             </div>
             <div class="poll-view">
-                <!-- TODO add finsh data -->
                 <p *ngIf="(listPosts.poll.finish_date | finished) <= 0">Finishes: {{listPosts.poll.finish_date | date }}
                 </p>
                 <p *ngIf="(listPosts.poll.finish_date | finished) > 0">Finished: {{listPosts.poll.finish_date | date }}
@@ -145,7 +144,7 @@
                                 <button routerLink="/topic/edit/{{listPosts.topic.id}}" class="btn-edit"
                                     ngbTooltip="Edit the Topic" type="button"><fa-icon
                                         [icon]="['fas', 'pen']"></fa-icon></button>
-                                <button (click)="deleteTopic(listPosts.topic.id)" ngbTooltip="Delete the Topic"
+                                <button (click)="openModal(deleteModalTopic)" ngbTooltip="Delete the Topic"
                                     class="btn-delete" type="button"><fa-icon
                                         [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
@@ -178,7 +177,7 @@
                                     routerLink="/post/edit/{{post.id}}"><fa-icon
                                         [icon]="['fas', 'pen']"></fa-icon></button>
                                 <button class="btn-delete" ngbTooltip="Delete the Post" type="button"
-                                    (click)="deletePost(post.id)"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
+                                    (click)="openModalPost(deleteModalPost, post.id)"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
                         </div>
                         <p class="content" [innerHTML]="post.content"></p>
@@ -220,3 +219,46 @@
         </div>
     </div>
 </div>
+
+<ng-template #deleteModalPoll let-modal>
+    <div class="modal-header">
+        <h3 class="modal-title">Confirm the deletion</h3>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <p>Delete the poll: {{pollResults?.name}} (with {{pollResults?.votes}} vote{{pollResults?.votes != 1 ? 's': ''}})</p>
+    </div>
+    <div class="modal-footer d-felx justify-content-between">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="deletePoll(); modal.close('Close click')">Delete</button>
+    </div>
+</ng-template>
+
+<ng-template #deleteModalTopic let-modal>
+    <div class="modal-header">
+        <h3 class="modal-title">Confirm the deletion</h3>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <p>Delete the topic: {{listPosts.topic.title | capitalize}}</p>
+    </div>
+    <div class="modal-footer d-felx justify-content-between">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel</button>
+        <button type="button" class="btn btn-danger"
+            (click)="deleteTopic(listPosts.topic.id); modal.close('Close click')">Delete</button>
+    </div>
+</ng-template>
+
+<ng-template #deleteModalPost let-modal>
+    <div class="modal-header">
+        <h3 class="modal-title">Confirm the deletion</h3>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <p>Delete the post</p>
+    </div>
+    <div class="modal-footer d-felx justify-content-between">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="deletePost(post_delete); modal.close('Close click')">Delete</button>
+    </div>
+</ng-template>

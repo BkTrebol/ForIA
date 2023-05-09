@@ -21,6 +21,7 @@
 }
 
 .btn-close {
+  cursor: pointer;
   position: relative;
   right: -0.5rem;
   padding: 0.25rem 0.5rem;
@@ -28,6 +29,12 @@
   background-color: transparent;
   border: 0;
   z-index: 100;
+  &.dark:hover{
+    color: $color-black;
+  }
+  &.light:hover{
+    color: $color-white;
+  }
 }
 
 .btn-close:hover {

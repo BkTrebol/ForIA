@@ -34,7 +34,7 @@ export class PollComponent implements OnInit, OnDestroy {
     this.topicId = 0;
     this.title = '';
     this.poll = {
-      finish_date: undefined,
+      finish_date: '',
       name: '',
       options: [{ option: '' }, {option: ''}],
     };
@@ -73,15 +73,22 @@ export class PollComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.topicService
-      .poll(this.topicId, this.poll)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (r) => {
-          this.router.navigate([`/topic/${r.id}`]);
-        },
-        error: (e) => console.log(e),
-      });
+
+
+    if (this.poll.finish_date && this.poll.finish_date >= new Date().toJSON().slice(0, 10)) {
+      this.topicService
+        .poll(this.topicId, this.poll)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: (r) => {
+            this.router.navigate([`/topic/${r.id}`]);
+          },
+          error: (e) => console.log(e),
+        });
+    }
+    else {
+      this.error = "The finish date of the poll can't be in the past"
+    }
   }
 
   ngOnDestroy(): void {

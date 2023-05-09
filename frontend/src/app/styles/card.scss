@@ -302,6 +302,15 @@
               color: $color-grey-clear;
             }
           }
+          .poll-date {
+            input {
+              background-color: $color-black-grey;
+              color: $color-white-clear;
+              &::-webkit-calendar-picker-indicator {
+                filter: invert(100%);
+              }
+            }
+          }
         }
         .poll-view {
           .poll-vote,
@@ -647,6 +656,12 @@
               color: $color-grey-dark;
             }
           }
+          .poll-date {
+            input {
+              background: $color-grey-clear;
+              color: $color-black-clear;
+            }
+          }
         }
         .poll-view {
           .poll-vote,
@@ -908,6 +923,10 @@
       }
     }
     .list-body {
+      .error {
+        font-size: $size-text;
+        color: $color-tertiary;
+      }
       .btn2 {
         @include btn2($color-gradient2);
         margin: 16px 8px;
@@ -1270,6 +1289,16 @@
         .poll-name {
           margin: 24px 0;
         }
+        .poll-date {
+          margin-bottom: 24px;
+          @include col(space-between, 8px);
+          label {
+            cursor: pointer;
+          }
+          input {
+            cursor: pointer;
+          }
+        }
         .poll-options {
           margin-bottom: 16px;
           @include col(space-evenly, 24px);
@@ -1382,10 +1411,10 @@
               }
             }
           }
-          label{
+          label {
             cursor: pointer;
           }
-          h2{
+          h2 {
             margin-bottom: 8px;
           }
         }

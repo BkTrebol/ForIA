@@ -6,10 +6,10 @@ export interface Topic {
   poll: Poll;
 }
 
-export interface Poll{
-    name :string,
-    finish_date?:Date,
-    options:Array<PollOption>
+export interface Poll {
+  name: string;
+  finish_date?: string;
+  options: Array<PollOption>;
 }
 
 interface PollOption {

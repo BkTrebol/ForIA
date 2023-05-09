@@ -41,6 +41,8 @@ export class ErrorsInterceptor implements HttpInterceptor {
             this.toastService.showDanger('Unauthenticated');
           } else if (error.status === 422) {
             this.toastService.showDanger('Invalid form data');
+          } else if (error.status === 404) {
+            this.toastService.showDanger('Page not found');
           } else if (!error.url?.includes('/auth/data')) {
             this.toastService.showDanger('Unknown Error');
           }

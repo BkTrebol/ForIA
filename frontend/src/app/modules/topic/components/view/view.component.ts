@@ -21,6 +21,7 @@ import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { Global } from 'src/environment/global';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-view',
@@ -46,6 +47,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     userPreferences: UserPreferences;
   } | null;
   public actualDate: Date;
+  public post_delete: number;
 
   constructor(
     private topicService: TopicService,
@@ -53,7 +55,8 @@ export class ViewComponent implements OnInit, OnDestroy {
     private router: Router,
     private themeService: ThemeService,
     private toastService: ToastService,
-    private authService: AuthService
+    private authService: AuthService,
+    private modalService: NgbModal
   ) {
     this.showResults = false;
     this.vote = null;
@@ -110,9 +113,8 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.theme = themeService.getTheme();
     this.userLogged = null;
     this.actualDate = new Date();
+    this.post_delete = NaN
   }
-
-  //TODO Delete Topic, Edit Topic, Edit Post, Revisar Delete Post
 
   ngOnInit() {
     this.route.params
@@ -333,6 +335,15 @@ export class ViewComponent implements OnInit, OnDestroy {
         console.log(err);
       },
     });
+  }
+
+  openModal(modal: any) {
+    this.modalService.open(modal, { centered: true });
+  }
+
+  openModalPost(modal: any, id: number) {
+    this.post_delete = id
+    this.modalService.open(modal, { centered: true });
   }
 
   scrollToTop() {

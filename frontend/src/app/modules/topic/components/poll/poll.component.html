@@ -9,6 +9,10 @@
                 <div class="poll-name">
                     <input type="text" placeholder="Poll Name" [(ngModel)]="poll.name">
                 </div>
+                <div class="poll-date">
+                    <label for="date">Finish date</label>
+                    <input id="date" type="date" [(ngModel)]="poll.finish_date">
+                </div>
                 <div class="poll-options">
                     <div class="poll-option" *ngFor="let opt of poll.options; index as i;">
                         <input type="text" placeholder="Option {{i+1}}" [(ngModel)]="poll.options[i].option">
@@ -23,8 +27,8 @@
                         </button>
                     </div>
                 </div>
-
-                <button class="btn-s" type="submit" [disabled]="poll.name == '' || poll.name.length < 3 || poll.options.length < 2"
+                <p class="error" *ngIf="error != ''"><fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}</p>
+                <button class="btn-s" type="submit" [disabled]="poll.name == '' || poll.name.length < 3 || poll.options.length < 2 || poll.finish_date == '' "
                     (click)="onSubmit()">Submit</button>
             </div>
         </div>

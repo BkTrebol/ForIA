@@ -213,6 +213,9 @@
             cursor: pointer;
           }
         }
+        label {
+          cursor: pointer;
+        }
         .field {
           // Space between the input and the icon
           @include row(space-between, 32px);
@@ -235,10 +238,9 @@
           .input.ng-invalid.ng-touched + .icon {
             color: $color-tertiary;
           }
-          // .input.ng-valid + .icon {
-          //   color: $color-shades1;
-          // }
-
+          .date {
+            cursor: pointer;
+          }
           // Border red for invalid input
           // .input.ng-invalid.ng-touched {
           //   outline: $color-tertiary solid thin;
