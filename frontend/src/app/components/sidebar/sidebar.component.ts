@@ -1,9 +1,7 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { SidebarService } from 'src/app/helpers/services/sidebar.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
-import { AuthData } from 'src/app/models/auth-data';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 
 @Component({
@@ -25,11 +23,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
     lastUser: any;
     lastPoll: any;
   };
-  public loginForm: FormGroup;
-  public authData: AuthData;
-  public loading: boolean[];
+  public loading: boolean;
   public coll: boolean;
   public lastPostToggle: boolean;
+  public statsToggle: boolean;
+  public elseLoading: boolean;
 
   @HostBinding('style.order') order = 0;
   @HostBinding('style.width') width = '240px';
@@ -50,20 +48,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.lastPosts = [];
     this.userLoggedIn = false;
     this.theme = themeService.getTheme();
-    this.authData = { email: '', password: '', remember_me: false };
-    this.loginForm = new FormGroup({
-      email: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(255),
-        Validators.email,
-      ]),
-      password: new FormControl('', Validators.required),
-      remember_me: new FormControl(null),
-    });
-    this.loading = [true, true, true, true, true];
+    this.loading = true;
     this.coll = false;
-    this.lastPostToggle = false;
+    this.lastPostToggle = true;
+    this.statsToggle = false;
+    this.elseLoading = true;
   }
 
   ngOnInit(): void {
@@ -72,21 +61,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.userLoggedIn = r != null;
         this.userLocalData = r?.userData;
         this.order = r?.userPreferences.sidebar ? 1 : 0;
-        this.loading[0] = false;
         if (this.userLoggedIn) {
+          this.elseLoading = true;
           this.sidebarService
             .getData()
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe({
               next: (r: any) => {
                 this.userData = r;
-                this.loading[1] = false;
               },
             });
+        } else {
+          this.elseLoading = false;
         }
-      },
-      error: (err) => {
-        this.loading[0] = false;
       },
     });
 
@@ -96,7 +83,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (r: Array<any>) => {
           this.lastPosts = r;
-          this.loading[2] = false;
+          setTimeout(() => {
+            this.lastPostToggle = false;
+          }, 100);
         },
       });
 
@@ -106,7 +95,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (r: any) => {
           this.forumStats = r;
-          this.loading[3] = false;
+          this.loading = false;
         },
       });
 

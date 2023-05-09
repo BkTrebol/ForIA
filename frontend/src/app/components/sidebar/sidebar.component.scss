@@ -61,32 +61,50 @@
   }
   .sidebar-title {
     @include row(flex-start, 16px);
-    .text{
+    .text {
       @include col(space-between, 16px);
-      small{
+      small {
         font-size: $size-p;
       }
     }
   }
   .sidebar-posts {
     margin: 8px 0;
+    margin-bottom: 16px;
+    p {
+      margin: 6px 0;
+    }
     .sidebar-post {
       padding: 4px;
-      margin-bottom: 4px;
+      padding-top: 2px;
+      margin-bottom: 6px;
+    }
+  }
+  .sidebar-stats{
+    p {
+      margin: 4px 0;
+    }
+    div{
+      margin-bottom: -5px;
+    }
+  }
+  .sidebar-forum-stats {
+    p {
+      margin: 4px 0;
     }
   }
   .create-post {
     width: 100%;
-    margin: 16px 0;
+    margin: 24px 0;
     text-align: center;
   }
-  .last-post-toggle {
+  .last-post-toggle, .stats-toggle {
     cursor: pointer;
   }
   &.dark {
     background-color: opacity($color-primary1, 0.95);
     color: $color-white-clear;
-    .sidebar-post{
+    .sidebar-post {
       background-color: $color-black-grey;
       border: 2px solid $color-black;
     }

@@ -11,8 +11,10 @@
         <div class="sidebar-title" *ngIf="userLoggedIn;else notLoggedHeader">
             <app-avatar [user]="userLocalData"></app-avatar>
             <div class="text">
-                <a routerLink="/user/profile/{{userLocalData?.id}}" ngbTooltip="View Profile of {{userLocalData.nick}}">{{userLocalData?.nick}}</a>
-                <small ngbTooltip="Description of the rol {{userLocalData.rol}}" placement="bottom">{{userLocalData.rol}}
+                <a routerLink="/user/profile/{{userLocalData?.id}}"
+                    ngbTooltip="View Profile of {{userLocalData.nick}}">{{userLocalData?.nick}}</a>
+                <small ngbTooltip="Description of the rol {{userLocalData.rol}}"
+                    placement="bottom">{{userLocalData.rol}}
                 </small>
             </div>
         </div>
@@ -27,26 +29,55 @@
                 <p>Private messages: {{userData.pms}}</p>
                 <p>New Private Messages: {{userData.newPms}}</p>
             </div>
-            <div class="create-post" *ngIf="userLoggedIn">
-                <a class="btn-a" routerLink="post/create"><fa-icon [icon]="['fas', 'plus']"></fa-icon> Create a Post</a>
-            </div>
-            <div class="sidebar-posts" *ngIf="lastPosts">
-                <p class="last-post-toggle" (click)="lastPostToggle = !lastPostToggle"><fa-icon [icon]="['fas', lastPostToggle ? 'chevron-right': 'chevron-down']"></fa-icon> Last {{lastPosts.length}} Posts</p>
-                <div [(ngbCollapse)]="lastPostToggle" class="sidebar-post" *ngFor="let post of lastPosts">
-                    <a routerLink="/topic/{{post.id}}" [queryParams]="{page:post.last_page}" ngbTooltip="View Post {{post.title | capitalize}}" placement="bottom">{{post.title |
-                        capitalize}}</a><br>
-                    By <a routerLink="/user/profile/{{post.user_id}}" class="sidebar-nick" ngbTooltip="View Profile of {{post.user_nick}}" placement="bottom">{{post.user_nick}}</a>
-                    {{post.created_at | ago}}
+            <div class="sidebar-stats" *ngIf="(!userData || !userLoggedIn) && elseLoading">
+                <div *ngFor="let _ of [0,1,2]">
+                    <app-loading width="100%" height="16px"></app-loading>
                 </div>
             </div>
-            <div class="sidebar-forum-stats" *ngIf="!loading[3]">
-                <p>Topics: {{forumStats.topics}}</p>
-                <p>Posts: {{forumStats.posts}}</p>
-                <p>Users: {{forumStats.users}}</p>
-                <p>Last User: <a routerLink="/user/profile/{{forumStats.lastUser.id}}" ngbTooltip="View Profile of {{forumStats.lastUser.nick}}" placement="bottom">{{forumStats.lastUser.nick}}</a>
+            <div class="create-post">
+                <a class="btn-a" routerLink="post/create"><fa-icon [icon]="['fas', 'plus']"></fa-icon> Create a Post</a>
+            </div>
+            <div class="sidebar-posts">
+                <p *ngIf="lastPosts.length > 0" class="last-post-toggle" (click)="lastPostToggle = !lastPostToggle">
+                    <fa-icon [icon]="['fas', lastPostToggle ? 'chevron-right': 'chevron-down']"></fa-icon> Last
+                    {{lastPosts.length}} Posts
                 </p>
-                <p>Last Poll: <a routerLink="/topic/{{forumStats.lastPoll.topic_id}}" ngbTooltip="View Poll {{forumStats.lastPoll.name}}" placement="bottom">{{forumStats.lastPoll.name}}</a>
+                <p *ngIf="lastPosts.length == 0"><fa-icon [icon]="['fas', 'chevron-right']"></fa-icon> Last <fa-icon
+                        [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Posts
                 </p>
+                <div [(ngbCollapse)]="lastPostToggle">
+                    <div class="sidebar-post" *ngFor="let post of lastPosts">
+                        <a routerLink="/topic/{{post.id}}" [queryParams]="{page:post.last_page}"
+                            ngbTooltip="View Post {{post.title | capitalize}}" placement="bottom">{{post.title |
+                            capitalize}}</a><br>
+                        By <a routerLink="/user/profile/{{post.user_id}}" class="sidebar-nick"
+                            ngbTooltip="View Profile of {{post.user_nick}}" placement="bottom">{{post.user_nick}}</a>
+                        {{post.created_at | ago}}
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-forum-stats" *ngIf="!loading">
+                <p class="stats-toggle" (click)="statsToggle = !statsToggle"><fa-icon
+                        [icon]="['fas', statsToggle ? 'chevron-right': 'chevron-down']"></fa-icon> Forum Stats:</p>
+                <div [(ngbCollapse)]="statsToggle">
+                    <p>Topics: {{forumStats.topics}}</p>
+                    <p>Posts: {{forumStats.posts}}</p>
+                    <p>Users: {{forumStats.users}}</p>
+                    <p>Last User: <a routerLink="/user/profile/{{forumStats.lastUser.id}}"
+                            ngbTooltip="View Profile of {{forumStats.lastUser.nick}}"
+                            placement="bottom">{{forumStats.lastUser.nick}}</a>
+                    </p>
+                    <p>Last Poll: <a routerLink="/topic/{{forumStats.lastPoll.topic_id}}"
+                            ngbTooltip="View Poll {{forumStats.lastPoll.name}}"
+                            placement="bottom">{{forumStats.lastPoll.name}}</a>
+                    </p>
+                </div>
+            </div>
+            <div class="sidebar-forum-stats" *ngIf="loading">
+                <p><fa-icon [icon]="['fas', 'chevron-down']"></fa-icon> Forum Stats:</p>
+                <ng-container *ngFor="let _ of [0,1,2,3,4]">
+                    <app-loading width="100%" height="18px"></app-loading>
+                </ng-container>
             </div>
         </div>
     </div>
