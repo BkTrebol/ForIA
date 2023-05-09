@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     this.googleEmail = this.route.snapshot.queryParams['email']??'';
     if (this.googleEmail != ''){
       this.authData.email = this.googleEmail;

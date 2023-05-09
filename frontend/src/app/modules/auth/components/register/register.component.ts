@@ -177,7 +177,7 @@ These Terms constitute the entire agreement between you and us regarding your us
 By accessing or using this web page, you acknowledge that you have read these Terms, understand them, and agree to be bound by them.`;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this._authService.authData
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((r) => {

@@ -1,4 +1,4 @@
-@import '../node_modules/bootstrap/scss/bootstrap.scss';
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
 @import "app/styles/_vars.scss";
 
 .nav-link {
@@ -24,7 +24,7 @@
 
   // Light theme
   &.light {
-    @extend .bg-light
+    @extend .bg-light;
   }
 
   img {
