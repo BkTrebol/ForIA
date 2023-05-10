@@ -41,6 +41,6 @@ export class UserService {
 
   checkEmail(email:string,oldEmail:string):Observable<any> {
     const body = JSON.stringify({email:email, oldEmail:oldEmail});
-    return this._http.post(`${this.apiUrl}user/email`,body);
+    return this._http.post(`${this.apiUrl}user/check/email`,body);
   }
 }

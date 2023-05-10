@@ -18,7 +18,7 @@ class RoleController extends Controller
     }
 
     function getAll(Request $request){
-        $roles = Role::all()->orderBy('order','desc');
+        $roles = Role::orderBy('order','desc')->get();
         return response()->json($roles);
     }
 }
