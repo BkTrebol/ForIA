@@ -83,11 +83,14 @@ class AdminUserController extends Controller
 
     function getUser(User $user){
         $user->makeVisible(['suspension','roles']);
+        $user['roles'] = $user->roles()->where('role_id','>',2)->get();
         $user['verified'] = $user->hasVerifiedEmail();
         return response()->json($user,200);
     }
 
-    function checkNick(string $newNick,string $oldNick){
+    function checkNick(Request $request){
+        $newNick = $request->input('nick');
+        $oldNick = $request->input('oldNick');
         if($newNick != $oldNick){
             $user = User::select('id')->where('nick',$newNick)->first();
             if($user !== null){
@@ -98,7 +101,9 @@ class AdminUserController extends Controller
         }
     }
 
-    function checkEmail(string $newEmail, string $oldEmail){
+    function checkEmail(Request $request){
+        $newEmail = $request->input('email');
+        $oldEmail = $request->input('newEmail');
         if($newEmail != $oldEmail){
             $user = User::select('id')->where('email',$newEmail)->first();
             if($user !== null){

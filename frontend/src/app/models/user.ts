@@ -6,9 +6,14 @@ export interface User {
   birthday: string;
   avatar: string;
   roles: Array<string>;
-  rol: string;
+  public_role: PublicRole;
   created_at: string;
   updated_at: string;
   isAdmin: boolean;
   isVerified: boolean;
+}
+
+interface PublicRole{
+  name:string;
+  description?:string;
 }

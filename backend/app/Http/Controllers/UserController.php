@@ -24,7 +24,7 @@ class UserController extends Controller
 
     function getUserData(Request $request){
         return response()->json(
-            $request->user()->only(['nick','email','location','birthday','avatar'])
+            $request->user()->load('publicRole')->only(['nick','email','location','birthday','avatar'])
         ,200);
     }
 

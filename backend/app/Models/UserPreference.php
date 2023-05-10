@@ -10,7 +10,7 @@ use App\Models\User;
 class UserPreference extends Model
 {
     use HasFactory;
-
+    public $timestamps = false;
     /**
      * The attributes that are mass assignable.
      *

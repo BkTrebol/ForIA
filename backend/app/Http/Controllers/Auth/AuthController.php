@@ -76,7 +76,7 @@ class AuthController extends Controller
         $preferences = Auth::user()->preferences->only('sidebar','allow_music');
         $user['isAdmin'] = $user->isAdmin();
         $user['isVerified'] = $user->hasVerifiedEmail();
-        
+        $user->load('publicRole');
         
 
         return response()->json([

@@ -6,7 +6,7 @@
         <input type="text" class="form-control" formControlName="nick" id="nick" placeholder="Nick"
         [ngClass]="{ 'is-invalid': (nick?.invalid && nick?.touched) || nickUnique}"
         (blur)="checkNick()"
-        (focus)="nickUnique = null"
+        (change)="nickUnique = null"
         >
         <label class="text-secondary" for="nick">Nick</label>
         <div *ngIf="nick?.invalid && (nick?.dirty || nick?.touched)" class="invalid-feedback d-block mt-1">
@@ -19,7 +19,7 @@
         <input type="email" class="form-control" formControlName="email" id="email" placeholder="Email"
         [ngClass]="{ 'is-invalid': (email?.invalid && email?.touched) || emailUnique}"
         (blur)="checkEmail()"
-        (focus)="emailUnique = null"
+        (change)="emailUnique = null"
         >
         <label class="text-secondary" for="email">Email</label>
         <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="invalid-feedback d-block mt-1">
@@ -79,7 +79,7 @@
     </div>
 
     <div class="form-floating mb-3">
-        <ng-select [items]="roleList" bindLabel="name" bindValue="id" [multiple]="true" [clearable]="false"
+        <ng-select [items]="roleList" bindLabel="name" bindValue="id" [multiple]="true" [clearable]="true"
             formControlName="roles"></ng-select>
         <label class="text-secondary" for="roles">Roles</label>
     </div>

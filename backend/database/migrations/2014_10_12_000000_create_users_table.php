@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('birthday')->nullable();
             $table->string('avatar')->nullable();
             // $table->json('roles')->default(json_encode(['ROLE_USER','ROLE_GUEST']));
-            $table->string('rol')->default('User');
+            $table->foreignId('public_role_id')->nullable()->default(1);
             $table->boolean('google_auth')->default(false); 
             $table->date('suspension')->nullable();
             $table->rememberToken();

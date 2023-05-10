@@ -19,7 +19,7 @@ export class UserService {
   }
 
   getRoles():Observable<any> {
-    return this._http.get(`${this.apiUrl}role/all`);
+    return this._http.get(`${this.apiUrl}role`);
   }
 
   getUser(id:number):Observable<any> {
@@ -35,10 +35,12 @@ export class UserService {
   }
 
   checkNick(nick:string,oldNick:string):Observable<any> {
-    return this._http.get(`${this.apiUrl}user/check/nick/${nick}/${oldNick}`);
+    const body = JSON.stringify({nick:nick, oldNick:oldNick});
+    return this._http.post(`${this.apiUrl}user/check/nick`, body);
   }
 
   checkEmail(email:string,oldEmail:string):Observable<any> {
-    return this._http.get(`${this.apiUrl}user/email/${email}/${oldEmail}`);
+    const body = JSON.stringify({email:email, oldEmail:oldEmail});
+    return this._http.post(`${this.apiUrl}user/email`,body);
   }
 }

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Role extends Model
 {
     use HasFactory;
-
+    public $timestamps = false;
     protected $hidden = [
         'created_at',
         'updated_at',

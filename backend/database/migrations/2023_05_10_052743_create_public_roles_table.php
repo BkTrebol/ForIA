@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('public_roles', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->boolean('admin')->default(false);
-            $table->integer('order')->default(1);
-            // $table->timestamps();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->integer('posts')->nullable();
         });
     }
 
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('public_roles');
     }
 };

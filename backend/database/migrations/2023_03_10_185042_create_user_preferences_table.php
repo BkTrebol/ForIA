@@ -21,7 +21,7 @@ return new class extends Migration
             $table->boolean('hide_online_presence')->default(false);
             $table->boolean('two_fa')->default(false);
             $table->boolean('allow_music')->default(true);
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
     

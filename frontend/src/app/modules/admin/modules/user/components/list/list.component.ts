@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { UserService } from '../../service/user.service';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -14,6 +14,12 @@ export class ListComponent implements OnInit,OnDestroy {
   public tableLoading:boolean;
   public tableData:any;
   public roleList:Array<any>;
+  public show:{
+    email:boolean,
+    lastSeen:boolean,
+    createdAt:boolean,
+    posts:boolean,
+  };
   public filters:{
     page?:number,
     order?:string,
@@ -30,6 +36,13 @@ export class ListComponent implements OnInit,OnDestroy {
   constructor(
     private _userService: UserService
   ){
+    this.show = {
+      email:true,
+      lastSeen:true,
+      createdAt:true,
+      posts:true,
+    };
+
     this.tableLoading = true;
     this.unsubscribe$ = new Subject();
     this.roleList = [];
@@ -43,8 +56,23 @@ export class ListComponent implements OnInit,OnDestroy {
   ngOnInit() {
     this.getData()
     this.getRoles();
+    this.updateColumnVisibility();
   }
 
+  updateColumnVisibility(){
+    this.show = {
+      email:window.innerWidth >= 500,
+      lastSeen:window.innerWidth >= 668,
+      createdAt:window.innerWidth >= 900,
+      posts:window.innerWidth >= 500,
+    };
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event:Event):void {
+    this.updateColumnVisibility();
+  }
+  
   getData(){
     this.tableLoading = true;
     const parsedFilters = this.parseFilters();

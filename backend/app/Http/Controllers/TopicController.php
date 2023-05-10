@@ -30,20 +30,39 @@ class TopicController extends Controller
 
         $requestedPage = request()->input('page', 1);
 
-        $posts = $topic->load('user:id,nick,avatar,rol,created_at')->posts()->paginate(config('app.pagination.topic'));
+        // $posts = $topic->load('user:id,nick,avatar,rol,created_at')->posts()->paginate(config('app.pagination.topic'));
+        $queryPosts = $topic->load([
+            'user:id,nick,avatar,created_at,public_role_id',
+            'user.publicRole'
+        ])->posts();
+        $posts = $queryPosts->paginate(config('app.pagination.topic'));
+        $page = min($requestedPage, $posts->lastPage());
+        if($page !== $requestedPage){
+            $posts = $queryPosts->paginate(config('app.pagination.topic'),'*','page',$page);
+        }
 
-            if ($posts->lastPage() < $requestedPage) {
-                $posts = $topic->load('user:id,nick,avatar,rol,created_at')->posts()->paginate(config('app.pagination.topic'),'*','page',$posts->lastPage());
-            } else if ($requestedPage <= 0) {
-                $posts = $topic->load('user:id,nick,avatar,rol,created_at')->posts()->paginate(config('app.pagination.topic'),'*','page',1);
-            }
+
+            // if ($posts->lastPage() < $requestedPage) {
+            //     // $posts = $topic->load('user:id,nick,avatar,rol,created_at')->posts()->paginate(config('app.pagination.topic'),'*','page',$posts->lastPage());
+            //     $posts = $topic->load([
+            //         'user:id,nick,avatar,created_at,public_role_id',
+            //         'user.publicRole:name,description'
+            //     ])->posts()->paginate(config('app.pagination.topic'),'*','page',$posts->lastPage());
+                
+            // } else if ($requestedPage <= 0) {
+            //     // $posts = $topic->load('user:id,nick,avatar,rol,created_at')->posts()->paginate(config('app.pagination.topic'),'*','page',1);
+            //     $posts = $topic->load([
+            //         'user:id,nick,avatar,created_at,public_role_id',
+            //         'user.publicRole:name,description'
+            //     ])->posts()->paginate(config('app.pagination.topic'),'*','page',1);
+            // }
 
         $poll = $topic->poll()->with(['options'])->first();
         if ($poll) {
             $poll['can_vote'] = !$user ? false :
                 !$poll->voted($user->id) && ($poll->finish_date == null || $poll->finish_date > now());
             $poll['can_edit'] = ($poll->answers->count() == 0 && $user->id == $topic->user_id) || $isAdmin || $isMod;
-            $poll['can_close'] = ($user->id == $topic->user_id) || $isAdmin || $isMod;
+            $poll['can_close'] = ($user && $user->id == $topic->user_id) || $isAdmin || $isMod;
         }
 
         $response = [
@@ -54,7 +73,7 @@ class TopicController extends Controller
 
             'posts' => $posts->map(function ($post) {
                 $post['can_edit'] = $this->checkPostPermission($post);
-                return $post->load('user:id,nick,avatar,rol,created_at')->only('id', 'content', 'created_at', 'updated_at', 'can_edit', 'user');
+                return $post->load(['user:id,nick,avatar,created_at,public_role_id','user.publicRole'])->only('id', 'content', 'created_at', 'updated_at', 'can_edit', 'user');
             }),
             'poll' => $poll,
             'page' => [

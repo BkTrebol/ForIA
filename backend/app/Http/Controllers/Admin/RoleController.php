@@ -12,13 +12,13 @@ class RoleController extends Controller
     //
     function getList(Request $request){
         $user = Auth::user();
-        $userMaxrol = $user->roles()->orderBy('id','desc')->first()->id;
-        $roles = Role::where('id','<=',$userMaxrol)->get();
+        $userMaxrol = $user->roles()->orderBy('order','desc')->first()->order;
+        $roles = Role::where('order','<=',$userMaxrol)->where('id','>',2)->get();
         return response()->json($roles);
     }
 
     function getAll(Request $request){
-        $roles = Role::all();
+        $roles = Role::all()->orderBy('order','desc');
         return response()->json($roles);
     }
 }

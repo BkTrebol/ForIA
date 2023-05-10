@@ -57,7 +57,7 @@
                             <div class="text">
                                 <a
                                     routerLink="/user/profile/{{userLogged.userData.id}}" ngbTooltip="View Your Profile">{{userLogged.userData.nick}}</a>
-                                <small ngbTooltip="Description of the role {{userLogged.userData.rol}}">{{userLogged.userData.rol}}</small>
+                                <small ngbTooltip="{{userLogged.userData.public_role.description}}">{{userLogged.userData.public_role.name}}</small>
                             </div>
                         </div>
                         <div class="editor">
@@ -101,7 +101,7 @@
             <app-avatar [user]="pm.sender"></app-avatar>
             <div class="text">
                 <a routerLink="/user/profile/{{pm.sender.id}}" ngbTooltip="View Profile of {{pm.sender.nick}}">{{pm.sender.nick}}</a>
-                <p ngbTooltip="Description of the role {{pm.sender.rol}}" placement="bottom">{{pm.sender.rol}}</p>
+                <p ngbTooltip="{{pm.sender.public_role.description}}" placement="bottom">{{pm.sender.public_role.name}}</p>
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\PublicRole;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,24 +23,73 @@ class DatabaseSeeder extends Seeder
      * Seed the application's database.
      */
     public function run(): void
-    {
+    {   
+        PublicRole::create([
+            'name' => 'Newbie',
+            'description' => 'New user.',
+            'posts' => 0,
+        ]);
+        PublicRole::create([
+            'name' => 'Starter',
+            'description' => 'User with more than 10 posts.',
+            'posts' => 10,
+        ]);
+        PublicRole::create([
+            'name' => 'Advanced',
+            'description' => 'User with more than 50posts.',
+            'posts' => 50,
+        ]);
+
+        PublicRole::create([
+            'name' => 'Engineer',
+            'description' => 'User with more than 100 posts.',
+            'posts' => 100,
+        ]);
+
+        PublicRole::create([
+            'name' => 'GPT',
+            'description' => 'User with more than 1000 posts.',
+            'posts' => 1000,
+        ]);
+
+        $publicAdmin = PublicRole::create([
+            'name' => 'Admin',
+            'description' => 'Admin',
+        ]);
+
+        $publicMod = PublicRole::create([
+            'name' => 'Mod',
+            'description' => 'Mod',
+        ]);
+
         $guestRole = Role::create([
-            'name' => 'ROLE_GUEST'
+            'name' => 'ROLE_GUEST',
+            'order' => 1
         ]);
         $userRole =Role::create([
-            'name' => 'ROLE_USER'
+            'name' => 'ROLE_USER',
+            'order' => 2
         ]);
+        $modWelcomeRole = Role::create([
+            'name' => 'WELCOME_MOD',
+            'order' => 3,
+
+        ]);
+
         $modRole = Role::create([
-            'name' => 'ROLE_MOD'
+            'name' => 'ROLE_MOD',
+            'order' => 4,
         ]);
         $adminRole = Role::create([
             'name' => 'ROLE_ADMIN',
-            'admin' => true
+            'admin' => true,
+            'order' => 5,
         ]);
 
         $user = User::factory()->create(
             [
             'email' => 'admin@admin.com',
+            'public_role_id' => $publicAdmin->id
             ]
         );
         $user->roles()->attach([$adminRole->id]);
@@ -47,6 +97,7 @@ class DatabaseSeeder extends Seeder
         $user = User::factory()->create(
             [
             'email' => 'mod@mod.com',
+            'public_role_id' => $publicMod->id
             ]
         );
         $user->roles()->attach([$modRole->id]);
@@ -54,11 +105,10 @@ class DatabaseSeeder extends Seeder
         $user = User::factory()->create(
             [
             'email' => 'welcome@mod.com',
+            'public_role_id' => $publicMod->id
             ]
         );
-        $modWelcomeRole = Role::create([
-            'name' => 'WELCOME_MOD'
-        ]);
+
         $user->roles()->attach([$modWelcomeRole->id]);
 
         User::factory()->create(

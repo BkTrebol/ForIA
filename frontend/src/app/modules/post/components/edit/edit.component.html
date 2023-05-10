@@ -21,7 +21,7 @@
             <app-avatar [user]="userLogged.userData"></app-avatar>
             <div class="text">
               <a routerLink="/user/profile/{{userLogged.userData.id}}">{{userLogged.userData.nick}}</a>
-              <small>{{userLogged.userData.rol}}</small>
+              <small>{{userLogged.userData.public_role.name}}</small>
             </div>
           </div>
           <div class="editor">

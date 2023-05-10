@@ -13,7 +13,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class EditComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   private _userId:number;
-
   public editUserForm:FormGroup;
   public loading:boolean;
   public roleList:Array<any>;
@@ -38,7 +37,18 @@ export class EditComponent implements OnInit, OnDestroy {
     this.unsubscribe$ = new Subject();
     this.roleList = [];
     this.loading = true;
-    this.editUserForm = this.fb.group({});
+    this.editUserForm = this.fb.group({
+      nick: [],
+      email: [],
+      email_verified_at: [],
+      password: [null],
+      location: [],
+      birthday: [],
+      avatar: [],
+      rol: [],
+      suspension: [],
+      roles:[]
+    });
   }
 
   ngOnInit() {
@@ -53,22 +63,43 @@ export class EditComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this.unsubscribe$))
     .subscribe({
       next: r => {
+        console.log(r);
         this.loading = false;
         this.user = r;
-        this.editUserForm = this.fb.group({
-          nick: [r.nick, Validators.required],
-          email: [r.email, [Validators.required, Validators.email]],
-          email_verified_at: [r.verified],
-          password: ['', Validators.required],
-          location: [r.location],
-          birthday: [r.birthday],
-          avatar: [r.avatar],
-          rol: [r.rol],
-          suspension: [r.suspension],
-          roles:[r.roles]
-        });
+        this.populateForm();
       }
     });
+  }
+
+  populateForm(){
+    const userRoles = this.user.roles.map((role:any) => role.id);
+    this.editUserForm = this.fb.group({
+      nick: [this.user.nick, Validators.required],
+      email: [this.user.email, [Validators.required, Validators.email]],
+      email_verified_at: [this.user.verified],
+      password: [null],
+      location: [this.user.location],
+      birthday: [this.parseDateToPicker(this.user.birthday)],
+      avatar: [this.user.avatar],
+      rol: [this.user.rol],
+      suspension: [this.parseDateToPicker(this.user.suspension)],
+      roles:[userRoles]
+    });
+  }
+
+  parseDateToPicker(date:any){
+    if(date === null){
+      return null;
+    }
+    const dateToParse = new Date(date);
+    return {year:dateToParse.getFullYear(), month:dateToParse.getMonth() + 1, day:dateToParse.getDate()};
+  }
+
+  parsePickerDate(date:any){
+    if(date === null){
+      return null;
+    }
+    return new Date(`${date.year}/${date.month}/${date.day}`);  
   }
 
   getRoles(){
@@ -108,11 +139,19 @@ export class EditComponent implements OnInit, OnDestroy {
     }
   }
   onSubmit() {
+
     if (this.editUserForm.valid) {
-      // Aquí puedes enviar los datos del formulario a tu servicio o API
-      console.log(this.editUserForm.value);
+      this.editUserForm.value.birthday = this.parsePickerDate(this.editUserForm.value.birthday);
+      this.editUserForm.value.suspension = this.parsePickerDate(this.editUserForm.value.suspension);
+      console.log(this.editUserForm.value)
+      this._userService.updateUser(this.editUserForm.value)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(data => {
+        console.log(data)
+      });
     }
   }
+
   focusDateInput(inputElement: HTMLElement) {
     inputElement.focus();
   }

@@ -78,6 +78,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+
+    public function publicRole(){
+        return $this->belongsTo(PublicRole::class);
+    }
     
     public function isAdmin()
     {

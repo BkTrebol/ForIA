@@ -78,7 +78,7 @@ export class ViewComponent implements OnInit, OnDestroy {
           id: 0,
           nick: '',
           avatar: '',
-          rol: '',
+          public_role: {name:''},
           created_at: '',
         },
       },

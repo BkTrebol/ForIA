@@ -131,8 +131,8 @@
                     <div class="text">
                         <a routerLink="/user/profile/{{listPosts.topic.user.id}}"
                             ngbTooltip="View Profile of {{listPosts.topic.user.nick}}">{{listPosts.topic.user.nick}}</a>
-                        <small ngbTooltip="Description of the role {{listPosts.topic.user.rol}}"
-                            placement="bottom">{{listPosts.topic.user.rol}}</small>
+                        <small ngbTooltip="{{listPosts.topic.user.public_role.description}}"
+                            placement="bottom">{{listPosts.topic.user.public_role.name}}</small>
                     </div>
                 </div>
                 <div class="post-main">
@@ -163,8 +163,8 @@
                     <div class="text">
                         <a routerLink="/user/profile/{{post.user.id}}"
                             ngbTooltip="View Profile of {{post.user.nick}}">{{post.user.nick}}</a>
-                        <small ngbTooltip="Description of the role {{post.user.rol}}"
-                            placement="bottom">{{post.user.rol}}</small>
+                        <small ngbTooltip="{{post.user.public_role.description}}"
+                            placement="bottom">{{post.user.public_role.name}}</small>
                     </div>
                 </div>
                 <div class="post-main">
@@ -194,8 +194,8 @@
                         <div class="text">
                             <a routerLink="/user/profile/{{userLogged.userData.id}}"
                                 ngbTooltip="View Your Profile">{{userLogged.userData.nick}}</a>
-                            <small ngbTooltip="Description of the role {{userLogged.userData.rol}}"
-                                placement="bottom">{{userLogged.userData.rol}}</small>
+                            <small ngbTooltip="{{userLogged.userData.public_role.description}}"
+                                placement="bottom">{{userLogged.userData.public_role.name}}</small>
                         </div>
                     </div>
                     <div class="editor">
