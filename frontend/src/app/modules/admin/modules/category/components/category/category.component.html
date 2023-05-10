@@ -3,8 +3,8 @@
 		<span class="visually-hidden">Loading...</span>
 	</div>
 </div>
-<div class="w-100 col-9" *ngIf="!loading; else loadingTemplate">
 
+<div class="w-100 col-9" *ngIf="!loading; else loadingTemplate">
 	<div cdkDropList (cdkDropListDropped)="dropSection($event)">
 		<div class="row" *ngFor="let section of sections; let index = index" cdkDrag>
 			<div class="col-md-12 mb-3">

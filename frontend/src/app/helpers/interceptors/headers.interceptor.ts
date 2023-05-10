@@ -29,8 +29,8 @@ export class HeadersInterceptor implements HttpInterceptor {
     const isApiUrl = request.url.startsWith(this.url);
     const isFormData =
       request.url.startsWith(this.url + 'api/user/edit') ||
-      request.url.startsWith(this.url + 'api/admin/user/update') ||
-      request.url.startsWith(this.url + 'api/admin/category/update');
+      request.url.startsWith(this.url + 'api/admin/user/update')
+      // request.url.startsWith(this.url + 'api/admin/category/update');
     const isPost = request.method === 'POST'
     if (isApiUrl) {
       // Check if doesen't need to change the headers
