@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <p class="error" *ngIf="error != ''"><fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}</p>
-                <button class="btn-s" type="submit" [disabled]="poll.name == '' || poll.name.length < 3 || poll.options.length < 2 || poll.finish_date == '' "
+                <button class="btn-s" type="submit" [disabled]="poll.name == '' || poll.name.length < 3 || poll.options.length < 2 || poll.options.length > 10 || poll.finish_date == '' "
                     (click)="onSubmit()">Submit</button>
             </div>
         </div>

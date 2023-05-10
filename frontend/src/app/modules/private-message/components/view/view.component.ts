@@ -19,6 +19,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
+import { Global } from 'src/environment/global';
 
 @Component({
   selector: 'app-view',
@@ -57,6 +58,8 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.editorConfig = {
       minHeight: '200px',
       editable: true,
+      uploadUrl: `${Global.api}upload/images`,
+      uploadWithCredentials: true,
     };
     this.reply = {
       recipient: 0,

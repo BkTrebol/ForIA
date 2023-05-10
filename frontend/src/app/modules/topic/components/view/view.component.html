@@ -110,7 +110,7 @@
                     <ng-container *ngFor="let option of pollResults.options"><span>{{option.option}} - {{option.votes}}
                             votes</span><ngb-progressbar [showValue]="true"
                             type="{{option.voted ? 'success' : 'primary'}}"
-                            [value]="(option?.votes??0)* 100/pollResults.votes" [striped]="true"></ngb-progressbar>
+                            [value]="(option?.votes??0)* 100/pollResults.votes" [striped]="true" [animated]="true"></ngb-progressbar>
                     </ng-container>
                 </div>
                 <button class="btn2" (click)="onShowPollResults()" *ngIf="listPosts.poll.can_vote">
@@ -177,7 +177,7 @@
                                     routerLink="/post/edit/{{post.id}}"><fa-icon
                                         [icon]="['fas', 'pen']"></fa-icon></button>
                                 <button class="btn-delete" ngbTooltip="Delete the Post" type="button"
-                                    (click)="openModalPost(deleteModalPost, post.id)"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
+                                    (click)="openModalPost(deleteModalPost, post.id, post.user.nick)"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
                         </div>
                         <p class="content" [innerHTML]="post.content"></p>
@@ -226,7 +226,7 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        <p>Delete the poll: {{pollResults?.name}} (with {{pollResults?.votes}} vote{{pollResults?.votes != 1 ? 's': ''}})</p>
+        <p>Are you sure you want to delete the poll: {{pollResults?.name}} (with {{pollResults?.votes}} vote{{pollResults?.votes != 1 ? 's': ''}})</p>
     </div>
     <div class="modal-footer d-felx justify-content-between">
         <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel</button>
@@ -240,7 +240,7 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        <p>Delete the topic: {{listPosts.topic.title | capitalize}}</p>
+        <p>Are you sure you want to delete the topic: {{listPosts.topic.title | capitalize}}</p>
     </div>
     <div class="modal-footer d-felx justify-content-between">
         <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel</button>
@@ -255,7 +255,7 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        <p>Delete the post</p>
+        <p>Are you sure you want to delete the post by: {{post_by}}</p>
     </div>
     <div class="modal-footer d-felx justify-content-between">
         <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel</button>

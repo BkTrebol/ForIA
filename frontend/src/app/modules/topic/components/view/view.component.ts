@@ -48,6 +48,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   } | null;
   public actualDate: Date;
   public post_delete: number;
+  public post_by: string;
 
   constructor(
     private topicService: TopicService,
@@ -114,6 +115,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.userLogged = null;
     this.actualDate = new Date();
     this.post_delete = NaN
+    this.post_by = '';
   }
 
   ngOnInit() {
@@ -346,8 +348,9 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.modalService.open(modal, { centered: true });
   }
 
-  openModalPost(modal: any, id: number) {
+  openModalPost(modal: any, id: number, nick: string) {
     this.post_delete = id
+    this.post_by = nick
     this.modalService.open(modal, { centered: true });
   }
 

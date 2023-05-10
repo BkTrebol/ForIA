@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
+import { Global } from 'src/environment/global';
 
 @Component({
   selector: 'app-create',
@@ -47,6 +48,8 @@ export class CreateComponent implements OnInit, OnDestroy {
     this.editorConfig = {
       height: '200px',
       editable: true,
+      uploadUrl: `${Global.api}upload/images`,
+      uploadWithCredentials: true,
     };
     this.userLogged = null;
     this.error = '';
