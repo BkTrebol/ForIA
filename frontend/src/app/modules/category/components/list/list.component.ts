@@ -5,6 +5,7 @@ import { Forum } from '../../../../models/receive/list-category';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from 'src/app/helpers/services/toast.service';
+import { Global } from 'src/environment/global';
 
 @Component({
   selector: 'app-list',
@@ -19,6 +20,7 @@ export class ListComponent implements OnInit, OnDestroy {
   public allSections: boolean;
   public theme: string;
   public isCollapsed = false;
+  public apiImageUrl: string;
 
   constructor(
     private categoryService: CategoryService,
@@ -27,6 +29,7 @@ export class ListComponent implements OnInit, OnDestroy {
     private router: Router,
     private toastService: ToastService
   ) {
+    this.apiImageUrl = Global.api+'upload/images/'
     this.unsubscribe$ = new Subject();
     this.loading = true;
     this.forum = [];

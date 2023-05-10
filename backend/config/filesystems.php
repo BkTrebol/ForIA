@@ -32,7 +32,14 @@ return [
         'images' => [
             'driver' => 'local',
             'root' => storage_path('app/images'),
-            'url' => env('APP_URL').'/storate',
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => true,
+        ],
+        'categories' => [
+            'driver' => 'local',
+            'root' => storage_path('app/categories'),
+            'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => true,
         ],

@@ -120,6 +120,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::controller(AdminCategoryController::class)->prefix('category')->group(function(){
             Route::get('/list','getList');
             Route::post('/update','updateCategories');
+            Route::post('/save','saveCategory');
         });
 
         Route::controller(RoleController::class)->prefix('role')->group(function(){
@@ -192,7 +193,7 @@ Route::controller(UserController::class)->prefix('user')->group(function(){
 });
 
 Route::controller(UploadController::class)->prefix('upload')->group(function(){
-    Route::get('/images/{image}','getImage');
+    Route::get('/images/{disk}/{image}','getImage');
 });
 
 Route::controller(SidebarController::class)->prefix('sidebar')->group(function(){

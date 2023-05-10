@@ -21,6 +21,8 @@ class Category extends Model
         'image',
         'music',
         'can_view',
+        'can_post',
+        'can_mod',
         'section',
         'order',
     ];

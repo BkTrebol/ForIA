@@ -73,7 +73,7 @@
                                 <div class="category" routerLink="/category/{{category.id}}">
                                     <h2>{{category.title | capitalize}}</h2>
                                     <p>{{category.description}}</p>
-                                    <img *ngIf="category.image" src="{{category.image}}"
+                                    <img *ngIf="category.image" [src]="apiImageUrl + category.image"
                                         alt="Image of {{category.title}}">
                                 </div>
                                 <div class="last-post" *ngIf="category.lastPost">

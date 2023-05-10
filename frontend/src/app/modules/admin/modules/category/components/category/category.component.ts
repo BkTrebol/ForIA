@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation  } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { CategoryService } from '../../service/category.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { uniqueTitleValidator } from '../../helpers';
 import { Subject, takeUntil } from 'rxjs';
+import { ToastService } from 'src/app/helpers/services/toast.service';
 
 @Component({
   selector: 'app-category',
@@ -12,24 +13,30 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['./category.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class CategoryComponent implements OnInit,OnDestroy {
+export class CategoryComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
-  public loading:boolean;
+  public loading: boolean;
   public sections: Array<any> = [];
   public connectedTo: string[] = [];
   public categoryForm: FormGroup;
   public sectionForm: FormGroup;
-  public catToDelete:string;
-  public newCategoryMode:boolean;
-  public sectionList:Array<any>
-  public titleList:Array<string>
-  public saveLoading:boolean;
-  public roleList:Array<any>;
+  public catToDelete: string;
+  public newCategoryMode: boolean;
+  public sectionList: Array<any>
+  public titleList: Array<string>
+  public saveLoading: boolean;
+  public roleList: Array<any>;
+  public catImage?: File;
+  public index : number;
+  public cindex : number;
   constructor(
     private _fb: FormBuilder,
     private _categoryService: CategoryService,
     private _modalService: NgbModal,
-  ){
+    private _toastService: ToastService,
+  ) {
+    this.index = 0;
+    this.cindex = 0;
     this.unsubscribe$ = new Subject();
     this.roleList = [];
     this.saveLoading = false;
@@ -47,33 +54,34 @@ export class CategoryComponent implements OnInit,OnDestroy {
     this.getRoles();
   }
 
-  getData(){
+  getData() {
     this._categoryService.getCategories()
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe(
-      (r) => {
-      this.sections = r;
-      this.sectionList = r.map((section:any,index:number) =>{
-        return {
-          name:section.name,
-          id:index,
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+        (r) => {
+          this.sections = r;
+          this.sectionList = r.map((section: any, index: number) => {
+            return {
+              name: section.name,
+              id: index,
+            }
+          })
+          this.sectionList.unshift({ name: '' });
+          this.loading = false;
+          this.saveLoading = false;
+          this.connectedTo = this.sections.map((_, index) => `list${index}`);
         }
-      })
-      this.sectionList.unshift({name:''});
-      this.loading = false;
-      this.saveLoading = false;
-      this.connectedTo = this.sections.map((_, index) => `list${index}`);
-      }
-    );
+      );
   }
-  getRoles(){
+  getRoles() {
     this._categoryService.getRoles()
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe({
-      next: r =>{
-        this.roleList = r;
-      }}
-    )
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: r => {
+          this.roleList = r;
+        }
+      }
+      )
   }
 
   dropCategory(event: CdkDragDrop<any[]>) {
@@ -82,9 +90,9 @@ export class CategoryComponent implements OnInit,OnDestroy {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
     }
   }
 
@@ -92,145 +100,175 @@ export class CategoryComponent implements OnInit,OnDestroy {
     moveItemInArray(this.sections, event.previousIndex, event.currentIndex);
   }
 
-    editCategory(category:any,index:number,cindex:number) {
-      this.newCategoryMode = false;
-      this.categoryForm = this._fb.group({
-        id:[this.sections[index].categories[cindex].id],
-        section:[this.sections[index].categories[cindex].section],
-        newId:[this.sections[index].categories[cindex].newId??this.sections[index].categories[cindex].id],
-        can_mod: [this.sections[index].categories[cindex].can_mod,[Validators.required]],
-        can_post: [this.sections[index].categories[cindex].can_post,[Validators.required]],
-        can_view: [this.sections[index].categories[cindex].can_view,[Validators.required]],
-        description: [this.sections[index].categories[cindex].description,[Validators.maxLength(250)]],
-        image: [this.sections[index].categories[cindex].image],
-        music: [this.sections[index].categories[cindex].music],
-        title: [this.sections[index].categories[cindex].title, [Validators.required, Validators.maxLength(50),uniqueTitleValidator(this.sections,this.sections[index].categories[cindex].title)]]
-      });
-      this._modalService.open(category).result.then(
-        (result) => {
-        if(result){
-          this.sections[index].categories[cindex] = this.categoryForm.value
-          this.categoryForm = this._fb.group({});
-        }
-      },() => {
-        this.categoryForm = this._fb.group({});
-      }); // Avoid error for unhdandled Dismiss
-    }
-  
-    deleteCategory(category:any,index:number,cindex:number) {
-      this.catToDelete = this.sections[index].categories[cindex].title;
-      this._modalService.open(category).result.then(result => {
-        if(result){
-          this.sections[index].categories.splice(cindex,1);
-        }
-      },
-      () => {}); // Avoid error for unhdandled Dismiss
-    }
-  
-    createCategory(category:any) {
-      this.newCategoryMode = true;
-      this.categoryForm = this._fb.group({
-        id:[],
-        section:[null,[Validators.required]],
-        newId:[],
-        can_mod: [null,[Validators.required]],
-        can_post: [null,[Validators.required]],
-        can_view: [null,[Validators.required]],
-        description: ['',[Validators.maxLength(250)]],
-        image: [],
-        music: [],
-        title: ['',[Validators.required, Validators.maxLength(50),uniqueTitleValidator(this.sections)]]
-      });
-      this._modalService.open(category).result.then(
-        (result) => {
-        if(result){
-          this.sections[this.categoryForm.value.section].categories.push(this.categoryForm.value);
-        }
-      },() => {
-        this.categoryForm = this._fb.group({});
-      });
-    }
-  
-    createSection(sectionModal:any) {
-      this.sectionForm = this._fb.group({
-        name:['',[Validators.required,Validators.maxLength(250)]]
-      })
-      this._modalService.open(sectionModal).result.then(
-        (result) => {
-        if(result){
-          this.sections.push({
-            name:this.sectionForm.value.name,
-            categories:[],
-          })
+  editCategory(category: any, index: number, cindex: number) {
+    this.newCategoryMode = false;
+    this.index = index;
+    this.cindex = cindex;
+    this.categoryForm = this._fb.group({
+      id: [this.sections[index].categories[cindex].id],
+      section: [this.sections[index].categories[cindex].section],
+      can_mod: [this.sections[index].categories[cindex].can_mod, [Validators.required]],
+      can_post: [this.sections[index].categories[cindex].can_post, [Validators.required]],
+      can_view: [this.sections[index].categories[cindex].can_view, [Validators.required]],
+      description: [this.sections[index].categories[cindex].description, [Validators.maxLength(250)]],
+      // image: [this.sections[index].categories[cindex].image],
+      image: [],
+      music: [this.sections[index].categories[cindex].music],
+      title: [this.sections[index].categories[cindex].title, [Validators.required, Validators.maxLength(50), uniqueTitleValidator(this.sections, this.sections[index].categories[cindex].title)]]
+    });
+    this._modalService.open(category)
+  }
 
-          this.sectionList = this.sections.map((section:any,index:number) =>{
-            return {
-              name:section.name,
-              id:index,
-            }
-          })
-        }
-      },() => {
-        this.sectionForm = this._fb.group({});
-      });
-    }
-
-    editSection(sectionModal:any,sindex:number){
-      this.sectionForm = this._fb.group({
-        name:[this.sections[sindex].name,[Validators.required,Validators.maxLength(250)]]
-      })
-      this._modalService.open(sectionModal).result.then(
-        (result) => {
-        if(result){
-          this.sections[sindex].name = this.sectionForm.value.name
-
-          this.sectionList = this.sections.map((section:any,index:number) =>{
-            return {
-              name:section.name,
-              id:index,
-            }
-          })
-        }
-      },() => {
-        this.sectionForm = this._fb.group({});
-      });
-    }
-
-    onSubmit(){
-      let index = 1;
-      const sendCatList = [];
-      this.saveLoading = true;
-      for (let section of this.sections) {
-        for(let category of section.categories) {
-          // const newCat = ...category
-          category.order = index;
-          category.section = section.name;
-          sendCatList.push(category);
-          index++
-        }
+  deleteCategory(category: any, index: number, cindex: number) {
+    this.catToDelete = this.sections[index].categories[cindex].title;
+    this._modalService.open(category).result.then(result => {
+      if (result) {
+        this.sections[index].categories.splice(cindex, 1);
       }
-      this._categoryService.saveCategories(sendCatList)
+    },
+      () => { }); // Avoid error for unhdandled Dismiss
+  }
+
+  createCategory(category: any) {
+    this.newCategoryMode = true;
+    this.categoryForm = this._fb.group({
+      id: [],
+      section: [null, [Validators.required]],
+      newId: [],
+      can_mod: [null, [Validators.required]],
+      can_post: [null, [Validators.required]],
+      can_view: [null, [Validators.required]],
+      description: ['', [Validators.maxLength(250)]],
+      // image: [],
+      music: [],
+      title: ['', [Validators.required, Validators.maxLength(50), uniqueTitleValidator(this.sections)]]
+    });
+    this._modalService.open(category)
+  }
+
+  saveCategory(index = -1, cindex = -1) {
+    this.saveLoading = true;
+    let formData = new FormData();
+
+    Object.keys(this.categoryForm.value).forEach(key => {
+      if (key !== 'image') formData.append(key, this.categoryForm.get(key)?.value);
+    });
+    console.log(this.categoryForm.value);
+    if (this.catImage instanceof File) {
+      formData.append('image', this.catImage);
+    }
+
+    this._categoryService.saveCategory(formData)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+          next: data => {
+            if (!this.newCategoryMode) {
+              this.sections[this.index].categories[this.index] = data.category;
+            } else {
+              this.sections[this.categoryForm.value.section].categories.push(data.category);
+            }
+            this.categoryForm = this._fb.group({});
+            this.saveLoading = false;
+            this._toastService.show(data.message)
+            this._modalService.dismissAll();
+          },
+          error: ee => {
+            this.saveLoading = false;
+            this._toastService.show(ee);
+            this._modalService.dismissAll();
+          }
+        })
+  }
+
+  onFileChange(event: any) {
+    if (event.target.files.length > 0) {
+      this.catImage = event.target.files[0];
+    }
+  }
+
+  createSection(sectionModal: any) {
+    this.sectionForm = this._fb.group({
+      name: ['', [Validators.required, Validators.maxLength(250)]]
+    })
+    this._modalService.open(sectionModal).result.then(
+      (result) => {
+        if (result) {
+          this.sections.push({
+            name: this.sectionForm.value.name,
+            categories: [],
+          })
+
+          this.sectionList = this.sections.map((section: any, index: number) => {
+            return {
+              name: section.name,
+              id: index,
+            }
+          })
+        }
+      }, () => {
+        this.sectionForm = this._fb.group({});
+      });
+  }
+
+  editSection(sectionModal: any, sindex: number) {
+    this.sectionForm = this._fb.group({
+      name: [this.sections[sindex].name, [Validators.required, Validators.maxLength(250)]]
+    })
+    this._modalService.open(sectionModal).result.then(
+      (result) => {
+        if (result) {
+          this.sections[sindex].name = this.sectionForm.value.name
+          this.sectionList = this.sections.map((section: any, index: number) => {
+            return {
+              name: section.name,
+              id: index,
+            }
+          })
+        }
+      }, () => {
+        this.sectionForm = this._fb.group({});
+      });
+  }
+
+  onSubmit() {
+    let index = 1;
+    const sendCatList = [];
+    this.saveLoading = true;
+    for (let section of this.sections) {
+      for (let category of section.categories) {
+        const newCat = {
+          order: index,
+          section: section.name,
+          id: category.id,
+        }
+        category.order = index;
+        category.section = section.name;
+        sendCatList.push(newCat);
+        index++
+      }
+    }
+
+    this._categoryService.saveCategories(sendCatList)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: r => {
           this.getData();
-          console.log(r);
+          this._toastService.show(r);
         },
         error: e => {
           this.getData();
-          console.log(e);
         }
       });
-    }
+  }
 
-    get title() { return this.categoryForm.get('title')}
-    get can_mod() { return this.categoryForm.get('can_mod')}
-    get can_post() { return this.categoryForm.get('can_post')}
-    get can_view() { return this.categoryForm.get('can_view')}
-    get section() { return this.categoryForm.get('section')}
+  get title() { return this.categoryForm.get('title') }
+  get can_mod() { return this.categoryForm.get('can_mod') }
+  get can_post() { return this.categoryForm.get('can_post') }
+  get can_view() { return this.categoryForm.get('can_view') }
+  get section() { return this.categoryForm.get('section') }
 
-    ngOnDestroy(): void {
-      this.unsubscribe$.next();
-      this.unsubscribe$.complete();
-    }
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
 }
