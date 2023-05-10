@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -200,7 +201,14 @@ Route::controller(SidebarController::class)->prefix('sidebar')->group(function()
 });
 
 
-
+Route::get('/CHECKINGCOJONES',function(){
+    $user = User::find(5);
+    if($user->publicRole->posts !== null){
+        echo "barbaro";
+    }else{
+        echo "bizzarro";
+    }
+});
 // Testing Routes.
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

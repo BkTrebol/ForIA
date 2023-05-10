@@ -206,12 +206,17 @@ export class ViewComponent implements OnInit, OnDestroy {
       .createPost(post)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: (_) => {
+        next: (res) => {
+          console.log(res);
           this.content = '';
           this.error = '';
+          if(res.hasOwnProperty('newRole')){
+            this.toastService.show(`Evolved to ${res.newRole.name}`);
+            if(this.userLogged) this.userLogged.userData.public_role = res.newRole;
+          }
           this.getData(
             this.listPosts.topic.id.toString(),
-            this.listPosts.page.current.toString(),
+            res.lastPage,
             true
           );
         },

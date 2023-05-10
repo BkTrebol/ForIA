@@ -15,7 +15,7 @@ export class PostService {
     this.apiPostURL = Global.api + 'post/';
   }
 
-  post(post: GetCreatePost): Observable<void> {
+  post(post: GetCreatePost): Observable<any> {
     let params = JSON.stringify(post);
     return this.http.post<void>(`${this.apiPostURL}`, params);
   }

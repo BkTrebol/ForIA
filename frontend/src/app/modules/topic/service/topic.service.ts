@@ -24,7 +24,7 @@ export class TopicService {
     return this.http.get<ListPosts>(`${this.apiTopicURL}${id}?page=${page}`);
   }
 
-  createPost(post: CreatePost): Observable<void> {
+  createPost(post: CreatePost): Observable<any> {
     let params = JSON.stringify(post);
     return this.http.post<void>(`${this.apiPostURL}`, params);
   }

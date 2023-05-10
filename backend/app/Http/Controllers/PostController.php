@@ -31,6 +31,15 @@ class PostController extends Controller
             'user_id' => $request->user()->id,
             'content' => $request->content,
         ]);
+
+        $response = [
+            'lastPage' => $topic->posts()->paginate(config('app.pagination.topic'))->lastPage(),
+        ];
+        if($user->public_role_id !== $post->user->public_role_id){
+            $response['newRole'] = $post->user->publicRole;
+        }
+
+        return response()->json($response,201);
     }
 
     function getPostData(Post $post)

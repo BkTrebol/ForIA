@@ -38,5 +38,27 @@ class Post extends Model
         static::saved(function($post){
             $post->topic->touch();
         });
+
+        static::created(function ($post) {
+            $user = $post->user;
+            if($user->publicRole->posts !== null){
+                $role = PublicRole::where('posts', '<=', $user->posts->count())->orderByDesc('posts')->first();
+                if ( $role->id !== $user->publicRole->id ){
+                    $user->publicRole()->associate($role);
+                    $user->save();
+                }
+            }
+        });
+
+        static::deleted(function ($post) {
+            $user = $post->user;
+            if($user->publicRole->posts !== null){
+                $role = PublicRole::where('posts', '<=', $user->posts->count())->orderByDesc('posts')->first();
+                if ( $role->id !== $user->publicRole->id ){
+                    $user->publicRole()->associate($role);
+                    $user->save();
+                }
+            }
+        });
     }
 }

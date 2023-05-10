@@ -113,8 +113,12 @@ export class CreateComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
-            this.router.navigate([`/topic/${this.post.topic_id}`]);
+            console.log(res);
+            this.router.navigate([`/topic/${this.post.topic_id}?page=${res.lastPage}`]);
             this.toastService.show('Post created successfully');
+            if(res.hasOwnProperty('newRole')){
+              this.toastService.show(`Evolved to ${res.newRole.name}`);
+            }
           },
           error: (e) => console.log(e),
         });
