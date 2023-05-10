@@ -8,15 +8,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared.module';
 
 @NgModule({
-  declarations: [
-    CategoryComponent
-  ],
+  declarations: [CategoryComponent],
   imports: [
     DragDropModule,
     NgbModule,
     CommonModule,
     CategoryRoutingModule,
-    SharedModule
-  ]
+    SharedModule,
+  ],
 })
-export class CategoryModule { }
+export class CategoryModule {}

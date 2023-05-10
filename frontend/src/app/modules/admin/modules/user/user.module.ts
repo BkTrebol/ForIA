@@ -8,18 +8,14 @@ import { SharedModule } from '../shared.module';
 import { EditComponent } from './components/edit/edit.component';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
-
 @NgModule({
-  declarations: [
-    ListComponent,
-    EditComponent
-  ],
+  declarations: [ListComponent, EditComponent],
   imports: [
     SharedModule,
     CommonModule,
     UserRoutingModule,
     NgxDatatableModule,
-    NgbDatepickerModule
-  ]
+    NgbDatepickerModule,
+  ],
 })
-export class UserModule { }
+export class UserModule {}

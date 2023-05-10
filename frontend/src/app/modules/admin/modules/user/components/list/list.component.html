@@ -1,14 +1,12 @@
 <div class="save-loading" *ngIf="false">
-
   <div class="spinner-border text-dark" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
-
 </div>
 
-<div class="container row align-items-center h-100 min-vh-100 " *ngIf="!loading; else loadingTemplate">
+<div class="row align-items-center h-100 min-vh-100" *ngIf="!loading; else loadingTemplate">
   <div class="">
-    <div class="filters ">
+    <div class="filters">
       <form class="" (ngSubmit)="onFilter()">
         <div class="row mb-2 mx-auto">
           <div class="col-12 row my-auto col-sm-4">

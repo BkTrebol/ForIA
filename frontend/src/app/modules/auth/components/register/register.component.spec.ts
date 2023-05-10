@@ -4,6 +4,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { SharedModule } from 'src/app/modules/share.module';
+import { RouterTestingModule } from '@angular/router/testing';
 
 // Check if the button .btn-send is disabled or not
 function checkBtn(is: boolean, fixture: ComponentFixture<RegisterComponent>) {
@@ -22,6 +24,8 @@ describe('RegisterComponent Test', () => {
         HttpClientTestingModule,
         FontAwesomeTestingModule,
         ReactiveFormsModule,
+        SharedModule,
+        RouterTestingModule,
       ],
       declarations: [RegisterComponent],
     }).compileComponents();

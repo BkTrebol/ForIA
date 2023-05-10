@@ -16,7 +16,6 @@ export class AvatarComponent implements OnInit, OnChanges {
   public getAvatarUrl: string;
   public defaultUrl: string;
   public avatarUrl: string;
-  public alt: string;
   public regexUrl: RegExp;
 
   @Input('user') user: {
@@ -32,7 +31,6 @@ export class AvatarComponent implements OnInit, OnChanges {
     this.getAvatarUrl = Global.api + 'user/get-avatar/';
     this.defaultUrl = 'https://api.dicebear.com/6.x/bottts/svg?seed=';
     this.avatarUrl = '';
-    this.alt = 'Avatar';
     this.regexUrl = /https?:\/\/.+\..+/;
     this.user = { avatar: null, nick: '', isVerified: true };
     this.width = '100';

@@ -1,61 +1,46 @@
-<!--* POTS BORRAR AIXO SI VOLS ES NOMES UNA PROVA *-->
-<!-- <div class="container-fluid">
-  <div class="row flex-nowrap">
-    <ul>
-      <li><a routerLink="/admin/login">Login</a></li> 
-      <li><a routerLink="/admin/dashboard">Dashboard</a></li>
-    </ul>
-  </div>
-</div> -->
-
 <div id="sidebar" [ngClass]="collapsed ? 'collapsed' : ''"
   class="sidebar d-flex min-vh-100 h-100 flex-column flex-shrink-0 bg-light bg-gradient">
-  <!-- <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-    <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-    <span class="fs-4">Sidebar</span>
-  </a> -->
   <div class="sticky-top">
-    <button type="button" class="btn w-100 nav-btn mt-2" 
-    [ngClass]="collapsed ? 'btn-primary' :'btn-outline-primary'"
-    (click)="collapsed = ! collapsed">
-    <fa-icon [icon]="['fas', 'bars']"></fa-icon>
-  </button>
-  <hr>
-  <ul class="nav nav-pills flex-column mb-auto">
-    <li>
-      <a routerLink="/admin/dashboard" class="nav-link" routerLinkActive="active link-light">
-        <fa-icon [icon]="['far', 'rectangle-list']"></fa-icon><span class="nav-item"> Dashboard</span>
-      </a>
-    </li>
-    <li>
-      <a routerLink="/admin/categories" class="nav-link" routerLinkActive="active link-light">
-        <fa-icon [icon]="['far', 'folder']"></fa-icon><span class="nav-item"> Categories</span>
-      </a>
-    </li>
-    <li>
-      <a routerLink="/admin/users" class="nav-link" routerLinkActive="active link-light">
-        <fa-icon [icon]="['far', 'user']"></fa-icon> <span class="nav-item"> Users</span>
-      </a>
-    </li>
-  </ul>
+    <button type="button" class="btn w-100 nav-btn mt-2" [ngClass]="collapsed ? 'btn-primary' :'btn-outline-primary'"
+      (click)="collapsed = ! collapsed">
+      <fa-icon [icon]="['fas', 'bars']"></fa-icon>
+    </button>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li>
+        <a routerLink="/admin/dashboard" class="nav-link" routerLinkActive="active link-light">
+          <fa-icon [icon]="['fas', 'tachometer-alt']"></fa-icon> <span class="nav-item"> Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/categories" class="nav-link" routerLinkActive="active link-light">
+          <fa-icon [icon]="['far', 'folder']"></fa-icon> <span class="nav-item"> Categories</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/users" class="nav-link" routerLinkActive="active link-light">
+          <fa-icon [icon]="['far', 'user']"></fa-icon> <span class="nav-item"> Users</span>
+        </a>
+      </li>
+    </ul>
   </div>
-  <div class="fixed-bottom">
-    <div ngbDropdown class="dropdown">
-      <a href="javascript:void(0)" class="d-flex align-items-center link-dark text-decoration-none"
-        id="dropdownUser2" ngbDropdownToggle>
-        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-        <strong class="nav-item">mdo</strong>
+  <div class="fixed-bottom py-3">
+    <div ngbDropdown class="dropdown p-1">
+      <a href="javascript:void(0)" class="d-flex align-items-center link-dark text-decoration-none" id="dropdownUser2"
+        ngbDropdownToggle>
+        <img [src]="avatarUrl" alt="Avatar of {{user.nick}}" width="32" height="32" class="rounded-circle me-2"
+          onerror="this.onerror=null; this.src=defaultUrl+user.nick">
+        <strong class="nav-item">{{user.nick}}</strong>
       </a>
       <ul ngbDropdownMenu class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
         <li><a class="dropdown-item" href="#">Settings</a></li>
         <li><a class="dropdown-item" href="#">Profile</a></li>
+        <li><a class="dropdown-item" href="">Forum</a></li>
         <li>
           <hr class="dropdown-divider">
         </li>
-        <li><a class="dropdown-item" href="#">Sign out</a></li>
+        <li><a class="dropdown-item" href="javascript:void(0)" (click)="logout()">Logout</a></li>
       </ul>
     </div>
-    
   </div>
-   
 </div>
