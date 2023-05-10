@@ -69,7 +69,7 @@
     </nav>
     <ul class="ng-select">
         <li>
-            <ng-select [(ngModel)]="user" (change)="changeUser()" ngbTooltip="Log in as Selected User">
+            <ng-select [(ngModel)]="user" (change)="changeUser()">
                 <ng-option *ngFor="let user of userList$ | async" [value]="user.id">{{user.id + '-' +
                     user.nick}}</ng-option>
             </ng-select>
