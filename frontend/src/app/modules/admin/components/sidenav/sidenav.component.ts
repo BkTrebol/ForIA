@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from 'src/app/helpers/services/toast.service';
@@ -19,11 +19,10 @@ export class SidenavComponent implements OnInit {
   public defaultUrl: string;
   public avatarUrl: string;
   public regexUrl: RegExp;
+  @Output('logout') logout = new EventEmitter<void>();
 
   constructor(
     private authService: AuthService,
-    private router: Router,
-    private toastService: ToastService
   ) {
     this.unsubscribe$ = new Subject();
     this.collapsed = false;
@@ -57,21 +56,8 @@ export class SidenavComponent implements OnInit {
   }
 
   // Logout the user
-  logout(): void {
-    this.authService
-      .logout()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (res) => {
-          this.toastService.show(res.message);
-        },
-        error: (err) => {
-          this.toastService.show(err.message);
-        },
-        complete: () => {
-          this.router.navigate(['/']);
-        },
-      });
+  onLogout(): void {
+   this.logout.emit();
   }
 
   ngOnDestroy(): void {

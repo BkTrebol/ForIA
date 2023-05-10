@@ -9,6 +9,7 @@ import {
 import { AuthService } from '../auth/service/auth.service';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
+import { ToastService } from 'src/app/helpers/services/toast.service';
 
 @Component({
   selector: 'app-admin',
@@ -25,7 +26,8 @@ export class AdminComponent implements OnInit, OnDestroy {
     private el: ElementRef,
     private renderer: Renderer2,
     private _authService: AuthService,
-    private _router: Router
+    private _router: Router,
+    private toastService: ToastService
   ) {
     this.unsubscribe$ = new Subject();
     this.isAdmin = false;
@@ -61,6 +63,27 @@ export class AdminComponent implements OnInit, OnDestroy {
       });
   }
 
+  logout(): void {
+    this.loading = true;
+    this._authService
+      .logout()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this.toastService.show(res.message);
+        },
+        error: (err) => {
+          console.log(err)
+          this.toastService.show(err.message);
+        },
+        complete: () => {
+          this.loading = false;
+          this._router.navigate(['/']);
+        },
+      });
+  }
+  
   ngOnDestroy(): void {
     this.renderer.removeChild(
       this.el.nativeElement.ownerDocument.head,

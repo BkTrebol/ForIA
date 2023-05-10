@@ -64,20 +64,22 @@ export class AppComponent implements OnInit, OnDestroy {
     this._authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {
         this.userIsAuthenticated = r;
-        this._authService.loading$.subscribe({
-          complete: () => {
-            this.loading = false;
-            this.cdRef.detectChanges();
-            // setTimeout(() => this.loading = false);
-            // this.loadingRoutes();
-          },
-        });
+
         if (this.userIsAuthenticated && !this.userIsAuthenticated.userData.isVerified) {
           this.toastService.show('Verify your email')
         }
       },
     });
 
+    this._authService.loading$.subscribe({
+      complete: () => {
+        this.loading = false;
+        this.cdRef.detectChanges();
+        // setTimeout(() => this.loading = false);
+        // this.loadingRoutes();
+      },
+    });
+    
     // Set Theme
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
