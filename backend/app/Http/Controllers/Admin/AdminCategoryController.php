@@ -50,5 +50,7 @@ class AdminCategoryController extends Controller
                 $oldCategory->delete();
             }
         }
+
+        return response()->json('Categories updated successfully');
     }
 }
