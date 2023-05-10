@@ -24,11 +24,9 @@ export class ErrorsInterceptor implements HttpInterceptor {
         return res;
       }),
       catchError((error: HttpErrorResponse) => {
-        let errorMsg = '';
         if (error.error instanceof ErrorEvent) {
           // console.log('This is client side error');
           // errorMsg = `Error: ${error.error.message}`;
-
         } else {
           if (error.status === 500) {
             this.toastService.showDanger('Server error');

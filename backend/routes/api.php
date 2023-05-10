@@ -33,6 +33,7 @@ use App\Models\Topic;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
 // Authenticated routes.
 Route::middleware('auth:sanctum')->group(function(){
 
@@ -97,8 +98,6 @@ Route::middleware('auth:sanctum')->group(function(){
 
     // PrivateMessage
     Route::controller(PrivateMessageController::class)->prefix('pm')->group(function(){
-        // Route::get('/received','getMessagesReceived');
-        // Route::get('/sent','getMessagesSent');
         Route::get('','getMessages');
         Route::get('/reply/{pm}','getThread');
         Route::get('/{pm}','getPrivateMessage');
@@ -131,7 +130,7 @@ Route::middleware('auth:sanctum')->group(function(){
             Route::get('/list','getList');
             Route::post('/check/nick','checkNick');
             Route::post('/check/email','checkEmail');
-            Route::put('/update/{user}','updateUser'); 
+            Route::put('/update/{user}','updateUser');
             Route::get('/{user}','getUser');
             Route::delete('/{user}','deleteUser');
         });
@@ -155,7 +154,6 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect()->away('http://localhost:4200');
 })->middleware(['auth:sanctum','signed'])->name('verification.verify');
 
-
 Route::controller(AuthController::class)->prefix('auth')->group(function(){
     Route::post('/register','register');
     Route::post('/login','login')->name('login');
@@ -170,14 +168,19 @@ Route::controller(CategoryController::class)->prefix('category')->group(function
     Route::get('','getCategories');
     Route::get('/list','getCategoryList');
     Route::get('/{category}','viewCategory');
+
+    //Music
+    Route::get('/music/{category}', 'getMusic');
 });
 
 Route::controller(TopicController::class)->prefix('topic')->group(function(){
     Route::get('/{topic}','viewTopic');
 });
+
 Route::controller(PostController::class)->prefix('post')->group(function(){
 
 });
+
 Route::controller(PollController::class)->prefix('poll')->group(function(){
     Route::get('/{poll}','getVotes');
 });
@@ -209,6 +212,7 @@ Route::get('/CHECKINGCOJONES',function(){
         echo "bizzarro";
     }
 });
+
 // Testing Routes.
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

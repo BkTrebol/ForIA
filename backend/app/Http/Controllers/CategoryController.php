@@ -92,7 +92,7 @@ class CategoryController extends Controller
             $topics = $queryTopics->paginate(config('app.pagination.category'), '*', 'page', $page);
         }
 
-       
+
         // if ($topics->lastPage() < $requestedPage) {
         //     $topics = $category->topics()->whereIn('can_view', $roles)->paginate(config('app.pagination.category'), '*', 'page', $topics->lastPage());
         // } else if ($requestedPage <= 0) {
@@ -125,9 +125,13 @@ class CategoryController extends Controller
     }
 
 
-    function getAllCategory(){
+    function getAllCategory() {
         $user = Auth::user();
         $roles = self::roles();
         return Category::whereIn('can_view', $roles)->select('id', 'title')->orderBy('section')->get();
+    }
+
+    function getMusic(Category $category) {
+        return response()->json(['music' => $category->music ?? null]);
     }
 }

@@ -55,4 +55,9 @@ export class CategoryService {
     let params = JSON.stringify(topic);
     return this.http.put(`${this.apiTopicURL}${id}`, params);
   }
+
+  //Music
+  getMusic(id: string): Observable<any>{
+    return this.http.get(`${this.apiCategoryURL}music/${id}`);
+  }
 }
