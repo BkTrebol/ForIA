@@ -24,9 +24,9 @@ class UploadController extends Controller
             ]);
     }
 
-    function getImage($image){
-        if (Storage::disk('images')->exists($image)){
-            return response(Storage::disk('images')->get($image),200);
+    function getImage($disk,$image){
+        if (Storage::disk($disk)->exists($image)){
+            return response(Storage::disk($disk)->get($image),200);
         } else{
             return response()->json('e: '.$image,404);
         }

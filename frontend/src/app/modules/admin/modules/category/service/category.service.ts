@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Global } from 'src/environment/global';
@@ -8,21 +8,29 @@ import { Global } from 'src/environment/global';
 })
 export class CategoryService {
   private apiUrl: string;
+  private catUrl: string;
   constructor(
     private _http: HttpClient,
   ) { 
     this.apiUrl = Global.api+'admin/';
+    this.catUrl = this.apiUrl+'category/';
   }
 
 
   getCategories(): Observable<any> {
-    return this._http.get<any>(`${this.apiUrl}category/list`);
+    return this._http.get<any>(`${this.catUrl}list`);
+  }
+
+  saveCategory(form:FormData):Observable<any> {
+    let headers = new HttpHeaders({
+      Accept: 'application/json',
+    });
+    return this._http.post<any>(`${this.catUrl}save`,form);
   }
 
   saveCategories(categories:Array<any>):Observable<any> {
     const params = JSON.stringify({categories:categories})
-    console.log(params);
-    return this._http.post<any>(`${this.apiUrl}category/update`,params);
+    return this._http.post<any>(`${this.catUrl}update`,params);
   }
 
   getRoles(): Observable<any> {
