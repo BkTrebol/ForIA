@@ -9,6 +9,7 @@ import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { CategoryService } from 'src/app/modules/category/service/category.service';
+import { Global } from 'src/environment/global';
 
 @Component({
   selector: 'app-edit',
@@ -49,6 +50,8 @@ export class EditComponent implements OnInit, OnDestroy {
     this.editorConfig = {
       minHeight: '200px',
       editable: true,
+      uploadUrl: `${Global.api}upload/images`,
+      uploadWithCredentials: true,
     };
     this.topic = {
       category_id: 0,

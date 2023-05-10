@@ -1,8 +1,0 @@
-@import "../../../../styles/vars";
-@import "../../../../styles/mixins";
-
-.list-page .list .list-body {
-  .btn-d {
-    @include btn2(rgb(255, 73, 73));
-  }
-}

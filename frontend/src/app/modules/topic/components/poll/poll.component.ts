@@ -73,8 +73,6 @@ export class PollComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-
-
     if (this.poll.finish_date && this.poll.finish_date >= new Date().toJSON().slice(0, 10)) {
       this.topicService
         .poll(this.topicId, this.poll)
