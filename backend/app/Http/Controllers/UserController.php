@@ -161,7 +161,7 @@ class UserController extends Controller
         $roles = $viewer ? $viewer->roles()->pluck('role_id')->toArray() : [1];
         $isAdmin = self::is_admin();
 
-        if($isAdmin || $user->id == $viewer->id){
+        if($isAdmin ||( $viewer && $user->id == $viewer->id)){
             $res = ['user' => $user->only('id', 'nick', 'avatar', 'rol'),
                     'posts' => $user->posts()->get()->map->only(['id', 'topic_id', 'created_at']),
                     'topics' => $user->topics()->get()->map->only(['id', 'category_id', 'created_at']),
@@ -230,8 +230,8 @@ class UserController extends Controller
 
         if(!Hash::check($password,$user->password)){
             return response()->json([
-                "message" => "Invalid password",422
-            ]);
+                "message" => "Invalid password"
+            ],422);
         }
 
         $request->user()->tokens()->delete();
@@ -239,6 +239,7 @@ class UserController extends Controller
         $request->session()->regenerateToken();
 
         Auth::guard('web')->logout();
+        Post::where('user_id', $user->id)->update(['user_id' => 1]);
         $user->delete();
 
         return response()->json([
