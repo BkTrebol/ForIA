@@ -37,12 +37,12 @@ export class ErrorsInterceptor implements HttpInterceptor {
             !error.url?.includes('/auth/data')
           ) {
             this.toastService.showDanger('Unauthenticated');
-          } else if (error.status === 422) {
-            this.toastService.showDanger('Invalid form data');
+          // } else if (error.status === 422) {
+          //   this.toastService.showDanger('Invalid form data');
           } else if (error.status === 404) {
             this.toastService.showDanger('Page not found');
           } else if (!error.url?.includes('/auth/data')) {
-            this.toastService.showDanger('Unknown Error');
+            // this.toastService.showDanger('Unknown Error');
           } else {
             // throwError(null);
           }
@@ -50,7 +50,7 @@ export class ErrorsInterceptor implements HttpInterceptor {
           // console.log('This is server side error');
           // errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
         }
-        return throwError(() => console.error(error));
+        return throwError(() => error);
       })
     );
   }

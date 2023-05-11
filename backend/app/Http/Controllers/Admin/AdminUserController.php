@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -173,7 +174,8 @@ class AdminUserController extends Controller
             $request->session()->regenerateToken();
     
             Auth::guard('web')->logout();
-        } 
+        }   
+        Post::where('user_id', $user->id)->update(['user_id' => 1]);
             $user->delete();
     
         

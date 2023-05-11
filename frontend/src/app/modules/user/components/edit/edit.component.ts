@@ -300,12 +300,14 @@ export class EditComponent implements OnInit, OnDestroy {
             this.modalService.dismissAll();
             this.deleteLoading = false;
             this.toastService.show(r.message);
-            // window.location.href = '/';
+            window.location.href = '/';
             
           },
           error: e => {
-            this.toastService.show("User destruction aborted: ",e);
             this.deleteLoading = false;
+            this.modalService.dismissAll();
+            this.toastService.show("User destruction aborted: "+e.error.message);
+
           }
       })
       }
