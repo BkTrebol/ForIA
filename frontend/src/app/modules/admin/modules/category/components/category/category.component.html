@@ -159,13 +159,16 @@
 									</p>
 								</div>
 							</div>
-
-							<div class="form-floating form-group my-1">
-
+<!-- 
+							<div class="form-floating form-group my-1"> -->
 								<input type="file" id="image" (change)="onFileChange($event)" accept="image/*"
 									class="form-control" placeholder="Image" formControlName="image">
 								<label class="text-secondary" for="image">Image</label>
-							</div>
+							<!-- </div> -->
+							<div *ngIf="imageUrl">
+								<img [src]="imageUrl" alt="Uploaded Image" class="uploaded-image">
+							  </div>
+
 							<div class="form-floating form-group my-1">
 
 								<input type="text" id="music" class="form-control" placeholder="Music"

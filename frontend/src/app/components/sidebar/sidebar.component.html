@@ -13,8 +13,8 @@
             <div class="text">
                 <a routerLink="/user/profile/{{userLocalData?.id}}"
                     ngbTooltip="View Profile of {{userLocalData.nick}}">{{userLocalData?.nick}}</a>
-                <small ngbTooltip="Description of the rol {{userLocalData.rol}}"
-                    placement="bottom">{{userLocalData.rol}}
+                <small ngbTooltip="{{userLocalData.public_role.description}}"
+                    placement="bottom">{{userLocalData.public_role.name}}
                 </small>
             </div>
         </div>

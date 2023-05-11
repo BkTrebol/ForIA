@@ -161,7 +161,7 @@ class UserController extends Controller
         $roles = $viewer ? $viewer->roles()->pluck('role_id')->toArray() : [1];
         $isAdmin = self::is_admin();
 
-        if($isAdmin ||( $viewer && $user->id == $viewer->id)){
+        if($isAdmin ||($viewer && $user->id === $viewer->id)){
             $res = ['user' => $user->only('id', 'nick', 'avatar', 'rol'),
                     'posts' => $user->posts()->get()->map->only(['id', 'topic_id', 'created_at']),
                     'topics' => $user->topics()->get()->map->only(['id', 'category_id', 'created_at']),
