@@ -165,7 +165,7 @@
         //   @include a-link($color-gradient4, $color-gradient5, $color-gradient6);
         // }
         .btn2,
-        .btn-a {
+        .btn-a, .btn-music {
           color: $color-white-clear;
         }
       }
@@ -523,7 +523,7 @@
         //   @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
         // }
         .btn2,
-        .btn-a {
+        .btn-a, .btn-music {
           color: $color-black-clear;
         }
       }
@@ -906,6 +906,12 @@
           width: 100%;
           margin: 4px 0;
           @include row(space-evenly);
+          .music{
+            @include col-center(space-between, 8px);
+            .controls {
+              @include row(space-between, 8px);
+            }
+          }
         }
       }
       .btn2 {
@@ -914,6 +920,9 @@
       .btn-a {
         @include btn2($color-gradient1);
         text-decoration: none;
+      }
+      .btn-music {
+        @include btn3();
       }
       h1.m {
         margin-top: 8px;

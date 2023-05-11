@@ -61,7 +61,21 @@
                         routerLink="/topic/create/{{listTopics.category.id}}">
                         <fa-icon [icon]="['fas', 'plus']"></fa-icon>
                         Create new Topic</a>
-                        <button *ngIf="!userLogged || userLogged && userLogged.userPreferences.allow_music" class="btn2" (click)="playAudio()">{{isMusic? 'Pause' : 'Play'}} Audio</button>
+                    <div class="music" *ngIf="!userLogged || userLogged && userLogged.userPreferences.allow_music">
+                        <div class="controls">
+                            <button class="btn-music" (click)="playAudio()"
+                                ngbTooltip="{{isMusic? 'Pause' : 'Play'}} Music"><fa-icon
+                                    [icon]="['fas', isMusic? 'circle-pause' : 'circle-play']"></fa-icon></button>
+                            <span>{{audio.duration | seconds}}</span>
+                        </div>
+                        <div class="controls" ngbTooltip="Change the Volume of the Music" placement="right">
+                            <input (change)="modifyVolume($event)" (input)="modifyVolume($event)" type="range"
+                                id="volume" min="0" max="1" step="0.1" value="0.3">
+                            <label for="volume"><fa-icon
+                                    [icon]="['fas', (audio.volume == 0 ? 'volume-xmark': audio.volume > 0.5 ? 'volume-high': 'volume-low')]"></fa-icon>
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

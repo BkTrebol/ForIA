@@ -10,3 +10,20 @@ export class CapitalizePipe implements PipeTransform {
     );
   }
 }
+
+@Pipe({
+  name: 'seconds',
+})
+export class SecondsPipe implements PipeTransform {
+  transform(seconds: number): string {
+    if (isNaN(seconds)) {
+      return ''
+    }
+    let minutes = Math.floor(seconds / 60);
+    let secs: string | number = Math.floor(seconds % 60);
+    if (secs < 10) {
+      secs = '0' + secs;
+    }
+    return minutes + ':' + secs;
+  }
+}
