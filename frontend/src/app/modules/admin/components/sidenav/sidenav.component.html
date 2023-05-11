@@ -19,8 +19,15 @@
           </a>
         </li>
         <li>
-          <a routerLink="/admin/users" class="nav-link" routerLinkActive="active link-light">
+          <a routerLink="/admin/users" class="nav-link"
+          [ngClass]="{'active link-light':showActive}"
+          >
             <fa-icon [icon]="['far', 'user']"></fa-icon> <span class="nav-item"> Users</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/admin/users/roles" class="nav-link" routerLinkActive="active link-light"  [routerLinkActiveOptions]="{exact: true}">
+            <fa-icon [icon]="['fas', 'users']" ></fa-icon> <span class="nav-item"> Roles</span>
           </a>
         </li>
       </ul>

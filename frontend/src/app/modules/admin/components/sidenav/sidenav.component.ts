@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import {  NavigationEnd, Router } from '@angular/router';
+import { Subject, filter, takeUntil } from 'rxjs';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
@@ -19,11 +19,14 @@ export class SidenavComponent implements OnInit {
   public defaultUrl: string;
   public avatarUrl: string;
   public regexUrl: RegExp;
+  public showActive:boolean;
   @Output('logout') logout = new EventEmitter<void>();
 
   constructor(
     private authService: AuthService,
+    private router: Router,
   ) {
+    this.showActive = /users\/\d+/.test(this.router.url) || /users\/?$/.test(this.router.url);
     this.unsubscribe$ = new Subject();
     this.collapsed = false;
     this.user = this.authService.user.userData;
@@ -36,6 +39,12 @@ export class SidenavComponent implements OnInit {
   ngOnInit(): void {
     this.getUrlImge();
     this.collapsed = window.innerWidth <= 800;
+
+    this.router.events.pipe(
+      filter((event: any) => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      this.showActive = /users\/\d+/.test(event.url) || /users\/?$/.test(event.url)
+    });
   }
 
   @HostListener('window:resize', ['$event'])
