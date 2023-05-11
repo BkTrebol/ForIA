@@ -1,9 +1,13 @@
 export interface EditPost {
-  post: {
-    topic_id: number,
-    content: string
-  },
-  topic: {
-    title: string
-  }
+  post: Post;
+  topic: Topic;
+}
+
+interface Post {
+  topic_id: number;
+  content: string;
+}
+
+interface Topic {
+  title: string;
 }

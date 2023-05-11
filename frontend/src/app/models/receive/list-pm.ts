@@ -1,8 +1,7 @@
-import { Post, Topic } from './list-posts';
 import { Pages } from '../common/pages';
 
 export interface ListPm {
-  messages: Array<ShortPrivateMessage>;
+  messages: ShortPrivateMessage[];
   page: Pages;
 }
 
@@ -11,13 +10,13 @@ interface ShortPrivateMessage {
   title: string;
   created_at: string;
   viewed?: boolean;
-  receiver?: { id: number; nick: string };
-  sender?: { id: number; nick: string };
+  receiver?: MiniUser;
+  sender?: MiniUser;
 }
 
 export interface PrivateMessageList {
   message: PrivateMessage;
-  thread: Array<PrivateMessage>;
+  thread: PrivateMessage[];
   recipient: number;
   page: Pages;
 }
@@ -28,7 +27,7 @@ export interface PrivateMessage {
   content: string;
   sender_id: number;
   receiver_id: number;
-  sender: { id: number; nick: string; avatar: string };
+  sender: User;
   thread_id: number;
 }
 
@@ -37,4 +36,15 @@ export interface newPrivateMessage {
   title: string;
   content: string;
   thread_id?: number;
+}
+
+interface MiniUser {
+  id: number;
+  nick: string;
+}
+
+interface User {
+  id: number;
+  nick: string;
+  avatar: string | null;
 }

@@ -5,7 +5,7 @@ export interface User {
   location: string;
   birthday: string;
   avatar: string;
-  roles: Array<string>;
+  roles: string[];
   public_role: PublicRole;
   created_at: string;
   updated_at: string;
@@ -13,7 +13,7 @@ export interface User {
   isVerified: boolean;
 }
 
-interface PublicRole{
-  name:string;
-  description?:string;
+interface PublicRole {
+  name: string;
+  description?: string;
 }

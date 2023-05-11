@@ -9,7 +9,7 @@ export interface Topic {
 export interface Poll {
   name: string;
   finish_date?: string;
-  options: Array<PollOption>;
+  options: PollOption[];
 }
 
 interface PollOption {

@@ -13,13 +13,17 @@ export interface Category {
   image: null | string;
   topics: number;
   posts: number;
-  lastPost: {
-    created_at: string;
-    topic: {
-      id: number;
-      title: string;
-      last_page: number;
-    };
-    user: UserCard;
-  };
+  lastPost: LastPost;
+}
+
+interface LastPost {
+  created_at: string;
+  topic: Topic;
+  user: UserCard;
+}
+
+interface Topic {
+  id: number;
+  title: string;
+  last_page: number;
 }

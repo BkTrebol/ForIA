@@ -1,8 +1,6 @@
 export interface EditTopic {
   topic: OneTopic;
-  category: {
-    title: string;
-  };
+  category: Category;
 }
 
 export interface OneTopic {
@@ -10,4 +8,8 @@ export interface OneTopic {
   title: string;
   description: string;
   content: string;
+}
+
+interface Category {
+  title: string;
 }
