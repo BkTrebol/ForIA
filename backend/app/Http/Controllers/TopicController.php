@@ -48,7 +48,7 @@ class TopicController extends Controller
             //         'user:id,nick,avatar,created_at,public_role_id',
             //         'user.publicRole:name,description'
             //     ])->posts()->paginate(config('app.pagination.topic'),'*','page',$posts->lastPage());
-                
+
             // } else if ($requestedPage <= 0) {
             //     // $posts = $topic->load('user:id,nick,avatar,rol,created_at')->posts()->paginate(config('app.pagination.topic'),'*','page',1);
             //     $posts = $topic->load([
@@ -71,8 +71,11 @@ class TopicController extends Controller
             'can_poll' => $poll == null && (($user && $user->id == $topic->user_id) || $isAdmin || $isMod),
             'category' => $topic->category->only('id', 'title'),
 
-            'posts' => $posts->map(function ($post) {
+            'posts' => $posts->map(function ($post) use($user) {
                 $post['can_edit'] = $this->checkPostPermission($post);
+                if($user && $user->preferences->filter_bad_words){
+                    $post['content'] = self::ban_words($post->content);
+                }
                 return $post->load(['user:id,nick,avatar,created_at,public_role_id','user.publicRole'])->only('id', 'content', 'created_at', 'updated_at', 'can_edit', 'user');
             }),
             'poll' => $poll,
@@ -82,7 +85,7 @@ class TopicController extends Controller
                 "total" => $posts->total()
             ],
         ];
-        
+
         if ($posts->onFirstPage()) {
             $response['topic'] = $topic->only('id', 'title', 'created_at', 'updated_at', 'content', 'user');
         } else {
