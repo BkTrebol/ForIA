@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PollOption extends Model
 {
     use HasFactory;
-    
+
      /**
      * The attributes that are mass assignable.
      *
@@ -30,6 +30,6 @@ class PollOption extends Model
     }
 
     public function poll(){
-        return $this->belongsTo(Poll::class,'poll_id');
+        return $this->belongsTo(Poll::class, 'poll_id');
     }
 }

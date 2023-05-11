@@ -61,7 +61,7 @@
                         routerLink="/topic/create/{{listTopics.category.id}}">
                         <fa-icon [icon]="['fas', 'plus']"></fa-icon>
                         Create new Topic</a>
-                        <button *ngIf="userLogged && userLogged.userPreferences.allow_music" class="btn2" (click)="playAudio()">{{isMusic? 'Pause' : 'Play'}} Audio</button>
+                        <button *ngIf="!userLogged || userLogged && userLogged.userPreferences.allow_music" class="btn2" (click)="playAudio()">{{isMusic? 'Pause' : 'Play'}} Audio</button>
                 </div>
             </div>
         </div>

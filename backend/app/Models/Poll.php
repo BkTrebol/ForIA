@@ -26,9 +26,8 @@ class Poll extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
-        // 'topic_id',
     ];
-    
+
     public function options(){
         return $this->hasMany(PollOption::class);
     }
@@ -42,6 +41,6 @@ class Poll extends Model
     }
 
     public function topic(){
-        return $this->belongsTo(Topic::class,'topic_id');
+        return $this->belongsTo(Topic::class, 'topic_id');
     }
 }

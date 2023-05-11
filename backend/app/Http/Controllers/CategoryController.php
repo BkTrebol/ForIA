@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Category;
-
+use Illuminate\Support\Facades\Storage;
+use File;
 class CategoryController extends Controller
 {
     function getCategoryList()
     {
-        //crec que no es fa servir?
         $user = Auth::user();
         $roles = self::roles();
         return Category::whereIn('can_view', $roles)->select('id', 'title')->orderBy('order')->get();
@@ -132,6 +132,12 @@ class CategoryController extends Controller
     }
 
     function getMusic(Category $category) {
-        return response()->json(['music' => $category->music ?? null]);
+        if ($category->music != null && Storage::disk('music')->exists($category->music)){
+            return response(Storage::disk('music')->get($category->music), 200);
+        } else{
+            return response(Storage::disk('music')->get('default.mp3'), 200);
+            // $path = storage_path('app/music/default.mp3');
+            // return response()->download($path);
+        }
     }
 }

@@ -70,7 +70,6 @@ export class AdminComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          console.log(res);
           this.toastService.show(res.message);
         },
         error: (err) => {
@@ -83,7 +82,7 @@ export class AdminComponent implements OnInit, OnDestroy {
         },
       });
   }
-  
+
   ngOnDestroy(): void {
     this.renderer.removeChild(
       this.el.nativeElement.ownerDocument.head,

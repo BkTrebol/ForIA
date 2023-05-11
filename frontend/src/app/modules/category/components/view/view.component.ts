@@ -1,16 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import {
-  Category,
-  Topic,
-  ListTopics,
-} from 'src/app/models/receive/list-topics';
+import { ListTopics } from 'src/app/models/receive/list-topics';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { CategoryService } from '../../service/category.service';
 import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
+import { Global } from 'src/environment/global';
 
 @Component({
   selector: 'app-view',
@@ -113,33 +110,12 @@ export class ViewComponent implements OnInit, OnDestroy {
             this.scrollToTop();
           }
 
-          if (this.userLogged && this.userLogged.userPreferences.allow_music) {
-            this.getMusic(this.listTopics.category.id.toString())
+          if (
+            !this.userLogged ||
+            (this.userLogged && this.userLogged.userPreferences.allow_music)
+          ) {
+            this.getMusic(this.listTopics.category.id.toString());
           }
-          // if (this.listTopics.topics.length == 0) {
-          //   this.loading = true;
-          //   this.router.navigate([], {
-          //     relativeTo: this.route,
-          //     queryParams: { page: this.listTopics.page.last },
-          //     queryParamsHandling: 'merge',
-          //   });
-          //   this.getData(
-          //     this.listTopics.category.id.toString(),
-          //     this.listTopics.page.last.toString()
-          //   );
-          // } else {
-          //   this.router.navigate([], {
-          //     relativeTo: this.route,
-          //     queryParams: {
-          //       page:
-          //         this.listTopics.page.current == 1
-          //           ? null
-          //           : this.listTopics.page.current,
-          //     },
-          //     queryParamsHandling: 'merge',
-          //   });
-          //   this.loading = false;
-          // }
         },
         error: (err) => {
           this.loading = false;
@@ -154,30 +130,21 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
   getMusic(id: string): void {
-    this.categoryService.getMusic(id).subscribe({
-      next: (res) => {
-        this.audio.src =
-          'http://localhost:8000/music/' + (res.music ?? 'music1.mp3');
-        this.audio.load();
-        let isPlaying = this.audio.play();
-        if (isPlaying !== undefined) {
-          isPlaying
-            .then((_) => {
-              this.isMusic = true;
-            })
-            .catch((error) => {
-              this.isMusic = false;
-            });
-        }
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.audio.src = `${Global.api}category/music/${id}`;
+    this.audio.load();
+    let isPlaying = this.audio.play();
+    if (isPlaying !== undefined) {
+      isPlaying
+        .then((_) => {
+          this.isMusic = true;
+        })
+        .catch((error) => {
+          this.isMusic = false;
+        });
+    }
   }
 
   playAudio(): void {
-    // this.audio.src = this.audioUrl;
     if (this.isMusic) {
       this.audio.pause();
     } else {

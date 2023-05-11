@@ -23,12 +23,11 @@ class PollAnswer extends Model
         'user_id',
     ];
 
-
     public function user(){
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function option(){
-        return $this->belongsTo(PollOption::class,'poll_option_id');
+        return $this->belongsTo(PollOption::class, 'poll_option_id');
     }
 }

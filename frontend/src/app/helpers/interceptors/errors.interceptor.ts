@@ -8,7 +8,7 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, filter, map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { ToastService } from '../services/toast.service';
 
 @Injectable()
@@ -43,6 +43,8 @@ export class ErrorsInterceptor implements HttpInterceptor {
             this.toastService.showDanger('Page not found');
           } else if (!error.url?.includes('/auth/data')) {
             this.toastService.showDanger('Unknown Error');
+          } else {
+            // throwError(null);
           }
 
           // console.log('This is server side error');
