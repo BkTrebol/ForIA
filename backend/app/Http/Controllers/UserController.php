@@ -213,4 +213,36 @@ class UserController extends Controller
             ],403);
         }
     }
+
+    function deleteUser(Request $request){
+        $user = Auth::user();
+        if(!$request->has("password") || !$request->has("confirm")){
+                return response()->json([
+                    "meessage" => "Missing password.",422]);
+        }
+        $password = $request->input('password');
+        $confirm = $request->input('confirm');
+        if($password !== $confirm){
+            return response()->json([
+                "meessage" => "Password mismatch",
+            ],422);
+        }
+
+        if(!Hash::check($password,$user->password)){
+            return response()->json([
+                "message" => "Invalid password",422
+            ]);
+        }
+
+        $request->user()->tokens()->delete();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        Auth::guard('web')->logout();
+        $user->delete();
+
+        return response()->json([
+            "message" => "Falta implementar"
+        ]);
+    }
 }

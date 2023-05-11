@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import {
   Validators,
   FormBuilder,
@@ -14,11 +14,13 @@ import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { ToastService } from 'src/app/helpers/services/toast.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss', '../../../../styles/user-form.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class EditComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
@@ -35,6 +37,10 @@ export class EditComponent implements OnInit, OnDestroy {
   public url: string;
   public formEditProfile: FormGroup;
   public formBuilderNonNullable: NonNullableFormBuilder;
+  public userDeletion: number;
+  public deleteLoading: boolean;
+  public deletionPassword:string;
+  public deletionPassword2:string;
   public validationMessagesEditProfile = {
     nick: {
       required: 'Nick is Required',
@@ -69,8 +75,13 @@ export class EditComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private themeService: ThemeService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private modalService: NgbModal
   ) {
+    this.deletionPassword = "";
+    this.deletionPassword2 = "";
+    this.deleteLoading = false;
+    this.userDeletion = 0;
     this.unsubscribe$ = new Subject();
     this.theme = this.themeService.getTheme();
     this.error = '';
@@ -253,6 +264,52 @@ export class EditComponent implements OnInit, OnDestroy {
         });
     } else {
       this.error = 'Invalid data in the Form';
+    }
+  }
+
+  deleteUser(modal:any){
+    this.deletionPassword = "";
+    this.deletionPassword2 = "";
+    this.modalService.open(modal).result.catch( () =>{
+      if(this.userDeletion != 3){
+        this.toastService.show("User destruction aborted");
+      }
+      this.userDeletion = 0;
+      this.deletionPassword = "";
+      this.deletionPassword2 = "";
+
+    })
+  }
+
+  confirmDelete(){
+    this.userDeletion++;
+    if(this.userDeletion >= 3){
+      this.deleteLoading = true;
+      console.log(this.deletionPassword,this.deletionPassword2 )
+      if(this.deletionPassword !== this.deletionPassword2 
+        || this.deletionPassword === ""){
+          this.modalService.dismissAll();
+          this.deleteLoading = false;
+          this.toastService.show("User destruction aborted: Password mismatch.");
+      } else{
+        this.userService.dropUser(this.deletionPassword, this.deletionPassword2)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: r => {
+            console.log(r)
+            this.modalService.dismissAll();
+            this.deleteLoading = false;
+            this.toastService.show(r.message);
+            // window.location.href = '/';
+            
+          },
+          error: e => {
+            this.toastService.show("User destruction aborted: ",e);
+            this.deleteLoading = false;
+          }
+      })
+      }
+
     }
   }
 

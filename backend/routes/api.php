@@ -51,6 +51,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/preference','getUserPreferences');
         Route::put('/preference','editUserPreference');
         Route::get('/list','getUserList');
+        Route::post('/delete','deleteUser');
 
     });
 
@@ -124,14 +125,15 @@ Route::middleware('auth:sanctum')->group(function(){
 
         Route::controller(RoleController::class)->prefix('role')->group(function(){
             Route::get('/all','getAll');
-            Route::get('/','getList');
+            Route::get('/public','getPublic');
+            Route::get('/normal','getList');
         });
 
         Route::controller(AdminUserController::class)->prefix('user')->group(function(){
             Route::get('/list','getList');
             Route::post('/check/nick','checkNick');
             Route::post('/check/email','checkEmail');
-            Route::put('/update/{user}','updateUser');
+            Route::put('/update','updateUser'); 
             Route::get('/{user}','getUser');
             Route::delete('/{user}','deleteUser');
         });

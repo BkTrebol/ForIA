@@ -75,4 +75,9 @@ export class UserService {
       params
     );
   }
+
+  dropUser(password:string,passwordConfirm:string): Observable<any>{
+    const body = JSON.stringify({password:password, confirm:passwordConfirm});
+    return this.http.post(`${this.apiUserURL}delete`,body)
+  }
 }

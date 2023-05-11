@@ -67,7 +67,7 @@
                             ngbTooltip="View Profile of {{forumStats.lastUser.nick}}"
                             placement="bottom">{{forumStats.lastUser.nick}}</a>
                     </p>
-                    <p>Last Poll: <a routerLink="/topic/{{forumStats.lastPoll.topic_id}}"
+                    <p *ngIf="forumStats.lastPoll" >Last Poll: <a routerLink="/topic/{{forumStats.lastPoll.topic_id}}"
                             ngbTooltip="View Poll {{forumStats.lastPoll.name}}"
                             placement="bottom">{{forumStats.lastPoll.name}}</a>
                     </p>
