@@ -153,6 +153,10 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.isMusic = !this.isMusic;
   }
 
+  modifyVolume(event: Event): void {
+    this.audio.volume = parseFloat((event.target as HTMLInputElement).value);
+  }
+
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -163,5 +167,6 @@ export class ViewComponent implements OnInit, OnDestroy {
     if (this.isMusic) {
       this.audio.pause();
     }
+    this.audio.src = ''
   }
 }

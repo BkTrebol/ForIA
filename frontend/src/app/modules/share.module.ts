@@ -20,7 +20,7 @@ import {
   AvatarUrlPipe,
 } from '../helpers/pipes/avatar-url.pipe';
 import { TimeAgoPipe, FinshsedPipe } from '../helpers/pipes/dates.pipe';
-import { CapitalizePipe } from '../helpers/pipes/text.pipe';
+import { CapitalizePipe, SecondsPipe } from '../helpers/pipes/text.pipe';
 import { SanitizerPipe } from '../helpers/pipes/sanitizer.pipe';
 
 // Components
@@ -39,6 +39,7 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
     TimeAgoPipe,
     FinshsedPipe,
     CapitalizePipe,
+    SecondsPipe,
     AvatarComponent,
     PaginationComponent,
     LoadingComponent,
@@ -77,6 +78,7 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
     TimeAgoPipe,
     FinshsedPipe,
     CapitalizePipe,
+    SecondsPipe,
     AvatarComponent,
     PaginationComponent,
     LoadingComponent,
