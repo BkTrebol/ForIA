@@ -165,7 +165,8 @@
         //   @include a-link($color-gradient4, $color-gradient5, $color-gradient6);
         // }
         .btn2,
-        .btn-a, .btn-music {
+        .btn-a,
+        .btn-music {
           color: $color-white-clear;
         }
       }
@@ -523,7 +524,8 @@
         //   @include a-link($color-gradient6, $color-gradient5, $color-gradient4);
         // }
         .btn2,
-        .btn-a, .btn-music {
+        .btn-a,
+        .btn-music {
           color: $color-black-clear;
         }
       }
@@ -906,7 +908,7 @@
           width: 100%;
           margin: 4px 0;
           @include row(space-evenly);
-          .music{
+          .music {
             @include col-center(space-between, 8px);
             .controls {
               @include row(space-between, 8px);
@@ -1010,6 +1012,10 @@
           p.m {
             margin-top: -8px;
             margin-bottom: -16px;
+          }
+          img {
+            max-width: 100%;
+            max-height: 500px;
           }
         }
         .last-post {
@@ -1509,6 +1515,13 @@
             @include col(flex-start);
           }
         }
+        .cateogrries {
+          .category {
+            img {
+              max-height: 300px;
+            }
+          }
+        }
       }
       .list-footer {
         @include flex(column, center, space-between, 16px);
@@ -1570,6 +1583,11 @@
         }
         .categories {
           flex-direction: column;
+          .category {
+            img {
+              max-height: 150px;
+            }
+          }
           .last-post {
             width: 100%;
             padding: 4px 8px;
@@ -1642,6 +1660,9 @@
             }
             span {
               margin-bottom: -16px;
+            }
+            img {
+              max-height: 120px;
             }
           }
           .last-post {
