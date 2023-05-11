@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class PublicRole extends Model
 {
     use HasFactory;
+
     public $timestamps = false;
 
-        /**
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>

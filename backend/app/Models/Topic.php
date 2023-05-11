@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-// use Illuminate\Database\Eloquent\Relations\BelongsTo;
-// use Illuminate\Database\Eloquent\Relations\HasOne;
-// use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 use App\Models\Post;
 use App\Models\User;
@@ -32,24 +32,23 @@ class Topic extends Model
         'content',
     ];
 
-    public function posts(){
-        return $this->hasMany(Post::class)->orderBy('created_at','asc');
+    public function posts(): HasMany {
+        return $this->hasMany(Post::class)->orderBy('created_at', 'asc');
     }
 
-    public function last_post(){
-        return $this->hasOne(Post::class)->orderBy('created_at','desc');
+    public function last_post(): HasOne {
+        return $this->hasOne(Post::class)->orderBy('created_at', 'desc');
     }
 
-    public function user(){
+    public function user(): BelongsTo {
         return $this->belongsTo(User::class,'user_id');
     }
 
-    public function category(){
+    public function category(): BelongsTo {
         return $this->belongsTo(Category::class,'category_id');
     }
 
-    public function poll(){
+    public function poll(): HasOne {
         return $this->hasOne(Poll::class);
     }
-
 }

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -63,17 +62,6 @@ class User extends Authenticatable
         'last_seen' => 'datetime',
     ];
 
-        /**
-     * The model's default values for attributes.
-     *
-     * @var array
-     */
-    // protected $attributes = [
-    //     'roles' => '{
-    //         "roles" : ["ROLE_GUEST","ROLE_USER"]
-    //     }'
-    // ];
-
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
@@ -82,7 +70,7 @@ class User extends Authenticatable
     public function publicRole(){
         return $this->belongsTo(PublicRole::class);
     }
-    
+
     public function isAdmin()
     {
         return $this->roles()->where('admin', true)->exists();
@@ -94,7 +82,7 @@ class User extends Authenticatable
     }
 
     public function privateMessages(){
-        return $this->hasMany(PrivateMessage::class,'receiver_id');
+        return $this->hasMany(PrivateMessage::class, 'receiver_id');
     }
 
     public function topics(){
@@ -106,7 +94,7 @@ class User extends Authenticatable
     }
 
     public function last_post(){
-        return $this->hasOne(Post::class)->orderBy('created_at','desc');
+        return $this->hasOne(Post::class)->orderBy('created_at', 'desc');
     }
 
     public function private_message_sender(){

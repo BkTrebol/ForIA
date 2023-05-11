@@ -10,7 +10,9 @@ use App\Models\User;
 class UserPreference extends Model
 {
     use HasFactory;
+
     public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -32,16 +34,16 @@ class UserPreference extends Model
     ];
 
     protected $casts =[
-        "sidebar"=> 'boolean',
-        "filter_bad_words"=> 'boolean',
-        "allow_view_profile"=> 'boolean',
-        "allow_user_to_mp"=> 'boolean',
-        "hide_online_presence"=> 'boolean',
+        "sidebar" => 'boolean',
+        "filter_bad_words" => 'boolean',
+        "allow_view_profile" => 'boolean',
+        "allow_user_to_mp" => 'boolean',
+        "hide_online_presence" => 'boolean',
         "two_fa" => 'boolean',
         "allow_music" => 'boolean'
     ];
 
     public function user(){
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

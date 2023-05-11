@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import {
-  Category,
-  Topic,
-  ListTopics,
-} from 'src/app/models/receive/list-topics';
+import { ListTopics } from 'src/app/models/receive/list-topics';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { CategoryService } from '../../service/category.service';
+import { User } from 'src/app/models/user';
+import { UserPreferences } from 'src/app/models/user-preferences';
+import { AuthService } from 'src/app/modules/auth/service/auth.service';
+import { Global } from 'src/environment/global';
 
 @Component({
   selector: 'app-view',
@@ -17,22 +17,28 @@ import { CategoryService } from '../../service/category.service';
 export class ViewComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public loading: boolean;
-  public audioUrl: string;
+  public isMusic: boolean;
+  public audio: HTMLAudioElement;
   public theme: string;
-
   public listTopics: ListTopics;
+  public userLogged: {
+    userData: User;
+    userPreferences: UserPreferences;
+  } | null;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private themeService: ThemeService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private authService: AuthService
   ) {
     this.unsubscribe$ = new Subject();
     this.loading = true;
-    this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';
+    this.isMusic = false;
+    this.audio = new Audio();
     this.theme = this.themeService.getTheme();
-
+    this.userLogged = this.authService.user;
     this.listTopics = {
       category: {
         id: 0,
@@ -60,6 +66,12 @@ export class ViewComponent implements OnInit, OnDestroy {
       this.route.snapshot.paramMap.get('id') ?? '',
       this.route.snapshot.queryParams['page'] ?? '1'
     );
+
+    this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
+      next: (r) => {
+        this.userLogged = r;
+      },
+    });
 
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
@@ -98,30 +110,12 @@ export class ViewComponent implements OnInit, OnDestroy {
             this.scrollToTop();
           }
 
-          // if (this.listTopics.topics.length == 0) {
-          //   this.loading = true;
-          //   this.router.navigate([], {
-          //     relativeTo: this.route,
-          //     queryParams: { page: this.listTopics.page.last },
-          //     queryParamsHandling: 'merge',
-          //   });
-          //   this.getData(
-          //     this.listTopics.category.id.toString(),
-          //     this.listTopics.page.last.toString()
-          //   );
-          // } else {
-          //   this.router.navigate([], {
-          //     relativeTo: this.route,
-          //     queryParams: {
-          //       page:
-          //         this.listTopics.page.current == 1
-          //           ? null
-          //           : this.listTopics.page.current,
-          //     },
-          //     queryParamsHandling: 'merge',
-          //   });
-          //   this.loading = false;
-          // }
+          if (
+            !this.userLogged ||
+            (this.userLogged && this.userLogged.userPreferences.allow_music)
+          ) {
+            this.getMusic(this.listTopics.category.id.toString());
+          }
         },
         error: (err) => {
           this.loading = false;
@@ -135,11 +129,28 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.getData(this.listTopics.category.id.toString(), page.toString());
   }
 
-  playAudio() {
-    let audio = new Audio();
-    audio.src = this.audioUrl;
-    audio.load();
-    audio.play();
+  getMusic(id: string): void {
+    this.audio.src = `${Global.api}category/music/${id}`;
+    this.audio.load();
+    let isPlaying = this.audio.play();
+    if (isPlaying !== undefined) {
+      isPlaying
+        .then((_) => {
+          this.isMusic = true;
+        })
+        .catch((error) => {
+          this.isMusic = false;
+        });
+    }
+  }
+
+  playAudio(): void {
+    if (this.isMusic) {
+      this.audio.pause();
+    } else {
+      this.audio.play();
+    }
+    this.isMusic = !this.isMusic;
   }
 
   scrollToTop() {
@@ -149,5 +160,8 @@ export class ViewComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+    if (this.isMusic) {
+      this.audio.pause();
+    }
   }
 }

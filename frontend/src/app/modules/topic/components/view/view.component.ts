@@ -209,7 +209,6 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          console.log(res);
           this.content = '';
           this.error = '';
           if(res.hasOwnProperty('newRole')){

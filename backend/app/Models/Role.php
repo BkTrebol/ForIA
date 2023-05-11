@@ -10,13 +10,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Role extends Model
 {
     use HasFactory;
+
     public $timestamps = false;
+
     protected $hidden = [
         'created_at',
         'updated_at',
-        // 'topic_id',
     ];
-    
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);

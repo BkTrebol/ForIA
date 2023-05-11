@@ -36,6 +36,7 @@ return [
             'visibility' => 'public',
             'throw' => true,
         ],
+
         'categories' => [
             'driver' => 'local',
             'root' => storage_path('app/categories'),
@@ -43,6 +44,7 @@ return [
             'visibility' => 'public',
             'throw' => true,
         ],
+
         'avatars' =>[
             'driver' => 'local',
             'root' => storage_path('app/avatars'),
@@ -50,6 +52,15 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+
+        'music' =>[
+            'driver' => 'local',
+            'root' => storage_path('app/music'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),

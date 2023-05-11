@@ -16,7 +16,7 @@ export class HeadersInterceptor implements HttpInterceptor {
   constructor() {
     this.headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      Accept: 'application/json',
     });
     this.url = Global.url;
   }
@@ -29,15 +29,15 @@ export class HeadersInterceptor implements HttpInterceptor {
     const isApiUrl = request.url.startsWith(this.url);
     const isFormData =
       request.url.startsWith(this.url + 'api/user/edit') ||
-      request.url.startsWith(this.url + 'api/admin/user/update') || 
-      request.url.startsWith(this.url + 'api/admin/category/save') 
-      // request.url.startsWith(this.url + 'api/admin/category/update');
-    const isPost = request.method === 'POST'
+      request.url.startsWith(this.url + 'api/admin/user/update') ||
+      request.url.startsWith(this.url + 'api/admin/category/save');
+    // request.url.startsWith(this.url + 'api/admin/category/update');
+    const isPost = request.method === 'POST';
     if (isApiUrl) {
       // Check if doesen't need to change the headers
       if (isFormData && isPost) {
         request = request.clone({
-          withCredentials: true
+          withCredentials: true,
         });
       } else {
         request = request.clone({
