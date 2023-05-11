@@ -5,8 +5,8 @@
 </div>
 
 <div class="w-100 col-9" *ngIf="!loading; else loadingTemplate">
-	<div cdkDropList (cdkDropListDropped)="dropSection($event)">
-		<div class="row" *ngFor="let section of sections; let index = index" cdkDrag>
+	<div cdkDropList class="sect-list" (cdkDropListDropped)="dropSection($event)">
+		<div class="row sect-grab" *ngFor="let section of sections; let index = index" cdkDrag>
 			<div class="col-md-12 mb-3">
 				<div style="cursor:grab;" class="d-flex flex-wrap">
 					<h3>{{ section.name }}</h3>
@@ -17,12 +17,15 @@
 				<div #categoryList cdkDropList [id]="connectedTo[index]" [cdkDropListData]="section.categories"
 					[cdkDropListConnectedTo]="connectedTo" class="list-group cat-list "
 					(cdkDropListDropped)="dropCategory($event)">
-					<div style="cursor:grab;" class="list-group-item d-flex flex-sm-row flex-column justify-content-between"
+					<div style="cursor:grab;"
+						class="cat-grab list-group-item d-flex flex-sm-row flex-column justify-content-between"
 						*ngFor="let category of section.categories;let cindex = index" cdkDrag>
 						<div>{{ category.title }}</div>
 						<div class="btn-group">
-							<button class="btn btn-sm btn-primary" (click)="editCategory(categoryModal,index,cindex)">Edit</button>
-							<button class="btn btn-sm btn-danger" (click)="deleteCategory(deleteModal,index,cindex)">Delete</button>
+							<button class="btn btn-sm btn-primary"
+								(click)="editCategory(categoryModal,index,cindex)">Edit</button>
+							<button class="btn btn-sm btn-danger"
+								(click)="deleteCategory(deleteModal,index,cindex)">Delete</button>
 						</div>
 					</div>
 				</div>
@@ -78,12 +81,14 @@
 					<ng-container *ngIf="categoryForm">
 						<form [formGroup]="categoryForm">
 							<div class="form-floating form-group my-1">
-								<input type="text" id="title" placeholder="Title" class="form-control" formControlName="title"
+								<input type="text" id="title" placeholder="Title" class="form-control"
+									formControlName="title"
 									[ngClass]="{ 'is-invalid': title?.invalid && title?.touched}">
 								<label class="text-secondary" for="title">Title<sup class="text-danger">*</sup></label>
 								<div class="invalid-feedback d-block mt-1" *ngIf="!title?.valid && title?.touched">
 									<p *ngIf="title?.errors?.['uniqueTitle']">
-										<fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Title must be unique.
+										<fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Title must be
+										unique.
 									</p>
 									<p *ngIf="title?.errors?.['required']">
 										<fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Title is required.
@@ -103,7 +108,8 @@
 									formControlName="section" class="select"
 									[ngClass]="{ 'is-invalid': section?.invalid && section?.touched}">
 								</ng-select>
-								<label class="text-secondary" for="section">Section<sup class="text-danger">*</sup></label>
+								<label class="text-secondary" for="section">Section<sup
+										class="text-danger">*</sup></label>
 								<div class="invalid-feedback d-block mt-1" *ngIf="!section?.valid && section?.touched">
 									<p *ngIf="section?.errors?.['required']">
 										<fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Section is required.
@@ -112,10 +118,11 @@
 							</div>
 							<div class="form-floating custom-floating-label form-group my-1">
 
-								<ng-select [items]="roleList" [searchable]="true" bindLabel="name" bindValue="id" id="can_mod"
-									formControlName="can_mod" class="select"
+								<ng-select [items]="roleList" [searchable]="true" bindLabel="name" bindValue="id"
+									id="can_mod" formControlName="can_mod" class="select"
 									[ngClass]="{ 'is-invalid': can_mod?.invalid && can_mod?.touched}"></ng-select>
-								<label class="text-secondary" for="can_mod">Can Mod<sup class="text-danger">*</sup></label>
+								<label class="text-secondary" for="can_mod">Can Mod<sup
+										class="text-danger">*</sup></label>
 								<div class="invalid-feedback d-block mt-1" *ngIf="!can_mod?.valid && can_mod?.touched">
 									<p *ngIf="can_mod?.errors?.['required']">
 										<fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Can Mod is required.
@@ -124,37 +131,45 @@
 							</div>
 							<div class="form-floating custom-floating-label form-group my-1">
 
-								<ng-select [items]="roleList" [searchable]="true" bindLabel="name" bindValue="id" id="can_post"
-									formControlName="can_post" class="select"
+								<ng-select [items]="roleList" [searchable]="true" bindLabel="name" bindValue="id"
+									id="can_post" formControlName="can_post" class="select"
 									[ngClass]="{ 'is-invalid': can_post?.invalid && can_post?.touched}"></ng-select>
-								<label class="text-secondary" for="can_post">Can Post<sup class="text-danger">*</sup></label>
-								<div class="invalid-feedback d-block mt-1" *ngIf="!can_post?.valid && can_post?.touched">
+								<label class="text-secondary" for="can_post">Can Post<sup
+										class="text-danger">*</sup></label>
+								<div class="invalid-feedback d-block mt-1"
+									*ngIf="!can_post?.valid && can_post?.touched">
 									<p *ngIf="can_post?.errors?.['required']">
-										<fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Can Post is required.
+										<fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Can Post is
+										required.
 									</p>
 								</div>
 							</div>
 							<div class="form-floating custom-floating-label form-group my-1">
 
-								<ng-select [items]="roleList" [searchable]="true" bindLabel="name" bindValue="id" id="can_view"
-									formControlName="can_view" class="select"
+								<ng-select [items]="roleList" [searchable]="true" bindLabel="name" bindValue="id"
+									id="can_view" formControlName="can_view" class="select"
 									[ngClass]="{ 'is-invalid': can_view?.invalid && can_view?.touched}"></ng-select>
-								<label class="text-secondary" for="can_view">Can View<sup class="text-danger">*</sup></label>
-								<div class="invalid-feedback d-block mt-1" *ngIf="!can_view?.valid && can_view?.touched">
+								<label class="text-secondary" for="can_view">Can View<sup
+										class="text-danger">*</sup></label>
+								<div class="invalid-feedback d-block mt-1"
+									*ngIf="!can_view?.valid && can_view?.touched">
 									<p *ngIf="can_view?.errors?.['required']">
-										<fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Can View is required.
+										<fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Can View is
+										required.
 									</p>
 								</div>
 							</div>
 
 							<div class="form-floating form-group my-1">
 
-								<input type="file" id="image" (change)="onFileChange($event)" accept="image/*" class="form-control" placeholder="Image" formControlName="image">
+								<input type="file" id="image" (change)="onFileChange($event)" accept="image/*"
+									class="form-control" placeholder="Image" formControlName="image">
 								<label class="text-secondary" for="image">Image</label>
 							</div>
 							<div class="form-floating form-group my-1">
 
-								<input type="text" id="music" class="form-control" placeholder="Music" formControlName="music">
+								<input type="text" id="music" class="form-control" placeholder="Music"
+									formControlName="music">
 								<label class="text-secondary" for="music">Music</label>
 							</div>
 
@@ -166,8 +181,11 @@
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-outline-danger" (click)="modal.close()">Cancel</button>
-		<button type="button" class="btn btn-outline-dark" (click)="saveCategory()"
-			[disabled]="categoryForm.invalid">Save</button>
+		<button type="button" class="btn btn-outline-dark" (click)="saveCategory()" [disabled]="categoryForm.invalid">
+			<div *ngIf="saveLoading" class="spinner-border spinner-border-sm" role="status">
+				<span class="visually-hidden">Loading...</span>
+			</div>Save
+		</button>
 	</div>
 </ng-template>
 

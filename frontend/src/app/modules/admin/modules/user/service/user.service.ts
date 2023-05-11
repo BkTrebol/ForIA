@@ -19,7 +19,10 @@ export class UserService {
   }
 
   getRoles():Observable<any> {
-    return this._http.get(`${this.apiUrl}role`);
+    return this._http.get(`${this.apiUrl}role/normal`);
+  }
+  getPublicRoles():Observable<any> {
+    return this._http.get(`${this.apiUrl}role/public`);
   }
 
   getUser(id:number):Observable<any> {
@@ -27,7 +30,7 @@ export class UserService {
   }
 
   updateUser(user:any):Observable<any> {
-    return this._http.put(`${this.apiUrl}user`,user);
+    return this._http.put(`${this.apiUrl}user/update`,user);
   }
 
   dropUser(id:number):Observable<any> {

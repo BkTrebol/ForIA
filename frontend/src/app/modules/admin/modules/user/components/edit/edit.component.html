@@ -1,3 +1,9 @@
+<div class="save-loading" *ngIf="saveLoading || deleteLoading">
+	<div class="spinner-border text-dark" role="status">
+		<span class="visually-hidden">Loading...</span>
+	</div>
+</div>
+
 <div class="container row align-items-center h-100 min-vh-100 " *ngIf="!loading; else loadingTemplate">
 
 
@@ -57,13 +63,21 @@
     </div>
 
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" formControlName="avatar" id="avatar" placeholder="Avatar">
-        <label class="text-secondary" for="avatar">Avatar</label>
+        <ng-select [items]="publicRoleList" bindLabel="name" bindValue="id" [multiple]="false" [clearable]="false"
+            formControlName="public_role_id">
+            <ng-template ng-option-tmp let-item="item">
+                <div *ngIf="item.posts !== null">{{ item.name }} - Posts: {{ item.posts }}</div>
+                <div *ngIf="item.posts === null">{{ item.name }}</div>
+              </ng-template>
+        </ng-select>
+        <label class="text-secondary" for="public_role_id">Public Role</label>
+        <small>If a role that can change with amount of posts is assigned, i will change.</small>
     </div>
 
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" formControlName="rol" id="rol" placeholder="Rol">
-        <label class="text-secondary" for="rol">Rol</label>
+        <ng-select [items]="roleList" bindLabel="name" bindValue="id" [multiple]="true" [clearable]="true"
+            formControlName="roles"></ng-select>
+        <label class="text-secondary" for="roles">Roles</label>
     </div>
 
     <div class="form-floating mb-3">
@@ -78,15 +92,37 @@
         </div>
     </div>
 
-    <div class="form-floating mb-3">
-        <ng-select [items]="roleList" bindLabel="name" bindValue="id" [multiple]="true" [clearable]="true"
-            formControlName="roles"></ng-select>
-        <label class="text-secondary" for="roles">Roles</label>
-    </div>
 
-    <button type="submit" class="btn btn-primary" [disabled]="editUserForm.invalid">Save</button>
+    <button type="submit" class="btn btn-primary" [disabled]="editUserForm.invalid">
+        <div *ngIf="saveLoading" class="spinner-border spinner-border-sm" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        Save
+    </button>
+
+    <button type="button" class="btn btn-danger ms-2" (click)="deleteUser(deleteModal)">
+
+        Delete
+    </button>
 </form>
 </div>
+<ng-template #deleteModal let-modal>
+	<div class="modal-body">
+		<button type="button" class="btn-close float-right" aria-label="Close" (click)="modal.dismiss()"></button>
+		<div class="mb-3">
+			Are you sure you want to delete this user?
+            All data will be lost forever.
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-success" (click)="modal.close()">Cancel</button>
+		<button type="button" class="btn btn-danger" (click)="confirmDelete()">
+            <div *ngIf="deleteLoading" class="spinner-border spinner-border-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            Confirm <span *ngIf="userDeletion < 3">(Press {{ 3 - userDeletion }} times)</span></button>
+	</div>
+</ng-template>
 
 <ng-template #loadingTemplate>
     <div class="page-loading-admin dark">

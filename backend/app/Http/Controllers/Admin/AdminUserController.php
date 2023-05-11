@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminUserController extends Controller
 {
@@ -113,11 +116,69 @@ class AdminUserController extends Controller
             }
         }
     }
-    function updateUser(){
+    function updateUser(Request $request){
+        $user = User::find($request->id);
+        $request->validate([
+            'nick' => ['required', 'string', 'max:100','unique:users,nick,'.$user->id],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
+            'location'=> ['string','nullable'],
+            'public_role_id' => ['required', 'exists:public_roles,id'],
+            'birthday' => ['date','nullable'],
+            'suspension' => ['date','nullable'],
+            'avatar' => ['image','mimes:jpg,png,jpeg,gif,svg', 'max:200'],
+        ]);
+
+
+        if($request->roles){
+            $user->roles()->sync($request->roles);
+        }
+
+        $user->update([
+            'nick' => $request->nick,
+            'email' => $request->email,
+            'location' => $request->location,
+            'public_role_id' => $request->public_role_id,
+            'birthday' => $request->birthday,
+        ]);
+
+        if($request->has('verified')){
+            if($request->email_verified_at == true){
+                $user->email_verified_at = now();
+            } else{
+                $user->email_verified_at = null;
+            }
+        }
+        if($request->has('password')){
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->suspension = $request->suspension;
+        $user->public_role_id = $request->public_role_id;
+        $user->save();
+        $user->makeVisible(['suspension','roles']);
+        $user['roles'] = $user->roles()->where('role_id','>',2)->get();
+        $user['verified'] = $user->hasVerifiedEmail();
+
+        return response()->json([
+            "message" => "User updated succesfully",
+            "user" => $user],200);
 
     }
 
-    function deleteUser(){
-
+    function deleteUser(User $user,Request $request){
+        $actualUser = Auth::user();
+        if($user->id === $actualUser->id){
+            $request->user()->tokens()->delete();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+    
+            Auth::guard('web')->logout();
+        } 
+            $user->delete();
+    
+        
+        return response()->json([
+            "message" => "User deleted succesfully",
+        ],200);
     }
 }
