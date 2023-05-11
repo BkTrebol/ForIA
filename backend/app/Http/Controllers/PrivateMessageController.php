@@ -79,24 +79,6 @@ class PrivateMessageController extends Controller
             $sent = $querySent->paginate(10, '*', 'spage', 1);
         }
 
-        // if ($received->lastPage() < $requestedReceivedPage || 0 >= $requestedSentPage) {
-        //     $received =
-        //         PrivateMessage::where('receiver_id', $user->id)->where(function ($query) use ($user) {
-        //             $query->where('deleted_by', '<>', $user->id)
-        //                 ->orWhereNull('deleted_by');
-        //         })->with('sender:id,nick')
-        //             ->orderBy('created_at', 'desc')->select(['id', 'sender_id', 'title', 'created_at', 'viewed'])->paginate(10, '*', 'rpage', 1);
-        // }
-
-
-        // if ($sent->lastPage() < $requestedSentPage || 0 >= $requestedSentPage) {
-        //     dd(0 <= $requestedSentPage);
-        //     $sent = PrivateMessage::where('sender_id', $user->id)->where(function ($query) use ($user) {
-        //         $query->where('deleted_by', '<>', $user->id)
-        //             ->orWhereNull('deleted_by');
-        //     })->with('receiver:id,nick')
-        //         ->orderBy('created_at', 'desc')->select(['id', 'receiver_id', 'title', 'created_at'])->paginate(10, '*', 'spage', 1);
-        // }
 
 
         return response()->json([
@@ -142,7 +124,6 @@ class PrivateMessageController extends Controller
     function getPrivateMessage(PrivateMessage $pm)
     {
         $user = Auth::user();
-        // $valid = PrivateMessage::where('receiver_id',$user->id)->orWhere('sender_id',$user->id);
         $valid = $pm->receiver_id == $user->id || $pm->sender_id == $user->id;
         if (!$valid) {
             return response()->json([
@@ -155,17 +136,6 @@ class PrivateMessageController extends Controller
             $pm->save();
         }
 
-        // $thread = PrivateMessage::where('thread_id', $pm->thread_id)->with(['sender:id,nick,avatar,public_role_id','sender.publicRole'])
-        //     ->orderBy('created_at', 'desc')->paginate(10);
-
-        // $requestedPage = request()->input('page', 1);
-        // if ($thread->lastPage() < $requestedPage) {
-        //     $thread = PrivateMessage::where('thread_id', $pm->thread_id)->with('sender:id,nick,avatar','sender.publicRole:name,description')
-        //     ->orderBy('created_at', 'desc')->paginate(10,'*','page',$thread->lastPage());
-        // } else if ($requestedPage <= 0) {
-        //     $thread =PrivateMessage::where('thread_id', $pm->thread_id)->with('sender:id,nick,avatar','sender.publicRole:name,description')
-        //     ->orderBy('created_at', 'desc')->paginate(10,'*','page',1);
-        // }
         $query = PrivateMessage::where('thread_id', $pm->thread_id)
         ->with(['sender:id,nick,avatar,public_role_id,created_at', 'sender.publicRole'])
         ->orderBy('created_at', 'desc');

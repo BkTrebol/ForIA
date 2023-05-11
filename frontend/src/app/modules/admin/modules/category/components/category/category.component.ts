@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { uniqueTitleValidator } from '../../helpers';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from 'src/app/helpers/services/toast.service';
+import { Global } from 'src/environment/global';
 
 @Component({
   selector: 'app-category',
@@ -29,12 +30,14 @@ export class CategoryComponent implements OnInit, OnDestroy {
   public catImage?: File;
   public index : number;
   public cindex : number;
+  public imageUrl: string;
   constructor(
     private _fb: FormBuilder,
     private _categoryService: CategoryService,
     private _modalService: NgbModal,
     private _toastService: ToastService,
   ) {
+    this.imageUrl = "";
     this.index = 0;
     this.cindex = 0;
     this.unsubscribe$ = new Subject();
@@ -104,6 +107,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.newCategoryMode = false;
     this.index = index;
     this.cindex = cindex;
+    this.imageUrl = this.sections[index].categories[cindex].image === '' ? '' :
+     `${Global.api}upload/images/${this.sections[index].categories[cindex].image}`;
     this.categoryForm = this._fb.group({
       id: [this.sections[index].categories[cindex].id],
       section: [this.sections[index].categories[cindex].section],
@@ -146,7 +151,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this._modalService.open(category)
   }
 
-  saveCategory(index = -1, cindex = -1) {
+  saveCategory() {
     this.saveLoading = true;
     let formData = new FormData();
 
@@ -163,7 +168,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       .subscribe({
           next: data => {
             if (!this.newCategoryMode) {
-              this.sections[this.index].categories[this.index] = data.category;
+              this.sections[this.index].categories[this.cindex] = data.category;
             } else {
               this.sections[this.categoryForm.value.section].categories.push(data.category);
             }
@@ -181,8 +186,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
   onFileChange(event: any) {
-    if (event.target.files.length > 0) {
+    if (event.target.files && event.target.files.length > 0) {
       this.catImage = event.target.files[0];
+      if(this.catImage) this.imageUrl = URL.createObjectURL(this.catImage);
     }
   }
 
@@ -197,7 +203,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
             name: this.sectionForm.value.name,
             categories: [],
           })
-
           this.sectionList = this.sections.map((section: any, index: number) => {
             return {
               name: section.name,

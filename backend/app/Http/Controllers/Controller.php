@@ -26,7 +26,7 @@ class Controller extends BaseController
         $censor = new CensorWords;
         $censor->setReplaceChar($replace_char);
         $langs = array('en-uk', 'en-us', 'es');
-        $badwords = $censor->setDictionary($langs);
+        $censor->setDictionary($langs);
         return $censor->censorString($content)['clean'];
     }
 }
