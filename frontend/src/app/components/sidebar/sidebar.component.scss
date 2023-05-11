@@ -6,6 +6,7 @@
   align-self: flex-start;
   order: 1;
   transition: all 1.2s;
+  max-width: 240px;
   @include sidebar() {
     display: none;
   }
@@ -91,6 +92,7 @@
   .sidebar-forum-stats {
     p {
       margin: 4px 0;
+      word-break: all;
     }
   }
   .create-post {
