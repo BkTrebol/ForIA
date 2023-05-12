@@ -4,7 +4,7 @@
 	</div>
 </div>
 
-<div class="w-100 col-9 p-4" *ngIf="!loading; else loadingTemplate">
+<div class="w-m mx-auto p-4" *ngIf="!loading; else loadingTemplate">
 	<div cdkDropList class="sect-list" (cdkDropListDropped)="dropSection($event)">
 		<div class="row sect-grab" *ngFor="let section of sections; let index = index" cdkDrag>
 			<div class="col-md-12 mb-3">

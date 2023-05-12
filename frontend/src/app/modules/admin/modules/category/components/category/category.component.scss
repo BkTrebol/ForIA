@@ -106,3 +106,13 @@
   max-width: 100%;
   max-height: 200px;
 }
+
+.w-m {
+  width: 100%;
+}
+
+@media (min-width: 1000px){
+  .w-m {
+    width: 50%;
+  }
+}

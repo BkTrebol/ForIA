@@ -4,21 +4,20 @@
   </div>
 </div>
 
-<div class="row align-items-center h-100 min-vh-100 w-100 p-4" *ngIf="!loading; else loadingTemplate">
+<div class="row align-items-center h-100 min-vh-100 w-100 p-2 p-md-4" *ngIf="!loading; else loadingTemplate">
   <div class="col-12 col-md-6 publicRoleList">
     <div class="publicRole list-group">
       <div *ngFor="let prol of publicRoleList"
-        class="list-group-item d-flex justify-content-between align-items-center">
-        <div class="d-flex mb-0 justify-content-between w-75">
-          <p class="mb-0">{{prol.name}}</p>
-          <div class="mb-0 w-25 d-flex justify-content-between" *ngIf="prol.posts !== null">
-            <p>Posts:</p>
-            <p>{{prol.posts}}</p>
+        class="list-group-item d-flex justify-content-between align-items-center w-100">
+        <!-- <div class="d-flex justify-content-between align-items-center w-75"> -->
+          <p class="m-0">{{prol.name}}</p>
+          <div class="align-self-center" *ngIf="prol.posts !== null">
+            <p class="m-0">Posts: {{prol.posts}}</p>
           </div>
-        </div>
-        <div class="w-25 ps-2">
-          <button class="btn btn-primary btn-sm mr-2">Editar</button>
-          <button class="btn btn-danger btn-sm">Borrar</button>
+        <!-- </div> -->
+        <div class="btn-group">
+          <button class="btn btn-primary btn-sm mr-2"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
+          <button class="btn btn-danger btn-sm"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
         </div>
       </div>
     </div>

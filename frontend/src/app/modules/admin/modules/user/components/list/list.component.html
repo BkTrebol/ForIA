@@ -4,24 +4,22 @@
   </div>
 </div>
 
-<div class="row align-items-center h-100 min-vh-100 w-100 p-2 p-md-4" *ngIf="!loading; else loadingTemplate">
-  <div class="">
+<div class="h-100 min-vh-100 w-100 p-2 p-md-4" *ngIf="!loading; else loadingTemplate">
     <div class="filters d-flex justify-content-center">
-      <form class="" (ngSubmit)="onFilter()">
+      <form (ngSubmit)="onFilter()">
         <div class="row mb-2 mx-auto">
           <div class="col-12 row my-auto col-sm-4">
             <div class="my-auto form-floating px-0">
               <input type="text" placeholder="Nick" class="form-control" [(ngModel)]="filters.nick" name="nick"
                 id="nick">
-              <label for="nick" class="form-label text-secondary">Nick</label>
+              <label for="nick" class="form-label text-secondary"><fa-icon [icon]="['fas', 'user']"></fa-icon> Nick</label>
             </div>
           </div>
-
           <div class="col-12 row my-auto col-sm-8">
             <div class="m-2 my-auto col-7 form-floating px-0">
               <ng-select [items]="roleList" [searchable]="true" bindLabel="name" bindValue="id" id="rol" name="rol"
                 [multiple]="true" [(ngModel)]="filters.roles" class="select"></ng-select>
-              <label for="rol" class="form-label text-secondary">Role</label>
+              <label for="rol" class="form-label text-secondary"><fa-icon [icon]="['fas', 'shield']"></fa-icon> Role</label>
             </div>
             <div class="col-4 my-auto d-flex align-items-center">
               <input id="rolesAll" type="checkbox" class="form-check-input mr-1" style="min-width:16px" name="rolesAll"
@@ -38,9 +36,8 @@
               <option [value]="true">True</option>
               <option [value]="false">False</option>
             </select>
-            <label class="form-label text-secondary" for="verified">Verified</label>
+            <label class="form-label text-secondary" for="verified"><fa-icon [icon]="['fas', 'check']"></fa-icon> Verified</label>
           </div>
-
           <div class=" col-3 form-floating px-1">
             <select class="form-select" id="suspension" placeholder="Suspended" name="suspension"
               [(ngModel)]="filters.suspension">
@@ -48,7 +45,7 @@
               <option [value]="true">True</option>
               <option [value]="false">False</option>
             </select>
-            <label class="form-label text-secondary" for="suspension">Suspended</label>
+            <label class="form-label text-secondary" for="suspension"><fa-icon [icon]="['fas', 'ban']"></fa-icon> Suspended</label>
           </div>
           <div class="col-3 form-floating px-1">
             <select class="form-select" placeholder="Linked google" id="google" name="google"
@@ -57,9 +54,9 @@
               <option [value]="true">True</option>
               <option [value]="false">False</option>
             </select>
-            <label class="form-label text-secondary" for="google">Linked google</label>
+            <label class="form-label text-secondary" for="google"><fa-icon [icon]="['fas', 'link']"></fa-icon> Linked Google <fa-icon [icon]="['fab', 'google']"></fa-icon></label>
           </div>
-          <button type="submit" class="col-2 btn btn-primary">Filter</button>
+          <button type="submit" class="col-2 btn btn-primary"><fa-icon [icon]="['fas', 'magnifying-glass']"></fa-icon> Filter</button>
         </div>
 
       </form>
@@ -87,7 +84,6 @@
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
-  </div>
 </div>
 
 <ng-template #loadingTemplate>
