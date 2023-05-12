@@ -21,8 +21,10 @@ export interface Topic {
   created_at: string;
   last_page: number;
   posts: number;
-  last_post: {
-    created_at: string;
-    user: UserCard;
-  };
+  last_post: LastPost;
+}
+
+interface LastPost {
+  created_at: string;
+  user: UserCard;
 }

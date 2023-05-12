@@ -1,0 +1,14 @@
+.input-group .form-floating input.is-invalid {
+  border-bottom-right-radius: 0.375rem !important;
+  border-top-right-radius: 0.375rem !important;
+}
+
+.form {
+  width: 100%;
+}
+
+@media (min-width: 1000px){
+  .form {
+    width: 50%;
+  }
+}

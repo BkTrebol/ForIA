@@ -60,7 +60,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       next: (r) => {
         this.userLoggedIn = r != null;
         this.userLocalData = r?.userData;
-        console.log(this.userLocalData);
         this.order = r?.userPreferences.sidebar ? 1 : 0;
         if (this.userLoggedIn) {
           this.elseLoading = true;

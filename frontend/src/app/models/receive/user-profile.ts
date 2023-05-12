@@ -5,17 +5,25 @@ export interface PublicUserProfile {
   location: string;
   birthday: string;
   avatar: string | null;
-  rol: string;
+  public_role: PublicRole;
   created_at: string;
   updated_at: string;
   can_pm: boolean;
   is_verified: boolean;
-  last_post?: {
-    topic: {
-      id: number,
-      title: string
-    };
-    created_at: string;
-    updated_at: string;
-  };
+  last_post?: LastPost;
+}
+interface PublicRole {
+  name: string;
+  description?: string;
+}
+
+interface LastPost {
+  topic: Topic;
+  created_at: string;
+  updated_at: string;
+}
+
+interface Topic {
+  id: number;
+  title: string;
 }

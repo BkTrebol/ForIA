@@ -19,6 +19,10 @@
               <button class="btn btn-danger btn-sm" [disabled]="prol.posts === 0" (click)="deleteRole(deleteModal,i,'Public')">Borrar</button>
             </div>
           </div>
+        <!-- </div> -->
+        <div class="btn-group">
+          <button class="btn btn-primary btn-sm mr-2"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
+          <button class="btn btn-danger btn-sm"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
         </div>
       </div>
       <div class="col-12 col-md-7">
@@ -29,8 +33,11 @@
           </div>
           <div *ngFor="let rol of roleList; let i = index" class="list-group-item align-items-center d-flex flex-wrap justify-content-between">
             <div class="d-flex flex-wrap w-50">
-              <p>{{rol.name}}</p>
-              <fa-icon *ngIf="rol.admin" class="ms-2" [icon]="['fas', 'user-gear']"></fa-icon>
+
+              <fa-icon *ngIf="rol.admin" [icon]="['fas', 'user-gear']"></fa-icon>
+              <fa-icon *ngIf="rol.name=='WELCOME_MOD'" [icon]="['fas', 'hand']"></fa-icon>
+              <fa-icon *ngIf="rol.name=='ROLE_MOD'" [icon]="['fas', 'user-shield']"></fa-icon>
+        <p class="m-0 ms-2 p-0">{{rol.name}}</p>
             </div>
             <select class="form-control w-25" (change)="changeOrder($event, rol)" >
               <option *ngFor="let order of orders;" [value]="order" [selected]="order === rol.order" >

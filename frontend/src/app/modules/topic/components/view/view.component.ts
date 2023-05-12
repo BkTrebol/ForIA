@@ -1,19 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import {
-  ActivatedRoute,
-  Params,
-  RouteReuseStrategy,
-  Router,
-} from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TopicService } from '../../service/topic.service';
-import {
-  Category,
-  Topic,
-  Post,
-  ListPosts,
-  Poll,
-} from 'src/app/models/receive/list-posts';
+import { ListPosts, Poll } from 'src/app/models/receive/list-posts';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { ToastService } from 'src/app/helpers/services/toast.service';
@@ -79,7 +68,7 @@ export class ViewComponent implements OnInit, OnDestroy {
           id: 0,
           nick: '',
           avatar: '',
-          public_role: {name:''},
+          public_role: { name: '' },
           created_at: '',
         },
       },
@@ -114,7 +103,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.theme = themeService.getTheme();
     this.userLogged = null;
     this.actualDate = new Date();
-    this.post_delete = NaN
+    this.post_delete = NaN;
     this.post_by = '';
   }
 
@@ -128,11 +117,6 @@ export class ViewComponent implements OnInit, OnDestroy {
           this.route.snapshot.queryParams['page'] ?? '1'
         );
       });
-
-    // this.getData(
-    //   this.route.snapshot.paramMap.get('id') ?? '',
-    //   this.route.snapshot.queryParams['page'] ?? '1'
-    // );
 
     this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {
@@ -211,15 +195,12 @@ export class ViewComponent implements OnInit, OnDestroy {
         next: (res) => {
           this.content = '';
           this.error = '';
-          if(res.hasOwnProperty('newRole')){
+          if (res.hasOwnProperty('newRole')) {
             this.toastService.show(`Evolved to ${res.newRole.name}`);
-            if(this.userLogged) this.userLogged.userData.public_role = res.newRole;
+            if (this.userLogged)
+              this.userLogged.userData.public_role = res.newRole;
           }
-          this.getData(
-            this.listPosts.topic.id.toString(),
-            res.lastPage,
-            true
-          );
+          this.getData(this.listPosts.topic.id.toString(), res.lastPage, true);
         },
         error: (err) => {
           console.log(err);
@@ -348,8 +329,8 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
   openModalPost(modal: any, id: number, nick: string) {
-    this.post_delete = id
-    this.post_by = nick
+    this.post_delete = id;
+    this.post_by = nick;
     this.modalService.open(modal, { centered: true });
   }
 

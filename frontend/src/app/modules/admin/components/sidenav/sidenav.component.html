@@ -1,5 +1,5 @@
 <div id="sidebar" [ngClass]="collapsed ? 'collapsed' : ''"
-  class="sidebar d-flex min-vh-100 h-100 flex-column flex-shrink-0 bg-light bg-gradient">
+  class="sidebar d-flex min-vh-100 h-100 flex-column flex-shrink-0 bg-light bg-gradient px-1">
   <div class="sticky-top vh-100 d-flex flex-column justify-content-between">
     <div>
       <button type="button" class="btn w-100 nav-btn mt-2" [ngClass]="collapsed ? 'btn-primary' :'btn-outline-primary'"
@@ -15,19 +15,19 @@
         </li>
         <li>
           <a routerLink="/admin/categories" class="nav-link" routerLinkActive="active link-light">
-            <fa-icon [icon]="['far', 'folder']"></fa-icon> <span class="nav-item"> Categories</span>
+            <fa-icon [icon]="['fas', 'folder']"></fa-icon> <span class="nav-item"> Categories</span>
           </a>
         </li>
         <li>
           <a routerLink="/admin/users" class="nav-link"
           [ngClass]="{'active link-light':showActive}"
           >
-            <fa-icon [icon]="['far', 'user']"></fa-icon> <span class="nav-item"> Users</span>
+            <fa-icon [icon]="['fas', 'users']"></fa-icon> <span class="nav-item"> Users</span>
           </a>
         </li>
         <li>
           <a routerLink="/admin/users/roles" class="nav-link" routerLinkActive="active link-light"  [routerLinkActiveOptions]="{exact: true}">
-            <fa-icon [icon]="['fas', 'users']" ></fa-icon> <span class="nav-item"> Roles</span>
+            <fa-icon [icon]="['fas', 'shield']" ></fa-icon> <span class="nav-item"> Roles</span>
           </a>
         </li>
       </ul>
@@ -41,13 +41,13 @@
           <strong class="nav-item">{{user.nick}}</strong>
         </a>
         <ul ngbDropdownMenu class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-          <li><a class="dropdown-item" routerLink="">Settings</a></li>
-          <li><a class="dropdown-item" routerLink="">Profile</a></li>
-          <li><a class="dropdown-item" routerLink="">Forum</a></li>
+          <li><a class="dropdown-item" routerLink=""><fa-icon [icon]="['fas', 'gear']"></fa-icon> Settings</a></li>
+          <li><a class="dropdown-item" routerLink=""><fa-icon [icon]="['fas', 'user-gear']"></fa-icon> Profile</a></li>
+          <li><a class="dropdown-item" routerLink=""><fa-icon [icon]="['fas', 'house']"></fa-icon> Forum</a></li>
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li><a class="dropdown-item" href="javascript:void(0)" (click)="onLogout()">Logout</a></li>
+          <li><a class="dropdown-item" href="javascript:void(0)" (click)="onLogout()"><fa-icon [icon]="['fas', 'right-from-bracket']"></fa-icon> Logout</a></li>
         </ul>
       </div>
     </div>

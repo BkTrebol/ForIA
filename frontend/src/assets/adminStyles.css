@@ -93,6 +93,10 @@ body {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 
+.cp {
+  cursor: pointer;
+}
+
 hr {
   margin: 1rem 0;
   color: inherit;

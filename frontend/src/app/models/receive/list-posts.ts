@@ -19,7 +19,7 @@ export interface Poll {
   id: number;
   name: string;
   votes: number;
-  options: Array<PollOption>;
+  options: PollOption[];
 }
 
 interface PollOption {

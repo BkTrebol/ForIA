@@ -1,131 +1,171 @@
 <div class="save-loading" *ngIf="saveLoading || deleteLoading">
-	<div class="spinner-border text-dark" role="status">
-		<span class="visually-hidden">Loading...</span>
-	</div>
+    <div class="spinner-border text-dark" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
 </div>
 
-<div class="container row align-items-center h-100 min-vh-100 " *ngIf="!loading; else loadingTemplate">
+<div class="h-100 min-vh-100 p-2 p-sm-4" *ngIf="!loading; else loadingTemplate">
+    <form class="d-flex justify-content-center flex-column mx-auto form" [formGroup]="editUserForm" (ngSubmit)="onSubmit()">
+        <h1 class="text-center mb-3">Edit User {{user.nick}}</h1>
 
+        <div class="input-group mb-3">
+            <span class="input-group-text">
+                <fa-icon [icon]="['fas', 'user']"></fa-icon>
+            </span>
+            <div class="form-floating">
+                <input type="text" class="form-control" formControlName="nick" id="nick" placeholder="Nick"
+                    [ngClass]="{ 'is-invalid': (nick?.invalid && nick?.touched) || nickUnique}" (blur)="checkNick()"
+                    (change)="nickUnique = null">
+                <label class="text-secondary" for="nick">Nick</label>
+            </div>
+            <div *ngIf="nick?.invalid && (nick?.dirty || nick?.touched)" class="invalid-feedback d-block mt-1 ms-1">
+                <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>
+                <span *ngIf="nick?.errors?.['required']"> Nickname is required.</span>
+                <span *ngIf="nickUnique"> Nickname already in use.</span>
+            </div>
+        </div>
 
-<form [formGroup]="editUserForm" (ngSubmit)="onSubmit()">
-    <div class="form-floating mb-3">
-        <input type="text" class="form-control" formControlName="nick" id="nick" placeholder="Nick"
-        [ngClass]="{ 'is-invalid': (nick?.invalid && nick?.touched) || nickUnique}"
-        (blur)="checkNick()"
-        (change)="nickUnique = null"
-        >
-        <label class="text-secondary" for="nick">Nick</label>
-        <div *ngIf="nick?.invalid && (nick?.dirty || nick?.touched)" class="invalid-feedback d-block mt-1">
-            <div *ngIf="nick?.errors?.['required']">Nickname is required.</div>
-            <div *ngIf="nickUnique">Nickname already in use.</div>
-          </div>
-    </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text">
+                <fa-icon [icon]="['fas', 'envelope']"></fa-icon>
+            </span>
+            <div class="form-floating">
+                <input type="email" class="form-control" formControlName="email" id="email" placeholder="Email"
+                    [ngClass]="{ 'is-invalid': (email?.invalid && email?.touched) || emailUnique}" (blur)="checkEmail()"
+                    (change)="emailUnique = null">
+                <label class="text-secondary" for="email">Email</label>
+            </div>
+            <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="invalid-feedback d-block mt-1 ms-1">
+                <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>
+                <span *ngIf="email?.errors?.['required']"> Email is required.</span>
+                <span *ngIf="email?.errors?.['email']"> Email is not valid.</span>
+                <span *ngIf="emailUnique"> Email already in use.</span>
+            </div>
+        </div>
 
-    <div class="form-floating mb-3">
-        <input type="email" class="form-control" formControlName="email" id="email" placeholder="Email"
-        [ngClass]="{ 'is-invalid': (email?.invalid && email?.touched) || emailUnique}"
-        (blur)="checkEmail()"
-        (change)="emailUnique = null"
-        >
-        <label class="text-secondary" for="email">Email</label>
-        <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="invalid-feedback d-block mt-1">
-            <div *ngIf="email?.errors?.['required']">Email is required.</div>
-            <div *ngIf="email?.errors?.['email']">Email is not valid.</div>
-            <div *ngIf="emailUnique">Email already in use.</div>
-          </div>
-    </div>
+        <div class="form-check mb-3 ms-2 cp">
+            <input class="form-check-input cp" type="checkbox" formControlName="email_verified_at" id="email_verified_at">
+            <label class="form-check-label text-white cp" for="email_verified_at">Email Verified</label>
+        </div>
 
-    <div class="form-check mb-3">
-        <input class="form-check-input" type="checkbox" formControlName="email_verified_at" id="email_verified_at">
-        <label class="form-check-label text-secondary" for="email_verified_at">Email Verified</label>
-    </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text"><fa-icon [icon]="['fas', 'lock']"></fa-icon></span>
+            <div class="form-floating">
+                <input type="{{passToggle?'password': 'text'}}" class="form-control" formControlName="password"
+                    id="password" placeholder="Password">
+                <label class="text-secondary" for="password">Password</label>
+            </div>
+            <span class="input-group-text cp" (click)="passToggle = !passToggle">
+                <fa-icon [icon]="['fas', passToggle ? 'eye': 'eye-slash']"></fa-icon>
+            </span>
+        </div>
 
-    <div class="form-floating mb-3">
-        <input type="password" class="form-control" formControlName="password" id="password" placeholder="Password">
-        <label class="text-secondary" for="password">Password</label>
-    </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text">
+                <fa-icon [icon]="['fas', 'location-dot']"></fa-icon>
+            </span>
+            <div class="form-floating">
+                <input type="text" class="form-control" formControlName="location" id="location" placeholder="Location">
+                <label class="text-secondary" for="location">Location</label>
+            </div>
+        </div>
 
-    <div class="form-floating mb-3">
-        <input type="text" class="form-control" formControlName="location" id="location" placeholder="Location">
-        <label class="text-secondary" for="location">Location</label>
-    </div>
-
-    <div class="mb-3">
-        <div class="input-group">
+        <div class="input-group mb-3">
+            <span class="input-group-text">
+                <fa-icon [icon]="['fas', 'cake-candles']"></fa-icon>
+            </span>
             <div class="form-floating">
                 <input class="form-control" formControlName="birthday" ngbDatepicker (click)="birthdayDp.toggle()"
-                #birthdayDp="ngbDatepicker" id="birthday" placeholder="Birthday" [maxDate]="dateToday">
-                <label for="birthday" class="text-secondary" >Birthday</label>
+                    #birthdayDp="ngbDatepicker" id="birthday" placeholder="Birthday" [maxDate]="dateToday">
+                <label for="birthday" class="text-secondary">Birthday</label>
             </div>
-            <button class="btn btn-outline-secondary" (click)="birthdayDp.toggle()"
-                type="button"><fa-icon [icon]="['far', 'calendar']"></fa-icon></button> 
+            <button class="btn btn-outline-secondary" (click)="birthdayDp.toggle()" type="button"><fa-icon
+                    [icon]="['far', 'calendar']"></fa-icon></button>
         </div>
-    </div>
 
-    <div class="form-floating mb-3">
-        <ng-select [items]="publicRoleList" bindLabel="name" bindValue="id" [multiple]="false" [clearable]="false"
-            formControlName="public_role_id">
-            <ng-template ng-option-tmp let-item="item">
-                <div *ngIf="item.posts !== null">{{ item.name }} - Posts: {{ item.posts }}</div>
-                <div *ngIf="item.posts === null">{{ item.name }}</div>
-              </ng-template>
-        </ng-select>
-        <label class="text-secondary" for="public_role_id">Public Role</label>
-        <small>If a role that can change with amount of posts is assigned, i will change.</small>
-    </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text">
+                <fa-icon [icon]="['fas', 'star']"></fa-icon>
+            </span>
+            <div class="form-floating">
+                <ng-select [items]="publicRoleList" bindLabel="name" bindValue="id" [multiple]="false"
+                    [clearable]="false" formControlName="public_role_id">
+                    <ng-template ng-option-tmp let-item="item">
+                        <div *ngIf="item.posts !== null">{{ item.name }} - Posts: {{ item.posts }}</div>
+                        <div *ngIf="item.posts === null">{{ item.name }}</div>
+                    </ng-template>
+                </ng-select>
+                <label class="text-secondary" for="public_role_id">Public Role</label>
+            </div>
+            <div class="w-100 d-block mt-1 ms-1">
+                <small><fa-icon [icon]="['fas', 'circle-info']"></fa-icon> If a role that can change with amount of
+                    posts is assigned, it will change.</small>
+            </div>
+        </div>
 
-    <div class="form-floating mb-3">
-        <ng-select [items]="roleList" bindLabel="name" bindValue="id" [multiple]="true" [clearable]="true"
-            formControlName="roles"></ng-select>
-        <label class="text-secondary" for="roles">Roles</label>
-    </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text">
+                <fa-icon [icon]="['fas', 'shield']"></fa-icon>
+            </span>
+            <div class="form-floating">
+                <ng-select [items]="roleList" bindLabel="name" bindValue="id" [multiple]="true" [clearable]="true"
+                    formControlName="roles"></ng-select>
+                <label class="text-secondary" for="roles">Roles</label>
+            </div>
+        </div>
 
-    <div class="form-floating mb-3">
-        <div class="input-group">
+        <div class="input-group mb-3">
+            <span class="input-group-text">
+                <fa-icon [icon]="['fas', 'ban']"></fa-icon>
+            </span>
             <div class="form-floating">
                 <input class="form-control" formControlName="suspension" ngbDatepicker (click)="suspensionDp.toggle()"
-                #suspensionDp="ngbDatepicker" id="suspension" placeholder="Suspension" [minDate]="dateToday">
+                    #suspensionDp="ngbDatepicker" id="suspension" placeholder="Suspension" [minDate]="dateToday">
                 <label for="suspension" class="text-secondary">Suspension</label>
             </div>
-            <button class="btn btn-outline-secondary" (click)="birthdayDp.toggle()"
-                type="button"><fa-icon [icon]="['far', 'calendar']"></fa-icon></button> 
+            <button class="btn btn-outline-secondary" (click)="suspensionDp.toggle()" type="button"><fa-icon
+                    [icon]="['far', 'calendar']"></fa-icon></button>
+        </div>
+
+        <div class="d-flex justify-content-around mb-1">
+            <button type="button" class="btn btn-danger ms-2" (click)="deleteUser(deleteModal)">
+                <fa-icon [icon]="['fas', 'trash']"></fa-icon> Delete
+            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="editUserForm.invalid">
+                <div *ngIf="saveLoading" class="spinner-border spinner-border-sm" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <fa-icon [icon]="['fas', 'cloud-arrow-up']"></fa-icon> Save
+            </button>
+        </div>
+    </form>
+</div>
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Delete User: {{user.nick}}</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <div class="mb-3">
+            Are you sure you want to delete this user?
+            All data will be lost forever.
         </div>
     </div>
-
-
-    <button type="submit" class="btn btn-primary" [disabled]="editUserForm.invalid">
-        <div *ngIf="saveLoading" class="spinner-border spinner-border-sm" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        Save
-    </button>
-
-    <button type="button" class="btn btn-danger ms-2" (click)="deleteUser(deleteModal)">
-
-        Delete
-    </button>
-</form>
-</div>
-<ng-template #deleteModal let-modal>
-	<div class="modal-body">
-		<button type="button" class="btn-close float-right" aria-label="Close" (click)="modal.dismiss()"></button>
-		<div class="mb-3">
-			Are you sure you want to delete this user?
-            All data will be lost forever.
-		</div>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-outline-success" (click)="modal.close()">Cancel</button>
-		<button type="button" class="btn btn-danger" (click)="confirmDelete()">
+    <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="confirmDelete()">
             <div *ngIf="deleteLoading" class="spinner-border spinner-border-sm" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            Confirm <span *ngIf="userDeletion < 3">(Press {{ 3 - userDeletion }} times)</span></button>
-	</div>
+            Confirm <span *ngIf="userDeletion < 3">(Press {{ 3 - userDeletion }} time{{3 - userDeletion != 1 ? 's':
+                ''}})</span>
+        </button>
+    </div>
 </ng-template>
 
 <ng-template #loadingTemplate>
     <div class="page-loading-admin dark">
-      <img class="logoIA" src="/assets/svg/logoIA.svg" height="400" alt="loading spinner">
+        <img class="logoIA" src="/assets/svg/logoIA.svg" height="400" alt="loading spinner">
     </div>
-  </ng-template>
+</ng-template>

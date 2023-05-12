@@ -50,7 +50,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
       location: '',
       birthday: '',
       avatar: '',
-      rol: '',
+      public_role: {
+        name: '',
+        description: ''
+      },
       created_at: '',
       updated_at: '',
       can_pm: false,

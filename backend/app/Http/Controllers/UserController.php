@@ -126,6 +126,7 @@ class UserController extends Controller
                 $user['last_post'] = $user->last_post()->with('topic:id,title')->first()->only('topic','created_at', 'updated_at');
             }
             $user['is_verified'] = $user->hasVerifiedEmail();
+            $user->publicRole;
             return response()->json(
                 $user
             ,200);
