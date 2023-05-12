@@ -4,9 +4,9 @@
   </div>
 </div>
 
-<div class="row align-items-center h-100 min-vh-100" *ngIf="!loading; else loadingTemplate">
+<div class="row align-items-center h-100 min-vh-100 w-100 p-2 p-md-4" *ngIf="!loading; else loadingTemplate">
   <div class="">
-    <div class="filters">
+    <div class="filters d-flex justify-content-center">
       <form class="" (ngSubmit)="onFilter()">
         <div class="row mb-2 mx-auto">
           <div class="col-12 row my-auto col-sm-4">

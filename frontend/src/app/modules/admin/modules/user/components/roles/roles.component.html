@@ -1,38 +1,43 @@
 <div class="save-loading" *ngIf="false">
-    <div class="spinner-border text-dark" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
+  <div class="spinner-border text-dark" role="status">
+    <span class="visually-hidden">Loading...</span>
   </div>
-  
-  <div class="row align-items-center h-100 min-vh-100" *ngIf="!loading; else loadingTemplate">
-    <div class="col-5 publicRoleList">
-        <div class="publicRole list-group">
-          <div *ngFor="let prol of publicRoleList" class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="d-flex mb-0 justify-content-between w-75">
-                <p class="mb-0">{{prol.name}}</p>
-                <div class="mb-0 w-25 d-flex justify-content-between" *ngIf="prol.posts !== null">
-                    <p>Posts:</p> <p>{{prol.posts}}</p></div>
-            </div>
-            <div class="w-25 ps-2">
-              <button class="btn btn-primary btn-sm mr-2">Editar</button>
-              <button class="btn btn-danger btn-sm">Borrar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-7">
-        <div cdkDropList class="list-group" (cdkDropListDropped)="onItemDropped($event)">
-          <div *ngFor="let rol of roleList; let i = index" class="list-group-item d-flex flex-wrap" cdkDrag>
-            <p>{{rol.name}}</p>
-            <fa-icon *ngIf="rol.admin" class="ms-2" [icon]="['fas', 'user-gear']"></fa-icon>
-          </div>
-        </div>
-      </div>
+</div>
 
-  </div>
-  
-  <ng-template #loadingTemplate>
-    <div class="page-loading-admin dark">
-      <img class="logoIA" src="/assets/svg/logoIA.svg" height="400" alt="loading spinner">
+<div class="row align-items-center h-100 min-vh-100 w-100 p-4" *ngIf="!loading; else loadingTemplate">
+  <div class="col-12 col-md-6 publicRoleList">
+    <div class="publicRole list-group">
+      <div *ngFor="let prol of publicRoleList"
+        class="list-group-item d-flex justify-content-between align-items-center">
+        <div class="d-flex mb-0 justify-content-between w-75">
+          <p class="mb-0">{{prol.name}}</p>
+          <div class="mb-0 w-25 d-flex justify-content-between" *ngIf="prol.posts !== null">
+            <p>Posts:</p>
+            <p>{{prol.posts}}</p>
+          </div>
+        </div>
+        <div class="w-25 ps-2">
+          <button class="btn btn-primary btn-sm mr-2">Editar</button>
+          <button class="btn btn-danger btn-sm">Borrar</button>
+        </div>
+      </div>
     </div>
-  </ng-template>
+  </div>
+  <div class="col-12 col-md-6">
+    <div cdkDropList class="list-group" (cdkDropListDropped)="onItemDropped($event)">
+      <div *ngFor="let rol of roleList; let i = index" class="list-group-item d-flex align-items-center flex-wrap" cdkDrag>
+        <fa-icon *ngIf="rol.admin" [icon]="['fas', 'user-gear']"></fa-icon>
+        <fa-icon *ngIf="rol.name=='WELCOME_MOD'" [icon]="['fas', 'hand']"></fa-icon>
+        <fa-icon *ngIf="rol.name=='ROLE_MOD'" [icon]="['fas', 'user-shield']"></fa-icon>
+        <p class="m-0 ms-2 p-0">{{rol.name}}</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #loadingTemplate>
+  <div class="page-loading-admin dark">
+    <img class="logoIA" src="/assets/svg/logoIA.svg" height="400" alt="loading spinner">
+  </div>
+</ng-template>

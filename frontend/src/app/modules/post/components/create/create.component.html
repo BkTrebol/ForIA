@@ -24,7 +24,7 @@
             <app-avatar [user]="userLogged.userData"></app-avatar>
             <div class="text">
               <a routerLink="/user/profile/{{userLogged.userData.id}}">{{userLogged.userData.nick}}</a>
-              <small>{{userLogged.userData.public_role.name}}</small>
+              <small ngbTooltip="{{userLogged.userData.public_role.description}}" placement="bottom">{{userLogged.userData.public_role.name}}</small>
             </div>
           </div>
           <div class="editor">
