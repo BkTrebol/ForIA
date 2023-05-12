@@ -1,5 +1,5 @@
 <div class="save-loading" *ngIf="saveLoading">
-	<div class="spinner-border text-dark" role="status">
+	<div class="spinner-border fix-spinner text-dark" role="status">
 		<span class="visually-hidden">Loading...</span>
 	</div>
 </div>
@@ -34,10 +34,9 @@
 	</div>
 	<div class="mt-3 d-flex flex-column flex-sm-row justify-content-center">
 		<button (click)="onSubmit()" [disabled]="saveLoading" class="btn btn-primary m-2" ngbTooltip="Save Current Changes">
-			<div *ngIf="saveLoading" class="spinner-border spinner-border-sm" role="status">
-				<span class="visually-hidden">Loading...</span>
-			</div>
-			<fa-icon [icon]="['fas', 'cloud-arrow-up']"></fa-icon> Save
+			<span *ngIf="saveLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+			<fa-icon *ngIf="!saveLoading" [icon]="['fas', 'cloud-arrow-up']"></fa-icon>
+			 Save
 		</button>
 		<button class="btn btn-success m-2" (click)="createSection(sectionModal)" ngbTooltip="Add New Section"><fa-icon
 				[icon]="['fas', 'plus']"></fa-icon> Section</button>
@@ -170,7 +169,7 @@
 		<button type="button" class="btn btn-success" (click)="saveCategory()" [disabled]="categoryForm.invalid">
 			<div *ngIf="saveLoading" class="spinner-border spinner-border-sm" role="status">
 				<span class="visually-hidden">Loading...</span>
-			</div>Save
+			</div> Save
 		</button>
 	</div>
 </ng-template>

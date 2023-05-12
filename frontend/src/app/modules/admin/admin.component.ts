@@ -22,6 +22,8 @@ export class AdminComponent implements OnInit, OnDestroy {
   public isAdmin: boolean;
   private styleSheet: HTMLLinkElement | undefined;
   public loading: boolean;
+  public collapsed: boolean;
+
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
@@ -32,6 +34,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.unsubscribe$ = new Subject();
     this.isAdmin = false;
     this.loading = true;
+    this.collapsed = window.innerWidth <= 800;
   }
   ngOnInit(): void {
     this._router.events

@@ -1,15 +1,15 @@
 <div class="h-100 min-vh-100 w-100 p-2 p-md-4" *ngIf="!loading; else loadingTemplate">
-  <div class="filters d-flex justify-content-center mt-4">
-    <form (ngSubmit)="onFilter()">
+  <div class="filters d-flex justify-content-center mt-4 row">
+    <form (ngSubmit)="onFilter()" class="col-12 col-lg-6  col-md-8 col-sm-10">
       <div class="row mb-2 mx-auto">
-        <div class="col-12 col-sm-6 my-auto px-1">
+        <div class="col-12 col-sm-6 px-1">
           <div class="my-auto form-floating px-0">
             <input type="text" placeholder="Nick" class="form-control" [(ngModel)]="filters.nick" name="nick" id="nick">
             <label for="nick" class="form-label text-secondary"><fa-icon [icon]="['fas', 'user']"></fa-icon>
               Nick</label>
           </div>
         </div>
-        <div class="col-12 col-sm-6 mt-2 mt-sm-0 my-auto px-1">
+        <div class="col-12 col-sm-6 mt-2 mt-sm-0 px-1">
           <div class="my-auto form-floating px-0">
             <ng-select [items]="roleList" [searchable]="true" bindLabel="name" bindValue="id" id="rol" name="rol"
               [multiple]="true" [(ngModel)]="filters.roles" class="select"></ng-select>
@@ -57,7 +57,7 @@
         </div>
       </div>
       <div class="row mb-2 mx-auto d-flex justify-content-center">
-        <div class="col-12 col-sm-6 mt-2 mt-sm-0 my-auto">
+        <div class="col-12 col-sm-6 mt-2 mt-sm-0 px-1">
           <button type="submit" class="w-100 btn btn-primary"><fa-icon [icon]="['fas', 'magnifying-glass']"></fa-icon>
             Filter</button>
         </div>

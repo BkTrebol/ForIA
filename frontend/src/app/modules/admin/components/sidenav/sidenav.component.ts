@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import {  NavigationEnd, Router } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { ToastService } from 'src/app/helpers/services/toast.service';
@@ -13,22 +13,23 @@ import { Global } from 'src/environment/global';
 })
 export class SidenavComponent implements OnInit {
   private unsubscribe$: Subject<void>;
-  public collapsed: boolean;
+  // public collapsed: boolean;
   public user: User;
   public getAvatarUrl: string;
   public defaultUrl: string;
   public avatarUrl: string;
   public regexUrl: RegExp;
-  public showActive:boolean;
+  public showActive: boolean;
   @Output('logout') logout = new EventEmitter<void>();
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) {
-    this.showActive = /users\/\d+/.test(this.router.url) || /users\/?$/.test(this.router.url);
+  @Input() collapsed: boolean;
+  @Output() collapsedChange = new EventEmitter<boolean>();
+
+  constructor(private authService: AuthService, private router: Router) {
+    this.showActive =
+      /users\/\d+/.test(this.router.url) || /users\/?$/.test(this.router.url);
     this.unsubscribe$ = new Subject();
-    this.collapsed = false;
+    this.collapsed = window.innerWidth <= 800;
     this.user = this.authService.user.userData;
     this.getAvatarUrl = Global.api + 'user/get-avatar/';
     this.defaultUrl = 'https://api.dicebear.com/6.x/bottts/svg?seed=';
@@ -38,18 +39,20 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUrlImge();
-    this.collapsed = window.innerWidth <= 800;
+    // this.collapsed = window.innerWidth <= 800;
 
-    this.router.events.pipe(
-      filter((event: any) => event instanceof NavigationEnd)
-    ).subscribe((event: NavigationEnd) => {
-      this.showActive = /users\/\d+/.test(event.url) || /users\/?$/.test(event.url)
-    });
+    this.router.events
+      .pipe(filter((event: any) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.showActive =
+          /users\/\d+/.test(event.url) || /users\/?$/.test(event.url);
+      });
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.collapsed = event.target.innerWidth <= 800;
+    this.collapsedChange.emit(this.collapsed);
   }
 
   getUrlImge(): void {
@@ -66,7 +69,7 @@ export class SidenavComponent implements OnInit {
 
   // Logout the user
   onLogout(): void {
-   this.logout.emit();
+    this.logout.emit();
   }
 
   ngOnDestroy(): void {
