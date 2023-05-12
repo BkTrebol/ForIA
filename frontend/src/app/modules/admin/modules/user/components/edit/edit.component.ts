@@ -32,6 +32,7 @@ export class EditComponent implements OnInit, OnDestroy {
   public deleteLoading: boolean;
   public userDeletion: number;
   public passToggle: boolean;
+  public ngSelectOn: boolean;
 
   constructor(
     private _userService: UserService,
@@ -48,6 +49,7 @@ export class EditComponent implements OnInit, OnDestroy {
       month: dateNow.getMonth() + 1,
       day: dateNow.getDate(),
     };
+    this.ngSelectOn = false;
     this.userDeletion = 0;
     this.deleteLoading = false;
     this.saveLoading = false;
