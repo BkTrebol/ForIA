@@ -4,7 +4,7 @@
     </div>
   </div>
   
-  <div class="row align-items-center h-100 min-vh-100" *ngIf="!loading; else loadingTemplate">
+  <div class="row align-items-center h-100 min-vh-100" *ngIf="!loading;else loadingTemplate">
     <div class="col-12 col-md-5 publicRoleList">
         <div class="publicRole list-group">
           <button class="btn btn-success" style="border-bottom-left-radius:0;border-bottom-right-radius: 0;" (click)="createRole(editModal,'Public')">Create</button>
@@ -70,6 +70,7 @@
         </div>
       </div>
 
+  </div>
   </div>
   
   <ng-template #editModal let-modal>
