@@ -143,6 +143,20 @@ class RoleController extends Controller
     }
 
     function saveRoles(Request $request){
+        $roles = $request->roles;
+        $user = Auth::user();
+        $userMaxrol = $user->roles()->orderBy('order','desc')->first()->order;
 
+        foreach($roles as $role){
+            $editingRole = Role::find($role['id']);
+            if ($editingRole->order >= $userMaxrol){
+                return response()->json(["message" => "Unauthorizeed"],403);
+            }
+            $editingRole->update([
+                'order' => $role['order'],
+            ]);
+        }
+
+        return response()->json(["message" => "Roles updated succesfully"],200);
     }
 }

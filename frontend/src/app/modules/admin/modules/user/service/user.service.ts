@@ -17,6 +17,11 @@ export class UserService {
   getList(filters:any):Observable<any> {
     return this._http.get(`${this.apiUrl}user/list${filters}`);
   }
+
+  saveOrder(roles:any[]):Observable<any> {
+    const body = JSON.stringify({roles:roles});
+    return this._http.put(`${this.apiUrl}role/save`,body);
+  }
   
   getAllRoles():Observable<any> {
     return this._http.get(`${this.apiUrl}role/all/true`);

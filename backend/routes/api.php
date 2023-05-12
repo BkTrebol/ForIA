@@ -133,7 +133,7 @@ Route::middleware('auth:sanctum')->group(function(){
             Route::put('/public','editPublic');
             Route::post('/administrative','createRole');
             Route::post('/public','createPublic');
-            Route::post('/save','saveRoles');
+            Route::put('/save','saveRoles');
         });
 
         Route::controller(AdminUserController::class)->prefix('user')->group(function(){
