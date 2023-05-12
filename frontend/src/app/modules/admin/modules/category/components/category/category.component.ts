@@ -3,7 +3,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { CategoryService } from '../../service/category.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { uniqueTitleValidator } from '../../helpers';
+import { uniqueTitleValidator } from 'src/app/helpers/validators';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import { Global } from 'src/environment/global';
@@ -144,7 +144,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       can_post: [null, [Validators.required]],
       can_view: [null, [Validators.required]],
       description: ['', [Validators.maxLength(250)]],
-      // image: [],
+      image: [],
       music: [],
       title: ['', [Validators.required, Validators.maxLength(50), uniqueTitleValidator(this.sections)]]
     });
@@ -154,11 +154,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
   saveCategory() {
     this.saveLoading = true;
     let formData = new FormData();
-
     Object.keys(this.categoryForm.value).forEach(key => {
       if (key !== 'image') formData.append(key, this.categoryForm.get(key)?.value);
     });
-    console.log(this.categoryForm.value);
     if (this.catImage instanceof File) {
       formData.append('image', this.catImage);
     }
@@ -167,10 +165,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
           next: data => {
+            const sectionId = this.sections.indexOf(
+              this.sections.find(s => s.name == data.category.section))
             if (!this.newCategoryMode) {
               this.sections[this.index].categories[this.cindex] = data.category;
             } else {
-              this.sections[this.categoryForm.value.section].categories.push(data.category);
+              this.sections[sectionId].categories.push(data.category);
             }
             this.categoryForm = this._fb.group({});
             this.saveLoading = false;
@@ -252,7 +252,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
         index++
       }
     }
-
     this._categoryService.saveCategories(sendCatList)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({

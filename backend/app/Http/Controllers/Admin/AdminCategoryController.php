@@ -62,6 +62,7 @@ class AdminCategoryController extends Controller
         }
 
         $data = [
+            "section" => $request->input("section"),
             "title" => $request->input("title"),
             "can_view" => $request->input("can_view"),
             "can_post" => $request->input("can_post"),

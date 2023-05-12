@@ -17,7 +17,10 @@ export class UserService {
   getList(filters:any):Observable<any> {
     return this._http.get(`${this.apiUrl}user/list${filters}`);
   }
-
+  
+  getAllRoles():Observable<any> {
+    return this._http.get(`${this.apiUrl}role/all/true`);
+  }
   getRoles():Observable<any> {
     return this._http.get(`${this.apiUrl}role/normal`);
   }
@@ -45,5 +48,17 @@ export class UserService {
   checkEmail(email:string,oldEmail:string):Observable<any> {
     const body = JSON.stringify({email:email, oldEmail:oldEmail});
     return this._http.post(`${this.apiUrl}user/check/email`,body);
+  }
+
+  deleteRole(role:number,type:string):Observable<any> {
+    return this._http.delete(`${this.apiUrl}role/${type.toLowerCase()}/${role}`);
+  }
+
+  editRole(role:any,type:string):Observable<any>{
+    return this._http.put(`${this.apiUrl}role/${type.toLowerCase()}`,role)
+  }
+
+  saveRole(role:any,type:string):Observable<any>{
+    return this._http.post(`${this.apiUrl}role/${type.toLowerCase()}`,role)
   }
 }

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->foreignId('public_role_id')
-                ->default(1)
-                ->constrained('public_roles')
-                ->onDelete('set default');
+                ->default(1);
+                // ->constrained('public_roles')
+                // ->onDelete('set default');
         });
     }
 

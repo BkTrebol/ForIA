@@ -12,7 +12,9 @@ class Role extends Model
     use HasFactory;
 
     public $timestamps = false;
-
+    protected $fillable = [
+        "name","admin",'order'
+    ];
     protected $hidden = [
         'created_at',
         'updated_at',

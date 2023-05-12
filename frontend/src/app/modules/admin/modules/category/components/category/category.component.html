@@ -104,7 +104,7 @@
 							</div>
 							<div class="form-floating custom-floating-label form-group my-1" *ngIf="newCategoryMode">
 
-								<ng-select [items]="sectionList" [searchable]="true" bindLabel="name" bindValue="id"
+								<ng-select [items]="sectionList" [searchable]="true" bindLabel="name" bindValue="name"
 									formControlName="section" class="select"
 									[ngClass]="{ 'is-invalid': section?.invalid && section?.touched}">
 								</ng-select>
@@ -165,7 +165,7 @@
 									class="form-control" placeholder="Image" formControlName="image">
 								<label class="text-secondary" for="image">Image</label>
 							<!-- </div> -->
-							<div *ngIf="imageUrl">
+							<div *ngIf="imageUrl && imageUrl != ''">
 								<img [src]="imageUrl" alt="Uploaded Image" class="uploaded-image">
 							  </div>
 
@@ -196,7 +196,8 @@
 	<div class="modal-body">
 		<button type="button" class="btn-close float-right" aria-label="Close" (click)="modal.dismiss()"></button>
 		<div class="mb-3">
-			Confirm deleting category with title: {{catToDelete}}
+			<div class="alert alert-danger">Confirm deleting category with title: <strong>{{catToDelete}}</strong></div>
+			Changes won't save until 'Save' button is clicked.
 		</div>
 	</div>
 	<div class="modal-footer">

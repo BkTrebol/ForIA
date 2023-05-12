@@ -124,9 +124,16 @@ Route::middleware('auth:sanctum')->group(function(){
         });
 
         Route::controller(RoleController::class)->prefix('role')->group(function(){
-            Route::get('/all','getAll');
+            Route::get('/all/{filter?}','getAll');
             Route::get('/public','getPublic');
             Route::get('/normal','getList');
+            Route::delete('/public/{role}','deletePublic');
+            Route::delete('/administrative/{role}','deleteRole');
+            Route::put('/administrative','editRole');
+            Route::put('/public','editPublic');
+            Route::post('/administrative','createRole');
+            Route::post('/public','createPublic');
+            Route::post('/save','saveRoles');
         });
 
         Route::controller(AdminUserController::class)->prefix('user')->group(function(){
