@@ -12,24 +12,24 @@ import { uniquePostsValidator, uniqueRoleNameValidator } from 'src/app/helpers/v
 })
 export class RolesComponent {
   private unsubscribe$: Subject<void>;
-  public loading:boolean;
-  public roleList:Array<any>;
-  public uneditableRoleList:Array<any>;
-  public orderedRoleList:Array<any>;
-  public publicRoleList:Array<any>;
-  public roleType:string;
-  public roleToDelete:any;
-  public modalLoading:boolean;
-  public saveLoading:boolean;
-  public editRoleForm:FormGroup;
-  public mode:string;
-  public orders:Array<number>; 
+  public loading: boolean;
+  public roleList: Array<any>;
+  public uneditableRoleList: Array<any>;
+  public orderedRoleList: Array<any>;
+  public publicRoleList: Array<any>;
+  public roleType: string;
+  public roleToDelete: any;
+  public modalLoading: boolean;
+  public saveLoading: boolean;
+  public editRoleForm: FormGroup;
+  public mode: string;
+  public orders: Array<number>;
   constructor(
     private _userService: UserService,
     private _modalService: NgbModal,
     private _toastService: ToastService,
     private _fb: FormBuilder,
-  ){
+  ) {
     this.mode = "Create";
     this.orders = [];
     this.editRoleForm = this._fb.group({});
@@ -50,50 +50,55 @@ export class RolesComponent {
     this.getPublicRoles();
     this.loading = false;
   }
-  
-  getRoles(){
+
+  getRoles() {
     this._userService.getAllRoles()
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe({
-      next: r => {
-        console.log(r)
-        this.roleList = r.editable;
-        this.uneditableRoleList = r.nonEditable;
-        this.orders = this.roleList.map((role) => role.order)
-        .filter((v,i,s) => s.indexOf(v) === i)
-        }})
-      }
-    
-  getPublicRoles(){
-    this._userService.getPublicRoles()
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe({
-      next: r => {
-        this.publicRoleList = r
-      }
-    });
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: r => {
+          console.log(r)
+          this.roleList = r.editable;
+          this.uneditableRoleList = r.nonEditable;
+          this.orders = [];
+          let minRol = 3;
+          let maxRol = r.nonEditable[0]?.order - 1 ?? r.editable[r.editable.length - 1].order;
+          for (let i = minRol; i <= maxRol; i++) {
+            this.orders.push(i);
+          }
+        }
+      })
   }
 
-  editRole(modal:any,role:number,type:string){
+  getPublicRoles() {
+    this._userService.getPublicRoles()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: r => {
+          this.publicRoleList = r
+        }
+      });
+  }
+
+  editRole(modal: any, role: number, type: string) {
     this.roleType = type;
     this.mode = "Edit";
-    const useRole = type === "Public" ? this.publicRoleList[role] : 
-    this.roleList[role];
-    if(type === "Public"){
+    const useRole = type === "Public" ? this.publicRoleList[role] :
+      this.roleList[role];
+    if (type === "Public") {
       this.editRoleForm = this._fb.group({
-        id:[useRole.id],
-        name: [useRole.name, [Validators.required,uniqueRoleNameValidator(this.publicRoleList,useRole.name)]],
-        description:[useRole.description],
-        posts:[useRole.posts,uniquePostsValidator(this.publicRoleList,useRole.posts)]
+        id: [useRole.id],
+        name: [useRole.name, [Validators.required, uniqueRoleNameValidator(this.publicRoleList, useRole.name)]],
+        description: [useRole.description],
+        posts: [useRole.posts, uniquePostsValidator(this.publicRoleList, useRole.posts)]
       });
-      if(useRole.posts === 0){
+      if (useRole.posts === 0) {
         this.editRoleForm.get('posts')?.disable();
       }
-    } else{
+    } else {
       this.editRoleForm = this._fb.group({
-        id:[useRole.id],
-        name: [useRole.name, [Validators.required,uniqueRoleNameValidator(this.roleList,useRole.name)]],
-        admin:[useRole.admin]
+        id: [useRole.id],
+        name: [useRole.name, [Validators.required, uniqueRoleNameValidator(this.roleList, useRole.name)]],
+        admin: [useRole.admin]
       });
     }
 
@@ -101,120 +106,136 @@ export class RolesComponent {
       r => {
         if (r) {
           this.modalLoading = true;
-          this._userService.editRole(this.editRoleForm.value,type)
-          .pipe(takeUntil(this.unsubscribe$))
-          .subscribe({
-            next: r => {
-              this.modalLoading = false;
-              this.resetRoleVars();
-              if(type==="Public")
-              this.getPublicRoles();
-            else
-              this.getRoles();
+          this._userService.editRole(this.editRoleForm.value, type)
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe({
+              next: r => {
+                this.modalLoading = false;
+                this.resetRoleVars();
+                if (type === "Public")
+                  this.getPublicRoles();
+                else
+                  this.getRoles();
 
-              this._toastService.show(r.message);
-            },
-            error: e =>{
-              this.modalLoading = false;
-              this.resetRoleVars();
-              this._toastService.show(e.message);
-            }
-          })
+                this._toastService.show(r.message);
+              },
+              error: e => {
+                this.modalLoading = false;
+                this.resetRoleVars();
+                this._toastService.show(e.message);
+              }
+            })
         }
       },
-      () => {this.resetRoleVars(); });
+      () => { this.resetRoleVars(); });
   }
 
-  deleteRole(modal:any,role:number,type:string){
+  deleteRole(modal: any, role: number, type: string) {
     this.roleType = type;
-    this.roleToDelete = type === "Public" ? this.publicRoleList[role] : 
-    this.roleList[role];
+    this.roleToDelete = type === "Public" ? this.publicRoleList[role] :
+      this.roleList[role];
     this._modalService.open(modal).result.then(
       r => {
         if (r) {
           this.modalLoading = true;
-          this._userService.deleteRole(this.roleToDelete.id,type)
-          .pipe(takeUntil(this.unsubscribe$))
-          .subscribe({
-            next: r => {
-              this.modalLoading = false;
-              if(type === 'Public')
-                this.publicRoleList.splice(this.publicRoleList.indexOf(this.roleToDelete),1)
-              else
-                this.roleList.splice(this.roleList.indexOf(this.roleToDelete),1)
-              this.resetRoleVars();
-              this._toastService.show(r.message);
-            },
-            error: e =>{
-              this.modalLoading = false;
-              this.resetRoleVars();
-              this._toastService.show(e.message);
-            }
-          })
+          this._userService.deleteRole(this.roleToDelete.id, type)
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe({
+              next: r => {
+                this.modalLoading = false;
+                if (type === 'Public')
+                  this.publicRoleList.splice(this.publicRoleList.indexOf(this.roleToDelete), 1)
+                else
+                  this.roleList.splice(this.roleList.indexOf(this.roleToDelete), 1)
+                this.resetRoleVars();
+                this._toastService.show(r.message);
+              },
+              error: e => {
+                this.modalLoading = false;
+                this.resetRoleVars();
+                this._toastService.show(e.message);
+              }
+            })
         }
       },
-      () => {this.resetRoleVars(); });
+      () => { this.resetRoleVars(); });
   }
 
-  resetRoleVars(){
+  resetRoleVars() {
     this.roleType = "";
     this.roleToDelete = "";
     this.editRoleForm = this._fb.group({});
   }
 
-  createRole(modal:any,type:string){
+  createRole(modal: any, type: string) {
     this.roleType = type;
     this.mode = "Create";
-    if(type === "Public"){
+    if (type === "Public") {
       this.editRoleForm = this._fb.group({
-        id:[],
-        name: ['', [Validators.required,uniqueRoleNameValidator(this.publicRoleList)]],
-        description:[],
-        posts:[null,uniquePostsValidator(this.publicRoleList)]
+        id: [],
+        name: ['', [Validators.required, uniqueRoleNameValidator(this.publicRoleList)]],
+        description: [],
+        posts: [null, uniquePostsValidator(this.publicRoleList)]
       });
-    } else{
+    } else {
       this.editRoleForm = this._fb.group({
-        id:[],
-        name: ['', [Validators.required,uniqueRoleNameValidator(this.roleList)]],
-        admin:[false]
+        id: [],
+        name: ['', [Validators.required, uniqueRoleNameValidator(this.roleList)]],
+        admin: [false]
       });
     }
     this._modalService.open(modal).result.then(
       r => {
         if (r) {
           this.modalLoading = true;
-          this._userService.saveRole(this.editRoleForm.value,type)
-          .pipe(takeUntil(this.unsubscribe$))
-          .subscribe({
-            next: r => {
-              this.modalLoading = false;
-              this.resetRoleVars();
-              if(type==="Public")
-                this.getPublicRoles();
-              else
-                this.getRoles();
+          this._userService.saveRole(this.editRoleForm.value, type)
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe({
+              next: r => {
+                this.modalLoading = false;
+                this.resetRoleVars();
+                if (type === "Public")
+                  this.getPublicRoles();
+                else
+                  this.getRoles();
 
-              this._toastService.show(r.message);
-            },
-            error: e =>{
-              this.modalLoading = false;
-              this.resetRoleVars();
-              this._toastService.show(e.message);
-            }
-          })
+                this._toastService.show(r.message);
+              },
+              error: e => {
+                this.modalLoading = false;
+                this.resetRoleVars();
+                this._toastService.show(e.message);
+              }
+            })
         }
       },
-      () => {this.resetRoleVars(); });
+      () => { this.resetRoleVars(); });
   }
   changeOrder(event: any, role: any) {
     role.order = Number(event.target.value);
   }
 
-  saveOrder(){
-    console.log(this.roleList)
-  }
-  
+  saveOrder() {
+    this._userService.saveOrder(this.roleList)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: r => {
+          console.log(r);
+          this.getRoles();
+          this._toastService.show(r.message);
+        },
+        error: e => {
+          console.log(e);
+          this._toastService.show(e.message);
+        }
+      });
 
-  get name(){return this.editRoleForm.get("name");}
-  get posts(){return this.editRoleForm.get("posts");}
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+  get name() { return this.editRoleForm.get("name"); }
+  get posts() { return this.editRoleForm.get("posts"); }
 }
