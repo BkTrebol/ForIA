@@ -1,83 +1,93 @@
 <div class="h-100 min-vh-100 w-100 p-2 p-md-4" *ngIf="!loading; else loadingTemplate">
-    <div class="filters d-flex justify-content-center">
-      <form (ngSubmit)="onFilter()">
-        <div class="row mb-2 mx-auto">
-          <div class="col-12 row my-auto col-sm-4">
-            <div class="my-auto form-floating px-0">
-              <input type="text" placeholder="Nick" class="form-control" [(ngModel)]="filters.nick" name="nick"
-                id="nick">
-              <label for="nick" class="form-label text-secondary"><fa-icon [icon]="['fas', 'user']"></fa-icon> Nick</label>
-            </div>
-          </div>
-          <div class="col-12 row my-auto col-sm-8">
-            <div class="m-2 my-auto col-7 form-floating px-0">
-              <ng-select [items]="roleList" [searchable]="true" bindLabel="name" bindValue="id" id="rol" name="rol"
-                [multiple]="true" [(ngModel)]="filters.roles" class="select"></ng-select>
-              <label for="rol" class="form-label text-secondary"><fa-icon [icon]="['fas', 'shield']"></fa-icon> Role</label>
-            </div>
-            <div class="col-4 my-auto d-flex align-items-center">
-              <input id="rolesAll" type="checkbox" class="form-check-input mr-1" style="min-width:16px" name="rolesAll"
-                [(ngModel)]="filters.rolesAll">
-              <label class="form-label" for="rolesAll">All roles<br>(Default is Any)</label>
-            </div>
+  <div class="filters d-flex justify-content-center mt-4">
+    <form (ngSubmit)="onFilter()">
+      <div class="row mb-2 mx-auto">
+        <div class="col-12 col-sm-6 my-auto px-1">
+          <div class="my-auto form-floating px-0">
+            <input type="text" placeholder="Nick" class="form-control" [(ngModel)]="filters.nick" name="nick" id="nick">
+            <label for="nick" class="form-label text-secondary"><fa-icon [icon]="['fas', 'user']"></fa-icon>
+              Nick</label>
           </div>
         </div>
-        <div class="row mb-2 mx-auto">
-          <div class=" col-3 form-floating px-1">
-            <select class="form-select " placeholder="Verified" id="verified" name="verified"
-              [(ngModel)]="filters.verified">
-              <option [value]="null">-</option>
-              <option [value]="true">True</option>
-              <option [value]="false">False</option>
-            </select>
-            <label class="form-label text-secondary" for="verified"><fa-icon [icon]="['fas', 'check']"></fa-icon> Verified</label>
+        <div class="col-12 col-sm-6 mt-2 mt-sm-0 my-auto px-1">
+          <div class="my-auto form-floating px-0">
+            <ng-select [items]="roleList" [searchable]="true" bindLabel="name" bindValue="id" id="rol" name="rol"
+              [multiple]="true" [(ngModel)]="filters.roles" class="select"></ng-select>
+            <label for="rol" class="form-label text-secondary"><fa-icon [icon]="['fas', 'shield']"></fa-icon>
+              Role</label>
           </div>
-          <div class=" col-3 form-floating px-1">
-            <select class="form-select" id="suspension" placeholder="Suspended" name="suspension"
-              [(ngModel)]="filters.suspension">
-              <option [value]="null">-</option>
-              <option [value]="true">True</option>
-              <option [value]="false">False</option>
-            </select>
-            <label class="form-label text-secondary" for="suspension"><fa-icon [icon]="['fas', 'ban']"></fa-icon> Suspended</label>
-          </div>
-          <div class="col-3 form-floating px-1">
-            <select class="form-select" placeholder="Linked google" id="google" name="google"
-              [(ngModel)]="filters.google">
-              <option [value]="null">-</option>
-              <option [value]="true">True</option>
-              <option [value]="false">False</option>
-            </select>
-            <label class="form-label text-secondary" for="google"><fa-icon [icon]="['fas', 'link']"></fa-icon> Linked Google <fa-icon [icon]="['fab', 'google']"></fa-icon></label>
-          </div>
-          <button type="submit" class="col-2 btn btn-primary"><fa-icon [icon]="['fas', 'magnifying-glass']"></fa-icon> Filter</button>
         </div>
-
-      </form>
-    </div>
-    <ngx-datatable class="bootstrap" [rows]="tableData.users" [count]="tableData.page.total"
-      [offset]="tableData.page.current-1" [limit]="tableData.page.perPage" [externalPaging]="true"
-      [externalSorting]="true" [loadingIndicator]="tableLoading" [columnMode]="'force'" [headerHeight]="50"
-      [footerHeight]="50" [rowHeight]="'auto'" (page)="onChangePage($event)" (sort)="onSort($event)">
-      <ngx-datatable-column name="Nick"  prop="nick"></ngx-datatable-column>
-      <ngx-datatable-column name="Email" *ngIf="show.email" prop="email"></ngx-datatable-column>
-      <ngx-datatable-column name="Last Seen" *ngIf="show.lastSeen" class="d-none" prop="last_seen">
-        <ng-template ngx-datatable-cell-template let-value="value">
-          {{ value | date: 'short' }}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column name="Created At" *ngIf="show.createdAt" class="d-none" prop="created_at">
-        <ng-template ngx-datatable-cell-template let-value="value">
-          {{ value | date: 'short' }}
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column name="Posts" *ngIf="show.posts" class="d-none" prop="posts_count" [width]="45"></ngx-datatable-column>
-      <ngx-datatable-column name="Actions" prop="id" [sortable]="false" [width]="45">
-        <ng-template ngx-datatable-cell-template let-value="value">
-          <a routerLink="{{value}}"><fa-icon [icon]="['far', 'pen-to-square']"></fa-icon></a>
-        </ng-template>
-      </ngx-datatable-column>
-    </ngx-datatable>
+      </div>
+      <div class="row mb-2 mx-auto">
+        <div class="col-12 col-sm-6 my-auto d-flex align-items-center gap-1 cp">
+          <input id="rolesAll" type="checkbox" class="form-check-input m-0 mr-1 cp" name="rolesAll"
+            [(ngModel)]="filters.rolesAll">
+          <label class="form-label m-0 cp" for="rolesAll"> All roles (Default is Any)</label>
+        </div>
+        <div class="col-12 col-sm-6 form-floating px-1 mt-2 mt-sm-0">
+          <select class="form-select" placeholder="Linked google" id="google" name="google" [(ngModel)]="filters.google">
+            <option [value]="null">-</option>
+            <option [value]="true">True</option>
+            <option [value]="false">False</option>
+          </select>
+          <label class="form-label text-secondary" for="google"><fa-icon [icon]="['fas', 'link']"></fa-icon> Linked
+            Google <fa-icon [icon]="['fab', 'google']"></fa-icon></label>
+        </div>
+      </div>
+      <div class="row mb-2 mx-auto">
+        <div class="col-12 col-sm-6 form-floating px-1">
+          <select class="form-select " placeholder="Verified" id="verified" name="verified"
+            [(ngModel)]="filters.verified">
+            <option [value]="null">-</option>
+            <option [value]="true">True</option>
+            <option [value]="false">False</option>
+          </select>
+          <label class="form-label text-secondary" for="verified"><fa-icon [icon]="['fas', 'check']"></fa-icon>
+            Verified</label>
+        </div>
+        <div class="col-12 col-sm-6 form-floating mt-2 mt-sm-0 px-1">
+          <select class="form-select" id="suspension" placeholder="Suspended" name="suspension"
+            [(ngModel)]="filters.suspension">
+            <option [value]="null">-</option>
+            <option [value]="true">True</option>
+            <option [value]="false">False</option>
+          </select>
+          <label class="form-label text-secondary" for="suspension"><fa-icon [icon]="['fas', 'ban']"></fa-icon>
+            Suspended</label>
+        </div>
+      </div>
+      <div class="row mb-2 mx-auto d-flex justify-content-center">
+        <div class="col-12 col-sm-6 mt-2 mt-sm-0 my-auto">
+          <button type="submit" class="w-100 btn btn-primary"><fa-icon [icon]="['fas', 'magnifying-glass']"></fa-icon>
+            Filter</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <ngx-datatable class="bootstrap" [rows]="tableData.users" [count]="tableData.page.total"
+    [offset]="tableData.page.current-1" [limit]="tableData.page.perPage" [externalPaging]="true"
+    [externalSorting]="true" [loadingIndicator]="tableLoading" [columnMode]="'force'" [headerHeight]="50"
+    [footerHeight]="50" [rowHeight]="'auto'" (page)="onChangePage($event)" (sort)="onSort($event)">
+    <ngx-datatable-column name="Nick" prop="nick"></ngx-datatable-column>
+    <ngx-datatable-column name="Email" *ngIf="show.email" prop="email"></ngx-datatable-column>
+    <ngx-datatable-column name="Last Seen" *ngIf="show.lastSeen" class="d-none" prop="last_seen">
+      <ng-template ngx-datatable-cell-template let-value="value">
+        {{ value | date: 'short' }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Created At" *ngIf="show.createdAt" class="d-none" prop="created_at">
+      <ng-template ngx-datatable-cell-template let-value="value">
+        {{ value | date: 'short' }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Posts" *ngIf="show.posts" class="d-none" prop="posts_count"
+      [width]="45"></ngx-datatable-column>
+    <ngx-datatable-column name="Actions" prop="id" [sortable]="false" [width]="45">
+      <ng-template ngx-datatable-cell-template let-value="value">
+        <a routerLink="{{value}}"><fa-icon [icon]="['far', 'pen-to-square']"></fa-icon></a>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
 </div>
 
 <ng-template #loadingTemplate>
