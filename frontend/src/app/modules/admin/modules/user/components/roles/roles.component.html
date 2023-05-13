@@ -1,149 +1,164 @@
 <div class="save-loading" *ngIf="saveLoading">
-    <div class="spinner-border text-dark" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
+  <div class="spinner-border text-dark" role="status">
+    <span class="visually-hidden">Loading...</span>
   </div>
-  
-  <div class="row align-items-center h-100 min-vh-100" *ngIf="!loading;else loadingTemplate">
-    <div class="col-12 col-md-5 publicRoleList">
-        <div class="publicRole list-group">
-          <button class="btn btn-success" style="border-bottom-left-radius:0;border-bottom-right-radius: 0;" (click)="createRole(editModal,'Public')">Create</button>
-          <div *ngFor="let prol of publicRoleList; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="d-flex mb-0 justify-content-between align-items-center w-75">
-                <p class="mb-0">{{prol.name}}</p>
-                <div class="mb-0 w-25 d-flex justify-content-between" *ngIf="prol.posts !== null">
-                    <p>Posts:</p> <p>{{prol.posts}}</p></div>
-            </div>
-            <div class="w-25">
-              <button class="btn btn-primary btn-sm ms-1 me-1" (click)="editRole(editModal,i,'Public')">Editar</button>
-              <button class="btn btn-danger btn-sm" [disabled]="prol.posts === 0" (click)="deleteRole(deleteModal,i,'Public')">Borrar</button>
-            </div>
+</div>
+
+<div class="row align-items-center h-100 min-vh-100 p-2 p-md-4" *ngIf="!loading;else loadingTemplate">
+  <div class="col-12 col-md-6 publicRoleList">
+    <div class="publicRole list-group">
+      <button class="btn btn-success" style="border-bottom-left-radius:0;border-bottom-right-radius: 0;"
+        (click)="createRole(editModal,'Public')"><fa-icon [icon]="['fas', 'plus']"></fa-icon> Create</button>
+      <div *ngFor="let prol of publicRoleList; let i = index"
+        class="list-group-item d-flex justify-content-between align-items-center">
+        <div class="d-flex mb-0 justify-content-between align-items-center w-75">
+          <p class="mb-0">{{prol.name}}</p>
+          <div class="mb-0 w-25 d-flex justify-content-between" *ngIf="prol.posts !== null">
+            <p>Posts:</p>
+            <p>{{prol.posts}}</p>
           </div>
-        <!-- </div> -->
-        <div class="btn-group">
-          <button class="btn btn-primary btn-sm mr-2"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
-          <button class="btn btn-danger btn-sm"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
+        </div>
+        <!-- TODO centrar -->
+        <div class="w-25 btn-group">
+          <button class="btn btn-primary btn-sm" (click)="editRole(editModal,i,'Public')"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
+          <button class="btn btn-danger btn-sm" [disabled]="prol.posts === 0"
+            (click)="deleteRole(deleteModal,i,'Public')"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
         </div>
       </div>
-      <div class="col-12 col-md-7">
-        <div  class="list-group" >
-          <div class="d-flex w-100">
-            <button class="btn w-50 btn-success" style="border-bottom-left-radius:0;border-bottom-right-radius: 0;border-top-right-radius: 0;" (click)="createRole(editModal,'Administrative')">Create</button>
-            <button class="btn w-50 btn-primary" style="border-bottom-left-radius:0;border-bottom-right-radius: 0;border-top-left-radius: 0;" (click)="saveOrder()">Save</button>
-          </div>
-          <div *ngFor="let rol of roleList; let i = index" class="list-group-item align-items-center d-flex flex-wrap justify-content-between">
-            <div class="d-flex flex-wrap w-50">
+      <!-- <div class="btn-group">
+        <button class="btn btn-primary btn-sm mr-2"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
+        <button class="btn btn-danger btn-sm"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
+      </div> -->
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="list-group">
+      <div class="d-flex w-100">
+        <button class="btn w-50 btn-success"
+          style="border-bottom-left-radius:0;border-bottom-right-radius: 0;border-top-right-radius: 0;"
+          (click)="createRole(editModal,'Administrative')"><fa-icon [icon]="['fas', 'plus']"></fa-icon> Create</button>
+        <button class="btn w-50 btn-primary"
+          style="border-bottom-left-radius:0;border-bottom-right-radius: 0;border-top-left-radius: 0;"
+          (click)="saveOrder()"><fa-icon [icon]="['fas', 'cloud-arrow-up']"></fa-icon> Save</button>
+      </div>
+      <div *ngFor="let rol of roleList; let i = index"
+        class="list-group-item align-items-center d-flex flex-wrap justify-content-between">
+        <div class="d-flex flex-wrap w-50">
 
-              <fa-icon *ngIf="rol.admin" [icon]="['fas', 'user-gear']"></fa-icon>
-              <fa-icon *ngIf="rol.name=='WELCOME_MOD'" [icon]="['fas', 'hand']"></fa-icon>
-              <fa-icon *ngIf="rol.name=='ROLE_MOD'" [icon]="['fas', 'user-shield']"></fa-icon>
-        <p class="m-0 ms-2 p-0">{{rol.name}}</p>
-            </div>
-            <select class="form-control w-25" (change)="changeOrder($event, rol)" >
-              <option *ngFor="let order of orders;" [value]="order" [selected]="order === rol.order" >
-                Order: {{order-2}}
-              </option>
-            </select>
-            <div class="w-25 d-flex justify-content-end">
-              <button class="btn btn-primary btn-sm ms-1 me-1" (click)="editRole(editModal,i,'Administrative')">Editar</button>
-              <button class="btn btn-danger btn-sm" (click)="deleteRole(deleteModal,i,'Administrative')">Borrar</button>
-            </div>
-          </div>
-          <!-- NonEditable -->
-          <div *ngFor="let rol of uneditableRoleList; let i = index" class="list-group-item align-items-center d-flex flex-wrap justify-content-between">
-            <div class="d-flex flex-wrap w-50">
-              <p>{{rol.name}}</p>
-              <fa-icon *ngIf="rol.admin" class="ms-2" [icon]="['fas', 'user-gear']"></fa-icon>
-            </div>
-            <select class="form-control w-25" [disabled]="true" >
-              <option [selected]="true" >
-                Order: {{rol.order-2}}
-              </option>
-            </select>
-            <div class="w-25 d-flex justify-content-end">
-              <button class="btn btn-primary btn-sm ms-1 me-1" [disabled]="true" >Editar</button>
-              <button class="btn btn-danger btn-sm" [disabled]="true">Borrar</button>
-            </div>
-          </div>
-          
-  
+          <fa-icon *ngIf="rol.admin" [icon]="['fas', 'user-gear']"></fa-icon>
+          <fa-icon *ngIf="rol.name=='WELCOME_MOD'" [icon]="['fas', 'hand']"></fa-icon>
+          <fa-icon *ngIf="rol.name=='ROLE_MOD'" [icon]="['fas', 'user-shield']"></fa-icon>
+          <p class="m-0 ms-2 p-0">{{rol.name}}</p>
+        </div>
+        <select class="form-control w-25" (change)="changeOrder($event, rol)">
+          <option *ngFor="let order of orders;" [value]="order" [selected]="order === rol.order">
+            Order: {{order-2}}
+          </option>
+        </select>
+        <div class="w-25 d-flex justify-content-end">
+          <button class="btn btn-primary btn-sm ms-1 me-1"
+            (click)="editRole(editModal,i,'Administrative')"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
+          <button class="btn btn-danger btn-sm" (click)="deleteRole(deleteModal,i,'Administrative')"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
+        </div>
+      </div>
+      <!-- NonEditable -->
+      <div *ngFor="let rol of uneditableRoleList; let i = index"
+        class="list-group-item align-items-center d-flex flex-wrap justify-content-between">
+        <div class="d-flex flex-wrap w-50">
+          <p>{{rol.name}}</p>
+          <fa-icon *ngIf="rol.admin" class="ms-2" [icon]="['fas', 'user-gear']"></fa-icon>
+        </div>
+        <select class="form-control w-25" [disabled]="true">
+          <option [selected]="true">
+            Order: {{rol.order-2}}
+          </option>
+        </select>
+        <div class="w-25 d-flex justify-content-end">
+          <button class="btn btn-primary btn-sm ms-1 me-1" [disabled]="true"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
+          <button class="btn btn-danger btn-sm" [disabled]="true"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
         </div>
       </div>
 
-  </div>
-  </div>
-  
-  <ng-template #editModal let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">{{mode}} {{roleType}} role</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+
     </div>
-    <div class="modal-body">
-      <div class="mb-3">
-        <form [formGroup]="editRoleForm">
-          <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name"
-            [ngClass]="{ 'is-invalid': name?.invalid && name?.touched}"
-            >
-            <label for="name" class="text-secondary">Name</label>
-            <div class="invalid-feedback d-block mt-1" *ngIf="!name?.valid && name?.touched">
-              <p *ngIf="name?.errors?.['uniqueName']">
-                <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Name must be
-                unique.
-              </p>
-              <p *ngIf="name?.errors?.['required']">
-                <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Name is required.
-              </p>
-            </div>
+  </div>
+</div>
+
+<ng-template #editModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{mode}} {{roleType}} Role</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="mb-3">
+      <form [formGroup]="editRoleForm">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name"
+            [ngClass]="{ 'is-invalid': name?.invalid && name?.touched}">
+          <label for="name" class="text-secondary">Name</label>
+          <div class="invalid-feedback d-block mt-1" *ngIf="!name?.valid && name?.touched">
+            <p *ngIf="name?.errors?.['uniqueName']">
+              <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> Name must be
+              unique.
+            </p>
+            <p *ngIf="name?.errors?.['required']">
+              <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> Name is required.
+            </p>
           </div>
-        
-          <div class="form-floating mb-3" *ngIf="roleType === 'Public'">
-            <input type="text" class="form-control" id="description" placeholder="Description" formControlName="description">
-            <label for="description" class="text-secondary">Description</label>
-          </div>
-        
-          <div class="form-floating mb-3" *ngIf="roleType === 'Public'">
-            <input type="number" class="form-control" id="posts" placeholder="Posts" formControlName="posts"
+        </div>
+
+        <div class="form-floating mb-3" *ngIf="roleType === 'Public'">
+          <input type="text" class="form-control" id="description" placeholder="Description"
+            formControlName="description">
+          <label for="description" class="text-secondary">Description</label>
+        </div>
+
+        <div class="form-floating mb-3" *ngIf="roleType === 'Public'">
+          <input type="number" class="form-control" id="posts" placeholder="Posts" formControlName="posts"
             [ngClass]="{ 'is-invalid': posts?.invalid && posts?.touched}">
-            <label for="posts" class="text-secondary">Posts</label>
-            <div class="invalid-feedback d-block mt-1" *ngIf="!posts?.valid && posts?.touched">
+          <label for="posts" class="text-secondary">Posts</label>
+          <div class="invalid-feedback d-block mt-1" *ngIf="!posts?.valid && posts?.touched">
             <p *ngIf="posts?.errors?.['uniquePosts']">
-              <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>Posts number must be
+              <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> Posts number must be
               unique.
             </p>
           </div>
-          </div>
-        
-          <div class="form-check mb-3" *ngIf="roleType === 'Administrative'">
-            <input class="form-check-input" type="checkbox" id="admin" formControlName="admin">
-            <label class="form-check-label" for="admin">Admin</label>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-danger" (click)="modal.close()">Cancel</button>
-      <button type="button" class="btn btn-outline-success" [disabled]="editRoleForm.invalid" (click)="modal.close(true)">Confirm</button>
-    </div>
-  </ng-template>
-
-  <ng-template #deleteModal let-modal>
-    <div class="modal-body">
-      <button type="button" class="btn-close float-right" aria-label="Close" (click)="modal.dismiss()"></button>
-      <div class="mb-3">
-        <div class="alert alert-danger">
-          Confirm deleting {{roleType}} role with name: <strong>{{roleToDelete.name}}</strong>
         </div>
+
+        <div class="form-check mb-3" *ngIf="roleType === 'Administrative'">
+          <input class="form-check-input" type="checkbox" id="admin" formControlName="admin">
+          <label class="form-check-label" for="admin">Admin</label>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer d-flex justify-content-between">
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">Cancel</button>
+    <button type="button" class="btn btn-success" [disabled]="editRoleForm.invalid"
+      (click)="modal.close(true)">Confirm</button>
+  </div>
+</ng-template>
+
+<ng-template #deleteModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Delete {{roleType}} Role</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="mb-3">
+      <div class="alert alert-danger">
+        Confirm deleting {{roleType}} role with name: <strong>{{roleToDelete.name}}</strong>
       </div>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-success" (click)="modal.close()">Cancel</button>
-      <button type="button" class="btn btn-outline-danger" (click)="modal.close(true)">Confirm</button>
-    </div>
-  </ng-template>
+  </div>
+  <div class="modal-footer d-flex justify-content-between">
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close(true)">Delete</button>
+  </div>
+</ng-template>
 
-  <ng-template #loadingTemplate>
-    <div class="page-loading-admin dark">
-      <img class="logoIA" src="/assets/svg/logoIA.svg" height="400" alt="loading spinner">
-    </div>
-  </ng-template>
+<ng-template #loadingTemplate>
+  <div class="page-loading-admin dark">
+    <img class="logoIA" src="/assets/svg/logoIA.svg" height="400" alt="loading spinner">
+  </div>
+</ng-template>

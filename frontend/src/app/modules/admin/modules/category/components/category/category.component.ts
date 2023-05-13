@@ -258,11 +258,11 @@ export class CategoryComponent implements OnInit, OnDestroy {
   createSection(sectionModal: any) {
     this.newSectionMode = true;
     this.sectionForm = this._fb.group({
-      name: ['', [Validators.required, Validators.maxLength(250)]],
+      name: ['', [Validators.required, Validators.maxLength(255)]],
     });
     this._modalService.open(sectionModal).result.then(
       (result) => {
-        if (result) {
+        if (result && this.sectionForm.valid) {
           this.sections.push({
             name: this.sectionForm.value.name,
             categories: [],
@@ -293,7 +293,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     });
     this._modalService.open(sectionModal).result.then(
       (result) => {
-        if (result) {
+        if (result && this.sectionForm.valid) {
           this.sections[sindex].name = this.sectionForm.value.name;
           this.sectionList = this.sections.map(
             (section: any, index: number) => {

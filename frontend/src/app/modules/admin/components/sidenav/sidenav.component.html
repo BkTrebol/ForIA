@@ -3,7 +3,7 @@
   <div class="sticky-top vh-100 d-flex flex-column justify-content-between">
     <div>
       <button type="button" class="btn w-100 nav-btn mt-2" [ngClass]="collapsed ? 'btn-primary' :'btn-outline-primary'"
-        (click)="collapsed = ! collapsed">
+        (click)="collapsed = !collapsed; collapsedChange.emit(collapsed)">
         <fa-icon [icon]="['fas', 'bars']"></fa-icon>
       </button>
       <hr>

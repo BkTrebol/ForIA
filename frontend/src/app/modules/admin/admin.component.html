@@ -1,6 +1,6 @@
 <div *ngIf="!loading" class="bg-dark text-white d-flex w-100 min-vh-100 h-100">
-  <app-sidenav (logout)="logout()" *ngIf="isAdmin"></app-sidenav>
-  <main class="w-100 overflow-hidden">
+  <app-sidenav [(collapsed)]="collapsed" (logout)="logout()" *ngIf="isAdmin"></app-sidenav>
+  <main class="w-100 overflow-hidden {{collapsed ? 'siColl': 'noColl'}}">
     <router-outlet></router-outlet>
   </main>
 </div>
