@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ConfirmationEmail;
 use App\Models\Role;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -11,9 +13,12 @@ use Google_Client;
 use Carbon\Carbon;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Firebase;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -56,7 +61,7 @@ class AuthController extends Controller
         if (env('APP_DEBUG')==false && !$user->hasVerifiedEmail()) {
             $user->notify(new VerifyEmail());
         }
-
+        Mail::to($user->email)->send(new ConfirmationEmail($user));
         Auth::login($user);
 
         return response()->json(['message' => 'User created successfully'],201);
@@ -182,6 +187,19 @@ class AuthController extends Controller
             ],401);
         }
 
+    }
+    
+    function verifyEmail(EmailVerificationRequest $request) {
+        $request->fulfill();
+        $user = Auth::user();
+        return response()->json([
+            "message" => "User email verified"
+        ],200);
+    }
+
+    function sendVerificationEmail(){
+        $user = Auth::user();
+        Mail::to($user->email)->send(new ConfirmationEmail($user));
     }
 
     function adminAuth(User $user, Request $request){

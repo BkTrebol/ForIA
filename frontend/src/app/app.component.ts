@@ -65,8 +65,10 @@ export class AppComponent implements OnInit, OnDestroy {
       next: (r) => {
         this.userIsAuthenticated = r;
 
-        if (this.userIsAuthenticated && !this.userIsAuthenticated.userData.isVerified) {
-          this.toastService.show('Verify your email')
+        if (this.userIsAuthenticated && !this.userIsAuthenticated.userData.isVerified 
+          && !this.router.url.includes('auth/verify')
+          ) {
+          this.toastService.showVerification('Verify your email')
         }
       },
     });

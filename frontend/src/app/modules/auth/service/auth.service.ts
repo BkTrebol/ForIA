@@ -18,6 +18,12 @@ export class AuthService {
   public isAdmin: BehaviorSubject<any>;
   public $isAdmin: Observable<boolean | null>;
   public loading$: Subject<boolean>;
+  public verification?: {
+    id: string,
+    hash: string,
+    expires: string,
+    signature: string,
+  }
 
   private userSubject: BehaviorSubject<any>;
   public authData: Observable<{
@@ -53,6 +59,12 @@ export class AuthService {
     );
   }
 
+  sendVerification(){
+    return this.http.get(`${this.apiAuthURL}resendVerification`)
+  }
+  verifyEmail(verification:any){
+    return this.http.get(`${this.apiAuthURL}verify/${verification.id}/${verification.hash}?expires=${verification.expires}&signature=${verification.signature}`);
+  }
   getCSRF(): Observable<any> {
     return this.http.get<any>(`${this.baseURL}/sanctum/csrf-cookie`);
   }

@@ -113,6 +113,9 @@ export class LoginComponent implements OnInit, OnDestroy {
           next: (res) => {
             this.error = '';
             this.loading = false;
+            if(this._authService.verification){
+              this.verifyEmail();
+            }
             this.router.navigateByUrl(
               this.route.snapshot.queryParams['returnUrl'] || '/'
             );
@@ -130,6 +133,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
+  verifyEmail(){
+    this._authService.verifyEmail(this._authService.verification)
+    .subscribe(
+      r => {
+        this.toastService.show("Email verified")
+        this.toastService.verificationToast = [];
+        this._authService.verification = undefined;
+      }
+    )
+  }
   changeShow() {
     this.canShow = !this.canShow;
   }

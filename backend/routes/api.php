@@ -41,6 +41,10 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::controller(AuthController::class)->prefix('auth')->group(function(){
         Route::get('/data','userData');
         Route::get('/logout','logout');
+        // Verify Email route;
+        Route::get('/verify/{id}/{hash}','verifyEmail')
+        ->middleware('signed')->name('verification.verify');
+        Route::get('/resendVerification','sendVerificationEmail');
     });
 
     // User Routes.
@@ -154,15 +158,7 @@ Route::controller(LoginController::class)->prefix('admin')->group(function(){
 });
 
 // Public routes.
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-    $user = $request->user();
-    $roles = $user->roles;
-    array_push($roles,'ROLE_USER');
-    $user->roles = $roles;
-    $user->save();
-    return redirect()->away('http://localhost:4200');
-})->middleware(['auth:sanctum','signed'])->name('verification.verify');
+
 
 Route::controller(AuthController::class)->prefix('auth')->group(function(){
     Route::post('/register','register');
