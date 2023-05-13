@@ -16,7 +16,7 @@ class AdminUserController extends Controller
 
     function getList(Request $request){
         // Consulta base
-        $query = User::withCount('posts');
+        $query = User::where('nick','<>','Guest')->withCount('posts');
         // Filtro por nick (LIKE)
         if ($request->has('nick')) {
             $query->where('nick', 'like', '%' . $request->nick . '%');

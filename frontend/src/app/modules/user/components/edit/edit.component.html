@@ -140,10 +140,13 @@
         </div>
         <h4 *ngIf="loading2"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="fields">
-            <div class="group">
+            <div class="group"> 
+                Sidebar
                 <div class="check">
-                    <input type="checkbox" id="sidebar" [(ngModel)]="preferences.sidebar" formControlName="sidebar">
-                    <label for="sidebar">Sidebar</label>
+                    <input type="radio" id="side-left" [(ngModel)]="preferences.sidebar" [value]="false" formControlName="sidebar">
+                    <label for="side-left">Left</label>
+                    <input type="radio" id="side-right" [(ngModel)]="preferences.sidebar" [value]="true" formControlName="sidebar">
+                    <label for="side-right">Right</label>
                 </div>
             </div>
             <div class="group">
@@ -169,17 +172,17 @@
             </div>
             <div class="group">
                 <div class="check">
-                    <input type="checkbox" id="hide_online_presence" [(ngModel)]="preferences.hide_online_presence"
-                        formControlName="hide_online_presence">
-                    <label for="hide_online_presence">Hide Online Presence</label>
+                    <input type="checkbox" id="hide_online_presence" [(ngModel)]="preferences.hide_email"
+                        formControlName="hide_email">
+                    <label for="hide_online_presence">Hide Email</label>
                 </div>
             </div>
-            <div class="group">
+            <!-- <div class="group">
                 <div class="check">
-                    <input type="checkbox" id="two_fa" [(ngModel)]="preferences.two_fa" formControlName="two_fa">
-                    <label for="two_fa">Two Fa</label>
+                    <input type="checkbox" id="two_fa" [(ngModel)]="preferences.language" formControlName="two_fa">
+                    <label for="two_fa">Language</label>
                 </div>
-            </div>
+            </div> -->
             <div class="group">
                 <div class="check">
                     <input type="checkbox" id="allow_music" [(ngModel)]="preferences.allow_music"

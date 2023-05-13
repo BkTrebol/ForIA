@@ -18,8 +18,8 @@ return new class extends Migration
             $table->boolean('filter_bad_words')->default(true);
             $table->boolean('allow_view_profile')->default(true);
             $table->boolean('allow_user_to_mp')->default(true);
-            $table->boolean('hide_online_presence')->default(false);
-            $table->boolean('two_fa')->default(false);
+            $table->boolean('hide_email')->default(false);
+            $table->string('language')->default('es');
             $table->boolean('allow_music')->default(true);
             // $table->timestamps();
         });

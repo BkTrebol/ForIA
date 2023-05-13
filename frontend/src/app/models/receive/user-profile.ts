@@ -1,7 +1,7 @@
 export interface PublicUserProfile {
   id: number;
   nick: string;
-  email: string;
+  email?: string;
   location: string;
   birthday: string;
   avatar: string | null;

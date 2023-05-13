@@ -46,7 +46,7 @@
                         View Statistics</button>
                 </div>
             </div>
-            <div class="data">
+            <div *ngIf="user.email" class="data">
                 <fa-icon class="icon" [icon]="['fas', 'envelope']"></fa-icon>
                 <p>{{user.email}}</p>
             </div>

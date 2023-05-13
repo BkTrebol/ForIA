@@ -99,8 +99,8 @@ export class EditComponent implements OnInit, OnDestroy {
       filter_bad_words: false,
       allow_view_profile: true,
       allow_user_to_mp: true,
-      hide_online_presence: false,
-      two_fa: false,
+      hide_email: false,
+      language: 'es',
       allow_music: true,
       recieve_emails: true,
     };
@@ -138,8 +138,7 @@ export class EditComponent implements OnInit, OnDestroy {
       filter_bad_words: [true, []],
       allow_view_profile: [true, []],
       allow_user_to_mp: [true, []],
-      hide_online_presence: [false, []],
-      two_fa: [false, []],
+      hide_email: [false, []],
       allow_music: [true, []],
       recieve_emails: [true, []],
     });
@@ -238,6 +237,7 @@ export class EditComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
+          console.log(res)
           this.preferences = res;
         },
         error: (err) => {

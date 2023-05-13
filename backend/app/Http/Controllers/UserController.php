@@ -97,8 +97,8 @@ class UserController extends Controller
             "filter_bad_words" => ['boolean'],
             "allow_view_profile" => ['boolean'],
             "allow_user_to_mp" => ['boolean'],
-            "hide_online_presence" => ['boolean'],
-            "two_fa" => ['boolean'],
+            "hide_email" => ['boolean'],
+            // "language" => ['string'],
             "allow_music"=> ['boolean'],
         ]);
 
@@ -106,9 +106,9 @@ class UserController extends Controller
         $preferences->filter_bad_words = $request->filter_bad_words;
         $preferences->allow_view_profile = $request->allow_view_profile;
         $preferences->allow_user_to_mp = $request->allow_user_to_mp;
-        $preferences->hide_online_presence = $request->hide_online_presence;
+        $preferences->hide_email = $request->hide_email;
         $preferences->allow_music = $request->allow_music;
-        $preferences->two_fa = $request->two_fa;
+        // $preferences->language = $request->language;
         $preferences->update();
 
         return response()->json([
@@ -127,6 +127,10 @@ class UserController extends Controller
             }
             $user['is_verified'] = $user->hasVerifiedEmail();
             $user->publicRole;
+            if($user->preferences->hide_email){
+                $user->makeHidden(['email']);
+            }
+
             return response()->json(
                 $user
             ,200);
