@@ -13,7 +13,7 @@ import { VerifyComponent } from './components/verify/verify.component';
     LoginComponent,
     RegisterComponent,
     ResetPasswordComponent,
-    VerifyComponent
+    VerifyComponent,
   ],
   imports: [
     CommonModule,

@@ -55,7 +55,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         description: ''
       },
       created_at: '',
-      updated_at: '',
+      last_seen: '',
       can_pm: false,
       is_verified: true,
     };

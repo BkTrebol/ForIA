@@ -7,7 +7,7 @@ export interface PublicUserProfile {
   avatar: string | null;
   public_role: PublicRole;
   created_at: string;
-  updated_at: string;
+  last_seen: string;
   can_pm: boolean;
   is_verified: boolean;
   last_post?: LastPost;

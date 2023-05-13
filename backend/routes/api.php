@@ -3,9 +3,9 @@
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
@@ -14,12 +14,13 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\PollController;
 use App\Http\Controllers\PrivateMessageController;
 use App\Http\Controllers\UploadController;
-use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Auth\PasswordResetController;
 
 use App\Models\Post;
 use App\Models\Topic;
@@ -38,13 +39,18 @@ use App\Models\Topic;
 Route::middleware('auth:sanctum')->group(function(){
 
     // Authentication routes.
-    Route::controller(AuthController::class)->prefix('auth')->group(function(){
-        Route::get('/data','userData');
-        Route::get('/logout','logout');
-        // Verify Email route;
-        Route::get('/verify/{id}/{hash}','verifyEmail')
-        ->middleware('signed')->name('verification.verify');
-        Route::get('/resendVerification','sendVerificationEmail');
+    Route::prefix('auth')->group(function(){
+        Route::controller(LoginController::class)->group(function(){
+            Route::get('/data','userData');
+            Route::get('/logout','logout');
+            Route::get('/adminlogin/{user}','adminAuth'); // ADMIN
+        });
+        Route::controller(RegisterController::class)->group(function(){
+            Route::get('/verify/{id}/{hash}','verifyEmail')
+            ->middleware('signed')->name('verification.verify');
+        });
+       
+
     });
 
     // User Routes.
@@ -152,7 +158,7 @@ Route::middleware('auth:sanctum')->group(function(){
 });
 
 // Admin Login.
-Route::controller(LoginController::class)->prefix('admin')->group(function(){
+Route::controller(AdminLoginController::class)->prefix('admin')->group(function(){
     Route::post('/login','login');
     Route::get('/check','checkAdmin');
 });
@@ -160,14 +166,24 @@ Route::controller(LoginController::class)->prefix('admin')->group(function(){
 // Public routes.
 
 
-Route::controller(AuthController::class)->prefix('auth')->group(function(){
-    Route::post('/register','register');
-    Route::post('/login','login')->name('login');
-    Route::post('/googleauth','googleAuth');
-    Route::post('/googleconfirm','confirmGoogle');
-    Route::get('/check-login','checkLogin');
+Route::prefix('auth')->group(function(){
+    Route::controller(LoginController::class)->group(function(){
+        Route::post('/login','login')->name('login');
+        Route::get('/check-login','checkLogin');
+        Route::post('/googleauth','googleAuth');
+    });
+    Route::controller(RegisterController::class)->group(function(){
+        Route::post('/register','register');
+        Route::post('/googleconfirm','confirmGoogle');
+        Route::get('/resendVerification','sendVerificationEmail');
+    });
 
-    Route::get('/adminlogin/{user}','adminAuth'); // ADMIN
+
+});
+Route::controller(PasswordResetController::class)->prefix('auth')->group(function(){
+    Route::post('/resetPassword','sendResetLink');
+    Route::post('/password','reset');
+    
 });
 
 Route::controller(CategoryController::class)->prefix('category')->group(function(){

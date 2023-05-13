@@ -77,9 +77,9 @@
                     <fa-icon class="icon" [icon]="['fas', 'calendar-days']"></fa-icon>
                     <p>Created at: {{user.created_at | date}}</p>
                 </div>
-                <div class="data" *ngIf="user.created_at != user.updated_at">
+                <div class="data" >
                     <fa-icon class="icon" [icon]="['fas', 'clock']"></fa-icon>
-                    <p>Updated at: {{user.updated_at | date}}</p>
+                    <p>Last seen: {{user.last_seen | date}}</p>
                 </div>
             </div>
         </div>

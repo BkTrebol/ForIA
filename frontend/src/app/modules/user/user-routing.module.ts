@@ -6,6 +6,7 @@ import { EditComponent } from './components/edit/edit.component';
 import { EditProfileResolver } from 'src/app/helpers/resolvers/edit-profile.resolver';
 import { ShowProfileResolver } from 'src/app/helpers/resolvers/show-profile.resolver';
 import { AuthGuard } from 'src/app/helpers/guards/canActivate/auth.guard';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,11 @@ const routes: Routes = [
     // resolve: {
     //   response: EditProfileResolver,
     // },
+    canActivate: [AuthGuard],
+  },
+  {
+    path:'password',
+    component: ChangePasswordComponent,
     canActivate: [AuthGuard],
   },
   {

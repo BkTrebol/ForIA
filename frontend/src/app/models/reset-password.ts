@@ -1,5 +1,6 @@
 export interface ResetPassword {
-  old_password: string;
   password: string;
   password_confirmation: string;
+  token:string;
+  email:string;
 }

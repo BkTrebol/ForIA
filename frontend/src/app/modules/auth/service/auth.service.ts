@@ -7,6 +7,7 @@ import { Register } from 'src/app/models/register';
 import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { ResetPassword } from 'src/app/models/reset-password';
+import { ChangePassword } from 'src/app/models/change-password';
 
 @Injectable({
   providedIn: 'root',
@@ -59,12 +60,23 @@ export class AuthService {
     );
   }
 
-  sendVerification(){
+  sendVerification(): Observable<any>{
     return this.http.get(`${this.apiAuthURL}resendVerification`)
   }
-  verifyEmail(verification:any){
+  verifyEmail(verification:any): Observable<any>{
     return this.http.get(`${this.apiAuthURL}verify/${verification.id}/${verification.hash}?expires=${verification.expires}&signature=${verification.signature}`);
   }
+
+  requestPasswordReset(email:string): Observable<any>{
+    const body = JSON.stringify({email:email})
+    return this.http.post(`${this.apiAuthURL}resetPassword`,body);
+  }
+
+  resetPassword(resetPassowrdData: ResetPassword): Observable<any> {
+    let params = JSON.stringify(resetPassowrdData);
+    return this.http.post(`${this.apiAuthURL}password`, params);
+  }
+  
   getCSRF(): Observable<any> {
     return this.http.get<any>(`${this.baseURL}/sanctum/csrf-cookie`);
   }
@@ -154,10 +166,7 @@ export class AuthService {
     return this.userSubject.value;
   }
 
-  resetPassword(resetPassowrdData: ResetPassword): Observable<any> {
-    let params = JSON.stringify(resetPassowrdData);
-    return this.http.post(`${this.apiAuthURL}reset-password`, params);
-  }
+
 
   logout(): Observable<{ message: string }> {
     this.userSubject.next(null);

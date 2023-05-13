@@ -6,6 +6,7 @@ import { UserPreferences } from '../../../models/user-preferences';
 import { EditUserProfile } from 'src/app/models/receive/edit-user-profile';
 import { UserProfile } from 'src/app/models/send/public-user-profile';
 import { PublicUserProfile } from 'src/app/models/receive/user-profile';
+import { ChangePassword } from 'src/app/models/change-password';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +36,10 @@ export class UserService {
 
   getPostsTopic(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUserURL}statistics2/${id}`);
+  }
+
+  changePassword(changePasswordData:ChangePassword): Observable<any>{
+    return this.http.put(`${this.apiUserURL}password`,changePasswordData);
   }
 
   editProfile(user: UserProfile): Observable<any> {

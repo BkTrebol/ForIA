@@ -7,11 +7,12 @@ import {
   AbstractControl,
   ValidationErrors,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subject, first, takeUntil } from 'rxjs';
-import { ResetPassword } from 'src/app/models/reset-password';
-import { AuthService } from '../../service/auth.service';
+import { AuthService } from '../../../auth/service/auth.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
+import { ChangePassword } from 'src/app/models/change-password';
+import { UserService } from '../../service/user.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 
 // Custom Validator
@@ -33,37 +34,25 @@ function passwordMatchValidator(control: AbstractControl) {
 }
 
 @Component({
-  selector: 'app-reset-password',
-  templateUrl: './reset-password.component.html',
+  selector: 'app-change-password',
+  templateUrl: './change-password.component.html',
   styleUrls: [
-    './reset-password.component.scss',
+    './change-password.component.scss',
     '../../../../styles/user-form.scss',
   ],
 })
-export class ResetPasswordComponent implements OnInit, OnDestroy {
+export class ChangePasswordComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public theme: string;
   public error: string;
-  public errorEmail: string;
   public loading: boolean;
   public canShowOld: boolean;
   public canShow: boolean;
   public canShowConf: boolean;
-  public email: string;
-  public emailSend: boolean;
-  public resetPasswordData: ResetPassword;
-  public formSendEmail: FormGroup;
-  public formResetPassword: FormGroup;
+  public changePasswordData: ChangePassword;
+  public formChangePassword: FormGroup;
   public formBuilderNonNullable: NonNullableFormBuilder;
-  public validationMessagesSendEmail = {
-    email: {
-      required: 'Email is Required',
-      minlength: 'Min Length is 3',
-      maxlength: 'Max Length is 255',
-      email: 'Invalid Email',
-    },
-  };
-  public validationMessagesResetPassword = {
+  public validationMessagesChangePassword = {
     old_password: {
       required: 'Password is Required',
       minlength: 'Min Length is 8',
@@ -83,42 +72,34 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private _authService: AuthService,
+    private toastService: ToastService,
+    private _userService: UserService,
     private router: Router,
-    private themeService: ThemeService,
-    private route: ActivatedRoute,
-    private toastService: ToastService
+    private themeService: ThemeService
   ) {
     this.unsubscribe$ = new Subject();
     this.theme = themeService.getTheme();
     this.error = '';
-    this.errorEmail = '';
     this.loading = false;
     this.canShowOld = false;
     this.canShow = false;
     this.canShowConf = false;
-    this.email = '';
-    this.emailSend = false;
-    this.resetPasswordData = {
-      email:'',
-      token:'',
+    this.changePasswordData = {
+      old_password: '',
       password: '',
       password_confirmation: '',
     };
     this.formBuilderNonNullable = new FormBuilder().nonNullable;
-    this.formSendEmail = this.formBuilderNonNullable.group({
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(255),
-          Validators.email,
-        ],
-      ],
-    });
-    this.formResetPassword = this.formBuilderNonNullable.group(
+    this.formChangePassword = this.formBuilderNonNullable.group(
       {
+        old_password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.pattern('^[a-zA-Z0-9]+$'), //TODO change pattern more secure
+          ],
+        ],
         password: [
           '',
           [
@@ -139,20 +120,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._authService.authData
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((r) => {
-        if (r) this.router.navigate(['/']);
-      });
-    this._authService.getCSRF();
-
-
-    if(this.route.snapshot.queryParams.hasOwnProperty('token')){
-      this.resetPasswordData.email = this.route.snapshot.queryParams['email'];
-      this.resetPasswordData.token = this.route.snapshot.queryParams['token'];
-      this.emailSend = true;
-    }
-
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((t) => {
@@ -160,26 +127,12 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       });
   }
 
-  // Send email
-  sendEmail(): void {
-    if (this.formSendEmail.valid) {
-      this._authService.requestPasswordReset(this.formSendEmail.value.email)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(r => {
-        this.toastService.show(r.message);
-      });
-    } else {
-      this.errorEmail = 'Invalid email';
-      this.emailSend = false;
-    }
-  }
-
-  // Reset Password of the user
+  // Change useer Password
   submit() {
-    if (this.formResetPassword.valid) {
+    if (this.formChangePassword.valid) {
       this.loading = true;
-      this._authService
-        .resetPassword(this.resetPasswordData)
+      this._userService
+        .changePassword(this.changePasswordData)
         .pipe(first())
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
@@ -187,20 +140,28 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
             this.error = '';
             this.loading = false;
             this.toastService.show(res.message);
-            this.router.navigate(['/auth/login']);
+            this.router.navigate(['']);
           },
           error: (err) => {
             this.loading = false;
             this.error = err.error.message;
-            this.formResetPassword.controls['password'].reset();
-            this.formResetPassword.controls['password_confirmation'].reset();
+            this.formChangePassword.controls['old_password'].reset();
+            this.formChangePassword.controls['password'].reset();
+            this.formChangePassword.controls['password_confirmation'].reset();
+            // Show the errors from the backend
+            if (err.error.errors.old_password) {
+              this.formChangePassword.controls['old_password'].setErrors({
+                mismatch: true,
+              });
+              this.formChangePassword.controls['old_password'].markAsTouched();
+            }
             if (err.error.errors.password) {
-              this.formResetPassword.controls[
+              this.formChangePassword.controls[
                 'password_confirmation'
               ].setErrors({
                 mismatch: true,
               });
-              this.formResetPassword.controls[
+              this.formChangePassword.controls[
                 'password_confirmation'
               ].markAsTouched();
             }
@@ -211,6 +172,10 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     }
   }
 
+  changeShowOld() {
+    this.canShowOld = !this.canShowOld;
+  }
+
   changeShow() {
     this.canShow = !this.canShow;
   }
@@ -219,14 +184,14 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     this.canShowConf = !this.canShowConf;
   }
 
-  get gemail() {
-    return this.formSendEmail.get('email');
+  get old_password() {
+    return this.formChangePassword.get('old_password');
   }
   get password() {
-    return this.formResetPassword.get('password');
+    return this.formChangePassword.get('password');
   }
   get password_confirmation() {
-    return this.formResetPassword.get('password_confirmation');
+    return this.formChangePassword.get('password_confirmation');
   }
 
   ngOnDestroy(): void {
