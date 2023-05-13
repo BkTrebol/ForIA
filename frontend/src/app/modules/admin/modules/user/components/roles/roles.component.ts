@@ -8,6 +8,7 @@ import {
   uniquePostsValidator,
   uniqueRoleNameValidator,
 } from 'src/app/helpers/validators';
+import { PublicRole, Role } from 'src/app/models/receive/admin-role';
 
 @Component({
   selector: 'app-roles',
@@ -17,10 +18,10 @@ import {
 export class RolesComponent {
   private unsubscribe$: Subject<void>;
   public loading: boolean;
-  public roleList: Array<any>;
-  public uneditableRoleList: Array<any>;
-  public orderedRoleList: Array<any>;
-  public publicRoleList: Array<any>;
+  public roleList: Array<Role>;
+  public uneditableRoleList: Array<Role>;
+  public orderedRoleList: Array<Role>;
+  public publicRoleList: Array<PublicRole>;
   public roleType: string;
   public roleToDelete: any;
   public modalLoading: boolean;
@@ -90,9 +91,10 @@ export class RolesComponent {
   editRole(modal: any, role: number, type: string) {
     this.roleType = type;
     this.mode = 'Edit';
-    const useRole =
-      type === 'Public' ? this.publicRoleList[role] : this.roleList[role];
+    // const useRole =
+    //   type === 'Public' ? this.publicRoleList[role] : this.roleList[role];
     if (type === 'Public') {
+      const useRole =this.publicRoleList[role]
       this.editRoleForm = this._fb.group({
         id: [useRole.id],
         name: [
@@ -112,6 +114,7 @@ export class RolesComponent {
         this.editRoleForm.get('posts')?.disable();
       }
     } else {
+      const useRole = this.roleList[role];
       this.editRoleForm = this._fb.group({
         id: [useRole.id],
         name: [

@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
+import { PublicRole, Role } from 'src/app/models/receive/admin-role';
 
 @Component({
   selector: 'app-edit',
@@ -22,8 +23,8 @@ export class EditComponent implements OnInit, OnDestroy {
   private _userId: number;
   public editUserForm: FormGroup;
   public loading: boolean;
-  public roleList: Array<any>;
-  public publicRoleList: Array<any>;
+  public roleList: Array<Role>;
+  public publicRoleList: Array<PublicRole>;
   public user: any;
   public dateToday: NgbDateStruct;
   public nickUnique: number | null;

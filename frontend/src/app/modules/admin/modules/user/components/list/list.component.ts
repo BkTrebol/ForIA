@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { UserService } from '../../service/user.service';
 import { Subject, takeUntil } from 'rxjs';
+import { Role } from 'src/app/models/receive/admin-role';
 
 @Component({
   selector: 'app-list',
@@ -19,7 +20,7 @@ export class ListComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public tableLoading: boolean;
   public tableData: any;
-  public roleList: Array<any>;
+  public roleList: Array<Role>;
   public show: {
     email: boolean;
     lastSeen: boolean;

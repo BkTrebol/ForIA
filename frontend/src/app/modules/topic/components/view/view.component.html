@@ -157,7 +157,7 @@
                     </div>
                 </div>
             </div>
-            <div class="posts" *ngFor="let post of listPosts.posts">
+            <div class="posts" [id]="post.id" *ngFor="let post of listPosts.posts">
                 <div class="user-card">
                     <app-avatar [user]="post.user"></app-avatar>
                     <div class="text">
