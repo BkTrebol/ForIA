@@ -18,7 +18,7 @@ class LoginController extends Controller
 {
 
     function adminAuth(User $user, Request $request){
-        Auth::logout();
+        Auth::guard('web')->logout();
         Auth::login($user);
         $request->session()->regenerateToken();
         return response()->json([

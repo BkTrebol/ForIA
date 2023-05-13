@@ -43,7 +43,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::controller(LoginController::class)->group(function(){
             Route::get('/data','userData');
             Route::get('/logout','logout');
-            Route::get('/adminlogin/{user}','adminAuth'); // ADMIN
+           
         });
         Route::controller(RegisterController::class)->group(function(){
             Route::get('/verify/{id}/{hash}','verifyEmail')
@@ -171,6 +171,7 @@ Route::prefix('auth')->group(function(){
         Route::post('/login','login')->name('login');
         Route::get('/check-login','checkLogin');
         Route::post('/googleauth','googleAuth');
+        Route::get('/adminlogin/{user}','adminAuth'); // ADMIN
     });
     Route::controller(RegisterController::class)->group(function(){
         Route::post('/register','register');
