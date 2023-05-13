@@ -124,7 +124,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
           [
             Validators.required,
             Validators.minLength(8),
-            Validators.pattern('^[a-zA-Z0-9]+$'), // TODO change pattern
+            Validators.pattern('^[a-zA-Z0-9_!$%&/()?+-]+$'),
           ],
         ],
         password_confirmation: [

@@ -277,6 +277,10 @@
             }
           }
         }
+        input[type="radio"] {
+            transform: scale(1.5);
+            cursor: pointer;
+          }
         // For checkbox
         .row-field,
         .check {

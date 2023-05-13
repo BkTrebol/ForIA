@@ -3,6 +3,7 @@ import { ResetPasswordComponent } from './reset-password.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
 // Check if the button .btn-send is disabled or not
 function checkBtn(
@@ -24,6 +25,7 @@ describe('ResetPasswordComponent', () => {
         HttpClientTestingModule,
         FontAwesomeTestingModule,
         ReactiveFormsModule,
+        RouterTestingModule,
       ],
       declarations: [ResetPasswordComponent],
     }).compileComponents();

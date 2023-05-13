@@ -3,9 +3,6 @@
         <img class="logoIA" src="/assets/svg/logoIA.svg" height="50" alt="logo icon FORIA">
         <img class="logoFORIA" src="/assets/svg/logoFORIA.svg" height="30" alt="logo FORIA">
     </a>
-    <form>
-        <input type="text" placeholder="Search">
-    </form>
     <nav *ngIf="userIsAuthenticated">
         <ul>
             <li><a routerLink="/category/2" routerLinkActive="active"><fa-icon
@@ -36,7 +33,7 @@
                     <a routerLink="/user/edit" routerLinkActive="active"><fa-icon
                             [icon]="['fas', 'edit']"></fa-icon><span>Edit</span></a>
                     <a routerLink="/user/password" routerLinkActive="active"><fa-icon
-                        [icon]="['fas', 'edit']"></fa-icon><span>Password</span></a>
+                        [icon]="['fas', 'lock']"></fa-icon><span>Password</span></a>
                     <a href="javascript:void(0);" (click)="logout()"><fa-icon
                             [icon]="['fas', 'right-from-bracket']"></fa-icon><span>Logout</span></a>
                 </div>

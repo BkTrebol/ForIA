@@ -133,6 +133,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.audio.src = `${Global.api}category/music/${id}`;
     this.audio.load();
     let isPlaying = this.audio.play();
+    this.audio.volume = 0.3;
     if (isPlaying !== undefined) {
       isPlaying
         .then((_) => {

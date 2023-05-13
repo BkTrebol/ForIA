@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RolesComponent } from './roles.component';
+import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 
 describe('RolesComponent', () => {
   let component: RolesComponent;
@@ -8,9 +9,9 @@ describe('RolesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RolesComponent ]
-    })
-    .compileComponents();
+      imports: [HttpClientTestingModule, FontAwesomeTestingModule],
+      declarations: [RolesComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RolesComponent);
     component = fixture.componentInstance;

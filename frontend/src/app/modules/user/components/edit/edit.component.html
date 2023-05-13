@@ -125,7 +125,7 @@
             <div class="center"><a class="btn2" routerLink="/user/profile/{{userId}}">
                     <fa-icon [icon]="['fas', 'user-circle']"></fa-icon>
                     View Profile</a></div>
-            <div class="center"><button type="button" (click)="deleteUser(deleteModal)" class="btn btn-danger">
+            <div class="center mt-2"><button type="button" (click)="deleteUser(deleteModal)" class="btn btn-danger">
                     <fa-icon [icon]="['fas', 'trash-can']"></fa-icon>
                     Delete User</button></div>
         </div>
@@ -140,7 +140,7 @@
         </div>
         <h4 *ngIf="loading2"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="fields">
-            <div class="group"> 
+            <div class="group">
                 Sidebar
                 <div class="check">
                     <input type="radio" id="side-left" [(ngModel)]="preferences.sidebar" [value]="false" formControlName="sidebar">
@@ -208,7 +208,7 @@
             <div class="center"><a class="btn2" routerLink="/user/profile/{{userId}}">
                     <fa-icon [icon]="['fas', 'user-circle']"></fa-icon>
                     View Profile</a></div>
-            <div class="center"><button type="button" (click)="deleteUser(deleteModal)" class="btn btn-danger">
+            <div class="center mt-2"><button type="button" (click)="deleteUser(deleteModal)" class="btn btn-danger">
                     <fa-icon [icon]="['fas', 'trash-can']"></fa-icon>
                     Delete User</button></div>
         </div>
