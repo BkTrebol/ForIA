@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { VerifyComponent } from './components/verify/verify.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
     path: 'reset-password',
     component: ResetPasswordComponent,
     title: 'ForIA - Reset Password',
+  },
+  {
+    path:'verify/:id/:hash',
+    component: VerifyComponent,
   },
   {
     path: '',

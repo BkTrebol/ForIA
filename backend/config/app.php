@@ -5,15 +5,13 @@ use Illuminate\Support\Facades\Facade;
 return [
 
     // Administrator roles.
-    'adminRoles' => ['ROLE_ADMIN','ROLE_GOD'],
-    'pmCategory' => 1,
-    'trash' => 2,
+    'trash' => 1,
     'pagination' => [
         'category' => 10,
         'topic' => 7,
     ],
     'urlBackend' => 'http://localhost:8000/api/',
-    'url' => [
+    'urls' => [
         'backend' => 'http://localhost:8000/api/', 
         'frontend' => 'http://localhost:4200/',
     ],

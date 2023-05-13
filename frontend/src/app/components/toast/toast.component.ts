@@ -4,6 +4,7 @@ import { NgbToast, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
+import { AuthService } from 'src/app/modules/auth/service/auth.service';
 
 @Component({
   selector: 'app-toasts',
@@ -23,7 +24,8 @@ export class ToastsContainer implements OnInit, OnDestroy {
 
   constructor(
     public toastService: ToastService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private authService: AuthService,
   ) {
     this.unsubscribe$ = new Subject();
     this.theme = themeService.getTheme();
@@ -48,6 +50,14 @@ export class ToastsContainer implements OnInit, OnDestroy {
 
   hide(toast: any) {
     toast.hide();
+  }
+
+  sendVerification(){
+    this.authService.sendVerification()
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe((r)=> {
+      this.toastService.show("Email Sent")
+    });
   }
 
   ngOnDestroy(): void {
