@@ -5,80 +5,80 @@
 </div>
 
 <div class="row align-items-center h-100 min-vh-100 p-2 p-md-4" *ngIf="!loading;else loadingTemplate">
-  <div class="col-12 col-md-6 publicRoleList">
+  <div class="col-12 col-lg-6 publicRoleList">
     <div class="publicRole list-group">
       <button class="btn btn-success" style="border-bottom-left-radius:0;border-bottom-right-radius: 0;"
-        (click)="createRole(editModal,'Public')"><fa-icon [icon]="['fas', 'plus']"></fa-icon> Create</button>
+        (click)="createRole(editModal,'Public')" ngbTooltip="Create Public Role" placement="top"><fa-icon [icon]="['fas', 'plus']"></fa-icon> Create</button>
       <div *ngFor="let prol of publicRoleList; let i = index"
         class="list-group-item d-flex justify-content-between align-items-center">
         <div class="d-flex mb-0 justify-content-between align-items-center w-75">
           <p class="mb-0">{{prol.name}}</p>
-          <div class="mb-0 w-25 d-flex justify-content-between" *ngIf="prol.posts !== null">
-            <p>Posts:</p>
-            <p>{{prol.posts}}</p>
+          <div class="mb-0 w-50 d-flex justify-content-between" *ngIf="prol.posts !== null">
+            <p>Posts: {{prol.posts}}</p>
           </div>
         </div>
-        <!-- TODO centrar -->
-        <div class="w-25 btn-group">
-          <button class="btn btn-primary btn-sm" (click)="editRole(editModal,i,'Public')"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
+        <div class="btn-group">
+          <button class="btn btn-primary btn-sm" (click)="editRole(editModal,i,'Public')"><fa-icon
+              [icon]="['fas', 'pen']"></fa-icon></button>
           <button class="btn btn-danger btn-sm" [disabled]="prol.posts === 0"
             (click)="deleteRole(deleteModal,i,'Public')"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
         </div>
       </div>
-      <!-- <div class="btn-group">
-        <button class="btn btn-primary btn-sm mr-2"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
-        <button class="btn btn-danger btn-sm"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
-      </div> -->
     </div>
   </div>
-  <div class="col-12 col-md-6">
+  <div class="col-12 col-lg-6">
     <div class="list-group">
       <div class="d-flex w-100">
         <button class="btn w-50 btn-success"
           style="border-bottom-left-radius:0;border-bottom-right-radius: 0;border-top-right-radius: 0;"
-          (click)="createRole(editModal,'Administrative')"><fa-icon [icon]="['fas', 'plus']"></fa-icon> Create</button>
+          (click)="createRole(editModal,'Administrative')" ngbTooltip="Create Administrative Role" placement="top"><fa-icon [icon]="['fas', 'plus']"></fa-icon> Create</button>
         <button class="btn w-50 btn-primary"
           style="border-bottom-left-radius:0;border-bottom-right-radius: 0;border-top-left-radius: 0;"
-          (click)="saveOrder()"><fa-icon [icon]="['fas', 'cloud-arrow-up']"></fa-icon> Save</button>
+          (click)="saveOrder()" ngbTooltip="Save Administrative Roles" placement="top"><fa-icon [icon]="['fas', 'cloud-arrow-up']"></fa-icon> Save</button>
       </div>
       <div *ngFor="let rol of roleList; let i = index"
         class="list-group-item align-items-center d-flex flex-wrap justify-content-between">
-        <div class="d-flex flex-wrap w-50">
-
+        <div class="d-flex w-50">
           <fa-icon *ngIf="rol.admin" [icon]="['fas', 'user-gear']"></fa-icon>
           <fa-icon *ngIf="rol.name=='WELCOME_MOD'" [icon]="['fas', 'hand']"></fa-icon>
           <fa-icon *ngIf="rol.name=='ROLE_MOD'" [icon]="['fas', 'user-shield']"></fa-icon>
           <p class="m-0 ms-2 p-0">{{rol.name}}</p>
         </div>
-        <select class="form-control w-25" (change)="changeOrder($event, rol)">
-          <option *ngFor="let order of orders;" [value]="order" [selected]="order === rol.order">
-            Order: {{order-2}}
-          </option>
-        </select>
-        <div class="w-25 d-flex justify-content-end">
-          <button class="btn btn-primary btn-sm ms-1 me-1"
-            (click)="editRole(editModal,i,'Administrative')"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
-          <button class="btn btn-danger btn-sm" (click)="deleteRole(deleteModal,i,'Administrative')"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
+        <div class="w-50 d-flex justify-content-between gap-1 flex-column flex-sm-row">
+          <select class="form-select" (change)="changeOrder($event, rol)">
+            <option *ngFor="let order of orders;" [value]="order" [selected]="order === rol.order">
+              Order: {{order-2}}
+            </option>
+          </select>
+          <div class="d-flex btn-group justify-content-end">
+            <button class="btn btn-primary btn-sm" (click)="editRole(editModal,i,'Administrative')"  ><fa-icon
+                [icon]="['fas', 'pen']"></fa-icon></button>
+            <button class="btn btn-danger btn-sm" (click)="deleteRole(deleteModal,i,'Administrative')" ><fa-icon
+                [icon]="['fas', 'trash']"></fa-icon></button>
+          </div>
         </div>
       </div>
       <!-- NonEditable -->
       <div *ngFor="let rol of uneditableRoleList; let i = index"
         class="list-group-item align-items-center d-flex flex-wrap justify-content-between">
         <div class="d-flex flex-wrap w-50">
-          <p>{{rol.name}}</p>
-          <fa-icon *ngIf="rol.admin" class="ms-2" [icon]="['fas', 'user-gear']"></fa-icon>
+          <fa-icon *ngIf="rol.admin" [icon]="['fas', 'user-gear']"></fa-icon>
+          <p class="m-0 ms-2 p-0">{{rol.name}}</p>
         </div>
-        <select class="form-control w-25" [disabled]="true">
-          <option [selected]="true">
-            Order: {{rol.order-2}}
-          </option>
-        </select>
-        <div class="w-25 d-flex justify-content-end">
-          <button class="btn btn-primary btn-sm ms-1 me-1" [disabled]="true"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
-          <button class="btn btn-danger btn-sm" [disabled]="true"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
+        <div class="d-flex w-50 justify-content-between gap-1 flex-column flex-sm-row">
+          <select class="form-select" [disabled]="true">
+            <option [selected]="true">
+              Order: {{rol.order-2}}
+            </option>
+          </select>
+          <div class="d-flex btn-group justify-content-end">
+            <button class="btn btn-primary btn-sm" [disabled]="true"><fa-icon
+                [icon]="['fas', 'pen']"></fa-icon></button>
+            <button class="btn btn-danger btn-sm" [disabled]="true"><fa-icon
+                [icon]="['fas', 'trash']"></fa-icon></button>
+          </div>
         </div>
       </div>
-
 
     </div>
   </div>
@@ -125,7 +125,7 @@
           </div>
         </div>
 
-        <div class="form-check mb-3" *ngIf="roleType === 'Administrative'">
+        <div class="form-check mb-3 ms-2" *ngIf="roleType === 'Administrative'">
           <input class="form-check-input" type="checkbox" id="admin" formControlName="admin">
           <label class="form-check-label" for="admin">Admin</label>
         </div>

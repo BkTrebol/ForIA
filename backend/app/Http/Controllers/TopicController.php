@@ -41,7 +41,6 @@ class TopicController extends Controller
             $posts = $queryPosts->paginate(config('app.pagination.topic'),'*','page',$page);
         }
 
-
             // if ($posts->lastPage() < $requestedPage) {
             //     // $posts = $topic->load('user:id,nick,avatar,rol,created_at')->posts()->paginate(config('app.pagination.topic'),'*','page',$posts->lastPage());
             //     $posts = $topic->load([

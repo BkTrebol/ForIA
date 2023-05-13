@@ -153,9 +153,7 @@
     &.m {
       @include col(space-around, 30px);
     }
-    // background: $color-opacity;
     backdrop-filter: blur(16px);
-    // color: $color-white-clear;
     padding: 32px 64px;
     border-radius: 24px;
     font-family: $font-text;
@@ -422,6 +420,108 @@
       .btn-field {
         // Space between the button and the icon
         @include row(space-between, 20px);
+      }
+    }
+  }
+}
+
+.modal-body {
+  &.dark {
+    .group {
+      .field {
+        .input {
+          color: $color-white-clear;
+          background-color: $color-black;
+          &:focus {
+            outline: $color-grey-clear solid thin;
+          }
+          &::placeholder {
+            color: $color-grey-clear;
+          }
+        }
+        .input.ng-valid + .icon {
+          color: $color-shades1;
+        }
+      }
+    }
+  }
+  &.light {
+    .group {
+      .field {
+        .input {
+          color: $color-black-clear;
+          background-color: $color-white;
+          &:focus {
+            outline: $color-grey-dark solid thin;
+          }
+          &::placeholder {
+            color: $color-grey-dark;
+          }
+        }
+        .input.ng-valid + .icon {
+          color: $color-primary;
+        }
+      }
+    }
+  }
+  label{
+    margin-bottom: 8px;
+  }
+  .group {
+    margin: 8px 0;
+    margin-bottom: 16px;
+    // Space between the input and the error message
+    @include col(space-between, 4px);
+    // For show passowrd eye icon
+    .show {
+      @include row(space-between);
+      position: relative;
+      .eye {
+        position: absolute;
+        right: 19%;
+        cursor: pointer;
+      }
+    }
+    label {
+      cursor: pointer;
+    }
+    .field {
+      // Space between the input and the icon
+      @include row(space-between, 32px);
+      font-size: $size-p;
+      .input {
+        width: 300px;
+        font-size: $size-p;
+        padding: 16px;
+        border: none;
+        border-radius: 8px;
+      }
+      .input.ng-invalid.ng-touched + .icon {
+        color: $color-tertiary;
+      }
+    }
+  }
+  // Responsive for mobile
+  @include mobile {
+    .group {
+      .field {
+        // Space between the input and the icon
+        @include row(space-between, 24px);
+        .input {
+          width: min(280px, 75vw);
+        }
+      }
+    }
+  }
+  // Responsive for mini
+  @include mini {
+    .group {
+      .field {
+        // Space between the input and the icon
+        @include row(space-between, 20px);
+        .input {
+          width: min(280px, 72vw);
+        }
       }
     }
   }
