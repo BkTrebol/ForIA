@@ -25,6 +25,7 @@ export class ListComponent implements OnInit, OnDestroy {
     lastSeen: boolean;
     createdAt: boolean;
     posts: boolean;
+    avatar: boolean;
   };
   public filters: {
     page?: number;
@@ -44,6 +45,7 @@ export class ListComponent implements OnInit, OnDestroy {
       lastSeen: true,
       createdAt: true,
       posts: true,
+      avatar: true
     };
 
     this.tableLoading = true;
@@ -68,6 +70,7 @@ export class ListComponent implements OnInit, OnDestroy {
       lastSeen: window.innerWidth >= 668,
       createdAt: window.innerWidth >= 900,
       posts: window.innerWidth >= 500,
+      avatar: window.innerWidth >= 1100,
     };
   }
 
@@ -116,7 +119,7 @@ export class ListComponent implements OnInit, OnDestroy {
   onFilter() {
     this.getData();
   }
-  
+
   parseFilters() {
     const params = new URLSearchParams();
 

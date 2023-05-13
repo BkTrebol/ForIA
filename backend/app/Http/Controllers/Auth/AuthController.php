@@ -64,9 +64,7 @@ class AuthController extends Controller
 
     function checkLogin(){
         $user = Auth::user();
-        return response()->json(
-            $user ? true : false
-            ,200);
+        return response()->json($user ? true : false, 200);
     }
 
     function userData(Request $request){
@@ -77,7 +75,6 @@ class AuthController extends Controller
         $user['isAdmin'] = $user->isAdmin();
         $user['isVerified'] = $user->hasVerifiedEmail();
         $user->load('publicRole');
-        
 
         return response()->json([
             'userData'=> $user,
@@ -108,7 +105,7 @@ class AuthController extends Controller
 
         $id_token = $request->credential;
         $client = new Google_Client(['client_id' => config('app.GOOGLE_CLIENT_ID')]);  // Specify the CLIENT_ID of the app that accesses the backend
-        
+
         // Fix clock sync error.
         Firebase\JWT\JWT::$leeway = 5;
         do {

@@ -1,6 +1,6 @@
 <div class="h-100 min-vh-100 w-100 p-2 p-md-4" *ngIf="!loading; else loadingTemplate">
   <div class="filters d-flex justify-content-center mt-4 row">
-    <form (ngSubmit)="onFilter()" class="col-12 col-lg-6  col-md-8 col-sm-10">
+    <form (ngSubmit)="onFilter()" class="col-12 col-xl-6 col-lg-8  col-md-10 col-sm-10">
       <div class="row mb-2 mx-auto">
         <div class="col-12 col-sm-6 px-1">
           <div class="my-auto form-floating px-0">
@@ -70,6 +70,11 @@
     [footerHeight]="50" [rowHeight]="'auto'" (page)="onChangePage($event)" (sort)="onSort($event)">
     <ngx-datatable-column name="Nick" prop="nick"></ngx-datatable-column>
     <ngx-datatable-column name="Email" *ngIf="show.email" prop="email"></ngx-datatable-column>
+    <ngx-datatable-column name="Avatar" *ngIf="show.avatar" class="d-none" prop="avatar" [width]="50">
+      <ng-template ngx-datatable-cell-template let-row="row">
+        <app-avatar [user]="row" width="50" height="50"></app-avatar>
+      </ng-template>
+    </ngx-datatable-column>
     <ngx-datatable-column name="Last Seen" *ngIf="show.lastSeen" class="d-none" prop="last_seen">
       <ng-template ngx-datatable-cell-template let-value="value">
         {{ value | date: 'short' }}

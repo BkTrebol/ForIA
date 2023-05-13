@@ -217,39 +217,42 @@
     <div class="block-modal" *ngIf="deleteLoading">
 
     </div>
-    <div class="modal-body">
-        <button type="button" class="btn-close float-right" aria-label="Close" (click)="modal.dismiss()"></button>
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-basic-title">Delete Account</h3>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body {{theme}}">
         <div *ngIf="userDeletion == 0" class="mb-3">
             Are you sure you want to delete your account?
             All date will be lost forever.
         </div>
         <div *ngIf="userDeletion == 1">
-            Enter your password:
+            <label for="password">Enter your password:</label>
             <div class="group">
                 <div class="field">
-                    <input type="password" [(ngModel)]="deletionPassword" class="input" placeholder="Password" required>
-                    <fa-icon class="icon" [icon]="['fas', 'user']"></fa-icon>
+                    <input type="password" [(ngModel)]="deletionPassword" class="input" placeholder="Password" id="password" required>
+                    <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
                 </div>
             </div>
         </div>
         <div *ngIf="userDeletion == 2">
-            Repeat your password:
-            <div class="alert alert-danger">
-                Pressing Confirm will delete your account permanently.
-            </div>
+            <label for="password2">Repeat your password:</label>
             <div class="group">
                 <div class="field">
-                    <input type="password" [(ngModel)]="deletionPassword2" class="input" placeholder="Confirm password" required>
-                    <fa-icon class="icon" [icon]="['fas', 'user']"></fa-icon>
+                    <input type="password" [(ngModel)]="deletionPassword2" class="input" placeholder="Confirm password" id="password2" required>
+                    <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
                 </div>
+            </div>
+            <div class="alert alert-danger m-0" role="alert">
+                Pressing Confirm will delete your account permanently.
             </div>
         </div>
         <div *ngIf="userDeletion == 3">
             Please wait while you are being erased from our systems.
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-success" (click)="modal.close()">Cancel</button>
+    <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" (click)="modal.close()">Cancel</button>
         <button type="button" class="btn btn-danger" (click)="confirmDelete()"  [disabled]="(deletionPassword.length < 3 && userDeletion === 1) || (deletionPassword2.length < 3 && userDeletion === 2)">
             <div *ngIf="deleteLoading" class="spinner-border spinner-border-sm" role="status">
                 <span class="visually-hidden">Loading...</span>

@@ -39,8 +39,8 @@ export class EditComponent implements OnInit, OnDestroy {
   public formBuilderNonNullable: NonNullableFormBuilder;
   public userDeletion: number;
   public deleteLoading: boolean;
-  public deletionPassword:string;
-  public deletionPassword2:string;
+  public deletionPassword: string;
+  public deletionPassword2: string;
   public validationMessagesEditProfile = {
     nick: {
       required: 'Nick is Required',
@@ -78,8 +78,8 @@ export class EditComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private modalService: NgbModal
   ) {
-    this.deletionPassword = "";
-    this.deletionPassword2 = "";
+    this.deletionPassword = '';
+    this.deletionPassword2 = '';
     this.deleteLoading = false;
     this.userDeletion = 0;
     this.unsubscribe$ = new Subject();
@@ -148,14 +148,16 @@ export class EditComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userService.getEdit().subscribe({
-      next: res => {
-        this.user = res
-      }, error: err => {
+      next: (res) => {
+        this.user = res;
+      },
+      error: (err) => {
         console.log(err);
-      }, complete: () => {
+      },
+      complete: () => {
         this.loading = false;
-      }
-    })
+      },
+    });
 
     this.getPref();
     this.themeService.theme
@@ -184,8 +186,8 @@ export class EditComponent implements OnInit, OnDestroy {
               this.error = err.error.message;
             },
             complete: () => {
-              this.loading2 = false
-            }
+              this.loading2 = false;
+            },
           });
       } else {
         this.userService
@@ -198,9 +200,10 @@ export class EditComponent implements OnInit, OnDestroy {
             },
             error: (err) => {
               this.error = err.error.message;
-            },complete: () => {
-              this.loading2 = false
-            }
+            },
+            complete: () => {
+              this.loading2 = false;
+            },
           });
       }
     } else {
@@ -267,51 +270,52 @@ export class EditComponent implements OnInit, OnDestroy {
     }
   }
 
-  deleteUser(modal:any){
-    this.deletionPassword = "";
-    this.deletionPassword2 = "";
-    this.modalService.open(modal).result.catch( () =>{
-      if(this.userDeletion != 3){
-        this.toastService.show("User destruction aborted");
+  deleteUser(modal: any) {
+    this.deletionPassword = '';
+    this.deletionPassword2 = '';
+    this.modalService.open(modal).result.catch(() => {
+      if (this.userDeletion != 3) {
+        this.toastService.show('User destruction aborted');
       }
       this.userDeletion = 0;
-      this.deletionPassword = "";
-      this.deletionPassword2 = "";
-
-    })
+      this.deletionPassword = '';
+      this.deletionPassword2 = '';
+    });
   }
 
-  confirmDelete(){
+  confirmDelete() {
     this.userDeletion++;
-    if(this.userDeletion >= 3){
+    if (this.userDeletion >= 3) {
       this.deleteLoading = true;
-      console.log(this.deletionPassword,this.deletionPassword2 )
-      if(this.deletionPassword !== this.deletionPassword2 
-        || this.deletionPassword === ""){
-          this.modalService.dismissAll();
-          this.deleteLoading = false;
-          this.toastService.show("User destruction aborted: Password mismatch.");
-      } else{
-        this.userService.dropUser(this.deletionPassword, this.deletionPassword2)
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe({
-          next: r => {
-            console.log(r)
-            this.modalService.dismissAll();
-            this.deleteLoading = false;
-            this.toastService.show(r.message);
-            window.location.href = '/';
-            
-          },
-          error: e => {
-            this.deleteLoading = false;
-            this.modalService.dismissAll();
-            this.toastService.show("User destruction aborted: "+e.error.message);
-
-          }
-      })
+      console.log(this.deletionPassword, this.deletionPassword2);
+      if (
+        this.deletionPassword !== this.deletionPassword2 ||
+        this.deletionPassword === ''
+      ) {
+        this.modalService.dismissAll();
+        this.deleteLoading = false;
+        this.toastService.show('User destruction aborted: Password mismatch.');
+      } else {
+        this.userService
+          .dropUser(this.deletionPassword, this.deletionPassword2)
+          .pipe(takeUntil(this.unsubscribe$))
+          .subscribe({
+            next: (r) => {
+              console.log(r);
+              this.modalService.dismissAll();
+              this.deleteLoading = false;
+              this.toastService.show(r.message);
+              window.location.href = '/';
+            },
+            error: (e) => {
+              this.deleteLoading = false;
+              this.modalService.dismissAll();
+              this.toastService.show(
+                'User destruction aborted: ' + e.error.message
+              );
+            },
+          });
       }
-
     }
   }
 
