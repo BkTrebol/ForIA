@@ -17,6 +17,8 @@ import { uniqueTitleValidator } from 'src/app/helpers/validators';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import { Global } from 'src/environment/global';
+import { Section } from 'src/app/models/receive/admin-category';
+import { Role } from 'src/app/models/receive/admin-role';
 
 @Component({
   selector: 'app-category',
@@ -27,17 +29,17 @@ import { Global } from 'src/environment/global';
 export class CategoryComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public loading: boolean;
-  public sections: Array<any> = [];
+  public sections: Array<Section> = [];
   public connectedTo: string[] = [];
   public categoryForm: FormGroup;
   public sectionForm: FormGroup;
   public catToDelete: string;
   public newCategoryMode: boolean;
   public newSectionMode: boolean;
-  public sectionList: Array<any>;
+  public sectionList: Array<{name:string,id?:number}>;
   public titleList: Array<string>;
   public saveLoading: boolean;
-  public roleList: Array<any>;
+  public roleList: Array<Role>;
   public catImage?: File;
   public index: number;
   public cindex: number;
@@ -100,6 +102,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r) => {
+          console.log(r);
           this.roleList = r;
         },
       });
@@ -226,9 +229,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: data => {
-          console.log(data);
           const sectionId = this.sections.indexOf(
-            this.sections.find(s => s.name == data.category.section))
+            this.sections.find((s:Section) => s.name === data.category.section)??this.sections[0]
+            )
           if (!this.newCategoryMode) {
             this.sections[this.index].categories[this.cindex] = data.category;
           } else {

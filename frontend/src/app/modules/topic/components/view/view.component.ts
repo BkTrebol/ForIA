@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TopicService } from '../../service/topic.service';
@@ -38,7 +38,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   public actualDate: Date;
   public post_delete: number;
   public post_by: string;
-
+  public newPostId: string;
   constructor(
     private topicService: TopicService,
     private route: ActivatedRoute,
@@ -48,6 +48,8 @@ export class ViewComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private modalService: NgbModal
   ) {
+    
+    this.newPostId = '';
     this.showResults = false;
     this.vote = null;
     this.listPosts = {
@@ -106,7 +108,6 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.post_delete = NaN;
     this.post_by = '';
   }
-
   ngOnInit() {
     this.route.params
       .pipe(takeUntil(this.unsubscribe$))
@@ -130,7 +131,6 @@ export class ViewComponent implements OnInit, OnDestroy {
         this.theme = t;
       });
   }
-
   getData(id: string, page: string, noScroll: boolean = false) {
     this.topicService
       .posts(id, page)
@@ -147,7 +147,7 @@ export class ViewComponent implements OnInit, OnDestroy {
               relativeTo: this.route,
               queryParams: { page: this.listPosts.page.current },
               queryParamsHandling: 'merge',
-            });
+            })
           }
           if (this.route.snapshot.fragment == 'last') {
             setTimeout(() => {
@@ -156,9 +156,17 @@ export class ViewComponent implements OnInit, OnDestroy {
                 behavior: 'smooth',
               });
             }, 100);
-          } else if (!noScroll) {
-            this.scrollToTop();
+          }  else{
+            setTimeout(() => {
+              const id = this.newPostId != '' ? this.newPostId : this.route.snapshot.fragment??''
+              console.log(id)
+              if(id != '' && id){
+                document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "center", inline: "start" })
+              }
+            },100);
           }
+
+
           if (res.poll) {
             this.loading2 = true;
             this.checkPoll();
@@ -193,6 +201,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
+          this.newPostId = res.id.toString();
           this.content = '';
           this.error = '';
           if (res.hasOwnProperty('newRole')) {

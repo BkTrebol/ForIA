@@ -33,6 +33,7 @@ class PostController extends Controller
         ]);
 
         $response = [
+            'id' => $post->id,
             'lastPage' => $topic->posts()->paginate(config('app.pagination.topic'))->lastPage(),
         ];
         if($user->public_role_id !== $post->user->public_role_id){
