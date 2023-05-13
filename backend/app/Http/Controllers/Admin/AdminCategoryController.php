@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
@@ -14,6 +15,7 @@ class AdminCategoryController extends Controller
 
     function getList()
     {
+        $user = Auth::user();
         // Gets al categories.
         $categories = Category::orderBy('order')->get()->groupBy('section')->map(
             function ($section, $sectionName) {
@@ -26,8 +28,11 @@ class AdminCategoryController extends Controller
             }
         )->values();
         return response()->json(
-            $categories,
-            200
+            [
+            "categories" => $categories,
+            "userMaxRole" => $user->roles()->orderBy('order','desc')->first()->order,
+        ]
+        ,200
         );
     }
 
@@ -74,7 +79,6 @@ class AdminCategoryController extends Controller
         $category = Category::updateOrCreate([
             "id" => $request->input("id")
         ], $data);
-
         return response()->json([
             "message" => 'Category updated successfully',
             "category" => $category

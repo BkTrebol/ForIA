@@ -140,7 +140,7 @@
 							<div class="form-floating custom-floating-label form-group my-1">
 
 								<ng-select [items]="roleList" [searchable]="true" bindLabel="name" bindValue="id" id="can_view"
-									formControlName="can_view" class="select"
+									formControlName="can_view" class="select" 
 									[ngClass]="{ 'is-invalid': can_view?.invalid && can_view?.touched}"></ng-select>
 								<label class="text-secondary" for="can_view">Can View <sup class="text-danger">*</sup></label>
 								<div class="invalid-feedback d-block mt-1" *ngIf="!can_view?.valid && can_view?.touched">

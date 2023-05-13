@@ -42,13 +42,16 @@ export class CategoryComponent implements OnInit, OnDestroy {
   public index: number;
   public cindex: number;
   public imageUrl: string;
-
+  public userMaxRole: number;
+  public formData: FormData;
   constructor(
     private _fb: FormBuilder,
     private _categoryService: CategoryService,
     private _modalService: NgbModal,
     private _toastService: ToastService
   ) {
+    this.formData = new FormData();
+    this.userMaxRole = 0;
     this.imageUrl = '';
     this.index = 0;
     this.cindex = 0;
@@ -76,8 +79,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
       .getCategories()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((r) => {
-        this.sections = r;
-        this.sectionList = r.map((section: any, index: number) => {
+        this.sections = r.categories;
+        this.userMaxRole = r.userMaxRole;
+        this.sectionList = r.categories.map((section: any, index: number) => {
           return {
             name: section.name,
             id: index,
@@ -128,7 +132,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.cindex = cindex;
     this.imageUrl =
       this.sections[index].categories[cindex].image === '' ||
-      this.sections[index].categories[cindex].image === null
+        this.sections[index].categories[cindex].image === null
         ? ''
         : `${Global.api}upload/images/${this.sections[index].categories[cindex].image}`;
     this.categoryForm = this._fb.group({
@@ -165,6 +169,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
         ],
       ],
     });
+    if(this.can_view?.value >= this.userMaxRole) {this.can_view?.disable(); this.formData.append('can_view',this.can_view?.value)}
+    if(this.can_post?.value >= this.userMaxRole) {this.can_post?.disable();this.formData.append('can_post',this.can_post?.value)}
+    if(this.can_mod?.value >= this.userMaxRole) {this.can_mod?.disable();this.formData.append('can_mod',this.can_mod?.value)}
     this._modalService.open(category);
   }
 
@@ -176,7 +183,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
           this.sections[index].categories.splice(cindex, 1);
         }
       },
-      () => {}
+      () => { }
     ); // Avoid error for unhdandled Dismiss
   }
 
@@ -206,37 +213,39 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   saveCategory() {
     this.saveLoading = true;
-    let formData = new FormData();
+
     Object.keys(this.categoryForm.value).forEach(key => {
-      if (key !== 'image') formData.append(key, this.categoryForm.get(key)?.value);
+      if (key !== 'image') this.formData.append(key, this.categoryForm.get(key)?.value);
     });
     if (this.catImage instanceof File) {
-      formData.append('image', this.catImage);
+      this.formData.append('image', this.catImage);
     }
-
+    
     this._categoryService
-      .saveCategory(formData)
+      .saveCategory(this.formData)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-          next: data => {
-            const sectionId = this.sections.indexOf(
-              this.sections.find(s => s.name == data.category.section))
-            if (!this.newCategoryMode) {
-              this.sections[this.index].categories[this.cindex] = data.category;
-            } else {
-              this.sections[sectionId].categories.push(data.category);
-            }
-            this.categoryForm = this._fb.group({});
-            this.saveLoading = false;
-            this._toastService.show(data.message)
-            this._modalService.dismissAll();
-          },
-          error: ee => {
-            this.saveLoading = false;
-            this._toastService.show(ee);
-            this._modalService.dismissAll();
+        next: data => {
+          console.log(data);
+          const sectionId = this.sections.indexOf(
+            this.sections.find(s => s.name == data.category.section))
+          if (!this.newCategoryMode) {
+            this.sections[this.index].categories[this.cindex] = data.category;
+          } else {
+            this.sections[sectionId].categories.push(data.category);
           }
-        })
+          this.categoryForm = this._fb.group({});
+          this.saveLoading = false;
+          this.formData = new FormData();
+          this._toastService.show(data.message)
+          this._modalService.dismissAll();
+        },
+        error: ee => {
+          this.saveLoading = false;
+          this._toastService.show(ee);
+          this._modalService.dismissAll();
+        }
+      })
   }
 
   onFileChange(event: any) {
@@ -275,7 +284,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
   editSection(sectionModal: any, sindex: number) {
-     this.newSectionMode = false;
+    this.newSectionMode = false;
     this.sectionForm = this._fb.group({
       name: [
         this.sections[sindex].name,
