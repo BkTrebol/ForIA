@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -16,6 +17,7 @@ describe('LoginComponent', () => {
         RouterTestingModule,
         FontAwesomeTestingModule,
         ReactiveFormsModule,
+        TranslateModule.forRoot(),
       ],
       declarations: [LoginComponent],
     }).compileComponents();

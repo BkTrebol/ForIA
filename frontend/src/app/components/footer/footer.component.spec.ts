@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FooterComponent } from './footer.component';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('FooterComponent', () => {
   let component: FooterComponent;
@@ -8,7 +9,7 @@ describe('FooterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FontAwesomeTestingModule],
+      imports: [FontAwesomeTestingModule, TranslateModule.forRoot()],
       declarations: [FooterComponent],
     }).compileComponents();
 

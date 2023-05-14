@@ -5,6 +5,7 @@ import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testi
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from 'src/app/modules/share.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -18,6 +19,7 @@ describe('ProfileComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         SharedModule,
+        TranslateModule.forRoot(),
       ],
       declarations: [ProfileComponent],
     }).compileComponents();

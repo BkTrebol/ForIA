@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ToastsContainer } from './toast.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ToastComponent', () => {
   let component: ToastsContainer;
@@ -8,7 +9,11 @@ describe('ToastComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, ToastsContainer],
+      imports: [
+        HttpClientTestingModule,
+        ToastsContainer,
+        TranslateModule.forRoot(),
+      ],
       declarations: [],
     }).compileComponents();
 
