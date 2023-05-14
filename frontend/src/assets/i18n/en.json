@@ -1,4 +1,4 @@
-{   
+{
     "FORUM_ABOUT":"A Forum about",
     "COLLAPSE_SECTIONS":"Collapse sections",
     "EXPAND_SECTIONS":"Expand sections",
@@ -143,7 +143,7 @@
     "NEW_POLL": "New poll",
     "CREATE_POLL": "Create poll",
     "FINISH_POLL": "Finish poll",
-    "OPEN_POLL": "Open poll",   
+    "OPEN_POLL": "Open poll",
     "DELETE_POLL": "Delete poll",
     "EDIT_POLL": "Edit poll",
     "VOTE": "Vote",
@@ -184,8 +184,8 @@
     "SIDEBAR": "Sidebar",
     "PROFANITY_FILTER":"Profanity filter",
     "ALLOW_VIEW_PROFILE": "Allow other users to view your profile",
-    "ALLOW_MP": "Allow other users to send you Private messages",
-    "HIDE_EMAIL": "Hide your email from public.",
+    "ALLOW_MP": "Allow other users to send you private messages",
+    "HIDE_EMAIL": "Hide your email from public",
     "LANGUAGE": "Language",
     "SAVE_PREFERENCES": "Save preferences",
     "SAVE_PROFILE": "Save profile",
@@ -204,7 +204,7 @@
     "LAST_USER":"Last user:",
     "LAST_POLL":"Last poll:",
     "USER_NOT_FOUND": "User not found",
-    
+
     "User created successfully":"User created successfully",
     "User email verified":"User email verified",
     "Account linked to Google account successfully":"Account linked to Google account successfully",

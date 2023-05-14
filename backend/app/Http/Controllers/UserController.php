@@ -82,6 +82,7 @@ class UserController extends Controller
 
         $user->password = Hash::make($request->password);
         $user->update();
+        return response()->json(['message' => 'Password updates successfully'], 200);
     }
 
 

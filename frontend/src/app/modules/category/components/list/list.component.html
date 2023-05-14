@@ -4,9 +4,11 @@
     <div class="list" *ngIf="loading">
         <div class="list-header">
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
-            <p class="description-title"><fa-icon [icon]="['fas', 'code']"></fa-icon> {{"FORUM_ABOUT" | translate}} <b>IA</b></p>
+            <p class="description-title"><fa-icon [icon]="['fas', 'code']"></fa-icon> {{"FORUM_ABOUT" | translate}}
+                <b>IA</b></p>
             <div class="option-btns">
-                <button class="btn2" type="button"><fa-icon [icon]="['fas', 'chevron-down']"></fa-icon> {{"COLLAPSE_SECTIONS"|translate}}</button>
+                <button class="btn2" type="button"><fa-icon [icon]="['fas', 'chevron-down']"></fa-icon>
+                    {{"COLLAPSE_SECTIONS"|translate}}</button>
             </div>
         </div>
         <div class="list-body">
@@ -51,7 +53,8 @@
     <div class="list" *ngIf="!loading">
         <div class="list-header">
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
-            <p class="description-title"><fa-icon [icon]="['fas', 'code']"></fa-icon> {{"FORUM_ABOUT" | translate}} <b>IA</b></p>
+            <p class="description-title"><fa-icon [icon]="['fas', 'code']"></fa-icon> {{"FORUM_ABOUT" | translate}}
+                <b>IA</b></p>
             <div class="option-btns">
                 <button class="btn2" type="button" (click)="toogleSections()">
                     <fa-icon [icon]="['fas', allSections ? 'chevron-right': 'chevron-down']"></fa-icon> {{allSections ?
@@ -64,7 +67,9 @@
                 <li *ngFor="let section of forum" class="section">
                     <fieldset>
                         <legend>
-                            <h1 (click)="toggle(section.name)" ngbTooltip="{{ocults[section.name] ? ('EXPAND'|translate): ('Collapse'|translate)}} {{section.name}}"><fa-icon
+                            <h1 (click)="toggle(section.name)"
+                                ngbTooltip="{{ocults[section.name] ? ('EXPAND'|translate): ('Collapse'|translate)}} {{section.name}}">
+                                <fa-icon
                                     [icon]="['fas', ocults[section.name] ? 'chevron-right': 'chevron-down']"></fa-icon>
                                 {{section.name | capitalize}}</h1>
                         </legend>
@@ -79,7 +84,8 @@
                                 <div class="last-post" *ngIf="category.lastPost">
                                     <div class="text">
                                         <h3><a routerLink="/topic/{{category.lastPost.topic.id}}"
-                                                [queryParams]="{'page': category.lastPost.topic.last_page}" fragment="last"
+                                                [queryParams]="{'page': category.lastPost.topic.last_page}"
+                                                fragment="last"
                                                 ngbTooltip="{{'VIEW_LAST_POST'|translate}} {{category.lastPost.topic.title}}">
                                                 {{ ((category.lastPost.topic.title.length > 8) ?
                                                 (category.lastPost.topic.title |
@@ -87,9 +93,9 @@
                                         </h3>
                                         <div class="nom-data">
                                             <h4>
-                                                <a
-                                                    routerLink="/user/profile/{{category.lastPost.user.id}}"
-                                                    ngbTooltip="{{'VIEW_PROFILE'|translate}} {{category.lastPost.user.nick}}" placement="bottom">{{category.lastPost.user.nick}}</a>
+                                                <a routerLink="/user/profile/{{category.lastPost.user.id}}"
+                                                    ngbTooltip="{{'VIEW_PROFILE'|translate}} {{category.lastPost.user.nick}}"
+                                                    placement="bottom">{{category.lastPost.user.nick}}</a>
                                             </h4>
                                             <h5>{{category.lastPost.created_at | ago }}</h5>
                                         </div>
@@ -106,7 +112,8 @@
             </ul>
         </div>
         <div class="list-footer">
-            <button class="btn2" type="button" (click)="scrollToTop()"><fa-icon [icon]="['fas', 'arrow-up']"></fa-icon>{{"TO_TOP"|translate}}</button>
+            <button class="btn2" type="button" (click)="scrollToTop()"><fa-icon [icon]="['fas', 'arrow-up']"></fa-icon>
+                {{"TO_TOP"|translate}}</button>
         </div>
     </div>
 </div>

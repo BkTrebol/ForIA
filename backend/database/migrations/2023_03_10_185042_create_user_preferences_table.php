@@ -21,10 +21,9 @@ return new class extends Migration
             $table->boolean('hide_email')->default(false);
             $table->string('language')->default('es');
             $table->boolean('allow_music')->default(true);
-            // $table->timestamps();
         });
     }
-    
+
     /**
      * Reverse the migrations.
      */

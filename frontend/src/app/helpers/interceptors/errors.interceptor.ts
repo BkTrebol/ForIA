@@ -5,9 +5,8 @@ import {
   HttpEvent,
   HttpInterceptor,
   HttpErrorResponse,
-  HttpResponse,
 } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ToastService } from '../services/toast.service';
 
@@ -51,6 +50,7 @@ export class ErrorsInterceptor implements HttpInterceptor {
           // console.log('This is server side error');
           // errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
         }
+
         return throwError(() => error);
       })
     );

@@ -23,43 +23,40 @@ class DatabaseSeeder extends Seeder
      * Seed the application's database.
      */
     public function run(): void
-    {   
+    {
         PublicRole::create([
             'name' => 'Newbie',
-            'description' => 'New user.',
+            'description' => 'New user',
             'posts' => 0,
         ]);
         PublicRole::create([
             'name' => 'Starter',
-            'description' => 'User with more than 10 posts.',
+            'description' => 'User with more than 10 posts',
             'posts' => 10,
         ]);
         PublicRole::create([
             'name' => 'Advanced',
-            'description' => 'User with more than 50posts.',
+            'description' => 'User with more than 50 posts',
             'posts' => 50,
         ]);
-
         PublicRole::create([
             'name' => 'Engineer',
-            'description' => 'User with more than 100 posts.',
+            'description' => 'User with more than 100 posts',
             'posts' => 100,
         ]);
-
         PublicRole::create([
             'name' => 'GPT',
-            'description' => 'User with more than 1000 posts.',
+            'description' => 'User with more than 1000 posts',
             'posts' => 1000,
         ]);
 
         $publicAdmin = PublicRole::create([
             'name' => 'Admin',
-            'description' => 'Admin',
+            'description' => 'Administrator',
         ]);
-
         $publicMod = PublicRole::create([
             'name' => 'Mod',
-            'description' => 'Mod',
+            'description' => 'Moderator',
         ]);
 
         $guestRole = Role::create([
@@ -73,9 +70,7 @@ class DatabaseSeeder extends Seeder
         $modWelcomeRole = Role::create([
             'name' => 'WELCOME_MOD',
             'order' => 3,
-
         ]);
-
         $modRole = Role::create([
             'name' => 'ROLE_MOD',
             'order' => 4,
@@ -86,7 +81,7 @@ class DatabaseSeeder extends Seeder
             'order' => 5,
         ]);
 
-        $user = User::factory()->create(
+        User::factory()->create(
             [
             'email' => 'none',
             'nick' => 'Guest',
@@ -116,7 +111,6 @@ class DatabaseSeeder extends Seeder
             'public_role_id' => $publicMod->id
             ]
         );
-
         $user->roles()->attach([$modWelcomeRole->id]);
 
         User::factory()->create(
@@ -210,8 +204,6 @@ class DatabaseSeeder extends Seeder
             'title' => 'PostPagination',
             'section' => 'Offtopic',
         ]);
-
-
 
         // Topic::factory()->count(15)->create();
         // Post::factory()->count(45)->create();

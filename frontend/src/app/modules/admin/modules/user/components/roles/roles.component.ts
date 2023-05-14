@@ -29,6 +29,7 @@ export class RolesComponent {
   public editRoleForm: FormGroup;
   public mode: string;
   public orders: Array<number>;
+
   constructor(
     private _userService: UserService,
     private _modalService: NgbModal,
@@ -53,7 +54,6 @@ export class RolesComponent {
   ngOnInit() {
     this.getRoles();
     this.getPublicRoles();
-    this.loading = false;
   }
 
   getRoles() {
@@ -62,7 +62,6 @@ export class RolesComponent {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r) => {
-          console.log(r);
           this.roleList = r.editable;
           this.uneditableRoleList = r.nonEditable;
           this.orders = [];
@@ -84,7 +83,11 @@ export class RolesComponent {
       .subscribe({
         next: (r) => {
           this.publicRoleList = r;
+          this.loading = false;
         },
+        error: (err) => {
+          this.loading = false;
+        }
       });
   }
 

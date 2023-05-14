@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->boolean('admin')->default(false);
             $table->integer('order')->default(1);
-            // $table->timestamps();
         });
     }
 
