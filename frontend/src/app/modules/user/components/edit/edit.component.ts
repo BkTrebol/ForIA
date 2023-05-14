@@ -296,7 +296,7 @@ export class EditComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      this.error = 'Invalid data in the Form';
+      this.error = this._translateService.instant('VALIDATION.WRONG_FORMDATA');
     }
   }
 
