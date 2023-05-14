@@ -60,14 +60,14 @@
                 <p class="stats-toggle" (click)="statsToggle = !statsToggle"><fa-icon
                         [icon]="['fas', statsToggle ? 'chevron-right': 'chevron-down']"></fa-icon> Forum Stats:</p>
                 <div [(ngbCollapse)]="statsToggle">
-                    <p>{{'TOPICS'| translate}}Topics: {{forumStats.topics}}</p>
-                    <p>{{'POSTS'| translate}}Posts: {{forumStats.posts}}</p>
-                    <p>{{'USERS'| translate}}Users: {{forumStats.users}}</p>
-                    <p>{{'LAST_USER'| translate}}Last User: <a routerLink="/user/profile/{{forumStats.lastUser.id}}"
+                    <p>{{'TOPICS'| translate}} {{forumStats.topics}}</p>
+                    <p>{{'POSTS'| translate}} {{forumStats.posts}}</p>
+                    <p>{{'USERS'| translate}} {{forumStats.users}}</p>
+                    <p>{{'LAST_USER'| translate}} <a routerLink="/user/profile/{{forumStats.lastUser.id}}"
                             ngbTooltip="{{'VIEW_PROFILE'| translate}} {{forumStats.lastUser.nick}}"
                             placement="bottom">{{forumStats.lastUser.nick}}</a>
                     </p>
-                    <p *ngIf="forumStats.lastPoll" >{{'LAST_POLL'| translate}}Last Poll: <a routerLink="/topic/{{forumStats.lastPoll.topic_id}}"
+                    <p *ngIf="forumStats.lastPoll" >{{'LAST_POLL'| translate}} <a routerLink="/topic/{{forumStats.lastPoll.topic_id}}"
                             ngbTooltip="{{'VIEW_POLL' | translate}} {{forumStats.lastPoll.name}}"
                             placement="bottom">{{forumStats.lastPoll.name}}</a>
                     </p>

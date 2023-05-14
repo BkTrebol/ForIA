@@ -9,8 +9,13 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 // Ngb modules
-import { NgbModule, NgbToast, NgbToastModule, NgbCollapse, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbModule,
+  NgbToast,
+  NgbToastModule,
+  NgbTooltipModule, NgbCollapse,
+  NgbProgressbarModule,
+} from '@ng-bootstrap/ng-bootstrap';
 
 // Extra (icons)
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -32,6 +37,8 @@ import { ToastsContainer } from '../components/toast/toast.component';
 //Charts
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
+
+// Translate
 import {  TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @NgModule({
@@ -65,7 +72,7 @@ import {  TranslateModule, TranslateService } from '@ngx-translate/core';
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
-    TranslateModule.forChild()
+    TranslateModule.forChild(),
   ],
   providers: [],
   exports: [
@@ -92,7 +99,7 @@ import {  TranslateModule, TranslateService } from '@ngx-translate/core';
     NgbTooltipModule,
     NgbCollapse,
     NgbProgressbarModule,
-    TranslateModule
+    TranslateModule,
   ],
 })
 export class SharedModule {

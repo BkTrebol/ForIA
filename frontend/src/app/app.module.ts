@@ -28,6 +28,8 @@ import { NgbModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsContainer } from './components/toast/toast.component';
 import { AdminComponent } from './modules/admin/admin.component';
 import { SidenavComponent } from './modules/admin/components/sidenav/sidenav.component';
+
+// Tranalate
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -54,7 +56,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: (http:HttpClient) =>  {return new TranslateHttpLoader(http, './assets/i18n/', '.json');},
+        useFactory: (http: HttpClient) =>  {return new TranslateHttpLoader(http, './assets/i18n/', '.json');},
         deps: [HttpClient]
       }
     })
@@ -70,7 +72,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor(library: FaIconLibrary,private translate: TranslateService) {
+  constructor(library: FaIconLibrary, private translate: TranslateService) {
     // library.addIcons(faFilm, faFish, faBell, faAngular);
     library.addIconPacks(fas, far, fab);
     translate.setDefaultLang('en');

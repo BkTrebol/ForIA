@@ -5,7 +5,6 @@ import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { LastPosts } from 'src/app/models/receive/last-posts';
 import { ForumStats } from 'src/app/models/receive/forum-stats';
-import { User } from 'src/app/models/user';
 import { UserStats } from 'src/app/models/receive/user-stats';
 import { MessageRes } from 'src/app/models/common/message-res';
 

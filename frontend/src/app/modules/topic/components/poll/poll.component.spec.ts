@@ -4,6 +4,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { PollComponent } from './poll.component';
 import { SharedModule } from 'src/app/modules/share.module';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
+import { TranslateModule } from '@ngx-translate/core';
+
 
 describe('PollComponent', () => {
   let component: PollComponent;
@@ -16,6 +18,7 @@ describe('PollComponent', () => {
         RouterTestingModule,
         SharedModule,
         FontAwesomeTestingModule,
+        TranslateModule.forRoot(),
       ],
       declarations: [PollComponent],
     }).compileComponents();

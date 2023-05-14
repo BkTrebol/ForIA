@@ -5,6 +5,7 @@ import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testi
 import { ReactiveFormsModule } from '@angular/forms';
 import { ViewComponent } from './view.component';
 import { SharedModule } from 'src/app/modules/share.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ViewComponent test', () => {
   let component: ViewComponent;
@@ -17,7 +18,8 @@ describe('ViewComponent test', () => {
         FontAwesomeTestingModule,
         RouterTestingModule,
         ReactiveFormsModule,
-        SharedModule
+        SharedModule,
+        TranslateModule.forRoot(),
       ],
       declarations: [ViewComponent],
     }).compileComponents();

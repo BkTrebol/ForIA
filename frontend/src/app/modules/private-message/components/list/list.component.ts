@@ -6,6 +6,7 @@ import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import {  TranslateService } from '@ngx-translate/core';
+import { MessageRes } from 'src/app/models/common/message-res';
 
 @Component({
   selector: 'app-list',

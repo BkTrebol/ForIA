@@ -5,6 +5,7 @@ import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testi
 import { SharedModule } from 'src/app/modules/share.module';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { EditComponent } from './edit.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('EditComponent', () => {
   let component: EditComponent;
@@ -18,6 +19,7 @@ describe('EditComponent', () => {
         AngularEditorModule,
         SharedModule,
         FontAwesomeTestingModule,
+        TranslateModule.forRoot(),
       ],
       declarations: [EditComponent],
     }).compileComponents();
