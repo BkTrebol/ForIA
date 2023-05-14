@@ -1,6 +1,7 @@
 FROM php:8.1.19-fpm-bullseye
 
 WORKDIR /var/www/html
+ENV APP_ENV=production
 
 RUN apt-get update && \
     apt-get install -y \
@@ -25,6 +26,6 @@ RUN rm -rf vendor && \
 
 RUN chown -R www-data:www-data /var/www/html/storage
 
-ENV APP_ENV=production
+
 
 

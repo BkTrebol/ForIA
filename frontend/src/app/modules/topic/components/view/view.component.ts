@@ -104,6 +104,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       uploadWithCredentials: true,
       minHeight: '200px',
       editable: true,
+      sanitize:false,
     };
     this.theme = themeService.getTheme();
     this.userLogged = null;
@@ -140,6 +141,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
+          console.log(res)
           this.listPosts = res;
           this.loading = false;
           if (

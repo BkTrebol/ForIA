@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-
+use Mews\Purifier\Casts\CleanHtmlInput;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
@@ -30,6 +30,12 @@ class Topic extends Model
         'can_view',
         'can_edit',
         'content',
+    ];
+
+    protected $casts = [
+        'title' => CleanHtmlInput::class,
+        'description' => CleanHtmlInput::class,
+        'content' => CleanHtmlInput::class,
     ];
 
     public function posts(): HasMany {

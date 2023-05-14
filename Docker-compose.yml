@@ -6,7 +6,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - '9000:9000'
-    # volumes:
+    volumes:
+      - storage:/var/www/html
       # - ./backend:/var/www/html
     depends_on:
       - database
@@ -26,10 +27,14 @@ services:
   database:
     image: mysql
     command: --log_bin_trust_function_creators=1
+    volumes:
+      - bbdd:/var/lib/mysql
     environment:
       MYSQL_DATABASE: foria
       MYSQL_USER: foriauser
       MYSQL_PASSWORD: dufh4342jchdd
       MYSQL_ROOT_PASSWORD: 64ghfgsjh3j1
 
-
+volumes:
+  storage: 
+  bbdd:

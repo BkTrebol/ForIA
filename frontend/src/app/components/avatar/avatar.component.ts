@@ -29,7 +29,7 @@ export class AvatarComponent implements OnInit, OnChanges {
 
   constructor() {
     this.getAvatarUrl = environment.api + 'user/get-avatar/';
-    this.defaultUrl = 'https://api.dicebear.com/6.x/bottts/svg?seed=';
+    this.defaultUrl = "https://api.dicebear.com/6.x/bottts/svg?seed=";
     this.avatarUrl = '';
     this.regexUrl = /https?:\/\/.+\..+/;
     this.user = { avatar: null, nick: '', isVerified: true };

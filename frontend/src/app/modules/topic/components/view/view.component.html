@@ -151,7 +151,7 @@
                                         [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
                         </div>
-                        <p class="content" [innerHTML]="listPosts.topic.content"></p>
+                        <p class="content" [innerHTML]="listPosts.topic.content??'' | sanitizer"></p>
                     </div>
                     <div *ngIf="listPosts.topic.created_at != listPosts.topic.updated_at" class="post-footer">
                         <p ngbTooltip="{{'UPDATED'|translate}} {{listPosts.topic.updated_at | ago}}">{{listPosts.topic.updated_at |
@@ -182,7 +182,7 @@
                                     (click)="openModalPost(deleteModalPost, post.id, post.user.nick)"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
                         </div>
-                        <p class="content" [innerHTML]="post.content"></p>
+                        <p class="content" [innerHTML]="post.content | sanitizer"></p>
                     </div>
                     <div *ngIf="post.created_at != post.updated_at" class="post-footer">
                         <p ngbTooltip="{{'UPDATED'|translate}} {{post.updated_at| ago}}">{{post.updated_at | ago}}</p>
@@ -201,7 +201,7 @@
                         </div>
                     </div>
                     <div class="editor">
-                        <angular-editor id="editor" [(ngModel)]="content" [config]="editorConfig"></angular-editor>
+                        <angular-editor id="editor" [(ngModel)]="content " [config]="editorConfig"></angular-editor>
                     </div>
                 </div>
                 <input type="submit" [disabled]="content.length == 0 || content.length > 10_000" class="btn-s"
