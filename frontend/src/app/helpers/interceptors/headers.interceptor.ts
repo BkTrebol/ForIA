@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
-import { Global } from '../../../environment/global';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class HeadersInterceptor implements HttpInterceptor {
@@ -18,7 +18,7 @@ export class HeadersInterceptor implements HttpInterceptor {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    this.url = Global.url;
+    this.url = environment.url;
   }
 
   intercept(

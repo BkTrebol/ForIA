@@ -4,7 +4,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../modules/auth/service/auth.service';
 import { User } from '../../models/user';
 import { UserPreferences } from '../../models/user-preferences';
-import { Global } from 'src/environment/global';
+import { environment } from 'src/environments/environment';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import {  TranslateService } from '@ngx-translate/core';
@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userIsAuthenticated = null;
     this.top = false;
     this.canSmall = false;
-    this.url = Global.api + 'user/get-avatar/';
+    this.url = environment.api + 'user/get-avatar/';
     this.theme = this.themeService.getTheme();
     this.hover = false;
   }

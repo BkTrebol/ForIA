@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Global } from 'src/environment/global';
+import { environment } from 'src/environments/environment';
 import {
   ListPm,
   PrivateMessage,
@@ -16,7 +16,7 @@ export class PrivateMessageService {
   private apiPrivateMessageURL: string;
 
   constructor(private http: HttpClient) {
-    this.apiPrivateMessageURL = Global.api + 'pm/';
+    this.apiPrivateMessageURL = environment.api + 'pm/';
   }
 
   delete(sentArray:Array<number>,receivedArray:Array<number>): Observable<any>{
@@ -48,7 +48,7 @@ export class PrivateMessageService {
   }
 
   getUserList(): Observable<any> {
-    return this.http.get<any>(`${Global.api}user/list/`);
+    return this.http.get<any>(`${environment.api}user/list/`);
   }
 
   getTopic(id: number): Observable<any> {

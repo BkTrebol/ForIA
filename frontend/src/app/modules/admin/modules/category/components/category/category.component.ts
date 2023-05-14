@@ -16,7 +16,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { uniqueTitleValidator } from 'src/app/helpers/validators';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from 'src/app/helpers/services/toast.service';
-import { Global } from 'src/environment/global';
+import { environment } from 'src/environments/environment';
 import { Section } from 'src/app/models/receive/admin-category';
 import { Role } from 'src/app/models/receive/admin-role';
 
@@ -137,7 +137,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       this.sections[index].categories[cindex].image === '' ||
         this.sections[index].categories[cindex].image === null
         ? ''
-        : `${Global.api}upload/images/${this.sections[index].categories[cindex].image}`;
+        : `${environment.api}upload/images/${this.sections[index].categories[cindex].image}`;
     this.categoryForm = this._fb.group({
       id: [this.sections[index].categories[cindex].id],
       section: [this.sections[index].categories[cindex].section],

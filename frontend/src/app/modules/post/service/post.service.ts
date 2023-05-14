@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GetCreatePost, CreatePost } from 'src/app/models/send/create-post';
 import { EditPost } from 'src/app/models/receive/edit-post';
-import { Global } from 'src/environment/global';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,7 @@ export class PostService {
   private apiPostURL: string;
 
   constructor(private http: HttpClient) {
-    this.apiPostURL = Global.api + 'post/';
+    this.apiPostURL = environment.api + 'post/';
   }
 
   post(post: GetCreatePost): Observable<any> {

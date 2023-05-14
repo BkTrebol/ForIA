@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable, Subject, catchError, map, takeUntil } from 'rxjs';
 import { UserService } from '../../service/user.service';
 import { PublicUserProfile } from 'src/app/models/receive/user-profile';
-import { Global } from 'src/environment/global';
+import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
@@ -44,7 +44,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) {
     this.unsubscribe$ = new Subject();
     this.id = this.route.snapshot.paramMap.get('id') ?? '';
-    this.url = Global.api + 'user/get-avatar/';
+    this.url = environment.api + 'user/get-avatar/';
     this.user = {
       id: 0,
       nick: '',

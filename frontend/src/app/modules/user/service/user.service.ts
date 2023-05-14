@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Global } from '../../../../environment/global';
+import { environment } from 'src/environments/environment';
 import { UserPreferences } from '../../../models/user-preferences';
 import { EditUserProfile } from 'src/app/models/receive/edit-user-profile';
 import { UserProfile } from 'src/app/models/send/public-user-profile';
@@ -15,7 +15,7 @@ export class UserService {
   private apiUserURL: string;
 
   constructor(private http: HttpClient) {
-    this.apiUserURL = Global.api + 'user/';
+    this.apiUserURL = environment.api + 'user/';
   }
 
   getEdit(): Observable<EditUserProfile> {
@@ -23,7 +23,7 @@ export class UserService {
   }
 
   getPreferences(): Observable<UserPreferences> {
-    return this.http.get<UserPreferences>(`${Global.api}preferences`);
+    return this.http.get<UserPreferences>(`${environment.api}preferences`);
   }
 
   getProfile(id: string): Observable<PublicUserProfile> {
@@ -76,7 +76,7 @@ export class UserService {
   ): Observable<{ message: string }> {
     let params = JSON.stringify(preferences);
     return this.http.put<{ message: string }>(
-      `${Global.api}preferences/all`,
+      `${environment.api}preferences/all`,
       params
     );
   }

@@ -5,7 +5,7 @@ import { Forum } from '../../../../models/receive/list-category';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from 'src/app/helpers/services/toast.service';
-import { Global } from 'src/environment/global';
+import { environment } from 'src/environments/environment';
 import {  TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -31,7 +31,7 @@ export class ListComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private _translateService: TranslateService
   ) {
-    this.apiImageUrl = Global.api+'upload/images/'
+    this.apiImageUrl = environment.api+'upload/images/'
     this.unsubscribe$ = new Subject();
     this.loading = true;
     this.forum = [];

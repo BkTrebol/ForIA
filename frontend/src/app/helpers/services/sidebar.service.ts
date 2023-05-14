@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Global } from 'src/environment/global';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ export class SidebarService {
   public apiSidebarURL: string;
 
   constructor(private http: HttpClient) {
-    this.apiSidebarURL = Global.api + 'sidebar/';
+    this.apiSidebarURL = environment.api + 'sidebar/';
   }
 
   getData(): Observable<any> {
@@ -26,6 +26,6 @@ export class SidebarService {
   }
 
   editSidebar(s: boolean): Observable<any> {
-    return this.http.put(`${Global.api}preferences/sidebar`, JSON.stringify({ 'sidebar': s }))
+    return this.http.put(`${environment.api}preferences/sidebar`, JSON.stringify({ 'sidebar': s }))
   }
 }

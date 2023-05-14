@@ -78,8 +78,6 @@ export class AppComponent implements OnInit, OnDestroy {
       next: (r) => {
         this.userIsAuthenticated = r;
         this._translateService.use(r?.userPreferences.language??'es')
-        console.log(r?.userPreferences.language)
-        console.log(this._translateService.currentLang)
         if (this.userIsAuthenticated && !this.userIsAuthenticated.userData.isVerified 
           && !this.router.url.includes('auth/verify')
           ) {

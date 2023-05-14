@@ -7,7 +7,7 @@ import { CategoryService } from '../../service/category.service';
 import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
-import { Global } from 'src/environment/global';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-view',
@@ -130,7 +130,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
   getMusic(id: string): void {
-    this.audio.src = `${Global.api}category/music/${id}`;
+    this.audio.src = `${environment.api}category/music/${id}`;
     this.audio.load();
     let isPlaying = this.audio.play();
     this.audio.volume = 0.3;

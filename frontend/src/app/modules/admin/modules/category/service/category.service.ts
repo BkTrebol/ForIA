@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Global } from 'src/environment/global';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class CategoryService {
   constructor(
     private _http: HttpClient,
   ) { 
-    this.apiUrl = Global.api+'admin/';
+    this.apiUrl = environment.api+'admin/';
     this.catUrl = this.apiUrl+'category/';
   }
 
