@@ -4,17 +4,11 @@ use Illuminate\Support\Facades\Facade;
 
 return [
 
-    // Administrator roles.
     'trash' => 1,
     'pagination' => [
         'category' => 10,
         'topic' => 7,
     ],
-    // 'urlBackend' => 'http://localhost:8000/api/',
-    // 'urls' => [
-    //     'backend' => 'http://localhost:8000/api/', 
-    //     'frontend' => 'http://localhost:4200/',
-    // ],
     'urls' => [
         'backend' => env('BACKEND_URL'),
         'frontend' => env('FRONTEND_URL'),

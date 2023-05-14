@@ -115,7 +115,6 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/{pm}','getPrivateMessage');
         Route::post('/new','newPrivateMessage');
         Route::delete('','deleteMessages');
-        // Route::post('/','sendMessage');
     });
 
     Route::controller(UploadController::class)->prefix('upload')->group(function(){
@@ -201,9 +200,6 @@ Route::controller(TopicController::class)->prefix('topic')->group(function(){
     Route::get('/{topic}','viewTopic');
 });
 
-Route::controller(PostController::class)->prefix('post')->group(function(){
-
-});
 
 Route::controller(PollController::class)->prefix('poll')->group(function(){
     Route::get('/{poll}','getVotes');
@@ -225,34 +221,4 @@ Route::controller(UploadController::class)->prefix('upload')->group(function(){
 Route::controller(SidebarController::class)->prefix('sidebar')->group(function(){
     Route::get('/lastFive','getLastFive');
     Route::get('/forumStats','getForumStats');
-});
-
-
-Route::get('/CHECKINGCOJONES',function(){
-    $user = User::find(5);
-    if($user->publicRole->posts !== null){
-        echo "barbaro";
-    }else{
-        echo "bizzarro";
-    }
-});
-
-// Testing Routes.
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::get('/checklogin', function (){
-    $user = Auth::user();
-
-    return response()->json([
-        'logged' => $user ? true : false]
-        ,200);
-});
-
-
-Route::get('testing/{post}', function(Post $post){
-    $topic = Topic::find($post->topic_id);
-
-    return response()->json(['post' => $topic->posts->count() ]);
 });
