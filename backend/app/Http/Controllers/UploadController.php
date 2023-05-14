@@ -18,7 +18,7 @@ class UploadController extends Controller
         }
         $url = config('app.urls.backend');
         return response()->json([
-                "imageUrl" => $url.'upload/'.$image_path
+                "imageUrl" => $url.'upload/images/'.$image_path
             ]);
     }
 
