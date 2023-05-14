@@ -28,10 +28,10 @@ class SidebarController extends Controller
         ]);
     }
 
-    function getLastFive()
+    function getLastFive(Request $request)
     {
         $user = Auth::user();
-        $roles = self::roles();
+        $roles = self::roles($request);
         $posts = Post::selectRaw('posts.id as post_id,topics.id as id, posts.created_at as created_at, topics.title as title,(select count(*) from posts where topic_id = topics.id) as num_posts, (select nick from users where id = posts.user_id) as user_nick, (select id from users where id = posts.user_id) as user_id, (select avatar from users where id = posts.user_id) as user_avatar')
         ->whereHas('topic', function ($query) use ($roles) {
             $query->whereIn('can_view', $roles)

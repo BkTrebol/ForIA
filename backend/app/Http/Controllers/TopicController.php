@@ -16,12 +16,12 @@ use App\Models\PollOption;
 
 class TopicController extends Controller
 {
-    function viewTopic(Topic $topic)
+    function viewTopic(Topic $topic,Request $request)
     {
         // Returns the posts in a topic if the user can view the topic and its category.
         $user = Auth::user();
-        $roles = self::roles();
-        $isAdmin = self::is_admin();
+        $roles = self::roles($request);
+        $isAdmin = self::is_admin($request);
         $isMod = in_array($topic->category->can_mod, $roles);
 
         if (!in_array($topic->category->can_view, $roles) || !in_array($topic->can_view, $roles)) {
@@ -55,8 +55,8 @@ class TopicController extends Controller
             'can_poll' => $poll == null && (($user && $user->id == $topic->user_id) || $isAdmin || $isMod),
             'category' => $topic->category->only('id', 'title'),
 
-            'posts' => $posts->map(function ($post) use($user) {
-                $post['can_edit'] = $this->checkPostPermission($post);
+            'posts' => $posts->map(function ($post) use($user,$request) {
+                $post['can_edit'] = $this->checkPostPermission($post,$request);
                 if($user && $user->preferences->filter_bad_words){
                     $post['content'] = self::ban_words($post->content);
                 }
@@ -125,11 +125,11 @@ class TopicController extends Controller
         ], 201);
     }
 
-    function getTopicData(Topic $topic)
+    function getTopicData(Topic $topic,Request $request)
     {
         $user = Auth::user();
-        $roles = self::roles();
-        $isAdmin = self::is_admin();
+        $roles = self::roles($request);
+        $isAdmin = self::is_admin($request);
         $isMod = in_array($topic->category->can_mod, $roles);
 
         if (!$isAdmin && !$isMod && $user->id != $topic->user_id) {
@@ -154,8 +154,8 @@ class TopicController extends Controller
         ]);
 
         $user = Auth::user();
-        $roles = self::roles();
-        $isAdmin = self::is_admin();
+        $roles = self::roles($request);
+        $isAdmin = self::is_admin($request);
         $isMod = in_array($topic->category->can_mod,$roles);
         // Edits/Creates poll if exists in request.
 
@@ -190,8 +190,8 @@ class TopicController extends Controller
         // Checks if user is admin, else if user has right to delete the topic.
         // If user is not admin just moves the topic to the Trash Category.
         $user = Auth::user();
-        $roles = self::roles();
-        $isAdmin = self::is_admin();
+        $roles = self::roles($request);
+        $isAdmin = self::is_admin($request);
 
         if ($isAdmin) {
             $topic->delete();
@@ -211,11 +211,11 @@ class TopicController extends Controller
         }
     }
 
-    function getOneTopic(Topic $topic)
+    function getOneTopic(Topic $topic,Request $request)
     {
         $user = Auth::user();
-        $roles = self::roles();
-        $isAdmin = self::is_admin();
+        $roles = self::roles($request);
+        $isAdmin = self::is_admin($request);
         $isMod = in_array($topic->category->can_mod, $roles);
 
         if (!$isAdmin && !$isMod && $user->id != $topic->user_id) {
@@ -230,14 +230,14 @@ class TopicController extends Controller
         ]);
     }
 
-    function checkPostPermission(Post $post)
+    function checkPostPermission(Post $post,Request $request)
     {
         $user = Auth::user();
         if (!$user)
             return false;
 
-        $roles = self::roles();
-        $isAdmin = self::is_admin();
+        $roles = self::roles($request);
+        $isAdmin = self::is_admin($request);
         $isMod = in_array($post->topic->category->can_mod, $roles);
         if (!$isAdmin && !$isMod) {
             // IF the user isn't either an admin or a mod, checks if is the owner of the post and the post is the last one of the topic.

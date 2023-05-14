@@ -16,15 +16,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Session;
 class LoginController extends Controller
 {
-
-    function adminAuth(User $user, Request $request){
-        Auth::guard('web')->logout();
-        Auth::login($user);
-        $request->session()->regenerateToken();
-        return response()->json([
-            'message' => "Login \"as\" {$user->nick} successfully",
-        ],200);
-    }
     
     function login(Request $request){
         if (Auth::user()) return response()->json(['message' => 'Unauthorized'],403);

@@ -38,4 +38,26 @@ class AdminLoginController extends Controller
         }
         return response()->json(false,200);
     }
+    function getUserListAdmin(){
+        if(config('env') === 'production'){
+            return response()->json('Unauthorized',403);
+        }
+
+        return response()->json(
+           User::all() , 200
+        );
+    }
+
+    function adminAuth(User $user, Request $request){
+        if(config('env') === 'production'){
+            return response()->json('Unauthorized',403);
+        }
+        
+        Auth::guard('web')->logout();
+        Auth::login($user);
+        $request->session()->regenerateToken();
+        return response()->json([
+            'message' => "Login \"as\" {$user->nick} successfully",
+        ],200);
+    }
 }

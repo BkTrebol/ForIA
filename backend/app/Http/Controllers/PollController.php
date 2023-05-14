@@ -57,11 +57,11 @@ class PollController extends Controller
         );
     }
 
-    function closePoll(Poll $poll)
+    function closePoll(Poll $poll,Request $request)
     {
         $user = Auth::user();
-        $roles = self::roles();
-        $isAdmin = self::is_admin();
+        $roles = self::roles($request);
+        $isAdmin = self::is_admin($request);
         $isMod = in_array($poll->topic->category->can_mod, $roles);
 
         if (!$isAdmin && !$isMod && $user->id != $poll->topic->user_id) {
@@ -82,11 +82,11 @@ class PollController extends Controller
         ], 200);
     }
 
-    function deletePoll(Poll $poll)
+    function deletePoll(Poll $poll,Request $request)
     {
         $user = Auth::user();
-        $roles = self::roles();
-        $isAdmin = self::is_admin();
+        $roles = self::roles($request);
+        $isAdmin = self::is_admin($request);
         $isMod = in_array($poll->topic->category->can_mod, $roles);
 
         if (!$isAdmin && !$isMod && $user->id != $poll->topic->user_id) {
@@ -105,8 +105,8 @@ class PollController extends Controller
     function createPoll(Topic $topic, Request $request)
     {
         $user = Auth::user();
-        $roles = self::roles();
-        $isAdmin = self::is_admin();
+        $roles = self::roles($request);
+        $isAdmin = self::is_admin($request);
         $isMod = in_array($topic->category->can_mod, $roles);
 
         $request->validate([
@@ -162,8 +162,8 @@ class PollController extends Controller
     function editPoll(Poll $poll, Request $request)
     {
         $user = Auth::user();
-        $roles = self::roles();
-        $isAdmin = self::is_admin();
+        $roles = self::roles($request);
+        $isAdmin = self::is_admin($request);
         $isMod = in_array($poll->topic->category->can_mod, $roles);
 
         if (!$poll->answers->count() == 0 && !$isAdmin && !$isMod) {
@@ -174,12 +174,12 @@ class PollController extends Controller
 
     }
 
-    function getEditPoll(Topic $topic)
+    function getEditPoll(Topic $topic,Request $request)
     {
 
         $user = Auth::user();
-        $roles = self::roles();
-        $isAdmin = self::is_admin();
+        $roles = self::roles($request);
+        $isAdmin = self::is_admin($request);
         $isMod = in_array($topic->poll->topic->category->can_mod, $roles);
 
 

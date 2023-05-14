@@ -9,6 +9,7 @@ import { UserPreferences } from 'src/app/models/user-preferences';
 import { ResetPassword } from 'src/app/models/reset-password';
 import { ChangePassword } from 'src/app/models/change-password';
 import { MessageRes } from 'src/app/models/common/message-res';
+import { Role } from 'src/app/models/receive/admin-role';
 
 @Injectable({
   providedIn: 'root',
@@ -49,18 +50,28 @@ export class AuthService {
     this.loading$.complete();
   }
 
+  getRoleList(): Observable<{roles:Role[],actual:number[]}>{
+    return this.http.get<{roles:Role[],actual:number[]}>(`${this.apiAdminURL}role/fakeRoles`);
+  }
+
   // ADMIN
-  getUserList(): Observable<{ id: number; nick: string }[]> {
+  getUserList(): Observable<{ id: number; nick: string }[]>{
     return this.http.get<{ id: number; nick: string }[]>(
-      `${environment.api}user/publiclist/`
+      `${environment.adminUserList}`
     );
   }
 
   // ADMIN
   changeUser(user: number): Observable<MessageRes> {
     return this.http.get<MessageRes>(
-      `${this.apiAuthURL}adminlogin/${user}`
+      `${environment.adminLogin}${user}`
     );
+  }
+  changeRole(roles:number[]):Observable<MessageRes>{
+    const body = {roles:roles}
+    return this.http.post<MessageRes>(
+      `${this.apiAdminURL}role/change`,body
+    )
   }
 
   sendVerification(): Observable<any> {

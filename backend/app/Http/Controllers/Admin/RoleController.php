@@ -10,7 +10,26 @@ use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
-    //
+    
+    function changeRole(Request $request){
+        $roles = $request->roles;
+        if(!$roles || $roles ===[] ){
+        $request->session()->forget('fakeRole');
+        }else{
+            $request->session()->put('fakeRole', $roles);
+        }
+
+        return response()->json([
+            "message" => "Roles changed",
+        ],200);
+    }
+    function getFakeRoles(Request $request){
+        $roles = Role::orderBy('order','desc')->get();
+        return response()->json([
+            "roles" => $roles,
+            "actual" => $request->session()->get('fakeRole',[])
+        ],200);
+    }
     function getList(Request $request){
         $user = Auth::user();
         $userMaxrol = $user->roles()->orderBy('order','desc')->first()->order;

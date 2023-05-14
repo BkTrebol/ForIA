@@ -86,13 +86,10 @@ class UserController extends Controller
     }
 
 
-
-
-
-    function profile(User $user){
+    function profile(User $user,Request $request){
         $viewer = Auth::user();
         $roles = $viewer ? $viewer->roles()->pluck('role_id')->toArray() : [1];
-        $isAdmin = self::is_admin();
+        $isAdmin = self::is_admin($request);
         if ($isAdmin || $user->preferences->allow_view_profile){
             $user['can_pm'] = $user->preferences->allow_user_to_mp ? true : false;
             if($user->last_post()->count() > 0){
@@ -125,19 +122,13 @@ class UserController extends Controller
         );
     }
 
-    function getUserListAdmin(){
-        return response()->json(
-           User::all() , 200
-        );
-    }
 
 
-
-    function getUserStatistics(User $user){
+    function getUserStatistics(User $user,Request $request){
 
         $viewer = Auth::user();
         $roles = $viewer ? $viewer->roles()->pluck('role_id')->toArray() : [1];
-        $isAdmin = self::is_admin();
+        $isAdmin = self::is_admin($request);
 
         if($isAdmin ||($viewer && $user->id === $viewer->id)){
             $res = ['user' => $user->only('id', 'nick', 'avatar', 'rol'),
@@ -169,11 +160,11 @@ class UserController extends Controller
         }
     }
 
-    function getUserStatistics2(User $user){
+    function getUserStatistics2(User $user,Request $request){
 
         $viewer = Auth::user();
-        $roles = self::roles();
-        $isAdmin = self::is_admin();
+        $roles = self::roles($request);
+        $isAdmin = self::is_admin($request);
 
         if ($isAdmin || $user->preferences->allow_view_profile){
             $res = ['topics' => Topic::limit(5)->where('user_id', $user->id)

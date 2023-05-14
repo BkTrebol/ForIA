@@ -68,8 +68,17 @@
         </ul>
     </nav>
 
+    <ul *ngIf="userIsAuthenticated && isAdmin" class="ng-select">
+        <li >
+            <ng-select [(ngModel)]="roles" (change)="changeRole()" [multiple]="true">
+                <ng-option *ngFor="let role of roleList" [value]="role.id">{{role.id + '-' +
+                    role.name}}</ng-option>
+            </ng-select>
+        </li>
+    </ul>
     <ul class="ng-select">
-        <li>
+
+        <li *ngIf="development">
             <ng-select [(ngModel)]="user" (change)="changeUser()">
                 <ng-option *ngFor="let user of userList$ | async" [value]="user.id">{{user.id + '-' +
                     user.nick}}</ng-option>

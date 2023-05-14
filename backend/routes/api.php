@@ -144,6 +144,7 @@ Route::middleware('auth:sanctum')->group(function(){
             Route::post('/administrative','createRole');
             Route::post('/public','createPublic');
             Route::put('/save','saveRoles');
+
         });
 
         Route::controller(AdminUserController::class)->prefix('user')->group(function(){
@@ -161,17 +162,22 @@ Route::middleware('auth:sanctum')->group(function(){
 Route::controller(AdminLoginController::class)->prefix('admin')->group(function(){
     Route::post('/login','login');
     Route::get('/check','checkAdmin');
+    Route::get('/adminlogin/{user}','adminAuth'); // ADMIN-DEBUG
+    Route::get('/publiclist','getUserListAdmin'); // ADMIN-DEBUG
+});
+
+Route::controller(RoleController::class)->prefix('admin/role')->group(function(){
+    Route::get('/fakeRoles','getFakeRoles');
+    Route::post('/change','changeRole');
 });
 
 // Public routes.
-
-
 Route::prefix('auth')->group(function(){
     Route::controller(LoginController::class)->group(function(){
         Route::post('/login','login')->name('login');
         Route::get('/check-login','checkLogin');
         Route::post('/googleauth','googleAuth');
-        Route::get('/adminlogin/{user}','adminAuth'); // ADMIN
+        
     });
     Route::controller(RegisterController::class)->group(function(){
         Route::post('/register','register');
@@ -211,7 +217,6 @@ Route::controller(UserController::class)->prefix('user')->group(function(){
     Route::get('/statistics/{user}','getUserStatistics');
     Route::get('/statistics2/{user}','getUserStatistics2');
 
-    Route::get('/publiclist','getUserListAdmin'); // ADMIN
 });
 
 Route::controller(UploadController::class)->prefix('upload')->group(function(){

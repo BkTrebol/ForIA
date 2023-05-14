@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { canActivateAdmin } from 'src/app/helpers/guards/canActivateChild/admin.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'categories', pathMatch: 'full' },
   {
     path: 'login',
     loadChildren: () =>
@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path: '',
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: 'categories', pathMatch: 'full' },
       {
         path: 'categories',
         canActivate: [canActivateAdmin],
@@ -21,14 +21,14 @@ const routes: Routes = [
             (m) => m.CategoryModule
           ),
       },
-      {
-        path: 'dashboard',
-        canActivate: [canActivateAdmin],
-        loadChildren: () =>
-          import('./modules/dashboard/dashboard.module').then(
-            (m) => m.DashboardModule
-          ),
-      },
+      // {
+      //   path: 'dashboard',
+      //   canActivate: [canActivateAdmin],
+      //   loadChildren: () =>
+      //     import('./modules/dashboard/dashboard.module').then(
+      //       (m) => m.DashboardModule
+      //     ),
+      // },
       {
         path: 'users',
         canActivate: [canActivateAdmin],

@@ -9,18 +9,18 @@ use Illuminate\Support\Facades\Storage;
 use File;
 class CategoryController extends Controller
 {
-    function getCategoryList()
+    function getCategoryList(Request $request)
     {
         $user = Auth::user();
-        $roles = self::roles();
+        $roles = self::roles($request);
         return Category::whereIn('can_view', $roles)->select('id', 'title')->orderBy('order')->get();
     }
 
-    function getCategories()
+    function getCategories(Request $request)
     {
         // Gets the categories that the user can view.
         $user = Auth::user();
-        $roles = self::roles();
+        $roles = self::roles($request);
 
         $categories = Category::orderBy('order')->get()->whereIn('can_view', $roles)->groupBy('section')->map(
             function ($section, $sectionName) use ($roles) {
@@ -55,12 +55,12 @@ class CategoryController extends Controller
         );
     }
 
-    function viewCategory(Category $category)
+    function viewCategory(Category $category,Request $request)
     {
         // Returns the topics in a category that a user can view, if the user can view the category.
         $user = Auth::user();
 
-        $roles = self::roles();
+        $roles = self::roles($request);
         if (!in_array($category->can_view, $roles)) {
             return response()->json([
                 'message' => 'Unauthorized'
@@ -102,9 +102,9 @@ class CategoryController extends Controller
     }
 
 
-    function getAllCategory() {
+    function getAllCategory(Request $request) {
         $user = Auth::user();
-        $roles = self::roles();
+        $roles = self::roles($request);
         return Category::whereIn('can_view', $roles)->select('id', 'title')->orderBy('section')->get();
     }
 

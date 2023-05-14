@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Role } from 'src/app/models/receive/admin-role';
 
 @Component({
   selector: 'app-header',
@@ -26,10 +27,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public url: string;
   public theme: string;
   public hover: boolean;
-
-  public userList$: Observable<{ id: number; nick: string }[]>;
+  public roleList: Role[];
+  public isAdmin :boolean;
+  public userList$: Observable<{ id: number; nick: string }[]>|null;
   public user: number;
-
+  public roles: number[];
+  public development:boolean;
   constructor(
     private _authService: AuthService,
     private router: Router,
@@ -37,8 +40,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private _translateService: TranslateService
   ) {
+    this.isAdmin = false;
+    this.development = !environment.production
     this.user = 0;
-    this.userList$ = new Observable();
+    this.roles = [];
+    if (environment.production){
+      this.userList$ = null;
+    } else{
+      this.userList$ = new Observable();
+    }
+    this.roleList = [];
     this.unsubscribe$ = new Subject();
     this.userIsAuthenticated = null;
     this.top = false;
@@ -49,13 +60,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.userList$ = this._authService.getUserList();
+    if (!environment.production){
+      this.userList$ = this._authService.getUserList();
+    } 
+    this.getRoleList();
 
     this._authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {
         this.userIsAuthenticated = r;
         if (this.userIsAuthenticated?.userData.id) {
           this.user = this.userIsAuthenticated?.userData.id;
+          this.isAdmin = this._authService.user.userData.isAdmin === true;
         }
       },
     });
@@ -111,7 +126,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.themeService.changeTheme(this.theme);
   }
 
+  getRoleList(){
+    this._authService.getRoleList()
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe((r) => {
+      this.roleList = r.roles
+      this.roles = r.actual
+    })
+  }
+  changeRole(){
+    if (this.user) {
+      this._authService
+        .changeRole(this.roles)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: (res) => {
+            this._authService.autoAuthUser();
+            this.toastService.show(this._translateService.instant(res.message));
+          },
+          error: (e) => console.log(e),
+        });
+    }
+  }
   changeUser() {
+    if (environment.production){
+      return;
+    }
     if (this.user) {
       this._authService
         .changeUser(this.user)
