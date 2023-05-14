@@ -7,7 +7,7 @@ import { UserPreferences } from '../../models/user-preferences';
 import { environment } from 'src/environments/environment';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
-import {  TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -110,7 +110,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.theme = this.theme == 'dark' ? 'light' : 'dark';
     this.themeService.changeTheme(this.theme);
   }
-
 
   // Logout the user
   logout(): void {

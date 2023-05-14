@@ -9,7 +9,7 @@ import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { environment } from 'src/environments/environment';
-import {  TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 
 @Component({
@@ -69,7 +69,9 @@ export class CreateComponent implements OnInit, OnDestroy {
         map((r) => {
           if (r.filter((u: any) => u.id === sendTo).length == 0) {
             console.log('No user found with this id');
-            this.toastService.showDanger(this._translateService.instant('USER_NOT_FOUND'));
+            this.toastService.showDanger(
+              this._translateService.instant('USER_NOT_FOUND')
+            );
           } else {
             this.message.recipient = sendTo;
           }
@@ -93,10 +95,10 @@ export class CreateComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.message.content.length == 0) {
-      this.error = this._translateService.instant("VALIDATION.MESSAGE.EMPTY");
+      this.error = this._translateService.instant('VALIDATION.MESSAGE.EMPTY');
       return;
     } else if (this.message.content.length > 10_000) {
-      this.error = this._translateService.instant("VALIDATION.MESSAGE.LONG");
+      this.error = this._translateService.instant('VALIDATION.MESSAGE.LONG');
       return;
     } else {
       this.error = '';

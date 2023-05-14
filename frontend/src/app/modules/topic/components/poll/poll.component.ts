@@ -4,7 +4,7 @@ import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { TopicService } from '../../service/topic.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Poll } from 'src/app/models/send/create-topic';
-import {  TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 
 @Component({
@@ -28,8 +28,7 @@ export class PollComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private _translateService: TranslateService,
-    private _toastService: ToastService
-
+    private toastService: ToastService
   ) {
     this.unsubscribe$ = new Subject();
     this.loading = true;
@@ -41,7 +40,7 @@ export class PollComponent implements OnInit, OnDestroy {
     this.poll = {
       finish_date: '',
       name: '',
-      options: [{ option: '' }, {option: ''}],
+      options: [{ option: '' }, { option: '' }],
     };
   }
 
@@ -78,20 +77,22 @@ export class PollComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.poll.finish_date && this.poll.finish_date >= new Date().toJSON().slice(0, 10)) {
+    if (
+      this.poll.finish_date &&
+      this.poll.finish_date >= new Date().toJSON().slice(0, 10)
+    ) {
       this.topicService
         .poll(this.topicId, this.poll)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (r) => {
-            this._toastService.show(this._translateService.instant(r.message));
+            this.toastService.show(this._translateService.instant(r.message));
             this.router.navigate([`/topic/${r.id}`]);
           },
           error: (e) => console.log(e),
         });
-    }
-    else {
-      this.error = this._translateService.instant("VALIDATION.POLL.PAST")
+    } else {
+      this.error = this._translateService.instant('VALIDATION.POLL.PAST');
     }
   }
 
