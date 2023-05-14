@@ -9,6 +9,7 @@ import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { Global } from 'src/environment/global';
+import { ToastService } from 'src/app/helpers/services/toast.service';
 
 @Component({
   selector: 'app-create',
@@ -34,7 +35,8 @@ export class CreateComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private privateMessageService: PrivateMessageService,
     private authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastService: ToastService
   ) {
     this.theme = themeService.getTheme();
     this.unsubscribe$ = new Subject();
@@ -64,7 +66,8 @@ export class CreateComponent implements OnInit, OnDestroy {
       this.userList$ = this.privateMessageService.getUserList().pipe(
         map((r) => {
           if (r.filter((u: any) => u.id === sendTo).length == 0) {
-            console.log('No user found with this id'); // TODO Redirect/ErrorToast/Both.
+            console.log('No user found with this id');
+            this.toastService.showDanger('No user found with this id');
           } else {
             this.message.recipient = sendTo;
           }

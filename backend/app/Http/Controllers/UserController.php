@@ -223,7 +223,7 @@ class UserController extends Controller
         $user = Auth::user();
         if(!$request->has("password") || !$request->has("confirm")){
                 return response()->json([
-                    "meessage" => "Missing password.",422]);
+                    "meessage" => "Missing password",422]);
         }
         $password = $request->input('password');
         $confirm = $request->input('confirm');
@@ -245,6 +245,7 @@ class UserController extends Controller
 
         Auth::guard('web')->logout();
         Post::where('user_id', $user->id)->update(['user_id' => 1]);
+        Topic::where('user_id', $user->id)->update(['user_id' => 1]);
         $user->delete();
 
         return response()->json([

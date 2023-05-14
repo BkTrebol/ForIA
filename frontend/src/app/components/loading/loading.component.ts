@@ -20,8 +20,9 @@ function random(min: number, max: number) {
 export class LoadingComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public theme: string;
-  public innerWidth: any;
+  public innerWidth: number;
   public original: boolean;
+
   @Input('type') type: string;
   @Input('height') height: string;
   @Input('width') width: string;
@@ -35,14 +36,16 @@ export class LoadingComponent implements OnInit, OnDestroy {
     this.width = '100px';
     this.appa = 'line';
     this.original = false;
+    this.innerWidth = window.innerWidth;
   }
 
   ngOnInit(): void {
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((t) => {
+      .subscribe((t: string) => {
         this.theme = t;
       });
+
     this.innerWidth = window.innerWidth;
     if (this.appa === 'circle') {
       if (this.width == '100px') {
@@ -53,14 +56,14 @@ export class LoadingComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(_: any) {
+  onResize(_: void) {
     this.innerWidth = window.innerWidth;
     if (this.appa === 'circle') {
       this.changeCircleSize();
     }
   }
 
-  changeCircleSize() {
+  changeCircleSize(): void {
     if (this.innerWidth <= 500) {
       this.height = '50px';
       this.width = '50px';

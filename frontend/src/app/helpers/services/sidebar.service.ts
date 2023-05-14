@@ -1,6 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { MessageRes } from 'src/app/models/common/message-res';
+import { ForumStats } from 'src/app/models/receive/forum-stats';
+import { LastPosts } from 'src/app/models/receive/last-posts';
+import { UserStats } from 'src/app/models/receive/user-stats';
 import { Global } from 'src/environment/global';
 
 @Injectable({
@@ -13,19 +17,19 @@ export class SidebarService {
     this.apiSidebarURL = Global.api + 'sidebar/';
   }
 
-  getData(): Observable<any> {
-    return this.http.get(`${this.apiSidebarURL}userStats`);
+  getData(): Observable<UserStats> {
+    return this.http.get<UserStats>(`${this.apiSidebarURL}userStats`);
   }
 
-  getPosts(): Observable<any> {
-    return this.http.get(`${this.apiSidebarURL}lastFive`);
+  getPosts(): Observable<LastPosts[]> {
+    return this.http.get<LastPosts[]>(`${this.apiSidebarURL}lastFive`);
   }
 
-  getForumStats(): Observable<any> {
-    return this.http.get(`${this.apiSidebarURL}forumStats`);
+  getForumStats(): Observable<ForumStats> {
+    return this.http.get<ForumStats>(`${this.apiSidebarURL}forumStats`);
   }
 
-  editSidebar(s: boolean): Observable<any> {
-    return this.http.put(`${Global.api}preferences/sidebar`, JSON.stringify({ 'sidebar': s }))
+  editSidebar(s: boolean): Observable<MessageRes> {
+    return this.http.put<MessageRes>(`${Global.api}preferences/sidebar`, JSON.stringify({ 'sidebar': s }))
   }
 }

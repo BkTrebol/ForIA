@@ -8,9 +8,10 @@ import { Global } from 'src/environment/global';
 })
 export class UserService {
   private apiUrl: string;
+
   constructor(
     private _http: HttpClient,
-  ) { 
+  ) {
     this.apiUrl = Global.api+'admin/';
   }
 
@@ -22,13 +23,15 @@ export class UserService {
     const body = JSON.stringify({roles:roles});
     return this._http.put(`${this.apiUrl}role/save`,body);
   }
-  
+
   getAllRoles():Observable<any> {
     return this._http.get(`${this.apiUrl}role/all/true`);
   }
+
   getRoles():Observable<any> {
     return this._http.get(`${this.apiUrl}role/normal`);
   }
+  
   getPublicRoles():Observable<any> {
     return this._http.get(`${this.apiUrl}role/public`);
   }

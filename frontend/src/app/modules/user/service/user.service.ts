@@ -7,6 +7,7 @@ import { EditUserProfile } from 'src/app/models/receive/edit-user-profile';
 import { UserProfile } from 'src/app/models/send/public-user-profile';
 import { PublicUserProfile } from 'src/app/models/receive/user-profile';
 import { ChangePassword } from 'src/app/models/change-password';
+import { MessageRes } from 'src/app/models/common/message-res';
 
 @Injectable({
   providedIn: 'root',
@@ -38,23 +39,29 @@ export class UserService {
     return this.http.get<any>(`${this.apiUserURL}statistics2/${id}`);
   }
 
-  changePassword(changePasswordData:ChangePassword): Observable<any>{
-    return this.http.put(`${this.apiUserURL}password`,changePasswordData);
+  changePassword(changePasswordData: ChangePassword): Observable<MessageRes> {
+    return this.http.put<MessageRes>(
+      `${this.apiUserURL}password`,
+      changePasswordData
+    );
   }
 
-  editProfile(user: UserProfile): Observable<any> {
+  editProfile(user: UserProfile): Observable<MessageRes> {
     let headers: HttpHeaders;
     let params = JSON.stringify(user);
     headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
-    return this.http.post(`${this.apiUserURL}edit`, params, {
+    return this.http.post<MessageRes>(`${this.apiUserURL}edit`, params, {
       headers: headers,
     });
   }
 
-  editProfileWithImage(user: UserProfile, image: Array<File>): Observable<any> {
+  editProfileWithImage(
+    user: UserProfile,
+    image: Array<File>
+  ): Observable<MessageRes> {
     let postData: FormData;
     let headers = new HttpHeaders({
       Accept: 'application/json',
@@ -66,23 +73,21 @@ export class UserService {
     postData.append('birthday', user.birthday ?? '');
     postData.append('avatar', image[0], image[0].name);
     postData.append('deleteAvatar', JSON.stringify(user.deleteAvatar));
-    return this.http.post(`${this.apiUserURL}edit`, postData, {
+    return this.http.post<MessageRes>(`${this.apiUserURL}edit`, postData, {
       headers: headers,
     });
   }
 
-  editPreferences(
-    preferences: UserPreferences
-  ): Observable<{ message: string }> {
+  editPreferences(preferences: UserPreferences): Observable<MessageRes> {
     let params = JSON.stringify(preferences);
-    return this.http.put<{ message: string }>(
-      `${this.apiUserURL}preference`,
-      params
-    );
+    return this.http.put<MessageRes>(`${this.apiUserURL}preference`, params);
   }
 
-  dropUser(password:string,passwordConfirm:string): Observable<any>{
-    const body = JSON.stringify({password:password, confirm:passwordConfirm});
-    return this.http.post(`${this.apiUserURL}delete`,body)
+  dropUser(password: string, passwordConfirm: string): Observable<MessageRes> {
+    const body = JSON.stringify({
+      password: password,
+      confirm: passwordConfirm,
+    });
+    return this.http.post<MessageRes>(`${this.apiUserURL}delete`, body);
   }
 }

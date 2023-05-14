@@ -3,6 +3,11 @@ import { Subject, takeUntil } from 'rxjs';
 import { SidebarService } from 'src/app/helpers/services/sidebar.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
+import { LastPosts } from 'src/app/models/receive/last-posts';
+import { ForumStats } from 'src/app/models/receive/forum-stats';
+import { User } from 'src/app/models/user';
+import { UserStats } from 'src/app/models/receive/user-stats';
+import { MessageRes } from 'src/app/models/common/message-res';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,17 +17,11 @@ import { AuthService } from 'src/app/modules/auth/service/auth.service';
 export class SidebarComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public theme: string;
-  public userData: any;
+  public userData: UserStats;
   public userLocalData: any;
   public userLoggedIn: boolean;
-  public lastPosts: Array<any>;
-  public forumStats: {
-    topics: number;
-    posts: number;
-    users: number;
-    lastUser: any;
-    lastPoll: any;
-  };
+  public lastPosts: LastPosts[];
+  public forumStats: ForumStats;
   public loading: boolean;
   public coll: boolean;
   public lastPostToggle: boolean;
@@ -38,12 +37,24 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private sidebarService: SidebarService
   ) {
     this.unsubscribe$ = new Subject();
+    this.userData = {
+      messages: 0,
+      pms: 0,
+      newPms: 0,
+    }
     this.forumStats = {
       topics: 0,
       posts: 0,
       users: 0,
-      lastUser: {},
-      lastPoll: {},
+      lastUser: {
+        id: 0,
+        nick: '',
+      },
+      lastPoll: {
+        id: 0,
+        name: '',
+        topic_id: 0,
+      },
     };
     this.lastPosts = [];
     this.userLoggedIn = false;
@@ -67,7 +78,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
             .getData()
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe({
-              next: (r: any) => {
+              next: (r: UserStats) => {
                 this.userData = r;
               },
             });
@@ -81,7 +92,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .getPosts()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: (r: Array<any>) => {
+        next: (r: LastPosts[]) => {
           this.lastPosts = r;
           setTimeout(() => {
             this.lastPostToggle = false;
@@ -93,7 +104,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .getForumStats()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: (r: any) => {
+        next: (r: ForumStats) => {
           this.forumStats = r;
           this.loading = false;
         },
@@ -101,14 +112,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((t) => {
+      .subscribe((t: string) => {
         this.theme = t;
       });
   }
 
   editSidebar() {
     this.sidebarService.editSidebar(this.order === 0 ? true : false).subscribe({
-      next: (res) => {
+      next: (_: MessageRes) => {
         this.order = this.order ? 0 : 1;
         this.authService.autoAuthUser();
       },

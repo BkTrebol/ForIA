@@ -19,35 +19,36 @@ class PrivateMessageController extends Controller
         $deleteReceived = $request->receivedMessages;
 
         foreach($deleteSent as $pmId){
-                $pm = PrivateMessage::find($pmId);
-                if($pm->sender_id == $user->id){
-                    if($pm->deleted_by == null){
-                        $pm->deleted_by = $user->id;
-                        $pm->save();
-                    } else{
-                        if($pm->deleted_by == $pm->receiver_id){
-                            $pm->delete();
-                        }
+            $pm = PrivateMessage::find($pmId);
+            if($pm->sender_id == $user->id){
+                if($pm->deleted_by == null){
+                    $pm->deleted_by = $user->id;
+                    $pm->save();
+                } else{
+                    if($pm->deleted_by == $pm->receiver_id){
+                        $pm->delete();
                     }
                 }
             }
-
-            foreach($deleteReceived as $pmId){
-                $pm = PrivateMessage::find($pmId);
-                if($pm->receiver_id == $user->id){
-                    if($pm->deleted_by == null){
-                        $pm->deleted_by = $user->id;
-                        $pm->save();
-                    } else{
-                        if($pm->deleted_by == $pm->sender_id){
-                            $pm->delete();
-                        }
-                    }
-                }
-            }
-
-            return response()->json('Messages Deleted succesfully',200);
         }
+
+        foreach($deleteReceived as $pmId){
+            $pm = PrivateMessage::find($pmId);
+            if($pm->receiver_id == $user->id){
+                if($pm->deleted_by == null){
+                    $pm->deleted_by = $user->id;
+                    $pm->save();
+                } else{
+                    if($pm->deleted_by == $pm->sender_id){
+                        $pm->delete();
+                    }
+                }
+            }
+        }
+
+        return response()->json(['message' => 'Messages Deleted successfully'],200);
+    }
+
     function getMessages()
     {
         $user = Auth::user();
@@ -57,7 +58,7 @@ class PrivateMessageController extends Controller
                 ->orWhereNull('deleted_by');
         })->with('sender:id,nick')
             ->orderBy('created_at', 'desc')->select(['id', 'sender_id', 'title', 'created_at', 'viewed']);
-        
+
 
         $querySent = PrivateMessage::where('sender_id', $user->id)->where(function ($query) use ($user) {
             $query->where('deleted_by', '<>', $user->id)
@@ -100,6 +101,7 @@ class PrivateMessageController extends Controller
             ]
         ]);
     }
+
     function getMessagesSent()
     {
         $user = Auth::user();
@@ -119,7 +121,6 @@ class PrivateMessageController extends Controller
             ]
         ]);
     }
-
 
     function getPrivateMessage(PrivateMessage $pm)
     {
@@ -146,12 +147,13 @@ class PrivateMessageController extends Controller
         if($page !== $requestedPage){
             $thread = $query->paginate(10, ['*'], 'page', $page);
         }
-        
+
         $pm->load('sender:nick,id,avatar,created_at,public_role_id','sender.publicRole');
         $recipient = $user->id == $pm->receiver_id ? $pm->sender_id : $pm->receiver_id;
         if ($thread->currentPage() != 1) {
             $pm = $pm->only('id', 'receiver_id', 'sender_id', 'thread_id', 'sender', 'title');
         };
+
         $response = [
             "message" => $pm,
             "thread" => $thread->items(),
@@ -228,6 +230,7 @@ class PrivateMessageController extends Controller
             'title' => $pm->title,
         ], 200);
     }
+    
 // function sendMessage(Request $request){
 //     $user = Auth::user();
 

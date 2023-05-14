@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import { Global } from 'src/environment/global';
 import {
   ListPm,
-  PrivateMessage,
   PrivateMessageList,
   newPrivateMessage,
 } from 'src/app/models/receive/list-pm';
+import { MessageRes } from 'src/app/models/common/message-res';
 
 @Injectable({
   providedIn: 'root',
@@ -19,10 +19,14 @@ export class PrivateMessageService {
     this.apiPrivateMessageURL = Global.api + 'pm/';
   }
 
-  delete(sentArray:Array<number>,receivedArray:Array<number>): Observable<any>{
-    const body = JSON.stringify({sentMessages:sentArray,receivedMessages:receivedArray});
-    return this.http.delete(`${this.apiPrivateMessageURL}`,{body:body})
-
+  delete(sentArray: number[], receivedArray: number[]): Observable<MessageRes> {
+    const body = JSON.stringify({
+      sentMessages: sentArray,
+      receivedMessages: receivedArray,
+    });
+    return this.http.delete<MessageRes>(`${this.apiPrivateMessageURL}`, {
+      body: body,
+    });
   }
   getReceived(page: number): Observable<ListPm> {
     return this.http.get<ListPm>(
@@ -36,9 +40,13 @@ export class PrivateMessageService {
     );
   }
 
-  getMessages(rpage:number,spage:number): Observable<{received:ListPm,sent:ListPm}> {
-    // console.log(`${this.apiPrivateMessageURL}?rpage=${rpage}&spage=${spage}`)
-    return this.http.get<{received:ListPm,sent:ListPm}>(`${this.apiPrivateMessageURL}?rpage=${rpage}&spage=${spage}`);
+  getMessages(
+    rpage: number,
+    spage: number
+  ): Observable<{ received: ListPm; sent: ListPm }> {
+    return this.http.get<{ received: ListPm; sent: ListPm }>(
+      `${this.apiPrivateMessageURL}?rpage=${rpage}&spage=${spage}`
+    );
   }
 
   getMessage(id: string, page: number): Observable<PrivateMessageList> {
@@ -51,9 +59,9 @@ export class PrivateMessageService {
     return this.http.get<any>(`${Global.api}user/list/`);
   }
 
-  getTopic(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiPrivateMessageURL}topic/${id}`);
-  }
+  // getTopic(id: number): Observable<any> {
+  //   return this.http.get<any>(`${this.apiPrivateMessageURL}topic/${id}`);
+  // }
 
   getThread(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiPrivateMessageURL}reply/${id}`);

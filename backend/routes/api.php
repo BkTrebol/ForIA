@@ -43,13 +43,13 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::controller(LoginController::class)->group(function(){
             Route::get('/data','userData');
             Route::get('/logout','logout');
-           
+
         });
         Route::controller(RegisterController::class)->group(function(){
             Route::get('/verify/{id}/{hash}','verifyEmail')
             ->middleware('signed')->name('verification.verify');
         });
-       
+
 
     });
 
@@ -150,7 +150,7 @@ Route::middleware('auth:sanctum')->group(function(){
             Route::get('/list','getList');
             Route::post('/check/nick','checkNick');
             Route::post('/check/email','checkEmail');
-            Route::put('/update','updateUser'); 
+            Route::put('/update','updateUser');
             Route::get('/{user}','getUser');
             Route::delete('/{user}','deleteUser');
         });
@@ -179,12 +179,12 @@ Route::prefix('auth')->group(function(){
         Route::get('/resendVerification','sendVerificationEmail');
     });
 
-
 });
+
 Route::controller(PasswordResetController::class)->prefix('auth')->group(function(){
     Route::post('/resetPassword','sendResetLink');
     Route::post('/password','reset');
-    
+
 });
 
 Route::controller(CategoryController::class)->prefix('category')->group(function(){
@@ -222,7 +222,7 @@ Route::controller(UploadController::class)->prefix('upload')->group(function(){
 });
 
 Route::controller(SidebarController::class)->prefix('sidebar')->group(function(){
-    Route::get('/lastFive','lastFive');
+    Route::get('/lastFive','getLastFive');
     Route::get('/forumStats','getForumStats');
 });
 

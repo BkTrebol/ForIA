@@ -5,6 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from 'src/app/helpers/services/toast.service';
+import { MessageRes } from 'src/app/models/common/message-res';
 
 @Component({
   selector: 'app-list',
@@ -17,8 +18,8 @@ export class ListComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public theme: string;
   public showReceived: boolean;
-  public deleteSent: Array<number>;
-  public deleteReceived: Array<number>;
+  public deleteSent: number[];
+  public deleteReceived: number[];
 
   constructor(
     private themeService: ThemeService,
@@ -83,9 +84,9 @@ export class ListComponent implements OnInit, OnDestroy {
       .delete(this.deleteSent, this.deleteReceived)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: (r) => {
+        next: (r: MessageRes) => {
           this.getMessages();
-          this.toastService.show('Message deleted successfully');
+          this.toastService.show(r.message);
         },
         error: (e) => console.error(e),
       });

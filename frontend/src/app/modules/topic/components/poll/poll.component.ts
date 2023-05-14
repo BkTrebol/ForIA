@@ -4,6 +4,7 @@ import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { TopicService } from '../../service/topic.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Poll } from 'src/app/models/send/create-topic';
+import { ToastService } from 'src/app/helpers/services/toast.service';
 
 @Component({
   selector: 'app-poll',
@@ -24,7 +25,8 @@ export class PollComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private topicService: TopicService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {
     this.unsubscribe$ = new Subject();
     this.loading = true;
@@ -59,26 +61,27 @@ export class PollComponent implements OnInit, OnDestroy {
 
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((t) => {
+      .subscribe((t: string) => {
         this.theme = t;
       });
   }
 
-  onAddOption() {
+  onAddOption(): void {
     this.poll.options.push({ option: '' });
   }
 
-  onDeleteOption(index: number) {
+  onDeleteOption(index: number): void {
     this.poll.options.splice(index, 1);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.poll.finish_date && this.poll.finish_date >= new Date().toJSON().slice(0, 10)) {
       this.topicService
         .poll(this.topicId, this.poll)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (r) => {
+            this.toastService.show(r.message);
             this.router.navigate([`/topic/${r.id}`]);
           },
           error: (e) => console.log(e),
