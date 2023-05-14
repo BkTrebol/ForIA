@@ -290,6 +290,19 @@ No changes
       fa-icon {
         margin-right: 8px;
       }
+      li {
+        a span,
+        p span {
+          @include no;
+        }
+        &.dropdown {
+          .dropdown-content {
+            a span {
+              display: inline;
+            }
+          }
+        }
+      }
     }
   }
   // Responsive for mobile

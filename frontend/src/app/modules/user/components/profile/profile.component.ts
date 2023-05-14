@@ -1,16 +1,16 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Observable, Subject, catchError, map, takeUntil } from 'rxjs';
+import { Observable, Subject, map, takeUntil } from 'rxjs';
 import { UserService } from '../../service/user.service';
 import { PublicUserProfile } from 'src/app/models/receive/user-profile';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import { EChartsOption } from 'echarts';
 import { HttpClient } from '@angular/common/http';
 import { User } from 'src/app/models/user';
-import {  TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
@@ -36,11 +36,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router,
     private themeService: ThemeService,
     private toastService: ToastService,
     private http: HttpClient,
-    private _translateService: TranslateService,
+    private _translateService: TranslateService
   ) {
     this.unsubscribe$ = new Subject();
     this.id = this.route.snapshot.paramMap.get('id') ?? '';
@@ -54,7 +53,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       avatar: '',
       public_role: {
         name: '',
-        description: ''
+        description: '',
       },
       created_at: '',
       last_seen: '',
@@ -82,7 +81,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
             this.user.id == this.userAuth.id &&
             !this.userAuth.isVerified
           ) {
-            this.toastService.show(this._translateService.instant('VERIFY_EMAIL'));
+            this.toastService.show(
+              this._translateService.instant('VERIFY_EMAIL')
+            );
           } else {
             this.userAuth = this.authService.user?.userData;
           }

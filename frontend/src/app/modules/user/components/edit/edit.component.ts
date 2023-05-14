@@ -190,7 +190,7 @@ export class EditComponent implements OnInit, OnDestroy {
     this.getPref();
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((t) => {
+      .subscribe((t: string) => {
         this.theme = t;
       });
   }
@@ -209,9 +209,11 @@ export class EditComponent implements OnInit, OnDestroy {
             next: (res) => {
               this._authService.autoAuthUser();
               this.toastService.show(this._translateService.instant(res.message));
+              this.loading2 = false;
             },
             error: (err) => {
               this.error = err.error.message;
+              this.loading2 = false;
             },
             complete: () => {
               this.loading2 = false;
@@ -225,9 +227,11 @@ export class EditComponent implements OnInit, OnDestroy {
             next: (res) => {
               this.toastService.show(this._translateService.instant(res.message));
               this._authService.autoAuthUser();
+              this.loading2 = false;
             },
             error: (err) => {
               this.error = err.error.message;
+              this.loading2 = false;
             },
             complete: () => {
               this.loading2 = false;
@@ -286,10 +290,12 @@ export class EditComponent implements OnInit, OnDestroy {
             this._translateService.use(this.preferences.language);
             this._authService.autoAuthUser();
             this.toastService.show(this._translateService.instant(res.message));
+            this.loading2 = false;
           },
           error: (err) => {
             this._authService.autoAuthUser();
             console.log(err);
+            this.loading2 = false;
           },
           complete: () => {
             this.loading2 = false;
