@@ -3,6 +3,7 @@ import { SharedModule } from 'src/app/modules/share.module';
 import { CreateComponent } from './create.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('CreateComponent', () => {
   let component: CreateComponent;
@@ -10,7 +11,12 @@ describe('CreateComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SharedModule, HttpClientTestingModule, RouterTestingModule],
+      imports: [
+        SharedModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+        TranslateModule.forRoot(),
+      ],
       declarations: [CreateComponent],
     }).compileComponents();
 

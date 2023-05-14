@@ -20,7 +20,7 @@ import { User } from './models/user';
 import { UserPreferences } from './models/user-preferences';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from './helpers/services/toast.service';
-import {  TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -35,7 +35,8 @@ export class AppComponent implements OnInit, OnDestroy {
   } | null;
   public loading: boolean;
   public theme: string;
-  public isAdminRoute:boolean;
+  public isAdminRoute: boolean;
+  
   constructor(
     private _authService: AuthService,
     private router: Router,
@@ -43,14 +44,13 @@ export class AppComponent implements OnInit, OnDestroy {
     private cdRef: ChangeDetectorRef,
     private toastService: ToastService,
     private _translateService: TranslateService
-
   ) {
-    const lang = localStorage.getItem('lang')
+    const lang = localStorage.getItem('lang');
     const browserLang = navigator.language;
-    if(lang != null && lang != ''){
-      this._translateService.use(lang)
-    } else{
-      this._translateService.use(browserLang)
+    if (lang != null && lang != '') {
+      this._translateService.use(lang);
+    } else {
+      this._translateService.use(browserLang);
     }
 
     this.unsubscribe$ = new Subject();
@@ -60,28 +60,41 @@ export class AppComponent implements OnInit, OnDestroy {
     this.theme = themeService.getTheme();
     this.isAdminRoute = false;
     this.router.events
-      .pipe(filter((event) => event instanceof NavigationStart || event instanceof NavigationEnd))
+      .pipe(
+        filter(
+          (event) =>
+            event instanceof NavigationStart || event instanceof NavigationEnd
+        )
+      )
       .subscribe((event: any) => {
         this.isAdminRoute = event.url.startsWith('/admin');
-        if(event instanceof NavigationEnd && event.url.startsWith('/admin')){
+        if (event instanceof NavigationEnd && event.url.startsWith('/admin')) {
           this.loading = false;
         }
-        if (event instanceof NavigationStart && event.url.startsWith('/admin')) {
+        if (
+          event instanceof NavigationStart &&
+          event.url.startsWith('/admin')
+        ) {
           this.loading = true;
         }
       });
   }
 
   ngOnInit() {
-
     this._authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {
         this.userIsAuthenticated = r;
-        this._translateService.use(r?.userPreferences.language??'es')
-        if (this.userIsAuthenticated && !this.userIsAuthenticated.userData.isVerified 
-          && !this.router.url.includes('auth/verify')
-          ) {
-          this.toastService.showVerification(this._translateService.instant('VERIFY_EMAIL')+";;"+this._translateService.instant('RESEND_EMAIL'))
+        this._translateService.use(r?.userPreferences.language ?? 'es');
+        if (
+          this.userIsAuthenticated &&
+          !this.userIsAuthenticated.userData.isVerified &&
+          !this.router.url.includes('auth/verify')
+        ) {
+          this.toastService.showVerification(
+            this._translateService.instant('VERIFY_EMAIL') +
+              ';;' +
+              this._translateService.instant('RESEND_EMAIL')
+          );
         }
       },
     });

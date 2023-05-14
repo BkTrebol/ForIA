@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SharedModule } from 'src/app/modules/share.module';
 import { LoadingComponent } from './loading.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('LoadingComponent', () => {
   let component: LoadingComponent;
@@ -8,10 +9,9 @@ describe('LoadingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SharedModule],
-      declarations: [ LoadingComponent ]
-    })
-    .compileComponents();
+      imports: [SharedModule, TranslateModule.forRoot()],
+      declarations: [LoadingComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LoadingComponent);
     component = fixture.componentInstance;

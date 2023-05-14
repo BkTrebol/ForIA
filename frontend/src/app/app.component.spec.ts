@@ -6,6 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SharedModule } from 'src/app/modules/share.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('AppComponent Test', () => {
   let app: AppComponent;
@@ -18,6 +19,7 @@ describe('AppComponent Test', () => {
         HttpClientTestingModule,
         FontAwesomeModule,
         SharedModule,
+        TranslateModule.forRoot(),
       ],
       declarations: [AppComponent, HeaderComponent, FooterComponent],
     }).compileComponents();

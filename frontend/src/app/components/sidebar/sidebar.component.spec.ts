@@ -4,6 +4,7 @@ import { SidebarComponent } from './sidebar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from 'src/app/modules/share.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
@@ -16,6 +17,7 @@ describe('SidebarComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule,
         SharedModule,
+        TranslateModule.forRoot(),
       ],
       declarations: [SidebarComponent],
     }).compileComponents();

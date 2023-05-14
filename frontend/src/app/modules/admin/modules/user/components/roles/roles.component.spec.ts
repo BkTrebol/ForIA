@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RolesComponent } from './roles.component';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('RolesComponent', () => {
   let component: RolesComponent;
@@ -9,7 +10,11 @@ describe('RolesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, FontAwesomeTestingModule],
+      imports: [
+        HttpClientTestingModule,
+        FontAwesomeTestingModule,
+        TranslateModule.forRoot(),
+      ],
       declarations: [RolesComponent],
     }).compileComponents();
 

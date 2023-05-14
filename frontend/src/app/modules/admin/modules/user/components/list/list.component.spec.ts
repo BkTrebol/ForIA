@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ListComponent } from './list.component';
 import { SharedModule } from 'src/app/modules/admin/modules/shared.module';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
+import { TranslateModule } from '@ngx-translate/core';
 describe('ListComponent', () => {
   let component: ListComponent;
   let fixture: ComponentFixture<ListComponent>;
@@ -15,6 +16,7 @@ describe('ListComponent', () => {
         RouterTestingModule,
         SharedModule,
         FontAwesomeTestingModule,
+        TranslateModule.forRoot(),
       ],
       declarations: [ListComponent],
     }).compileComponents();

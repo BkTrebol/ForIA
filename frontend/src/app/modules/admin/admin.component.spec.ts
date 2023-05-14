@@ -3,6 +3,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AdminComponent } from './admin.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('AdminComponent', () => {
   let component: AdminComponent;
@@ -10,7 +11,11 @@ describe('AdminComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
+      ],
       declarations: [AdminComponent, SidenavComponent],
     }).compileComponents();
 

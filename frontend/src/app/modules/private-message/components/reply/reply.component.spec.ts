@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/modules/share.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ReplyComponent', () => {
   let component: ReplyComponent;
@@ -22,6 +23,7 @@ describe('ReplyComponent', () => {
         ReactiveFormsModule,
         FormsModule,
         SharedModule,
+        TranslateModule.forRoot(),
       ],
       declarations: [ReplyComponent],
     }).compileComponents();

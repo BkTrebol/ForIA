@@ -4,6 +4,7 @@ import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testi
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SharedModule } from 'src/app/modules/share.module';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -16,6 +17,7 @@ describe('HeaderComponent', () => {
         HttpClientTestingModule,
         SharedModule,
         RouterTestingModule,
+        TranslateModule.forRoot(),
       ],
       declarations: [HeaderComponent],
     }).compileComponents();

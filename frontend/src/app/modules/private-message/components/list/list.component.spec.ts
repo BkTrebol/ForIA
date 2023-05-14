@@ -4,6 +4,7 @@ import { ListComponent } from './list.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { SharedModule } from 'src/app/modules/share.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ListComponent', () => {
   let component: ListComponent;
@@ -16,6 +17,7 @@ describe('ListComponent', () => {
         FontAwesomeTestingModule,
         RouterTestingModule,
         SharedModule,
+        TranslateModule.forRoot(),
       ],
       declarations: [ListComponent],
     }).compileComponents();

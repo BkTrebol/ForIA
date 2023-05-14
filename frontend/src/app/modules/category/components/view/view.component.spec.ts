@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ViewComponent } from './view.component';
 import { SharedModule } from 'src/app/modules/share.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ViewComponent', () => {
   let component: ViewComponent;
@@ -15,7 +16,8 @@ describe('ViewComponent', () => {
         HttpClientTestingModule,
         FontAwesomeTestingModule,
         RouterTestingModule,
-        SharedModule
+        SharedModule,
+        TranslateModule.forRoot(),
       ],
       declarations: [ViewComponent],
     }).compileComponents();

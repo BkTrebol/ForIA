@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EditComponent } from './edit.component';
 import { SharedModule } from 'src/app/modules/admin/modules/shared.module';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('EditComponent', () => {
   let component: EditComponent;
@@ -16,6 +17,7 @@ describe('EditComponent', () => {
         RouterTestingModule,
         SharedModule,
         FontAwesomeTestingModule,
+        TranslateModule.forRoot(),
       ],
       declarations: [EditComponent],
     }).compileComponents();

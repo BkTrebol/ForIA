@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ChangePasswordComponent } from './change-password.component';
 import { FontAwesomeTestingModule } from '@fortawesome/angular-fontawesome/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ChangePasswordComponent', () => {
   let component: ChangePasswordComponent;
@@ -14,6 +15,7 @@ describe('ChangePasswordComponent', () => {
         HttpClientTestingModule,
         FontAwesomeTestingModule,
         ReactiveFormsModule,
+        TranslateModule.forRoot(),
       ],
       declarations: [ChangePasswordComponent],
     }).compileComponents();
