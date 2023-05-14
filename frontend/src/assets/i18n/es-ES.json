@@ -203,6 +203,7 @@
     "USERS": "Usuarios:",
     "LAST_USER": "Último usuario:",
     "LAST_POLL": "Última encuesta:",
+    "USER_NOT_FOUND": "Usuario no encontrado",
     
     "User created successfully": "Usuario creado exitosamente",
     "User email verified": "Email de usuario verificado",

@@ -203,6 +203,8 @@
     "USERS": "Users:",
     "LAST_USER":"Last user:",
     "LAST_POLL":"Last poll:",
+    "USER_NOT_FOUND": "User not found",
+    
     "User created successfully":"User created successfully",
     "User email verified":"User email verified",
     "Account linked to Google account successfully":"Account linked to Google account successfully",

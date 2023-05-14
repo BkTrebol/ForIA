@@ -126,20 +126,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.themeService.changeTheme(this.theme);
   }
 
-  changeUser() {
-    if (this.user) {
-      this._authService
-        .changeUser(this.user)
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe({
-          next: (res) => {
-            this._authService.autoAuthUser();
-            this.toastService.show(res.message);
-          },
-          error: (e) => console.log(e),
-        });
-    }
-  }
 
   // Logout the user
   logout(): void {

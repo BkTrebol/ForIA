@@ -5,6 +5,7 @@ import { TopicService } from '../../service/topic.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Poll } from 'src/app/models/send/create-topic';
 import {  TranslateService } from '@ngx-translate/core';
+import { ToastService } from 'src/app/helpers/services/toast.service';
 
 @Component({
   selector: 'app-poll',
@@ -26,7 +27,8 @@ export class PollComponent implements OnInit, OnDestroy {
     private topicService: TopicService,
     private route: ActivatedRoute,
     private router: Router,
-    private _translateService: TranslateService
+    private _translateService: TranslateService,
+    private _toastService: ToastService
 
   ) {
     this.unsubscribe$ = new Subject();
@@ -82,7 +84,7 @@ export class PollComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (r) => {
-            this.toastService.show(r.message);
+            this._toastService.show(this._translateService.instant(r.message));
             this.router.navigate([`/topic/${r.id}`]);
           },
           error: (e) => console.log(e),
