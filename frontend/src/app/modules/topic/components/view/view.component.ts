@@ -51,7 +51,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     private _translateService: TranslateService
 
   ) {
-    
+
     this.newPostId = '';
     this.showResults = false;
     this.vote = null;
@@ -112,7 +112,8 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.post_delete = NaN;
     this.post_by = '';
   }
-  ngOnInit() {
+
+  ngOnInit(): void {
     this.route.params
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((params: Params) => {
@@ -135,6 +136,7 @@ export class ViewComponent implements OnInit, OnDestroy {
         this.theme = t;
       });
   }
+  
   getData(id: string, page: string, noScroll: boolean = false) {
     this.topicService
       .posts(id, page)

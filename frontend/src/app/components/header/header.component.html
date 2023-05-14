@@ -77,7 +77,6 @@
         </li>
     </ul>
     <ul class="ng-select">
-
         <li *ngIf="development">
             <ng-select [(ngModel)]="user" (change)="changeUser()">
                 <ng-option *ngFor="let user of userList$ | async" [value]="user.id">{{user.id + '-' +

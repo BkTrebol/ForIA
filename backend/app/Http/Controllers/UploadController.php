@@ -22,7 +22,7 @@ class UploadController extends Controller
             ]);
     }
 
-    function getImage($disk,$image){
+    function getImage($disk, $image){
         if (Storage::disk($disk)->exists($image)){
             return response(Storage::disk($disk)->get($image),200);
         } else{
