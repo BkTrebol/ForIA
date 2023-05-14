@@ -19,7 +19,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((t) => {
+      .subscribe((t: string) => {
         this.theme = t;
       });
   }

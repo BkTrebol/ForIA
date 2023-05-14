@@ -7,6 +7,8 @@ import { ListTopics } from 'src/app/models/receive/list-topics';
 import { Topic } from 'src/app/models/send/create-topic';
 import { EditTopic } from 'src/app/models/receive/edit-topic';
 import { OneTopic } from 'src/app/models/receive/edit-topic';
+import { MessageRes } from 'src/app/models/common/message-res';
+import { ListSimple } from 'src/app/models/receive/list-simple';
 
 @Injectable({
   providedIn: 'root',
@@ -45,14 +47,12 @@ export class CategoryService {
     return this.http.get<EditTopic>(`${this.apiTopicURL}one-topic/${id}`);
   }
 
-  allCateogry(): Observable<{ id: number; title: string }[]> {
-    return this.http.get<{ id: number; title: string }[]>(
-      `${this.apiCategoryURL}all-category/`
-    );
+  allCateogry(): Observable<ListSimple> {
+    return this.http.get<ListSimple>(`${this.apiCategoryURL}all-category/`);
   }
 
-  editTopic(id: string, topic: OneTopic): Observable<any> {
+  editTopic(id: string, topic: OneTopic): Observable<MessageRes> {
     let params = JSON.stringify(topic);
-    return this.http.put(`${this.apiTopicURL}${id}`, params);
+    return this.http.put<MessageRes>(`${this.apiTopicURL}${id}`, params);
   }
 }

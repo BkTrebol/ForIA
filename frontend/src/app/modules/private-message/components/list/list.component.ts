@@ -18,8 +18,8 @@ export class ListComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public theme: string;
   public showReceived: boolean;
-  public deleteSent: Array<number>;
-  public deleteReceived: Array<number>;
+  public deleteSent: number[];
+  public deleteReceived: number[];
 
   constructor(
     private themeService: ThemeService,
@@ -85,7 +85,7 @@ export class ListComponent implements OnInit, OnDestroy {
       .delete(this.deleteSent, this.deleteReceived)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: (r) => {
+        next: (r: MessageRes) => {
           this.getMessages();
           this.toastService.show(this._translateService.instant("MESSAGES_DELETED"));
         },

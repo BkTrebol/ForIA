@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public theme: string;
   public hover: boolean;
 
-  public userList$: Observable<any>;
+  public userList$: Observable<{ id: number; nick: string }[]>;
   public user: number;
 
   constructor(
@@ -98,7 +98,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // Set default theme
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((t) => {
+      .subscribe((t: string) => {
         this.theme = t;
       });
   }
@@ -124,6 +124,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
   changeTheme(): void {
     this.theme = this.theme == 'dark' ? 'light' : 'dark';
     this.themeService.changeTheme(this.theme);
+  }
+
+  changeUser() {
+    if (this.user) {
+      this._authService
+        .changeUser(this.user)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: (res) => {
+            this._authService.autoAuthUser();
+            this.toastService.show(res.message);
+          },
+          error: (e) => console.log(e),
+        });
+    }
   }
 
   // Logout the user

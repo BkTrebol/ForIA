@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { GetCreatePost, CreatePost } from 'src/app/models/send/create-post';
 import { EditPost } from 'src/app/models/receive/edit-post';
 import { environment } from 'src/environments/environment';
+import { MessageRes } from 'src/app/models/common/message-res';
+import { ListSimple, TopicTitle } from 'src/app/models/receive/list-simple';
 
 @Injectable({
   providedIn: 'root',
@@ -24,23 +26,16 @@ export class PostService {
     return this.http.get<EditPost>(`${this.apiPostURL}one-post/${id}`);
   }
 
-  editPost(id: string, post: CreatePost): Observable<{ message: string }> {
+  editPost(id: string, post: CreatePost): Observable<MessageRes> {
     let params = JSON.stringify(post);
-    return this.http.put<{ message: string }>(
-      `${this.apiPostURL}${id}`,
-      params
-    );
+    return this.http.put<MessageRes>(`${this.apiPostURL}${id}`, params);
   }
 
-  oneTopic(id: string): Observable<{ title: string }> {
-    return this.http.get<{ title: string }>(
-      `${this.apiPostURL}one-topic/${id}`
-    );
+  oneTopic(id: string): Observable<TopicTitle> {
+    return this.http.get<TopicTitle>(`${this.apiPostURL}one-topic/${id}`);
   }
 
-  allTopic(): Observable<{ id: number; title: string }[]> {
-    return this.http.get<{ id: number; title: string }[]>(
-      `${this.apiPostURL}all-topic/`
-    );
+  allTopic(): Observable<ListSimple> {
+    return this.http.get<ListSimple>(`${this.apiPostURL}all-topic/`);
   }
 }

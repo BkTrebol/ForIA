@@ -19,7 +19,7 @@ class SidebarController extends Controller
         $topics = $user->topics->count();
 
         $pmsReceied = $user->privateMessages->count();
-        $newPms = $user->privateMessages->where("viewed",false)->count();
+        $newPms = $user->privateMessages->where("viewed", false)->count();
 
         return response()->json([
             "messages" => $posts+$topics,
@@ -28,7 +28,7 @@ class SidebarController extends Controller
         ]);
     }
 
-    function lastFive()
+    function getLastFive()
     {
         $user = Auth::user();
         $roles = self::roles();
@@ -67,13 +67,13 @@ class SidebarController extends Controller
         $posts = Post::all()->count();
         $users = User::all()->count();
         $lastUser = User::orderBy('created_at','desc')->first();
-        $lastPoll = Poll::where('finish_date','>',now())->orWhere('finish_date',null)->orderBy('created_at','desc')->first();
+        $lastPoll = Poll::where('finish_date','>',now())->orWhere('finish_date', null)->orderBy('created_at','desc')->first();
 
         return response()->json([
             "topics" => $topics,
             "posts" => $posts,
             "users" => $users,
-            "lastUser" => $lastUser->only('id','nick','rol'),
+            "lastUser" => $lastUser->only('id','nick'),
             "lastPoll" => $lastPoll,
         ],200);
     }

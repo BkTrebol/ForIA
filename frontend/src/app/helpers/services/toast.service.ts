@@ -13,9 +13,11 @@ export class ToastService {
   show(textOrTpl: string | TemplateRef<any>, options: any = {}) {
     this.toasts.push({ textOrTpl, ...options });
   }
+
   showVerification(textOrTpl: string | TemplateRef<any>, options: any = {}){
     this.verificationToast.push({ textOrTpl, ...options });
   }
+  
   showDanger(textOrTpl: string | TemplateRef<any>, options: any = {}) {
     this.dangerToasts.push({ textOrTpl, ...options });
   }

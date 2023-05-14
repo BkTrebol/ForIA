@@ -8,6 +8,7 @@ import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { ResetPassword } from 'src/app/models/reset-password';
 import { ChangePassword } from 'src/app/models/change-password';
+import { MessageRes } from 'src/app/models/common/message-res';
 
 @Injectable({
   providedIn: 'root',
@@ -20,11 +21,11 @@ export class AuthService {
   public $isAdmin: Observable<boolean | null>;
   public loading$: Subject<boolean>;
   public verification?: {
-    id: string,
-    hash: string,
-    expires: string,
-    signature: string,
-  }
+    id: string;
+    hash: string;
+    expires: string;
+    signature: string;
+  };
 
   private userSubject: BehaviorSubject<any>;
   public authData: Observable<{
@@ -49,34 +50,39 @@ export class AuthService {
   }
 
   // ADMIN
-  getUserList(): Observable<any> {
-    return this.http.get<any>(`${environment.api}user/publiclist/`);
+  getUserList(): Observable<{ id: number; nick: string }[]> {
+    return this.http.get<{ id: number; nick: string }[]>(
+      `${environment.api}user/publiclist/`
+    );
   }
 
   // ADMIN
-  changeUser(user: number): Observable<{ message: string }> {
-    return this.http.get<{ message: string }>(
+  changeUser(user: number): Observable<MessageRes> {
+    return this.http.get<MessageRes>(
       `${this.apiAuthURL}adminlogin/${user}`
     );
   }
 
-  sendVerification(): Observable<any>{
-    return this.http.get(`${this.apiAuthURL}resendVerification`)
-  }
-  verifyEmail(verification:any): Observable<any>{
-    return this.http.get(`${this.apiAuthURL}verify/${verification.id}/${verification.hash}?expires=${verification.expires}&signature=${verification.signature}`);
+  sendVerification(): Observable<any> {
+    return this.http.get(`${this.apiAuthURL}resendVerification`);
   }
 
-  requestPasswordReset(email:string): Observable<any>{
-    const body = JSON.stringify({email:email})
-    return this.http.post(`${this.apiAuthURL}resetPassword`,body);
+  verifyEmail(verification: any): Observable<any> {
+    return this.http.get(
+      `${this.apiAuthURL}verify/${verification.id}/${verification.hash}?expires=${verification.expires}&signature=${verification.signature}`
+    );
+  }
+
+  requestPasswordReset(email: string): Observable<any> {
+    const body = JSON.stringify({ email: email });
+    return this.http.post(`${this.apiAuthURL}resetPassword`, body);
   }
 
   resetPassword(resetPassowrdData: ResetPassword): Observable<any> {
     let params = JSON.stringify(resetPassowrdData);
     return this.http.post(`${this.apiAuthURL}password`, params);
   }
-  
+
   getCSRF(): Observable<any> {
     return this.http.get<any>(`${this.baseURL}/sanctum/csrf-cookie`);
   }
@@ -111,33 +117,32 @@ export class AuthService {
 
   adminLogin(authData: AuthData): Observable<any> {
     let params = JSON.stringify(authData);
-    return this.http
-      .post(`${this.apiAdminURL}login`, params)
-      .pipe(
-        concatMap((r) => {
-          return this.checkLogin().pipe(
-            map((checkR) => {
-              return r;
-            })
-          );
-        })
-      );
+    return this.http.post(`${this.apiAdminURL}login`, params).pipe(
+      concatMap((r) => {
+        return this.checkLogin().pipe(
+          map((checkR) => {
+            return r;
+          })
+        );
+      })
+    );
   }
 
   checkAdmin(): Observable<any> {
-    return this.http.get(`${this.apiAdminURL}check`)
-    .pipe(map((r) => {
-      if(r){
-        this.isAdmin.next(true);
-      } else{
-        this.isAdmin.next(false);
-      }
-      return r;
-    }))
+    return this.http.get(`${this.apiAdminURL}check`).pipe(
+      map((r) => {
+        if (r) {
+          this.isAdmin.next(true);
+        } else {
+          this.isAdmin.next(false);
+        }
+        return r;
+      })
+    );
   }
 
   checkLogin(): Observable<any> {
-    return this.http.get(`${this.apiAuthURL}data`,).pipe(
+    return this.http.get(`${this.apiAuthURL}data`).pipe(
       map((r) => {
         this.userSubject.next(r);
         return r;
@@ -166,11 +171,9 @@ export class AuthService {
     return this.userSubject.value;
   }
 
-
-
-  logout(): Observable<{ message: string }> {
+  logout(): Observable<MessageRes> {
     this.userSubject.next(null);
     this.isAdmin.next(null);
-    return this.http.get<{ message: string }>(`${this.apiAuthURL}logout`);
+    return this.http.get<MessageRes>(`${this.apiAuthURL}logout`);
   }
 }

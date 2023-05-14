@@ -28,7 +28,6 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   public theme: string;
 
-  // @ViewChild('paginationLink') pagLink:ElementRef;
   constructor(
     private router: Router,
     public route: ActivatedRoute,
@@ -45,7 +44,7 @@ export class PaginationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((t) => {
+      .subscribe((t: string) => {
         this.theme = t;
       });
   }
@@ -67,7 +66,6 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   onKeyDown(event: KeyboardEvent) {
     let target = event.target as HTMLLinkElement;
-
     const keyCode = event.code;
     if (
       +event.key > this.last_page ||

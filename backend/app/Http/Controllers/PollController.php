@@ -158,6 +158,7 @@ class PollController extends Controller
             200
         );
     }
+    
     function editPoll(Poll $poll, Request $request)
     {
         $user = Auth::user();

@@ -62,26 +62,27 @@ export class PollComponent implements OnInit, OnDestroy {
 
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((t) => {
+      .subscribe((t: string) => {
         this.theme = t;
       });
   }
 
-  onAddOption() {
+  onAddOption(): void {
     this.poll.options.push({ option: '' });
   }
 
-  onDeleteOption(index: number) {
+  onDeleteOption(index: number): void {
     this.poll.options.splice(index, 1);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.poll.finish_date && this.poll.finish_date >= new Date().toJSON().slice(0, 10)) {
       this.topicService
         .poll(this.topicId, this.poll)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (r) => {
+            this.toastService.show(r.message);
             this.router.navigate([`/topic/${r.id}`]);
           },
           error: (e) => console.log(e),

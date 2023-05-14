@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CategoryService {
   private apiUrl: string;
@@ -16,25 +16,20 @@ export class CategoryService {
     this.catUrl = this.apiUrl+'category/';
   }
 
-
   getCategories(): Observable<any> {
     return this._http.get<any>(`${this.catUrl}list`);
   }
 
-  saveCategory(form:FormData):Observable<any> {
-    let headers = new HttpHeaders({
-      Accept: 'application/json',
-    });
-    return this._http.post<any>(`${this.catUrl}save`,form);
+  saveCategory(form: FormData): Observable<any> {
+    return this._http.post<any>(`${this.catUrl}save`, form);
   }
 
-  saveCategories(categories:Array<any>):Observable<any> {
-    const params = JSON.stringify({categories:categories})
-    return this._http.post<any>(`${this.catUrl}update`,params);
+  saveCategories(categories: Array<any>): Observable<any> {
+    const params = JSON.stringify({ categories: categories });
+    return this._http.post<any>(`${this.catUrl}update`, params);
   }
 
   getRoles(): Observable<any> {
     return this._http.get<any>(`${this.apiUrl}role/all`);
   }
-
 }
