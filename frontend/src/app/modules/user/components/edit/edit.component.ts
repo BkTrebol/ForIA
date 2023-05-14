@@ -215,9 +215,6 @@ export class EditComponent implements OnInit, OnDestroy {
               this.error = err.error.message;
               this.loading2 = false;
             },
-            complete: () => {
-              this.loading2 = false;
-            },
           });
       } else {
         this.userService
@@ -231,9 +228,6 @@ export class EditComponent implements OnInit, OnDestroy {
             },
             error: (err) => {
               this.error = err.error.message;
-              this.loading2 = false;
-            },
-            complete: () => {
               this.loading2 = false;
             },
           });

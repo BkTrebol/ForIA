@@ -9,12 +9,11 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, first, takeUntil } from 'rxjs';
-import { AuthService } from '../../../auth/service/auth.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ChangePassword } from 'src/app/models/change-password';
 import { UserService } from '../../service/user.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
-import {  TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 // Custom Validator
 function passwordMatchValidator(control: AbstractControl) {
@@ -22,12 +21,12 @@ function passwordMatchValidator(control: AbstractControl) {
   const confirmPassword = control?.get('password_confirmation');
 
   if (password?.value !== confirmPassword?.value) {
-    let errors = confirmPassword?.errors ?? {};
+    const errors = confirmPassword?.errors ?? {};
     errors['mismatch'] = true;
     confirmPassword?.setErrors(errors);
     return { passwordMismatch: true };
   } else {
-    let errors: ValidationErrors = confirmPassword?.errors ?? [];
+    const errors: ValidationErrors = confirmPassword?.errors ?? [];
     delete errors['mismatch'];
     confirmPassword?.setErrors(Object.keys(errors).length == 0 ? null : errors);
     return null;
@@ -78,7 +77,6 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     private router: Router,
     private themeService: ThemeService,
     private _translateService: TranslateService
-
   ) {
     this.unsubscribe$ = new Subject();
     this.theme = themeService.getTheme();
@@ -92,26 +90,31 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       password: '',
       password_confirmation: '',
     };
-    this.validationMessagesChangePassword = {
+    (this.validationMessagesChangePassword = {
       old_password: {
-        required: _translateService.instant("VALIDATION.PASSWORD.REQUIRED"),
-        minlength: _translateService.instant("VALIDATION.PASSWORD.MIN"),
-        pattern: _translateService.instant("VALIDATION.PASSWORD.PATTERN"),
-        mismatch: _translateService.instant("VALIDATION.PASSWORD.MISMATCH"),
+        required: _translateService.instant('VALIDATION.PASSWORD.REQUIRED'),
+        minlength: _translateService.instant('VALIDATION.PASSWORD.MIN'),
+        pattern: _translateService.instant('VALIDATION.PASSWORD.PATTERN'),
+        mismatch: _translateService.instant('VALIDATION.PASSWORD.MISMATCH'),
       },
       password: {
-        required: _translateService.instant("VALIDATION.PASSWORD.REQUIRED"),
-        minlength: _translateService.instant("VALIDATION.PASSWORD.MIN"),
-        pattern: _translateService.instant("VALIDATION.PASSWORD.PATTERN"),
+        required: _translateService.instant('VALIDATION.PASSWORD.REQUIRED'),
+        minlength: _translateService.instant('VALIDATION.PASSWORD.MIN'),
+        pattern: _translateService.instant('VALIDATION.PASSWORD.PATTERN'),
       },
       password_confirmation: {
-        required: _translateService.instant("VALIDATION.PASSWORD_CONFIRMATION.REQUIRED"),
-        minlength: _translateService.instant("VALIDATION.PASSWORD_CONFIRMATION.MIN"),
-        mismatch: _translateService.instant("VALIDATION.PASSWORD_CONFIRMATION.MISMATCH"),
+        required: _translateService.instant(
+          'VALIDATION.PASSWORD_CONFIRMATION.REQUIRED'
+        ),
+        minlength: _translateService.instant(
+          'VALIDATION.PASSWORD_CONFIRMATION.MIN'
+        ),
+        mismatch: _translateService.instant(
+          'VALIDATION.PASSWORD_CONFIRMATION.MISMATCH'
+        ),
       },
-    },
-  
-    this.formBuilderNonNullable = new FormBuilder().nonNullable;
+    }),
+      (this.formBuilderNonNullable = new FormBuilder().nonNullable);
     this.formChangePassword = this.formBuilderNonNullable.group(
       {
         old_password: [
@@ -159,6 +162,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
+            console.log(res);
             this.error = '';
             this.loading = false;
             this.toastService.show(this._translateService.instant(res.message));
@@ -190,7 +194,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      this.error = this._translateService.instant("VALIDATION.WRONG_FORMDATA");
+      this.error = this._translateService.instant('VALIDATION.WRONG_FORMDATA');
     }
   }
 
