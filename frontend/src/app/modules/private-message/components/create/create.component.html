@@ -1,12 +1,12 @@
 <div class="list-page {{theme}}">
     <div class="list">
         <div class="list-header">
-            <h1>New Message</h1>
+            <h1>{{"NEW_PM" |translate}}</h1>
         </div>
         <div class="list-body">
             <div class="editor-parent" *ngIf="userLogged">
                 <div class="custom-search">
-                    <input type="text" class="editor-title" placeholder="Title" [(ngModel)]="message.title" ngbTooltip="Title is Required">
+                    <input type="text" class="editor-title" placeholder="Title" [(ngModel)]="message.title" ngbTooltip="{{'TITLE_REQUIRED'|translate}}">
                     <div class="user-search">
                         <ng-select [placeholder]="'User'" [items]="userList$ | async" class="select" bindLabel="nick"
                             bindValue="id" [(ngModel)]="message.recipient">
@@ -17,7 +17,7 @@
                     <div class="user-card">
                         <app-avatar [user]="userLogged.userData"></app-avatar>
                         <div class="text">
-                            <a routerLink="/user/profile/{{userLogged.userData.id}}" ngbTooltip="View Your Profile">{{userLogged.userData.nick}}</a>
+                        <a routerLink="/user/profile/{{userLogged.userData.id}}" ngbTooltip="{{'VIEW_SELF_PROFILE'|translate}}">{{userLogged.userData.nick}}</a>
                             <small ngbTooltip="{{userLogged.userData.public_role.description}}" placement="bottom">{{userLogged.userData.public_role.name}}</small>
                         </div>
                     </div>

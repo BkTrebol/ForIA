@@ -10,6 +10,7 @@ import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { CategoryService } from 'src/app/modules/category/service/category.service';
 import { Global } from 'src/environment/global';
+import {  TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create',
@@ -36,7 +37,8 @@ export class CreateComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private router: Router,
     private toastService: ToastService,
-    private authService: AuthService
+    private authService: AuthService,
+    private _translateService: TranslateService
   ) {
     this.unsubscribe$ = new Subject();
     this.loading = false;
@@ -95,7 +97,7 @@ export class CreateComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.router.navigate([`/topic/${res.id}`]);
-          this.toastService.show(res.message);
+          this.toastService.show(this._translateService.instant(res.message));
         },
         error: (e) => console.log(e),
       });

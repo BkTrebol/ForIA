@@ -1,7 +1,7 @@
 <div class="list-page {{theme}}">
     <div class="list">
         <div class="list-header">
-            <h1 *ngIf="!loading">Reply to {{title}}</h1>
+            <h1 *ngIf="!loading">{{"REPLY_TO"|translate}} {{title}}</h1>
             <span *ngIf="loading" class="bot"><app-loading height="53px" width="250px"></app-loading></span>
         </div>
         <div class="list-body">

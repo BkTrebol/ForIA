@@ -15,10 +15,9 @@ return [
     //     'backend' => 'http://localhost:8000/api/', 
     //     'frontend' => 'http://localhost:4200/',
     // ],
-    'urlBackend' => '/api',
     'urls' => [
-        'backend' => '/api',
-        'frontend' => '/',
+        'backend' => env('BACKEND_URL'),
+        'frontend' => env('FRONTEND_URL'),
     ],
 
     'GOOGLE_CLIENT_ID' => env('GOOGLE_CLIENT_ID'),

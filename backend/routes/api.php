@@ -58,8 +58,7 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get('/edit','getUserData');
         Route::post('/edit','editUserData');
         Route::put('/password','changePassword');
-        Route::get('/preference','getUserPreferences');
-        Route::put('/preference','editUserPreference');
+
         Route::get('/list','getUserList');
         Route::post('/delete','deleteUser');
 
@@ -67,7 +66,9 @@ Route::middleware('auth:sanctum')->group(function(){
 
     // Preferences Routes
     Route::controller(PreferencesController::class)->prefix('preferences')->group(function(){
+        Route::get('/','getUserPreferences');
         Route::put('/sidebar','editSidebar');
+        Route::put('/all','editUserPreference');
     });
 
     // Topic routes.

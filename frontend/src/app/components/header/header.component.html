@@ -6,7 +6,7 @@
     <nav *ngIf="userIsAuthenticated">
         <ul>
             <li><a routerLink="/category/2" routerLinkActive="active"><fa-icon
-                        [icon]="['fas', 'newspaper']"></fa-icon><span>News</span></a>
+                        [icon]="['fas', 'newspaper']"></fa-icon><span>{{"NEWS"|translate}}</span></a>
             </li>
             <li><a routerLink="/topic/1" routerLinkActive="active"><fa-icon
                         [icon]="['fas', 'vial']"></fa-icon><span>Topic1</span></a>
@@ -24,18 +24,18 @@
                     <span>{{userIsAuthenticated.userData.nick}}</span>
                 </p>
                 <div class="dropdown-content {{hover ? 'noo': ''}}" (click)="hover=true">
-                    <a *ngIf="userIsAuthenticated.userData.isAdmin" routerLink="admin" routerLinkActive="active"><fa-icon [icon]="['fas', 'hammer']"></fa-icon> Admin</a>
+                    <a *ngIf="userIsAuthenticated.userData.isAdmin" routerLink="admin" routerLinkActive="active"><fa-icon [icon]="['fas', 'hammer']"></fa-icon>Admin</a>
                     <a routerLink="/private-message" routerLinkActive="active">
-                        <fa-icon [icon]="['fas', 'message']"></fa-icon><span>Messages</span>
+                        <fa-icon [icon]="['fas', 'message']"></fa-icon><span>{{"MESSAGES"|translate}}</span>
                     </a>
                     <a routerLink="/user/profile/{{userIsAuthenticated.userData.id}}" routerLinkActive="active"><fa-icon
-                            [icon]="['fas', 'user']"></fa-icon><span>Profile</span></a>
+                            [icon]="['fas', 'user']"></fa-icon><span>{{"PROFILE" | translate}}</span></a>
                     <a routerLink="/user/edit" routerLinkActive="active"><fa-icon
-                            [icon]="['fas', 'edit']"></fa-icon><span>Edit</span></a>
+                            [icon]="['fas', 'edit']"></fa-icon><span>{{"EDIT" | translate}}</span></a>
                     <a routerLink="/user/password" routerLinkActive="active"><fa-icon
-                        [icon]="['fas', 'lock']"></fa-icon><span>Password</span></a>
+                        [icon]="['fas', 'lock']"></fa-icon><span>{{"PASSWORD" | translate}}</span></a>
                     <a href="javascript:void(0);" (click)="logout()"><fa-icon
-                            [icon]="['fas', 'right-from-bracket']"></fa-icon><span>Logout</span></a>
+                            [icon]="['fas', 'right-from-bracket']"></fa-icon><span>{{"LOGOUT" | translate}}</span></a>
                 </div>
             </li>
         </ul>
@@ -44,24 +44,24 @@
     <nav *ngIf="!userIsAuthenticated">
         <ul>
             <li><a routerLink="/category/2" routerLinkActive="active"><fa-icon
-                        [icon]="['fas', 'newspaper']"></fa-icon><span>News</span></a>
+                        [icon]="['fas', 'newspaper']"></fa-icon><span>{{"NEWS"|translate}}</span></a>
             </li>
             <li><a routerLink="/topic/1" routerLinkActive="active"><fa-icon
                         [icon]="['fas', 'vial']"></fa-icon><span>Topic1</span></a>
             </li>
             <li>
-                <button ngbTooltip="Change to {{theme=='light' ? 'Dark': 'Light'}} Theme" aria-albel="Change the theme" type="button"
+                <button ngbTooltip="{{'CHANGE_TO' | translate}} {{theme=='light' ? 'Dark': 'Light'}} Theme" aria-albel="Change the theme" type="button"
                     (click)="changeTheme()"><fa-icon [icon]="['fas', theme=='light' ? 'moon': 'sun']"></fa-icon></button>
             </li>
         </ul>
         <ul>
             <li><a routerLink="/auth/register" routerLinkActive="active">
-                    <fa-icon [icon]="['fas', 'address-card']"></fa-icon><span>Register</span>
+                    <fa-icon [icon]="['fas', 'address-card']"></fa-icon><span>{{"REGISTER" | translate}}</span>
                 </a>
             </li>
             <li>
                 <a routerLink="/auth/login" routerLinkActive="active">
-                    <fa-icon [icon]="['fas', 'right-to-bracket']"></fa-icon><span>Login</span>
+                    <fa-icon [icon]="['fas', 'right-to-bracket']"></fa-icon><span>{{"LOGIN" | translate}}</span>
                 </a>
             </li>
         </ul>

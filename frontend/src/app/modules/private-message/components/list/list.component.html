@@ -1,17 +1,17 @@
 <div class="list-page {{theme}}">
     <div class="list" *ngIf="loading">
         <div class="list-header">
-            <h1>Private Messages</h1>
+            <h1>{{"PRIVATE_MESSAGES"|translate}}</h1>
             <div class="subt">
                 <div class="two-options">
                     <button class="btn2" disabled (click)="onShowReceived()">
                         <fa-icon [icon]="['fas', 'message']"></fa-icon>
-                        View Received</button>
+                        {{"VIEW_RECEIVED"|translate}}</button>
                     <button class="btn2" (click)="onShowSent()">
                         <fa-icon [icon]="['fas', 'paper-plane']"></fa-icon>
-                        View Sent</button>
+                        {{"VIEW_SENT"|translate}}</button>
                 </div>
-                <a class="btn-a" routerLink="new"><fa-icon [icon]="['fas', 'plus']"></fa-icon> New</a>
+                <a class="btn-a" routerLink="new"><fa-icon [icon]="['fas', 'plus']"></fa-icon> {{"NEW"|translate}}</a>
             </div>
         </div>
         <div class="list-body">
@@ -42,17 +42,17 @@
 
     <div class="list" *ngIf="!loading">
         <div class="list-header">
-            <h1>Private Messages</h1>
+            <h1>{{"PRIVATE_MESSAGES"|translate}}</h1>
             <div class="subt">
                 <div class="two-options">
                     <button class="btn2" [disabled]="showReceived" (click)="onShowReceived()">
                         <fa-icon [icon]="['fas', 'message']"></fa-icon>
-                        View Received</button>
+                        {{"VIEW_RECEIVED"|translate}}</button>
                     <button class="btn2" [disabled]="!showReceived" (click)="onShowSent()">
                         <fa-icon [icon]="['fas', 'paper-plane']"></fa-icon>
-                        View Sent</button>
+                        {{"VIEW_SENT"|translate}}</button>
                 </div>
-                <a class="btn-a" ngbTooltip="Create New Private Message" routerLink="new"><fa-icon [icon]="['fas', 'plus']"></fa-icon> New</a>
+                <a class="btn-a" ngbTooltip="Create New Private Message" routerLink="new"><fa-icon [icon]="['fas', 'plus']"></fa-icon>{{"NEW"|translate}}</a>
             </div>
         </div>
         <div class="list-body">
@@ -61,35 +61,35 @@
                     <div class="message" *ngFor="let pm of messages.received.messages">
                         <div class="mess">
                             <fa-icon [icon]="[pm.viewed ?'far' : 'fas', 'message']"
-                                ngbTooltip="{{pm.viewed ? 'Already Viewed' : 'Not Viewed'}}">
+                                ngbTooltip="{{pm.viewed ? ('VIEWED'|translate) : ('NOT_VIEWED'|translate)}}">
                             </fa-icon>
                             <div class="message-body">
-                                <a class="user-link" routerLink="{{pm.id}}" ngbTooltip="View the History of {{pm.title}}">{{pm.title}}</a>
+                                <a class="user-link" routerLink="{{pm.id}}" ngbTooltip="{{'VIEW_HISTORY'|translate}} {{pm.title}}">{{pm.title}}</a>
                                 <div class="user-date">
-                                    <a routerLink="/user/profile/{{pm.sender?.id}}" ngbTooltip="View the Profile of {{pm.sender?.nick}}" placement="bottom">{{pm.sender?.nick}}</a>
+                                    <a routerLink="/user/profile/{{pm.sender?.id}}" ngbTooltip="{{'VIEW_PROFILE'|translate}} {{pm.sender?.nick}}" placement="bottom">{{pm.sender?.nick}}</a>
                                     {{pm.created_at | ago}}
                                 </div>
                             </div>
                         </div>
-                        <div class="message-checkbox" ngbTooltip="Check for delete"><input type="checkbox" (click)="deletePm(pm.id,'received')"
+                        <div class="message-checkbox" ngbTooltip="{{'CHECK_DELETE'|translate}}"><input type="checkbox" (click)="deletePm(pm.id,'received')"
                                 [checked]="deleteReceived.includes(pm.id)"></div>
                     </div>
                     <div class="list-footer" *ngIf="messages.received.messages.length == 0">
-                        No Received Messages
+                        {{"NO_RECEIVED_MESSAGES"|translate}}
                     </div>
                     <div class="list-footer" *ngIf="messages.received.messages.length > 0">
                         <div class="align-right">
                             <button class="btn2" [disabled]="deleteReceived.length == 0" (click)="onDeletePms()">
                                 <fa-icon [icon]="['fas', 'trash']"></fa-icon>
-                                Delete Selected ({{deleteReceived.length}})</button>
+                                {{"DELETE_SELECTED"|translate}} ({{deleteReceived.length}})</button>
                         </div>
                         <app-pagination [current_page]="messages.received.page.current"
                             [last_page]="messages.received.page.last" [ignoreParams]="true"
                             (changePage)="changeReceivedPage($event)">
                         </app-pagination>
                         <div class="c">
-                            <div>Total Received Messages: {{messages.received.page.total}}</div>
-                            <div>Page: {{messages.received.page.current}}/{{messages.received.page.last}}</div>
+                            <div>{{"TOTAL_RECEIVED_MESSAGES"|translate}} {{messages.received.page.total}}</div>
+                            <div>{{"PAGE"|translate}} {{messages.received.page.current}}/{{messages.received.page.last}}</div>
                         </div>
                     </div>
                 </ng-container>
@@ -103,32 +103,32 @@
     <ng-container *ngIf="messages.sent">
         <div class="message" *ngFor="let pm of messages.sent.messages">
             <div class="mess">
-                <fa-icon [icon]="[pm.viewed ?'far' : 'fas', 'paper-plane']" ngbTooltip="{{pm.viewed ? 'Already Viewed' : 'Not Viewed'}}">></fa-icon>
+                <fa-icon [icon]="[pm.viewed ?'far' : 'fas', 'paper-plane']"></fa-icon>
                 <div class="message-body">
-                    <a routerLink="{{pm.id}}" ngbTooltip="View the History of {{pm.title}}">{{pm.title}}</a>
+                    <a routerLink="{{pm.id}}" ngbTooltip="{{'VIEW_HISTORY'|translate}} {{pm.title}}">{{pm.title}}</a>
                     <div class="user-date"><a class="user-link"
-                            routerLink="/user/profile/{{pm.receiver?.id}}" ngbTooltip="View the Profile of {{pm.receiver?.nick}}" placement="bottom">{{pm.receiver?.nick}}</a>
+                            routerLink="/user/profile/{{pm.receiver?.id}}" ngbTooltip="{{'VIEW_PROFILE'|translate}} {{pm.receiver?.nick}}" placement="bottom">{{pm.receiver?.nick}}</a>
                         {{pm.created_at | ago}}</div>
                 </div>
             </div>
-            <div class="message-checkbox" ngbTooltip="Check for delete"><input type="checkbox" (click)="deletePm(pm.id,'sent')"
+            <div class="message-checkbox" ngbTooltip="{{'CHECK_DELETE'|translate}}"><input type="checkbox" (click)="deletePm(pm.id,'sent')"
                     [checked]="deleteSent.includes(pm.id)"></div>
         </div>
         <div class="list-footer" *ngIf="messages.sent.messages.length == 0">
-            No Send Messages
+            {{"NO_SENT_MESSAGES"|translate}}
         </div>
         <div class="list-footer" *ngIf="messages.sent.messages.length > 0">
             <div class="align-right">
                 <button class="btn2" [disabled]="deleteSent.length == 0" (click)="onDeletePms()">
                     <fa-icon [icon]="['fas', 'trash']"></fa-icon>
-                    Delete Selected ({{deleteSent.length}})</button>
+                    {{"DELETE_SELECTED"|translate}} ({{deleteSent.length}})</button>
             </div>
             <app-pagination [current_page]="messages.sent.page.current" [last_page]="messages.sent.page.last"
                 [ignoreParams]="true" (changePage)="changeSentPage($event)">
             </app-pagination>
             <div class="c">
-                <div>Total Sent Messages: {{messages.sent.page.total}}</div>
-                <div>Page: {{messages.sent.page.current}}/{{messages.sent.page.last}}</div>
+                <div>{{"TOTAL_SENT_MESSAGES"|translate}} {{messages.sent.page.total}}</div>
+                <div>{{"PAGE"|translate}} {{messages.sent.page.current}}/{{messages.sent.page.last}}</div>
             </div>
         </div>
     </ng-container>

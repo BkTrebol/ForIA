@@ -84,37 +84,9 @@ class UserController extends Controller
         $user->update();
     }
 
-    function getUserPreferences(Request $request){
-        return response()->json($request->user()->preferences
-        ,200);
-    }
 
-    function editUserPreference(Request $request){
-        $preferences = Auth::user()->preferences;
 
-        $request->validate([
-            "sidebar" => ['boolean'],
-            "filter_bad_words" => ['boolean'],
-            "allow_view_profile" => ['boolean'],
-            "allow_user_to_mp" => ['boolean'],
-            "hide_email" => ['boolean'],
-            // "language" => ['string'],
-            "allow_music"=> ['boolean'],
-        ]);
 
-        $preferences->sidebar = $request->sidebar;
-        $preferences->filter_bad_words = $request->filter_bad_words;
-        $preferences->allow_view_profile = $request->allow_view_profile;
-        $preferences->allow_user_to_mp = $request->allow_user_to_mp;
-        $preferences->hide_email = $request->hide_email;
-        $preferences->allow_music = $request->allow_music;
-        // $preferences->language = $request->language;
-        $preferences->update();
-
-        return response()->json([
-            'message' => 'Preferences edited successfully'
-        ],200);
-    }
 
     function profile(User $user){
         $viewer = Auth::user();
@@ -136,7 +108,7 @@ class UserController extends Controller
             ,200);
         }else {
             return response()->json([
-                "message" => "Can't view user profile."
+                "message" => "Can't view user profile"
             ],403);
         }
     }
@@ -248,7 +220,7 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json([
-            "message" => "Falta implementar"
+            "message" => "User deleted successfully"
         ]);
     }
 }

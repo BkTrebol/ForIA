@@ -1,21 +1,21 @@
 <div class="list-page {{theme}}">
   <div class="list">
     <div class="list-header">
-      <h1>Edit Topic</h1>
+      <h1>{{"EDIT_TOPIC"|translate}}</h1>
     </div>
     <div class="list-body">
       <div class="create-topic" *ngIf="userLogged">
         <div class="poll">
           <div class="poll-options">
             <div class="custom-search" *ngIf="!userLogged.userData.isAdmin">
-              <h2>Category: {{category_title}}</h2>
+              <h2>{{"CATEGORY"|translate}} {{category_title}}</h2>
             </div>
             <div class="form-control">
-              <label for="title">Title</label>
+              <label for="title">{{"TITLE"|translate}}</label>
               <input id="title" type="text" placeholder="Title" [(ngModel)]="topic.title">
             </div>
             <div class="form-control">
-              <label for="description">Description</label>
+              <label for="description">{{"DESCRIPTION"|translate}}</label>
               <input id="description" placeholder="Description" type="text" [(ngModel)]="topic.description">
             </div>
           </div>
@@ -23,7 +23,7 @@
       </div>
       <div class="editor-parent" *ngIf="userLogged">
         <div class="custom-search center" *ngIf="userLogged.userData.isAdmin">
-          <label for="topic-choose">Category: </label>
+          <label for="topic-choose">{{"CATEGORY"|translate}} </label>
           <div class="user-search">
             <ng-select labelForId="topic-choose" [items]="categoryList" class="select" bindLabel="title" bindValue="id"
               [(ngModel)]="topic.category_id">

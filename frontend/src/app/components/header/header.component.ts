@@ -7,6 +7,7 @@ import { UserPreferences } from '../../models/user-preferences';
 import { Global } from 'src/environment/global';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
+import {  TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -33,7 +34,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private _authService: AuthService,
     private router: Router,
     private themeService: ThemeService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private _translateService:TranslateService
   ) {
     this.user = 0;
     this.userList$ = new Observable();
@@ -54,7 +56,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (res) => {
             this._authService.autoAuthUser();
-            this.toastService.show(res.message);
+            this.toastService.show(this._translateService.instant(res.message));
           },
           error: (e) => console.log(e),
         });
@@ -131,10 +133,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          this.toastService.show(res.message);
+          this.toastService.show(this._translateService.instant(res.message));
         },
         error: (err) => {
-          this.toastService.show(err.message);
+          this.toastService.show(this._translateService.instant(err.message));
         },
         complete: () => {
           this.router.navigate(['/']);

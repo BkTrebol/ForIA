@@ -6,6 +6,7 @@ import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import { Global } from 'src/environment/global';
+import {  TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-list',
@@ -27,7 +28,8 @@ export class ListComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private route: ActivatedRoute,
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private _translateService: TranslateService
   ) {
     this.apiImageUrl = Global.api+'upload/images/'
     this.unsubscribe$ = new Subject();
@@ -59,7 +61,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
     if (this.route.snapshot.data['response']) {
       setTimeout(() => {
-        this.toastService.show('Logged in with Google successfully');
+        this.toastService.show(this._translateService.instant('LOGGED_WITH_GOOGLE'));
         this.router.navigate([], {
           relativeTo: this.route,
           queryParamsHandling: 'merge',

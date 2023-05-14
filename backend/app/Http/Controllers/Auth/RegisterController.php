@@ -30,13 +30,12 @@ class RegisterController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        $defaultRole = Role::find(2)->first();
-        $user->roles()->attach($defaultRole);
+
 
         if (env('APP_DEBUG')==false && !$user->hasVerifiedEmail()) {
-            $user->notify(new VerifyEmail());
+            Mail::to($user->email)->send(new ConfirmationEmail($user));
         }
-        Mail::to($user->email)->send(new ConfirmationEmail($user));
+        
         Auth::login($user);
 
         return response()->json(['message' => 'User created successfully'],201);
@@ -63,7 +62,7 @@ class RegisterController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Email or Password does not match with our record.'
+                'message' => 'Email or Password does not match with our records.'
             ],401);
         }
     }

@@ -11,6 +11,7 @@ import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { Global } from 'src/environment/global';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {  TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-view',
@@ -46,7 +47,9 @@ export class ViewComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private toastService: ToastService,
     private authService: AuthService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _translateService: TranslateService
+
   ) {
     
     this.newPostId = '';
@@ -186,10 +189,10 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.content.length == 0) {
-      this.error = "Post can't be empty";
+      this.error = this._translateService.instant("VALIDATION.POST.EMPTY");
       return;
     } else if (this.content.length > 10_000) {
-      this.error = "Post can't be longer than 10.000 characters";
+      this.error = this._translateService.instant("VALIDATION.POST.LONG");
       return;
     } else {
       this.error = '';
@@ -205,7 +208,7 @@ export class ViewComponent implements OnInit, OnDestroy {
           this.content = '';
           this.error = '';
           if (res.hasOwnProperty('newRole')) {
-            this.toastService.show(`Evolved to ${res.newRole.name}`);
+            this.toastService.show(`${this._translateService.instant("EVOLVED")} ${res.newRole.name}`);
             if (this.userLogged)
               this.userLogged.userData.public_role = res.newRole;
           }

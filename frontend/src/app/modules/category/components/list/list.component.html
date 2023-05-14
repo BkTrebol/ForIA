@@ -4,9 +4,9 @@
     <div class="list" *ngIf="loading">
         <div class="list-header">
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
-            <p class="description-title"><fa-icon [icon]="['fas', 'code']"></fa-icon> A forum about <b>IA</b></p>
+            <p class="description-title"><fa-icon [icon]="['fas', 'code']"></fa-icon> {{"FORUM_ABOUT" | translate}} <b>IA</b></p>
             <div class="option-btns">
-                <button class="btn2" type="button"><fa-icon [icon]="['fas', 'chevron-down']"></fa-icon> Collapse Sections</button>
+                <button class="btn2" type="button"><fa-icon [icon]="['fas', 'chevron-down']"></fa-icon> {{"COLLAPSE_SECTIONS"|translate}}</button>
             </div>
         </div>
         <div class="list-body">
@@ -51,12 +51,12 @@
     <div class="list" *ngIf="!loading">
         <div class="list-header">
             <img src="/assets/svg/logo.svg" height="100" alt="logo FORIA">
-            <p class="description-title"><fa-icon [icon]="['fas', 'code']"></fa-icon> A forum about <b>IA</b></p>
+            <p class="description-title"><fa-icon [icon]="['fas', 'code']"></fa-icon> {{"FORUM_ABOUT" | translate}} <b>IA</b></p>
             <div class="option-btns">
                 <button class="btn2" type="button" (click)="toogleSections()">
                     <fa-icon [icon]="['fas', allSections ? 'chevron-right': 'chevron-down']"></fa-icon> {{allSections ?
-                    'Expand Sections':
-                    'Collapse Sections'}}</button>
+                    ('EXPAND_SECTIONS' | translate):
+                    ('COLLAPSE_SECTIONS' | translate)}}</button>
             </div>
         </div>
         <div class="list-body">
@@ -64,7 +64,7 @@
                 <li *ngFor="let section of forum" class="section">
                     <fieldset>
                         <legend>
-                            <h1 (click)="toggle(section.name)" ngbTooltip="{{ocults[section.name] ? 'Expand': 'Collapse'}} {{section.name}}"><fa-icon
+                            <h1 (click)="toggle(section.name)" ngbTooltip="{{ocults[section.name] ? ('EXPAND'|translate): ('Collapse'|translate)}} {{section.name}}"><fa-icon
                                     [icon]="['fas', ocults[section.name] ? 'chevron-right': 'chevron-down']"></fa-icon>
                                 {{section.name | capitalize}}</h1>
                         </legend>
@@ -74,13 +74,13 @@
                                     <h2>{{category.title | capitalize}}</h2>
                                     <p>{{category.description}}</p>
                                     <img *ngIf="category.image" [src]="apiImageUrl + category.image"
-                                        alt="Image of {{category.title}}">
+                                        alt="{{'IMAGE_OF'|translate}} {{category.title}}">
                                 </div>
                                 <div class="last-post" *ngIf="category.lastPost">
                                     <div class="text">
                                         <h3><a routerLink="/topic/{{category.lastPost.topic.id}}"
                                                 [queryParams]="{'page': category.lastPost.topic.last_page}" fragment="last"
-                                                ngbTooltip="View Last Post {{category.lastPost.topic.title}}">
+                                                ngbTooltip="{{'VIEW_LAST_POST'|translate}} {{category.lastPost.topic.title}}">
                                                 {{ ((category.lastPost.topic.title.length > 8) ?
                                                 (category.lastPost.topic.title |
                                                 slice:0:8)+'...':(category.lastPost.topic.title)) | capitalize}}</a>
@@ -89,7 +89,7 @@
                                             <h4>
                                                 <a
                                                     routerLink="/user/profile/{{category.lastPost.user.id}}"
-                                                    ngbTooltip="View Profile of {{category.lastPost.user.nick}}" placement="bottom">{{category.lastPost.user.nick}}</a>
+                                                    ngbTooltip="{{'VIEW_PROFILE'|translate}} {{category.lastPost.user.nick}}" placement="bottom">{{category.lastPost.user.nick}}</a>
                                             </h4>
                                             <h5>{{category.lastPost.created_at | ago }}</h5>
                                         </div>
@@ -106,7 +106,7 @@
             </ul>
         </div>
         <div class="list-footer">
-            <button class="btn2" type="button" (click)="scrollToTop()"><fa-icon [icon]="['fas', 'arrow-up']"></fa-icon> Back to top</button>
+            <button class="btn2" type="button" (click)="scrollToTop()"><fa-icon [icon]="['fas', 'arrow-up']"></fa-icon>{{"TO_TOP"|translate}}</button>
         </div>
     </div>
 </div>

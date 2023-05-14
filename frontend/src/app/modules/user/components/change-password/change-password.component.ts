@@ -14,6 +14,7 @@ import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ChangePassword } from 'src/app/models/change-password';
 import { UserService } from '../../service/user.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
+import {  TranslateService } from '@ngx-translate/core';
 
 // Custom Validator
 function passwordMatchValidator(control: AbstractControl) {
@@ -54,20 +55,20 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   public formBuilderNonNullable: NonNullableFormBuilder;
   public validationMessagesChangePassword = {
     old_password: {
-      required: 'Password is Required',
-      minlength: 'Min Length is 8',
-      pattern: 'Invalid Password',
-      mismatch: 'Password mismatch with your actual password',
+      required: '',
+      minlength: '',
+      pattern: '',
+      mismatch: '',
     },
     password: {
-      required: 'Password is Required',
-      minlength: 'Min Length is 8',
-      pattern: 'Invalid Password',
+      required: '',
+      minlength: '',
+      pattern: '',
     },
     password_confirmation: {
-      required: 'Password Confirmation is Required',
-      minlength: 'Min Length is 8',
-      mismatch: 'Password confirmation mismatch',
+      required: '',
+      minlength: '',
+      mismatch: '',
     },
   };
 
@@ -75,7 +76,9 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private _userService: UserService,
     private router: Router,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private _translateService: TranslateService
+
   ) {
     this.unsubscribe$ = new Subject();
     this.theme = themeService.getTheme();
@@ -89,6 +92,25 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       password: '',
       password_confirmation: '',
     };
+    this.validationMessagesChangePassword = {
+      old_password: {
+        required: _translateService.instant("VALIDATION.PASSWORD.REQUIRED"),
+        minlength: _translateService.instant("VALIDATION.PASSWORD.MIN"),
+        pattern: _translateService.instant("VALIDATION.PASSWORD.PATTERN"),
+        mismatch: _translateService.instant("VALIDATION.PASSWORD.MISMATCH"),
+      },
+      password: {
+        required: _translateService.instant("VALIDATION.PASSWORD.REQUIRED"),
+        minlength: _translateService.instant("VALIDATION.PASSWORD.MIN"),
+        pattern: _translateService.instant("VALIDATION.PASSWORD.PATTERN"),
+      },
+      password_confirmation: {
+        required: _translateService.instant("VALIDATION.PASSWORD_CONFIRMATION.REQUIRED"),
+        minlength: _translateService.instant("VALIDATION.PASSWORD_CONFIRMATION.MIN"),
+        mismatch: _translateService.instant("VALIDATION.PASSWORD_CONFIRMATION.MISMATCH"),
+      },
+    },
+  
     this.formBuilderNonNullable = new FormBuilder().nonNullable;
     this.formChangePassword = this.formBuilderNonNullable.group(
       {
@@ -139,7 +161,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
           next: (res) => {
             this.error = '';
             this.loading = false;
-            this.toastService.show(res.message);
+            this.toastService.show(this._translateService.instant(res.message));
             this.router.navigate(['']);
           },
           error: (err) => {
@@ -168,7 +190,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      this.error = 'Invalid data in the Form';
+      this.error = this._translateService.instant("VALIDATION.WRONG_FORMDATA");
     }
   }
 

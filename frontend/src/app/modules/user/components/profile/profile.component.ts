@@ -10,6 +10,7 @@ import { ToastService } from 'src/app/helpers/services/toast.service';
 import { EChartsOption } from 'echarts';
 import { HttpClient } from '@angular/common/http';
 import { User } from 'src/app/models/user';
+import {  TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
@@ -38,7 +39,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private router: Router,
     private themeService: ThemeService,
     private toastService: ToastService,
-    private http: HttpClient
+    private http: HttpClient,
+    private _translateService: TranslateService,
   ) {
     this.unsubscribe$ = new Subject();
     this.id = this.route.snapshot.paramMap.get('id') ?? '';
@@ -80,7 +82,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             this.user.id == this.userAuth.id &&
             !this.userAuth.isVerified
           ) {
-            this.toastService.show('Verify your email');
+            this.toastService.show(this._translateService.instant('VERIFY_EMAIL'));
           } else {
             this.userAuth = this.authService.user?.userData;
           }

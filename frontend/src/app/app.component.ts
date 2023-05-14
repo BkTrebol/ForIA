@@ -20,6 +20,8 @@ import { User } from './models/user';
 import { UserPreferences } from './models/user-preferences';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from './helpers/services/toast.service';
+import {  TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -40,7 +42,17 @@ export class AppComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private cdRef: ChangeDetectorRef,
     private toastService: ToastService,
+    private _translateService: TranslateService
+
   ) {
+    const lang = localStorage.getItem('lang')
+    const browserLang = navigator.language;
+    if(lang != null && lang != ''){
+      this._translateService.use(lang)
+    } else{
+      this._translateService.use(browserLang)
+    }
+
     this.unsubscribe$ = new Subject();
     this.userIsAuthenticated = null;
     this.loading = true;
@@ -61,14 +73,17 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this._authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {
         this.userIsAuthenticated = r;
-
+        this._translateService.use(r?.userPreferences.language??'es')
+        console.log(r?.userPreferences.language)
+        console.log(this._translateService.currentLang)
         if (this.userIsAuthenticated && !this.userIsAuthenticated.userData.isVerified 
           && !this.router.url.includes('auth/verify')
           ) {
-          this.toastService.showVerification('Verify your email')
+          this.toastService.showVerification(this._translateService.instant('VERIFY_EMAIL')+";;"+this._translateService.instant('RESEND_EMAIL'))
         }
       },
     });

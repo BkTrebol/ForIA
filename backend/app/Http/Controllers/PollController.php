@@ -182,31 +182,11 @@ class PollController extends Controller
         $isMod = in_array($topic->poll->topic->category->can_mod, $roles);
 
 
-        // if (($topic->poll->answers->count() != 0 || $user->id != $topic->user_id) && !$isAdmin && !$isMod) {
-
-        //     return response()->json([
-        //         'message' => 'Unauthorized',
-        //     ], 403);
-        // }
-
         if (($user->id != $topic->user_id || $topic->poll->answers->count() != 0) && !$isAdmin && !$isMod) {
             return response()->json([
                 'message' => 'Unauthorized',
             ], 403);
         }
-
-
-        // if($user->id != $topic->user_id){
-        //     if($topic->poll->answers->count() != 0 ){
-        //         if(!$isAdmin && !$isMod){
-        //             return response()->json([
-        //                 'message' => 'Unauthorized',
-        //             ], 403);
-        //         }
-        //     }
-
-        // }
-
 
         return response()->json([
             'poll' => $topic->poll->load('options'),

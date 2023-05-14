@@ -10,6 +10,7 @@ import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { PostService } from '../../service/post.service';
 import { Global } from 'src/environment/global';
+import {  TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create',
@@ -37,7 +38,8 @@ export class CreateComponent implements OnInit, OnDestroy {
     private router: Router,
     private toastService: ToastService,
     private authService: AuthService,
-    private postService: PostService
+    private postService: PostService,
+    private _translateService:TranslateService
   ) {
     this.unsubscribe$ = new Subject();
     this.loading = true;
@@ -116,17 +118,21 @@ export class CreateComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
-            this.router.navigate([`/topic/${this.post.topic_id}?page=${res.lastPage}#${res.id}`]);
-            this.toastService.show('Post created successfully');
+            this.router.navigate([`/topic/${this.post.topic_id}`],
+              {              
+              queryParams: {page: res.lastPage},
+              fragment: res.id
+            });
+            this.toastService.show(this._translateService.instant("POST_CREATED"));
             if(res.hasOwnProperty('newRole')){
-              this.toastService.show(`Evolved to ${res.newRole.name}`);
+              this.toastService.show(`${this._translateService.instant("EVOLVED")} ${res.newRole.name}`);
             }
           },
           error: (e) => console.log(e),
         });
       this.error = '';
     } else {
-      this.error = 'Invalid form data'
+      this.error = this._translateService.instant("VALIDATION.WRONG_FORMDATA")
     }
   }
 
