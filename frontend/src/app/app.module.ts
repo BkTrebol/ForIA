@@ -15,7 +15,7 @@ import { ErrorComponent } from './components/error/error.component';
 // Interceptors
 import { HeadersInterceptor } from "./helpers/interceptors/headers.interceptor";
 import { ErrorsInterceptor } from './helpers/interceptors/errors.interceptor';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
 // Extra (icons)
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -28,6 +28,9 @@ import { NgbModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsContainer } from './components/toast/toast.component';
 import { AdminComponent } from './modules/admin/admin.component';
 import { SidenavComponent } from './modules/admin/components/sidenav/sidenav.component';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
 
 @NgModule({
   declarations: [
@@ -48,6 +51,13 @@ import { SidenavComponent } from './modules/admin/components/sidenav/sidenav.com
     NgbModule,
     NgbToastModule,
     ToastsContainer,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (http:HttpClient) =>  {return new TranslateHttpLoader(http, './assets/i18n/', '.json');},
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true },
@@ -60,8 +70,9 @@ import { SidenavComponent } from './modules/admin/components/sidenav/sidenav.com
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor(library: FaIconLibrary) {
+  constructor(library: FaIconLibrary,private translate: TranslateService) {
     // library.addIcons(faFilm, faFish, faBell, faAngular);
     library.addIconPacks(fas, far, fab);
+    translate.setDefaultLang('en');
   }
 }

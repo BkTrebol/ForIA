@@ -15,6 +15,7 @@ import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {  TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit',
@@ -43,27 +44,27 @@ export class EditComponent implements OnInit, OnDestroy {
   public deletionPassword2: string;
   public validationMessagesEditProfile = {
     nick: {
-      required: 'Nick is Required',
-      minlength: 'Min Length is 3',
-      maxlength: 'Max Length is 30',
+      required: '',
+      minlength: '',
+      maxlength: '',
     },
     email: {
-      required: 'Email is Required',
-      minlength: 'Min Length is 3',
-      maxlength: 'Max Length is 30',
-      email: 'Invalid Email',
+      required: '',
+      minlength: '',
+      maxlength: '',
+      email: '',
     },
     location: {
-      minlength: 'Min Length is 3',
-      maxlength: 'Max Length is 30',
+      minlength: '',
+      maxlength: '',
     },
     birthday: {
-      minlength: 'Min Length is 3',
-      maxlength: 'Max Length is 64',
+      minlength: '',
+      maxlength: '',
     },
     avatar: {
-      minlength: 'Min Length is 3',
-      maxlength: 'Max Length is 64',
+      minlength: '',
+      maxlength: '',
     },
   };
   public formEditPreferences: FormGroup;
@@ -76,7 +77,9 @@ export class EditComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private themeService: ThemeService,
     private toastService: ToastService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _translateService: TranslateService
+
   ) {
     this.deletionPassword = '';
     this.deletionPassword2 = '';
@@ -87,6 +90,31 @@ export class EditComponent implements OnInit, OnDestroy {
     this.error = '';
     this.loading = true;
     this.loading2 = false;
+    this.validationMessagesEditProfile = {
+      nick: {
+        required: this._translateService.instant("VALIDATION.NICK.REQUIRED"),
+        minlength: this._translateService.instant("VALIDATION.NICK.MIN"),
+        maxlength: this._translateService.instant("VALIDATION.NICK.MAX"),
+      },
+      email: {
+        required: this._translateService.instant("VALIDATION.EMAIL.REQUIRED"),
+        minlength: this._translateService.instant("VALIDATION.EMAIL.MIN"),
+        maxlength: this._translateService.instant("VALIDATION.EMAIL.MAX"),
+        email: this._translateService.instant("VALIDATION.EMAIL.EMAIL"),
+      },
+      location: {
+        minlength: this._translateService.instant("VALIDATION.LOCATION.MIN"),
+        maxlength: this._translateService.instant("VALIDATION.LOCATION.MAX"),
+      },
+      birthday: {
+        minlength: this._translateService.instant("VALIDATION.BIRTHDAY.MIN"),
+        maxlength: this._translateService.instant("VALIDATION.BIRTHDAY.MAX"),
+      },
+      avatar: {
+        minlength: this._translateService.instant("VALIDATION.AVATAR.MIN"),
+        maxlength: this._translateService.instant("VALIDATION.AVATAR.MAX"),
+      },
+    }
     this.user = {
       nick: '',
       email: '',
@@ -138,6 +166,7 @@ export class EditComponent implements OnInit, OnDestroy {
       filter_bad_words: [true, []],
       allow_view_profile: [true, []],
       allow_user_to_mp: [true, []],
+      language:[''],
       hide_email: [false, []],
       allow_music: [true, []],
       recieve_emails: [true, []],
@@ -179,7 +208,7 @@ export class EditComponent implements OnInit, OnDestroy {
           .subscribe({
             next: (res) => {
               this._authService.autoAuthUser();
-              this.toastService.show(res.message);
+              this.toastService.show(this._translateService.instant(res.message));
             },
             error: (err) => {
               this.error = err.error.message;
@@ -194,7 +223,7 @@ export class EditComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe({
             next: (res) => {
-              this.toastService.show(res.message);
+              this.toastService.show(this._translateService.instant(res.message));
               this._authService.autoAuthUser();
             },
             error: (err) => {
@@ -206,7 +235,7 @@ export class EditComponent implements OnInit, OnDestroy {
           });
       }
     } else {
-      this.error = 'Invalid data in the Form';
+      this.error = this._translateService.instant("VALIDATION.WRONG_FORMDATA");
     }
   }
 
@@ -237,7 +266,6 @@ export class EditComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          console.log(res)
           this.preferences = res;
         },
         error: (err) => {
@@ -254,8 +282,10 @@ export class EditComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
+            localStorage.setItem('lang', this.preferences.language);
+            this._translateService.use(this.preferences.language);
             this._authService.autoAuthUser();
-            this.toastService.show(res.message);
+            this.toastService.show(this._translateService.instant(res.message));
           },
           error: (err) => {
             this._authService.autoAuthUser();
@@ -266,7 +296,7 @@ export class EditComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      this.error = 'Invalid data in the Form';
+      this.error = this._translateService.instant('VALIDATION.WRONG_FORMDATA');
     }
   }
 
@@ -275,7 +305,7 @@ export class EditComponent implements OnInit, OnDestroy {
     this.deletionPassword2 = '';
     this.modalService.open(modal).result.catch(() => {
       if (this.userDeletion != 3) {
-        this.toastService.show('User destruction aborted');
+        this.toastService.show(this._translateService.instant('DESTRUCTION_ABORTED'));
       }
       this.userDeletion = 0;
       this.deletionPassword = '';
@@ -294,7 +324,7 @@ export class EditComponent implements OnInit, OnDestroy {
       ) {
         this.modalService.dismissAll();
         this.deleteLoading = false;
-        this.toastService.show('User destruction aborted: Password mismatch.');
+        this.toastService.show(this._translateService.instant('DESTRUCTION_FAILED_MISMATCH'));
       } else {
         this.userService
           .dropUser(this.deletionPassword, this.deletionPassword2)
@@ -304,14 +334,14 @@ export class EditComponent implements OnInit, OnDestroy {
               console.log(r);
               this.modalService.dismissAll();
               this.deleteLoading = false;
-              this.toastService.show(r.message);
+              this.toastService.show(this._translateService.instant(r.message));
               window.location.href = '/';
             },
             error: (e) => {
               this.deleteLoading = false;
               this.modalService.dismissAll();
               this.toastService.show(
-                'User destruction aborted: ' + e.error.message
+                this._translateService.instant('User destruction failed: ') + this._translateService.instant(e.error.message)
               );
             },
           });

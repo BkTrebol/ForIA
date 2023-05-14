@@ -1,16 +1,16 @@
 <div class="list-page {{theme}}">
     <div class="list">
         <div class="list-header">
-            <h1 *ngIf="title != ''">Edit: {{title}}</h1>
-            <h1 *ngIf="title == ''">{{mode | capitalize}} new Poll</h1>
+            <h1 *ngIf="title != ''">{{"EDIT"|translate}} {{title}}</h1>
+            <h1 *ngIf="title == ''">{{mode | capitalize}} {{"NEW_POLL"|translate}}</h1>
         </div>
         <div class="list-body">
             <div class="poll">
                 <div class="poll-name">
-                    <input type="text" placeholder="Poll Name" [(ngModel)]="poll.name">
+                    <input type="text" placeholder="{{'POLL_NAME'|translate}}" [(ngModel)]="poll.name">
                 </div>
                 <div class="poll-date">
-                    <label for="date">Finish date</label>
+                    <label for="date">{{"POLL_FINISH_DATE"|translate}}</label>
                     <input id="date" type="date" [(ngModel)]="poll.finish_date">
                 </div>
                 <div class="poll-options">
@@ -21,7 +21,7 @@
                         </button>
                     </div>
                     <div class="add-o">
-                        <span>Add more options </span>
+                        <span>{{"ADD_OPTIONS"|translate}} </span>
                         <button class="btn-add" (click)="onAddOption()">
                             <fa-icon [icon]="['fas', 'plus']"></fa-icon>
                         </button>
@@ -29,7 +29,7 @@
                 </div>
                 <p class="error" *ngIf="error != ''"><fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}</p>
                 <button class="btn-s" type="submit" [disabled]="poll.name == '' || poll.name.length < 3 || poll.options.length < 2 || poll.options.length > 10 || poll.finish_date == '' "
-                    (click)="onSubmit()">Submit</button>
+                    (click)="onSubmit()">{{"SUBMIT"|translate}}</button>
             </div>
         </div>
     </div>

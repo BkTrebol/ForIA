@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
-
+import {  TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-verify',
   templateUrl: './verify.component.html',
@@ -19,7 +19,8 @@ export class VerifyComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private _translateService: TranslateService
   ) {
     this.verification = {
       id: this.route.snapshot.params['id'],
@@ -43,11 +44,11 @@ export class VerifyComponent implements OnInit {
           next: r => {
             this.authService.verification = undefined;
             this.toastService.clear();
-            this.toastService.show("Email verified");
+            this.toastService.show(this._translateService.instant("EMAIL_VERIFIED"));
             this.router.navigate(['/']);
           },
           error: err => {
-            this.toastService.show(err);
+            this.toastService.show(this._translateService.instant(err));
             this.router.navigate(['/auth/login']);
           }
         })

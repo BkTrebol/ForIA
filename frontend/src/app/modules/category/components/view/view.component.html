@@ -62,7 +62,7 @@
                     <a class="btn-a x" *ngIf="listTopics.category.can_post"
                         routerLink="/topic/create/{{listTopics.category.id}}">
                         <fa-icon [icon]="['fas', 'plus']"></fa-icon>
-                        Create new Topic</a>
+                        {{"NEW_TOPIC"|translate}}</a>
                     <div class="music" *ngIf="!userLogged || userLogged && userLogged.userPreferences.allow_music">
                         <div class="controls">
                             <button class="btn-music" (click)="playAudio()"
@@ -70,7 +70,7 @@
                                     [icon]="['fas', isMusic? 'circle-pause' : 'circle-play']"></fa-icon></button>
                             <span>{{audio.duration | seconds}}</span>
                         </div>
-                        <div class="controls" ngbTooltip="Change the Volume of the Music" placement="right">
+                        <div class="controls" ngbTooltip="{{'CHANGE_VOLUME'|translate}}" placement="right">
                             <input (change)="modifyVolume($event)" (input)="modifyVolume($event)" type="range"
                                 id="volume" min="0" max="1" step="0.1" value="0.3">
                             <label for="volume"><fa-icon
@@ -94,7 +94,7 @@
                             <div class="text">
                                 <div class="primer">
                                     <a routerLink="/user/profile/{{topic.user.id}}"
-                                        ngbTooltip="Created by {{topic.user.nick}}"
+                                        ngbTooltip="{{'CREATED_BY'|translate}} {{topic.user.nick}}"
                                         placement="bottom">{{topic.user.nick}}</a>
                                     <small>{{topic.created_at | date}}</small>
                                 </div>
@@ -105,11 +105,11 @@
                                             [icon]="['fas', 'message']"></fa-icon></span>
                                     <div class="mostrar-dos" *ngIf="topic.last_post">
                                         <a routerLink="/user/profile/{{topic.last_post.user.id}}"
-                                            ngbTooltip="View Profile of {{topic.last_post.user.nick}}"
+                                            ngbTooltip="{{'VIEW_PROFILE'|translate}} {{topic.last_post.user.nick}}"
                                             placement="bottom">{{topic.last_post.user.nick}}</a>
                                         <small><a routerLink="/topic/{{topic.id}}"
                                                 [queryParams]="{'page': topic.last_page}" fragment="last"
-                                                ngbTooltip="View Last Page of {{topic.title |capitalize}}"
+                                                ngbTooltip="{{'VIEW_LAST_PAGE'|translate}} {{topic.title |capitalize}}"
                                                 placement="bottom">{{topic.last_post.created_at | ago}}</a>
                                         </small>
                                     </div>
@@ -124,9 +124,9 @@
                         <div class="last-post" *ngIf="topic.last_post">
                             <div class="text">
                                 <a routerLink="/user/profile/{{topic.last_post.user.id}}"
-                                    ngbTooltip="View Profile of {{topic.last_post.user.nick}}">{{topic.last_post.user.nick}}</a>
+                                    ngbTooltip="{{'VIEW_PROFILE'|translate}}  {{topic.last_post.user.nick}}">{{topic.last_post.user.nick}}</a>
                                 <small><a routerLink="/topic/{{topic.id}}" [queryParams]="{'page': topic.last_page}"
-                                        fragment="last" ngbTooltip="View Last Page of {{topic.title |capitalize}}"
+                                        fragment="last" ngbTooltip="{{'VIEW_LAST_PAGE'|translate}} {{topic.title |capitalize}}"
                                         placement="bottom">{{topic.last_post.created_at | ago}}</a>
                                 </small>
                             </div>

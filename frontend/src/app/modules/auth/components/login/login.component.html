@@ -1,9 +1,9 @@
 <div class="form-page {{theme}}">
     <form [formGroup]="formLogin" (ngSubmit)="submit()" class="form-container">
-        <h2>Login</h2>
+        <h2>{{"LOGIN"| translate}}</h2>
         <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}</h3>
         <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
-        <h4 *ngIf="googleEmail != ''">Confirm your account.</h4>
+        <h4 *ngIf="googleEmail != ''">{{"ACC_CONFIRM"|translate}}</h4>
         <div class="fields">
             <div class="group">
                 <div class="field">
@@ -24,7 +24,7 @@
                     <div class="field">
                         <input type="{{ canShow  ? 'text': 'password'}}" autocomplete="current-password"
                             formControlName="password" [(ngModel)]="authData.password" class="input"
-                            placeholder="Password" required>
+                            placeholder="{{'PASSWORD' |translate}}" required>
                         <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
                     </div>
                     <fa-icon class="eye" [icon]="['fas', canShow ? 'eye':'eye-slash']" (click)="changeShow()" ngbTooltip="{{canShow ? 'Hide': 'Show'}} the Password" placement="bottom"></fa-icon>

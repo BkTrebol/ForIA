@@ -13,7 +13,7 @@ import { ResetPassword } from 'src/app/models/reset-password';
 import { AuthService } from '../../service/auth.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
-
+import {  TranslateService } from '@ngx-translate/core';
 // Custom Validator
 function passwordMatchValidator(control: AbstractControl) {
   const password = control?.get('password');
@@ -65,20 +65,20 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   };
   public validationMessagesResetPassword = {
     old_password: {
-      required: 'Password is Required',
-      minlength: 'Min Length is 8',
-      pattern: 'Invalid Password',
-      mismatch: 'Password mismatch with your actual password',
+      required: '',
+      minlength: '',
+      pattern: '',
+      mismatch: '',
     },
     password: {
-      required: 'Password is Required',
-      minlength: 'Min Length is 8',
-      pattern: 'Invalid Password',
+      required: '',
+      minlength: '',
+      pattern: '',
     },
     password_confirmation: {
-      required: 'Password Confirmation is Required',
-      minlength: 'Min Length is 8',
-      mismatch: 'Password confirmation mismatch',
+      required: '',
+      minlength: '',
+      mismatch: '',
     },
   };
 
@@ -87,7 +87,8 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     private router: Router,
     private themeService: ThemeService,
     private route: ActivatedRoute,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private _translateService: TranslateService
   ) {
     this.unsubscribe$ = new Subject();
     this.theme = themeService.getTheme();
@@ -105,6 +106,24 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       password: '',
       password_confirmation: '',
     };
+    this.validationMessagesResetPassword = {
+      old_password: {
+        required: _translateService.instant("VALIDATION.PASSWORD.REQUIRED"),
+        minlength: _translateService.instant("VALIDATION.PASSWORD.MIN"),
+        pattern: _translateService.instant("VALIDATION.PASSWORD.PATTERN"),
+        mismatch: _translateService.instant("VALIDATION.PASSWORD.MISMATCH"),
+      },
+      password: {
+        required: _translateService.instant("VALIDATION.PASSWORD.REQUIRED"),
+        minlength: _translateService.instant("VALIDATION.PASSWORD.MIN"),
+        pattern: _translateService.instant("VALIDATION.PASSWORD.PATTERN"),
+      },
+      password_confirmation: {
+        required: _translateService.instant("VALIDATION.PASSWORD_CONFIRMATION.REQUIRED"),
+        minlength: _translateService.instant("VALIDATION.PASSWORD_CONFIRMATION.MIN"),
+        mismatch: _translateService.instant("VALIDATION.PASSWORD_CONFIRMATION.MISMATCH"),
+      },
+    }
     this.formBuilderNonNullable = new FormBuilder().nonNullable;
     this.formSendEmail = this.formBuilderNonNullable.group({
       email: [
@@ -166,7 +185,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       this._authService.requestPasswordReset(this.formSendEmail.value.email)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(r => {
-        this.toastService.show(r.message);
+        this.toastService.show(this._translateService.instant(r.message));
       });
     } else {
       this.errorEmail = 'Invalid email';
@@ -186,7 +205,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
           next: (res) => {
             this.error = '';
             this.loading = false;
-            this.toastService.show(res.message);
+            this.toastService.show(this._translateService.instant(res.message));
             this.router.navigate(['/auth/login']);
           },
           error: (err) => {
@@ -207,7 +226,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      this.error = 'Invalid data in the Form';
+      this.error = this._translateService.instant("VALIDATION.WRONG_FORMDATA");
     }
   }
 

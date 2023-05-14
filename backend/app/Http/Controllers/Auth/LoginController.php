@@ -30,18 +30,18 @@ class LoginController extends Controller
         if (Auth::user()) return response()->json(['message' => 'Unauthorized'],403);
         if(!Auth::attempt($request->only(['email', 'password']),$request->remember_me)){
             return response()->json([
-                'message' => 'Email or Password does not match with our record.',
+                'message' => 'Email or Password does not match with our records',
             ], 401);
         }
 
         $user = Auth::user();
         if (Carbon::parse($user->suspension)->isFuture()){
             return response()->json([
-                'message' => 'User suspended.'
+                'message' => 'User suspended'
             ],403);
         }
         return response()->json([
-            "message" => "Logged in successfully.",
+            "message" => "Logged in successfully",
         ],200)
         ;
     }
@@ -128,7 +128,7 @@ class LoginController extends Controller
         $user = Auth::user();
         $user->last_seen = now();
         $user->save();
-        $preferences = Auth::user()->preferences->only('sidebar','allow_music');
+        $preferences = Auth::user()->preferences->only('sidebar','allow_music','language');
         $user['isAdmin'] = $user->isAdmin();
         $user['isVerified'] = $user->hasVerifiedEmail();
         $user->load('publicRole');

@@ -43,23 +43,6 @@ class CategoryController extends Controller
                     $category['lastPost'] = $lastPost;
                     $category['posts'] = $category->posts->count();
                     $category['topics'] = $category->topics->count();
-                    // $post = $category->lastPost;
-                    // $category['topics'] = $category->topics->count();
-                    // if ($post) {
-                    //     $category['posts'] = $category->posts->count();
-                    //     $category['lastPost'] = [
-                    //         'created_at' => $post->created_at,
-                    //         'topic' => [
-                    //             'id' => $post->topic->id,
-                    //             'title' => $post->topic->title,
-                    //         ],
-                    //         'user' => [
-                    //             'id' => $post->user->id,
-                    //             'nick' => $post->user->nick,
-                    //             'avatar' => $post->user->avatar,
-                    //         ]
-                    //     ];
-                    // }
                     return $category->only('id', 'title', 'lastPost', 'description', 'image', 'posts', 'topics');
                 });
 
@@ -92,12 +75,6 @@ class CategoryController extends Controller
             $topics = $queryTopics->paginate(config('app.pagination.category'), '*', 'page', $page);
         }
 
-
-        // if ($topics->lastPage() < $requestedPage) {
-        //     $topics = $category->topics()->whereIn('can_view', $roles)->paginate(config('app.pagination.category'), '*', 'page', $topics->lastPage());
-        // } else if ($requestedPage <= 0) {
-        //     $topics = $category->topics()->whereIn('can_view', $roles)->paginate(config('app.pagination.category'), '*', 'page', 1);
-        // }
 
         return response()->json([
             'category' => [

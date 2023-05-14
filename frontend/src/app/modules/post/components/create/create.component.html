@@ -1,13 +1,13 @@
 <div class="list-page {{theme}}">
   <div class="list" *ngIf="!loading">
     <div class="list-header">
-      <h1>Create Post</h1>
+      <h1>{{"CREATE_POST"|translate}}</h1>
       <div class="subt" *ngIf="loading">
         <h2><app-loading width="40%" height="30px"></app-loading></h2>
       </div>
       <div class="subt" *ngIf="!loading">
-        <h2 *ngIf="!topic">Choose Topic</h2>
-        <h2 *ngIf="topic">For Topic: {{topic}}</h2>
+        <h2 *ngIf="!topic">{{"CHOOSE_TOPIC"|translate}}</h2>
+        <h2 *ngIf="topic">{{"CHOOSE_TOPIC"|translate}} {{topic}}</h2>
       </div>
     </div>
     <div class="list-body">

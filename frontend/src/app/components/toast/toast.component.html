@@ -5,7 +5,7 @@
             <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
         </ng-template>
         <ng-template #text>
-            {{ toast.textOrTpl }}
+            {{ toast.textOrTpl}}
         </ng-template>
         <button class="btn-close {{theme}}" (click)="toastService.remove(toast)"></button>
     </div>
@@ -32,7 +32,7 @@
             <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
         </ng-template>
         <ng-template #text>
-            {{ toast.textOrTpl }} <a href="javascript:void();" (click)="sendVerification();closeToast(toast,'verification')">Resend Verification Email</a>
+            {{ toast.textOrTpl.split(';;')[0] }} <a href="javascript:void();" (click)="sendVerification();closeToast(toast,'verification')">{{toast.textOrTpl.split(';;')[1]}}</a>
         </ng-template>
         <button class="btn-close {{theme}}" (click)="toastService.remove(toast,'verification')"></button>
     </div>

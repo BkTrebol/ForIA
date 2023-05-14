@@ -12,7 +12,7 @@ use App\Models\Post;
 
 class PrivateMessageController extends Controller
 {
-
+    // Bulk delete of user PMs, marks as deleted or deletes them if both users marked them.
     function deleteMessages(Request $request){
         $user = Auth::user();
         $deleteSent = $request->sentMessages;
@@ -210,7 +210,7 @@ class PrivateMessageController extends Controller
         $pm = PrivateMessage::create($newMessage);
 
         return response()->json([
-            'message' => "Private message created successfully",
+            'message' => "Private message seent successfully",
             'id' => $pm->id,
         ], 200);
     }
@@ -230,29 +230,4 @@ class PrivateMessageController extends Controller
             'title' => $pm->title,
         ], 200);
     }
-    
-// function sendMessage(Request $request){
-//     $user = Auth::user();
-
-//     $request->validate([
-//         'topic_id' => ['required'],
-//         'content' => ['required']
-//      ]);
-
-//     $isPm = PrivateMessage::where('topic_id',$request->topic_id)->where(function($query)use($user){
-//         $query->where('user_id',$user->id)->orWhere('user2_id',$user->id);
-//     })->exists();
-
-//     if (!$isPm){
-//         return response()->json([
-//             "message" => "Unauthorized"
-//         ],403);
-//     } else{
-//         Post::create([
-//             'topic_id' => $request->topic_id,
-//             'user_id' => $user->id,
-//             'content' => $request->content
-//         ],200);
-//     }
-// }
 }

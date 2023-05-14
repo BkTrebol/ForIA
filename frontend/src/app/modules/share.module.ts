@@ -32,6 +32,7 @@ import { ToastsContainer } from '../components/toast/toast.component';
 //Charts
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
+import {  TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
+    TranslateModule.forChild()
   ],
   providers: [],
   exports: [
@@ -90,6 +92,11 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
     NgbTooltipModule,
     NgbCollapse,
     NgbProgressbarModule,
+    TranslateModule
   ],
 })
-export class SharedModule {}
+export class SharedModule {
+  constructor(private translate: TranslateService) {
+    translate.setDefaultLang('en');
+  }
+}

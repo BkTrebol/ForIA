@@ -9,6 +9,7 @@ import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { Global } from 'src/environment/global';
+import {  TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reply',
@@ -35,7 +36,9 @@ export class ReplyComponent implements OnInit, OnDestroy {
     private privateMessageService: PrivateMessageService,
     private ActivatedRoute: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private _translateService: TranslateService
+
   ) {
     this.message_id = 0;
     this.theme = themeService.getTheme();
@@ -96,10 +99,10 @@ export class ReplyComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.reply.content.length == 0) {
-      this.error = "Reply can't be empty";
+      this.error = this._translateService.instant("VALIDATION.MESSAGE.EMPTY");
       return;
     } else if (this.reply.content.length > 10_000) {
-      this.error = "Reply can't be longer than 10.000 characters";
+      this.error = this._translateService.instant("VALIDATION.MESSAGE.LONG");
       return;
     } else {
       this.error = '';

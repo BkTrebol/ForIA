@@ -41,21 +41,6 @@ class TopicController extends Controller
             $posts = $queryPosts->paginate(config('app.pagination.topic'),'*','page',$page);
         }
 
-            // if ($posts->lastPage() < $requestedPage) {
-            //     // $posts = $topic->load('user:id,nick,avatar,rol,created_at')->posts()->paginate(config('app.pagination.topic'),'*','page',$posts->lastPage());
-            //     $posts = $topic->load([
-            //         'user:id,nick,avatar,created_at,public_role_id',
-            //         'user.publicRole:name,description'
-            //     ])->posts()->paginate(config('app.pagination.topic'),'*','page',$posts->lastPage());
-
-            // } else if ($requestedPage <= 0) {
-            //     // $posts = $topic->load('user:id,nick,avatar,rol,created_at')->posts()->paginate(config('app.pagination.topic'),'*','page',1);
-            //     $posts = $topic->load([
-            //         'user:id,nick,avatar,created_at,public_role_id',
-            //         'user.publicRole:name,description'
-            //     ])->posts()->paginate(config('app.pagination.topic'),'*','page',1);
-            // }
-
         $poll = $topic->poll()->with(['options'])->first();
         if ($poll) {
             $poll['can_vote'] = !$user ? false :
@@ -115,9 +100,6 @@ class TopicController extends Controller
 
         if ($request->has('poll') && $request->poll['name'] != '') {
             $request->validate([
-                // 'poll.name' => ['required', 'min:3', 'max:50'],
-                // 'poll.options' => ['required', 'array', 'min:2'],
-                // 'poll.options.*' => ['string', 'max:100']
                 'poll.name' => ['required', 'min:3', 'max:50'],
                 'poll.options' => ['required', 'array', 'min:2', 'max:10'],
                 'poll.options.*' => ['array', 'min:1', 'max:2'],
@@ -258,7 +240,7 @@ class TopicController extends Controller
         $isAdmin = self::is_admin();
         $isMod = in_array($post->topic->category->can_mod, $roles);
         if (!$isAdmin && !$isMod) {
-            // IF the used isn't either an admin or a mod, chekcs if is the owner of the post and the post is the last one of the topic.
+            // IF the user isn't either an admin or a mod, checks if is the owner of the post and the post is the last one of the topic.
             if (
                 $post->user_id != $user->id ||
                 Post::where('topic_id', $post->topic_id)->orderBy('created_at',

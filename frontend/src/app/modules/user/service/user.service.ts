@@ -24,7 +24,7 @@ export class UserService {
   }
 
   getPreferences(): Observable<UserPreferences> {
-    return this.http.get<UserPreferences>(`${this.apiUserURL}preference`);
+    return this.http.get<UserPreferences>(`${Global.api}preferences`);
   }
 
   getProfile(id: string): Observable<PublicUserProfile> {
@@ -80,7 +80,10 @@ export class UserService {
 
   editPreferences(preferences: UserPreferences): Observable<MessageRes> {
     let params = JSON.stringify(preferences);
-    return this.http.put<MessageRes>(`${this.apiUserURL}preference`, params);
+    return this.http.put<{ message: string }>(
+      `${Global.api}preferences/all`,
+      params
+    );
   }
 
   dropUser(password: string, passwordConfirm: string): Observable<MessageRes> {

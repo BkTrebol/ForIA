@@ -16,11 +16,9 @@ class UploadController extends Controller
         if ($image){
             $image_path = $image->store('images');
         }
-        $url = config('app.urlBackend');
+        $url = config('app.urls.backend');
         return response()->json([
-            // "body" => [
                 "imageUrl" => $url.'upload/'.$image_path
-            // ]
             ]);
     }
 

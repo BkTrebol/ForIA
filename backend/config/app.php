@@ -10,10 +10,14 @@ return [
         'category' => 10,
         'topic' => 7,
     ],
-    'urlBackend' => 'http://localhost:8000/api/',
+    // 'urlBackend' => 'http://localhost:8000/api/',
+    // 'urls' => [
+    //     'backend' => 'http://localhost:8000/api/', 
+    //     'frontend' => 'http://localhost:4200/',
+    // ],
     'urls' => [
-        'backend' => 'http://localhost:8000/api/', 
-        'frontend' => 'http://localhost:4200/',
+        'backend' => env('BACKEND_URL'),
+        'frontend' => env('FRONTEND_URL'),
     ],
 
     'GOOGLE_CLIENT_ID' => env('GOOGLE_CLIENT_ID'),
@@ -169,9 +173,9 @@ return [
 
     'providers' => [
 
-        /*
-         * Laravel Framework Service Providers...
-         */
+            /*
+             * Laravel Framework Service Providers...
+             */
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -195,16 +199,16 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
-        /*
-         * Package Service Providers...
-         */
+            /*
+             * Package Service Providers...
+             */
 
-        /*
-         * Application Service Providers...
-         */
+            /*
+             * Application Service Providers...
+             */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+            // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 

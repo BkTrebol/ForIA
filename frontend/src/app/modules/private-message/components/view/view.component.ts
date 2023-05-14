@@ -20,6 +20,7 @@ import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { Global } from 'src/environment/global';
+import {  TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-view',
@@ -48,7 +49,9 @@ export class ViewComponent implements OnInit, OnDestroy {
     private privateMessageService: PrivateMessageService,
     private route: ActivatedRoute,
     public router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private _translateService: TranslateService
+
   ) {
     this.theme = themeService.getTheme();
     this.unsubscribe$ = new Subject();
@@ -145,10 +148,10 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.reply.content.length == 0) {
-      this.error = "Reply can't be empty";
+      this.error = this._translateService.instant("VALIDATION.MESSAGE.EMPTY");
       return;
     } else if (this.reply.content.length > 10_000) {
-      this.error = "Reply can't be longer than 10.000 characters";
+      this.error = this._translateService.instant("VALIDATION.MESSAGE.LONG");
       return;
     } else {
       this.error = '';

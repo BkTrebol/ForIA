@@ -104,4 +104,19 @@ class User extends Authenticatable
     public function private_message_reciever(){
         return $this->hasMany(PrivateMessage::class, 'receiver_id');
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            UserPreference::create([
+                "user_id" => $user->id
+            ]);
+            $guestRole = Role::find(1);
+            $userRole = Role::find(2);
+            $user->roles()->attach($guestRole);
+            $user->roles()->attach($userRole);
+        });
+    }
 }

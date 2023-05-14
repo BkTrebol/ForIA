@@ -1,17 +1,17 @@
 <div class="form-page {{theme}}">
     <form *ngIf="loading" class="form-container m">
-        <h2>Edit Profile</h2>
+        <h2>{{'EDIT_PROFILE'|translate}}</h2>
         <div class="fields m" *ngFor="let _ of [0, 1, 2, 3, 4, 5, 6]">
             <app-loading width="300px" height="45px"></app-loading>
         </div>
     </form>
     <form [ngClass]="{'view': !view}" [formGroup]="formEditProfile" *ngIf="!loading" (ngSubmit)="submit()"
         class="form-container">
-        <h2>Edit Profile</h2>
+        <h2>{{'EDIT_PROFILE'|translate}}</h2>
         <div class="center">
             <button class="btn-a" type="button" (click)="toggleView()">
                 <fa-icon [icon]="['fas', 'pen']"></fa-icon>
-                Edit Preferences</button>
+                {{'EDIT_PREFERENCES'|translate}}</button>
         </div>
         <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}</h3>
         <h4 *ngIf="loading2"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
@@ -47,7 +47,7 @@
             <div class="group">
                 <div class="field">
                     <input type="text" formControlName="location" [(ngModel)]="user.location" class="input"
-                        placeholder="Location">
+                        placeholder="{{'LOCATION'|translate}}">
                     <fa-icon class="icon" [icon]="['fas', 'location-dot']"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!location?.valid && location?.touched">
@@ -60,7 +60,7 @@
             </div>
             <div class="group">
                 <div class="col-field">
-                    <label for="birthday">Birthday</label>
+                    <label for="birthday">{{'BIRTHDAY'|translate}}</label>
                     <div class="field">
                         <input type="date" formControlName="birthday" [(ngModel)]="user.birthday" id="birthday"
                             class="input date">
@@ -88,15 +88,15 @@
                                 height="100" alt="Avatar">
                             <img *ngIf="(user.avatar == null && imageSrc == '') || deleteAvatar?.value" class="avatar"
                                 [src]="'https://api.dicebear.com/6.x/bottts/svg?seed='+user.nick" width="100"
-                                height="100" alt="Default Avatar">
+                                height="100" alt="{{'DEFAULT_AVATAR'|translate}}">
                         </div>
                         <div class="check-delete">
-                            <label for="deleteAvatar">Delete Avatar</label>
+                            <label for="deleteAvatar">{{'DELETE_AVATAR'|translate}}</label>
                             <input type="checkbox" formControlName="deleteAvatar" id="deleteAvatar">
                         </div>
                     </div>
                     <p *ngIf="!deleteAvatar?.value && imageSrc != ''">{{imageSelected}}</p>
-                    <p *ngIf="deleteAvatar?.value || (imageSrc == '' && user.avatar==null)">Default Avatar</p>
+                    <p *ngIf="deleteAvatar?.value || (imageSrc == '' && user.avatar==null)">{{'DEFAULT_AVATAR'|translate}}</p>
                     <p
                         *ngIf="!deleteAvatar?.value && imageSrc == '' && user.avatar != null && (user.avatar | avatarUrl)">
                         Google Avatar</p>
@@ -117,100 +117,104 @@
         </div>
         <div class="btn-field">
             <button [disabled]="!formEditProfile.valid" class="btn-send">
-                Edit Profile
+                {{'SAVE_PROFILE'|translate}}
             </button>
             <fa-icon class="btn-icon" [icon]="['fas', 'thumbs-up']"></fa-icon>
         </div>
         <div class="form-links">
             <div class="center"><a class="btn2" routerLink="/user/profile/{{userId}}">
                     <fa-icon [icon]="['fas', 'user-circle']"></fa-icon>
-                    View Profile</a></div>
+                    {{'PROFILE_VIEW_PROFILE'|translate}}</a></div>
             <div class="center mt-2"><button type="button" (click)="deleteUser(deleteModal)" class="btn btn-danger">
                     <fa-icon [icon]="['fas', 'trash-can']"></fa-icon>
-                    Delete User</button></div>
+                    {{'DELETE_ACCOUNT'|translate}}</button></div>
         </div>
     </form>
     <form [ngClass]="{'no': !view, 'default': view}" *ngIf="!loading" [formGroup]="formEditPreferences"
         (ngSubmit)="editPreferences()" class="form-container">
-        <h2>Edit Preferences</h2>
+        <h2>{{'EDIT_PREFERENCES'|translate}}</h2>
         <div class="center">
             <button class="btn-a" type="button" (click)="toggleView()">
                 <fa-icon [icon]="['fas', 'pen']"></fa-icon>
-                Edit Profile</button>
+                {{'EDIT_PROFILE'|translate}}</button>
         </div>
         <h4 *ngIf="loading2"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="fields">
             <div class="group">
-                Sidebar
+                {{'SIDEBAR'|translate}}
                 <div class="check">
                     <input type="radio" id="side-left" [(ngModel)]="preferences.sidebar" [value]="false" formControlName="sidebar">
-                    <label for="side-left">Left</label>
+                    <label for="side-left">{{'LEFT'|translate}}</label>
                     <input type="radio" id="side-right" [(ngModel)]="preferences.sidebar" [value]="true" formControlName="sidebar">
-                    <label for="side-right">Right</label>
+                    <label for="side-right">{{'RIGHT'|translate}}</label>
                 </div>
             </div>
             <div class="group">
                 <div class="check">
                     <input type="checkbox" id="filter_bad_words" [(ngModel)]="preferences.filter_bad_words"
                         formControlName="filter_bad_words">
-                    <label for="filter_bad_words">Filter Bad Words</label>
+                    <label for="filter_bad_words">{{'PROFANITY_FILTER'|translate}}</label>
                 </div>
             </div>
             <div class="group">
                 <div class="check">
                     <input type="checkbox" id="allow_view_profile" [(ngModel)]="preferences.allow_view_profile"
                         formControlName="allow_view_profile">
-                    <label for="allow_view_profile">Allow View Profile</label>
+                    <label for="allow_view_profile">{{"ALLOW_VIEW_PROFILE"|translate}}</label>
                 </div>
             </div>
             <div class="group">
                 <div class="check">
                     <input type="checkbox" id="allow_user_to_mp" [(ngModel)]="preferences.allow_user_to_mp"
                         formControlName="allow_user_to_mp">
-                    <label for="allow_user_to_mp">Allow User To Mp</label>
+                    <label for="allow_user_to_mp">{{"ALLOW_MP"|translate}}</label>
                 </div>
             </div>
             <div class="group">
                 <div class="check">
                     <input type="checkbox" id="hide_online_presence" [(ngModel)]="preferences.hide_email"
                         formControlName="hide_email">
-                    <label for="hide_online_presence">Hide Email</label>
+                    <label for="hide_online_presence">{{"HIDE_EMAIL"|translate}}</label>
                 </div>
             </div>
-            <!-- <div class="group">
+            <div class="group">
                 <div class="check">
-                    <input type="checkbox" id="two_fa" [(ngModel)]="preferences.language" formControlName="two_fa">
-                    <label for="two_fa">Language</label>
+                    <label for="language">{{"LANGUAGE"|translate}}</label>
+                    <select id="language" [(ngModel)]="preferences.language" formControlName="language">
+                        <option value="es" [selected]="preferences.language === 'es'">{{"SPANISH"|translate}}</option>
+                        <option value="ca" [selected]="preferences.language === 'ca'">{{"CATALAN"|translate}}</option>
+                        <option value="en" [selected]="preferences.language === 'en'">{{"ENGLISH"|translate}}</option>
+                    </select>
                 </div>
-            </div> -->
+            </div>
             <div class="group">
                 <div class="check">
                     <input type="checkbox" id="allow_music" [(ngModel)]="preferences.allow_music"
                         formControlName="allow_music">
-                    <label for="allow_music">Allow Music</label>
+                    <label for="allow_music">{{"ALLOW_MUSIC"|translate}}</label>
                 </div>
             </div>
-            <div class="group">
+            <!-- <div class="group">
                 <div class="check">
                     <input type="checkbox" id="recieve_emails" [(ngModel)]="preferences.recieve_emails"
                         formControlName="recieve_emails">
                     <label for="recieve_emails">Recieve Emails</label>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="btn-field">
             <button [disabled]="!formEditPreferences.valid" class="btn-send">
-                Edit Preferences
+                {{'SAVE_PREFERENCES'|translate}}
             </button>
             <fa-icon class="btn-icon" [icon]="['fas', 'thumbs-up']"></fa-icon>
         </div>
         <div class="form-links">
             <div class="center"><a class="btn2" routerLink="/user/profile/{{userId}}">
                     <fa-icon [icon]="['fas', 'user-circle']"></fa-icon>
-                    View Profile</a></div>
+                    {{'PROFILE_VIEW_PROFILE'|translate}}</a></div>
             <div class="center mt-2"><button type="button" (click)="deleteUser(deleteModal)" class="btn btn-danger">
                     <fa-icon [icon]="['fas', 'trash-can']"></fa-icon>
-                    Delete User</button></div>
+                    {{'DELETE_ACCOUNT'|translate}}</button></div>
         </div>
 
     </form>
@@ -221,16 +225,15 @@
 
     </div>
     <div class="modal-header">
-        <h3 class="modal-title" id="modal-basic-title">Delete Account</h3>
+        <h3 class="modal-title" id="modal-basic-title">{{'DELETE_ACCOUNT'|translate}}</h3>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
     </div>
     <div class="modal-body {{theme}}">
         <div *ngIf="userDeletion == 0" class="mb-3">
-            Are you sure you want to delete your account?
-            All date will be lost forever.
+            {{'ACCOUNT_DELETE_WARNING'|translate}}
         </div>
         <div *ngIf="userDeletion == 1">
-            <label for="password">Enter your password:</label>
+            <label for="password">{{'ENTER_PASSWORD'|translate}}</label>
             <div class="group">
                 <div class="field">
                     <input type="password" [(ngModel)]="deletionPassword" class="input" placeholder="Password" id="password" required>
@@ -239,7 +242,7 @@
             </div>
         </div>
         <div *ngIf="userDeletion == 2">
-            <label for="password2">Repeat your password:</label>
+            <label for="password2">{{'REPEAT_PASSWORD'|translate}}</label>
             <div class="group">
                 <div class="field">
                     <input type="password" [(ngModel)]="deletionPassword2" class="input" placeholder="Confirm password" id="password2" required>
@@ -247,20 +250,20 @@
                 </div>
             </div>
             <div class="alert alert-danger m-0" role="alert">
-                Pressing Confirm will delete your account permanently.
+                {{"ACCOUNT_DELETE_WARNING2"|translate}}
             </div>
         </div>
         <div *ngIf="userDeletion == 3">
-            Please wait while you are being erased from our systems.
+            {{"ACCOUNT_DELETE_CONFIRM"|translate}}
         </div>
     </div>
     <div class="modal-footer d-flex justify-content-between">
-        <button type="button" class="btn btn-secondary" (click)="modal.close()">Cancel</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.close()">{{"CANCEL"|translate}}</button>
         <button type="button" class="btn btn-danger" (click)="confirmDelete()"  [disabled]="(deletionPassword.length < 3 && userDeletion === 1) || (deletionPassword2.length < 3 && userDeletion === 2)">
             <div *ngIf="deleteLoading" class="spinner-border spinner-border-sm" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            Confirm
+            {{"CONFIRM"|translate}}
         </button>
     </div>
 </ng-template>

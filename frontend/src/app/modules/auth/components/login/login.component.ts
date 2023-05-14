@@ -11,7 +11,7 @@ import { AuthData } from 'src/app/models/auth-data';
 import { AuthService } from '../../service/auth.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
-
+import {  TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -29,19 +29,20 @@ export class LoginComponent implements OnInit, OnDestroy {
   public googleEmail: string;
   public validationMessagesLogin = {
     email: {
-      required: 'Email is Required',
-      minlength: 'Min Length is 3',
-      maxlength: 'Max Length is 255',
-      email: 'Invalid Email',
+      required: "",
+      minlength:"" ,
+      maxlength: "",
+      email: "",
     },
     password: {
-      required: 'Password is Required',
-      minlength: 'Min Length is 8',
-      pattern: 'Invalid Password',
+      required: "",
+      minlength: "",
+      pattern: "",
     },
   };
 
   constructor(
+    private _translateService: TranslateService,
     private _authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
@@ -76,6 +77,19 @@ export class LoginComponent implements OnInit, OnDestroy {
       ],
       remember_me: [false, []],
     });
+    this.validationMessagesLogin = {
+      email: {
+        required: _translateService.instant("VALIDATION.EMAIL.REQUIRED"),
+        minlength: _translateService.instant("VALIDATION.EMAIL.MIN"),
+        maxlength: _translateService.instant("VALIDATION.EMAIL.MAX"),
+        email: _translateService.instant("VALIDATION.EMAIL.EMAIL"),
+      },
+      password: {
+        required: _translateService.instant("VALIDATION.PASSWORD.REQUIRED"),
+        minlength: _translateService.instant("VALIDATION.PASSWORD.MIN"),
+        pattern: _translateService.instant("VALIDATION.PASSWORD.PATTERN"),
+      },
+    }
   }
 
   ngOnInit():void {
@@ -119,17 +133,17 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.router.navigateByUrl(
               this.route.snapshot.queryParams['returnUrl'] || '/'
             );
-            this.toastService.show(res.message);
+            this.toastService.show(this._translateService.instant(res.message));
           },
           error: (err) => {
             console.log('Err (login ts):', err);
             this.loading = false;
-            this.error = err.error.message;
+            this.error = this._translateService.instant(err.error.message);
             this.formLogin.controls['password'].reset();
           },
         });
     } else {
-      this.error = 'Invalid data in the Form';
+      this.error = this._translateService.instant("VALIDATION.WRONG_FORMDATA");
     }
   }
 
@@ -137,7 +151,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this._authService.verifyEmail(this._authService.verification)
     .subscribe(
       r => {
-        this.toastService.show("Email verified")
+        this.toastService.show("EMAIL_VERIFIED")
         this.toastService.verificationToast = [];
         this._authService.verification = undefined;
       }

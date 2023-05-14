@@ -9,7 +9,7 @@ import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { Global } from 'src/environment/global';
-import { ToastService } from 'src/app/helpers/services/toast.service';
+import {  TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create',
@@ -36,7 +36,7 @@ export class CreateComponent implements OnInit, OnDestroy {
     private privateMessageService: PrivateMessageService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private toastService: ToastService
+    private _translateService: TranslateService
   ) {
     this.theme = themeService.getTheme();
     this.unsubscribe$ = new Subject();
@@ -91,10 +91,10 @@ export class CreateComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.message.content.length == 0) {
-      this.error = "Message can't be empty";
+      this.error = this._translateService.instant("VALIDATION.MESSAGE.EMPTY");
       return;
     } else if (this.message.content.length > 10_000) {
-      this.error = "Message can't be longer than 10.000 characters";
+      this.error = this._translateService.instant("VALIDATION.MESSAGE.LONG");
       return;
     } else {
       this.error = '';

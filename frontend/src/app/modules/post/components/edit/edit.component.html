@@ -1,12 +1,12 @@
 <div class="list-page {{theme}}">
   <div class="list" *ngIf="!loading">
     <div class="list-header">
-      <h1>Edit Post</h1>
+      <h1>{{"EDIT_POST"|translate}}</h1>
     </div>
     <div class="list-body">
       <div class="editor-parent" *ngIf="userLogged">
         <div class="custom-search" *ngIf="userLogged.userData.isAdmin">
-          <label for="topic-choose">Topic: </label>
+          <label for="topic-choose">{{"TOPIC"|translate}} </label>
           <div class="user-search">
             <ng-select labelForId="topic-choose" [items]="topicList" class="select" bindLabel="title" bindValue="id"
               [(ngModel)]="post.topic_id">
@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="custom-search" *ngIf="!userLogged.userData.isAdmin">
-          <h2>Topic: {{topic}}</h2>
+          <h2>{{"TOPIC"|translate}} {{topic}}</h2>
         </div>
         <div class="editor-user">
           <div class="user-card">

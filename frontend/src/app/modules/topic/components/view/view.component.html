@@ -60,10 +60,10 @@
                 <div class="two-options">
                     <a class="btn-a" *ngIf="listPosts.can_post" routerLink="/post/create/{{listPosts.topic.id}}">
                         <fa-icon [icon]="['fas', 'plus']"></fa-icon>
-                        Create new Post</a>
+                        {{"CREATE_POST"|translate}}</a>
                     <a class="btn-a" routerLink="/topic/{{listPosts.topic.id}}/poll/create" *ngIf="listPosts.can_poll">
                         <fa-icon [icon]="['fas', 'plus']"></fa-icon>
-                        Create Poll</a>
+                        {{"CREATE_POLL"|translate}}</a>
                 </div>
             </div>
         </div>
@@ -72,14 +72,14 @@
                     [pulse]="true"></fa-icon> Loading Poll ...</h4>
             <div *ngIf="!showResults" class="poll-view">
                 <div class="poll-title">
-                    <h3>Poll: {{listPosts.poll.name}}</h3>
+                    <h3>{{"POLL"|translate}} {{listPosts.poll.name}}</h3>
                     <button
-                        ngbTooltip="{{(listPosts.poll.finish_date | finished) <= 0 ? 'Finish the poll' : 'Reopen the Poll'}}"
+                        ngbTooltip="{{(listPosts.poll.finish_date | finished) <= 0 ? ('FINISH_POLL'|translate) : ('OPEN_POLL'|translate)}}"
                         class="btn-add" type="button" (click)="closePoll()" *ngIf="listPosts.poll.can_close"><fa-icon
                             [icon]="['fas', 'flag-checkered']"></fa-icon></button>
-                    <a class="btn-edit" ngbTooltip="Edit the Poll" routerLink="/topic/{{listPosts.topic.id}}/poll/edit"
+                    <a class="btn-edit" ngbTooltip="{{'EDIT_POLL'|translate}}" routerLink="/topic/{{listPosts.topic.id}}/poll/edit"
                         *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'pen']"></fa-icon></a>
-                    <button class="btn-delete" ngbTooltip="Delete the Poll" type="button" (click)="openModal(deleteModalPoll)"
+                    <button class="btn-delete" ngbTooltip="{{'DELETE_POLL'|translate}}" type="button" (click)="openModal(deleteModalPoll)"
                         *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
                 </div>
                 <div class="poll-option-vote">
@@ -91,38 +91,38 @@
                 </div>
                 <button class="btn-a" (click)="onVote()" [disabled]="vote == null">
                     <fa-icon [icon]="['fas', 'check']"></fa-icon>
-                    Vote</button>
+                    {{"VOTE"|translate}}</button>
                 <button class="btn2" (click)="onShowPollResults()">
                     <fa-icon [icon]="['fas', 'square-poll-horizontal']"></fa-icon>
-                    Show results</button>
+                    {{"SHOW_RESULTS"|translate}}</button>
             </div>
             <div *ngIf="pollResults && showResults" class="poll-view">
                 <div class="poll-title">
-                    <h3>Poll: {{pollResults.name}}</h3>
+                    <h3>{{"POLL"|translate}} {{pollResults.name}}</h3>
                     <button
-                        ngbTooltip="{{(listPosts.poll.finish_date | finished) <= 0 ? 'Finish the poll' : 'Reopen the Poll'}}"
+                        ngbTooltip="{{(listPosts.poll.finish_date | finished) <= 0 ? ('FINISH_POLL'|translate) : ('OPEN_POLL'|translate)}}"
                         class="btn-add" type="button" (click)="closePoll()" *ngIf="listPosts.poll.can_close"><fa-icon
                             [icon]="['fas', (listPosts.poll.finish_date | finished) <= 0 ? 'flag-checkered' : 'lock-open']"></fa-icon></button>
-                    <a class="btn-edit" ngbTooltip="Edit the Poll" routerLink="/topic/{{listPosts.topic.id}}/poll/edit"
+                    <a class="btn-edit" ngbTooltip="{{'EDIT_POLL'|translate}}" routerLink="/topic/{{listPosts.topic.id}}/poll/edit"
                         *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'pen']"></fa-icon></a>
-                    <button class="btn-delete" ngbTooltip="Delete the Poll" type="button" (click)="openModal(deleteModalPoll)"
+                    <button class="btn-delete" ngbTooltip="{{'DELETE_POLL'|translate}}" type="button" (click)="openModal(deleteModalPoll)"
                         *ngIf="listPosts.poll.can_edit"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
                 </div>
                 <div class="poll-vote">
                     <ng-container *ngFor="let option of pollResults.options"><span>{{option.option}} - {{option.votes}}
-                            votes</span><ngb-progressbar [showValue]="true"
+                            {{"VOTES"|translate}}</span><ngb-progressbar [showValue]="true"
                             type="{{option.voted ? 'success' : 'primary'}}"
                             [value]="(option?.votes??0)* 100/pollResults.votes" [striped]="true" [animated]="true"></ngb-progressbar>
                     </ng-container>
                 </div>
                 <button class="btn2" (click)="onShowPollResults()" *ngIf="listPosts.poll.can_vote">
                     <fa-icon [icon]="['fas', 'backward']"></fa-icon>
-                    Back to vote</button>
+                    {{"BACK_TO_VOTE"|translate}}</button>
             </div>
             <div class="poll-view">
-                <p *ngIf="(listPosts.poll.finish_date | finished) <= 0">Finishes: {{listPosts.poll.finish_date | date }}
+                <p *ngIf="(listPosts.poll.finish_date | finished) <= 0">{{"FINISHES"|translate}} {{listPosts.poll.finish_date | date }}
                 </p>
-                <p *ngIf="(listPosts.poll.finish_date | finished) > 0">Finished: {{listPosts.poll.finish_date | date }}
+                <p *ngIf="(listPosts.poll.finish_date | finished) > 0">{{"FINISHED"|translate}} {{listPosts.poll.finish_date | date }}
                 </p>
             </div>
         </div>
@@ -132,7 +132,7 @@
                     <app-avatar [user]="listPosts.topic.user"></app-avatar>
                     <div class="text">
                         <a routerLink="/user/profile/{{listPosts.topic.user.id}}"
-                            ngbTooltip="View Profile of {{listPosts.topic.user.nick}}">{{listPosts.topic.user.nick}}</a>
+                            ngbTooltip="{{'VIEW_PROFILE'|translate}} {{listPosts.topic.user.nick}}">{{listPosts.topic.user.nick}}</a>
                         <small ngbTooltip="{{listPosts.topic.user.public_role.description}}"
                             placement="bottom">{{listPosts.topic.user.public_role.name}}</small>
                     </div>
@@ -140,13 +140,13 @@
                 <div class="post-main">
                     <div class="post-body">
                         <div class="post-header">
-                            <p class="post-date" ngbTooltip="Created {{listPosts.topic.created_at | ago}}">
+                            <p class="post-date" ngbTooltip="{{'CREATED'|translate}} {{listPosts.topic.created_at | ago}}">
                                 {{listPosts.topic.created_at | ago}}</p>
                             <div *ngIf="listPosts.can_edit" class="edit-buttons">
                                 <button routerLink="/topic/edit/{{listPosts.topic.id}}" class="btn-edit"
-                                    ngbTooltip="Edit the Topic" type="button"><fa-icon
+                                    ngbTooltip="{{'EDIT_TOPIC'|translate}}" type="button"><fa-icon
                                         [icon]="['fas', 'pen']"></fa-icon></button>
-                                <button (click)="openModal(deleteModalTopic)" ngbTooltip="Delete the Topic"
+                                <button (click)="openModal(deleteModalTopic)" ngbTooltip="{{'DELETE_TOPIC'|translate}}"
                                     class="btn-delete" type="button"><fa-icon
                                         [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
@@ -154,7 +154,7 @@
                         <p class="content" [innerHTML]="listPosts.topic.content"></p>
                     </div>
                     <div *ngIf="listPosts.topic.created_at != listPosts.topic.updated_at" class="post-footer">
-                        <p ngbTooltip="Updated {{listPosts.topic.updated_at | ago}}">{{listPosts.topic.updated_at |
+                        <p ngbTooltip="{{'UPDATED'|translate}} {{listPosts.topic.updated_at | ago}}">{{listPosts.topic.updated_at |
                             ago}}</p>
                     </div>
                 </div>
@@ -164,7 +164,7 @@
                     <app-avatar [user]="post.user"></app-avatar>
                     <div class="text">
                         <a routerLink="/user/profile/{{post.user.id}}"
-                            ngbTooltip="View Profile of {{post.user.nick}}">{{post.user.nick}}</a>
+                            ngbTooltip="{{'VIEW_PROFILE'|translate}} {{post.user.nick}}">{{post.user.nick}}</a>
                         <small ngbTooltip="{{post.user.public_role.description}}"
                             placement="bottom">{{post.user.public_role.name}}</small>
                     </div>
@@ -175,17 +175,17 @@
                             <p class="post-date" ngbTooltip="Created {{post.created_at | ago}}">{{post.created_at |
                                 ago}}</p>
                             <div *ngIf="post.can_edit" class="edit-buttons">
-                                <button class="btn-edit" ngbTooltip="Edit the Post" type="button"
+                                <button class="btn-edit" ngbTooltip="{{'EDIT_POST'|translate}}" type="button"
                                     routerLink="/post/edit/{{post.id}}"><fa-icon
                                         [icon]="['fas', 'pen']"></fa-icon></button>
-                                <button class="btn-delete" ngbTooltip="Delete the Post" type="button"
+                                <button class="btn-delete" ngbTooltip="{{'DELETE_POST'|translate}}" type="button"
                                     (click)="openModalPost(deleteModalPost, post.id, post.user.nick)"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
                             </div>
                         </div>
                         <p class="content" [innerHTML]="post.content"></p>
                     </div>
                     <div *ngIf="post.created_at != post.updated_at" class="post-footer">
-                        <p ngbTooltip="Updated {{post.updated_at| ago}}">{{post.updated_at | ago}}</p>
+                        <p ngbTooltip="{{'UPDATED'|translate}} {{post.updated_at| ago}}">{{post.updated_at | ago}}</p>
                     </div>
                 </div>
             </div>
@@ -195,7 +195,7 @@
                         <app-avatar [user]="userLogged.userData"></app-avatar>
                         <div class="text">
                             <a routerLink="/user/profile/{{userLogged.userData.id}}"
-                                ngbTooltip="View Your Profile">{{userLogged.userData.nick}}</a>
+                                ngbTooltip="{{'VIEW_SELF_PROFILE'|translate}}">{{userLogged.userData.nick}}</a>
                             <small ngbTooltip="{{userLogged.userData.public_role.description}}"
                                 placement="bottom">{{userLogged.userData.public_role.name}}</small>
                         </div>
@@ -215,8 +215,8 @@
             <app-pagination [current_page]="listPosts.page.current" [last_page]="listPosts.page.last"
                 (changePage)="changePage($event)"></app-pagination>
             <div class="c">
-                <div>Total Posts: {{listPosts.page.total}}</div>
-                <div>Page: {{listPosts.page.current}}/{{listPosts.page.last}}</div>
+                <div>{{'TOTAL_POSTS'|translate}} {{listPosts.page.total}}</div>
+                <div>{{'PAGE'|translate}} {{listPosts.page.current}}/{{listPosts.page.last}}</div>
             </div>
         </div>
     </div>
@@ -224,43 +224,43 @@
 
 <ng-template #deleteModalPoll let-modal>
     <div class="modal-header">
-        <h3 class="modal-title">Confirm the deletion</h3>
+        <h3 class="modal-title">{{"CONFIRM_DELETE"|translate}}</h3>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        <p>Are you sure you want to delete the poll: {{pollResults?.name}} (with {{pollResults?.votes}} vote{{pollResults?.votes != 1 ? 's': ''}})</p>
+        <p>{{"CONFIRM_DELETE_POLL"|translate}}: {{pollResults?.name}} ({{'WITH'|translate}} {{pollResults?.votes}} {{'VOTE'|translate}}{{pollResults?.votes != 1 ? 's': ''}})</p>
     </div>
     <div class="modal-footer d-felx justify-content-between">
-        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel</button>
-        <button type="button" class="btn btn-danger" (click)="deletePoll(); modal.close('Close click')">Delete</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">{{"CANCEL"|translate}}</button>
+        <button type="button" class="btn btn-danger" (click)="deletePoll(); modal.close('Close click')">{{"DELETE"|translate}}</button>
     </div>
 </ng-template>
 
 <ng-template #deleteModalTopic let-modal>
     <div class="modal-header">
-        <h3 class="modal-title">Confirm the deletion</h3>
+        <h3 class="modal-title">{{"CONFIRM_DELETE"|translate}}</h3>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        <p>Are you sure you want to delete the topic: {{listPosts.topic.title | capitalize}}</p>
+        <p>{{"CONFIRM_DELETE_TOPIC"|translate}} {{listPosts.topic.title | capitalize}}</p>
     </div>
     <div class="modal-footer d-felx justify-content-between">
-        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">{{"CANCEL"|translate}}</button>
         <button type="button" class="btn btn-danger"
-            (click)="deleteTopic(listPosts.topic.id); modal.close('Close click')">Delete</button>
+            (click)="deleteTopic(listPosts.topic.id); modal.close('Close click')">{{"DELETE"|translate}}</button>
     </div>
 </ng-template>
 
 <ng-template #deleteModalPost let-modal>
     <div class="modal-header">
-        <h3 class="modal-title">Confirm the deletion</h3>
+        <h3 class="modal-title">{{"CONFIRM_DELETE"|translate}}</h3>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        <p>Are you sure you want to delete the post by: {{post_by}}</p>
+        <p>{{"CONFIRM_DELETE_POST"|translate}} {{post_by}}</p>
     </div>
     <div class="modal-footer d-felx justify-content-between">
-        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancel</button>
-        <button type="button" class="btn btn-danger" (click)="deletePost(post_delete); modal.close('Close click')">Delete</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">{{"CANCEL"|translate}}</button>
+        <button type="button" class="btn btn-danger" (click)="deletePost(post_delete); modal.close('Close click')">{{"DELETE"|translate}}</button>
     </div>
 </ng-template>

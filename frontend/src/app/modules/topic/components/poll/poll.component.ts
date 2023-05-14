@@ -4,7 +4,7 @@ import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { TopicService } from '../../service/topic.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Poll } from 'src/app/models/send/create-topic';
-import { ToastService } from 'src/app/helpers/services/toast.service';
+import {  TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-poll',
@@ -26,7 +26,8 @@ export class PollComponent implements OnInit, OnDestroy {
     private topicService: TopicService,
     private route: ActivatedRoute,
     private router: Router,
-    private toastService: ToastService
+    private _translateService: TranslateService
+
   ) {
     this.unsubscribe$ = new Subject();
     this.loading = true;
@@ -88,7 +89,7 @@ export class PollComponent implements OnInit, OnDestroy {
         });
     }
     else {
-      this.error = "The finish date of the poll can't be in the past"
+      this.error = this._translateService.instant("VALIDATION.POLL.PAST")
     }
   }
 

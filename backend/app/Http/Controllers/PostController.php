@@ -131,7 +131,7 @@ function checkPermission(Post $post)
     $isAdmin = $user->isAdmin();
     $isMod = in_array($post->topic->category->can_mod, $roles);
     if (!$isAdmin && !$isMod) {
-        // IF the used isn't either an admin or a mod, chekcs if is the owner of the post and the post is the last one of the topic.
+        // IF the user isn't either an admin or a mod, checks if is the owner of the post and the post is the last one of the topic.
         if (
             $post->user_id != $user->id ||
             Post::where('topic_id', $post->topic_id)->orderBy(

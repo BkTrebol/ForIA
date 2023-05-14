@@ -10,6 +10,7 @@ import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { PostService } from '../../service/post.service';
 import { Global } from 'src/environment/global';
+import {  TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit',
@@ -38,7 +39,8 @@ export class EditComponent implements OnInit, OnDestroy {
     private router: Router,
     private toastService: ToastService,
     private authService: AuthService,
-    private postService: PostService
+    private postService: PostService,
+    private _translateService: TranslateService
   ) {
     this.unsubscribe$ = new Subject();
     this.loading = true;
@@ -126,13 +128,13 @@ export class EditComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (res) => {
             this.router.navigate([`/topic/${this.post.topic_id}`]);
-            this.toastService.show('Post edited successfully');
+            this.toastService.show(this._translateService.instant("POST_EDITED"));
           },
           error: (e) => console.log(e),
         });
       this.error = '';
     } else {
-      this.error = 'Invalid form data';
+      this.error = this._translateService.instant("VALIDATION.WRONG_FORMDATA")
     }
   }
 

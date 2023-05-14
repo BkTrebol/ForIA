@@ -3,16 +3,16 @@
         <button class="btn2" (click)="coll = !coll; width = coll ? '45px':'240px';margin = coll?'0':'0 1rem'"
             type="button" ngbTooltip="{{coll? 'Expand': 'Collapse'}} Sidebar"><fa-icon
                 [icon]="['fas', coll ? order ? 'chevron-right': 'chevron-left': 'chevron-down']"></fa-icon></button>
-        <button *ngIf="userLoggedIn" class="btn-a" type="button" (click)="editSidebar()" ngbTooltip="Move Sidebar to the {{order ? 'Left':
-            'Right'}}">{{order ? 'Left':
-            'Right'}}</button>
+        <button *ngIf="userLoggedIn" class="btn-a" type="button" (click)="editSidebar()" ngbTooltip="{{'MOVE_SIDEBAR' | translate}} {{order ? ('LEFT'| translate):
+            ('RIGHT' | translate)}}">{{order ? ('LEFT'| translate):
+            ('RIGHT' | translate)}}</button>
     </div>
     <div [(ngbCollapse)]="coll">
         <div class="sidebar-title" *ngIf="userLoggedIn;else notLoggedHeader">
             <app-avatar [user]="userLocalData"></app-avatar>
             <div class="text">
-                <a routerLink="/user/profile/{{userLocalData.id}}"
-                    ngbTooltip="View Profile of {{userLocalData.nick}}">{{userLocalData.nick}}</a>
+                <a routerLink="/user/profile/{{userLocalData?.id}}"
+                    ngbTooltip="{{'VIEW_PROFILE'| translate}} {{userLocalData.nick}}">{{userLocalData?.nick}}</a>
                 <small ngbTooltip="{{userLocalData.public_role.description}}"
                     placement="bottom">{{userLocalData.public_role.name}}
                 </small>
@@ -25,9 +25,9 @@
 
         <div class="sidebar-body">
             <div class="sidebar-stats" *ngIf="userData && userLoggedIn">
-                <p>Published messages: {{userData.messages}}</p>
-                <p>Private messages: {{userData.pms}}</p>
-                <p>New Private Messages: {{userData.newPms}}</p>
+                <p>{{"PUB_MESSAGES"| translate }}: {{userData.messages}}</p>
+                <p>{{"PRIV_MESSAGES"| translate }}: {{userData.pms}}</p>
+                <p>{{"NEW_PRIV_MESSAGES"| translate }}: {{userData.newPms}}</p>
             </div>
             <div class="sidebar-stats" *ngIf="(!userData || !userLoggedIn) && elseLoading">
                 <div *ngFor="let _ of [0,1,2]">
@@ -39,10 +39,10 @@
             </div>
             <div class="sidebar-posts">
                 <p *ngIf="lastPosts.length > 0" class="last-post-toggle" (click)="lastPostToggle = !lastPostToggle">
-                    <fa-icon [icon]="['fas', lastPostToggle ? 'chevron-right': 'chevron-down']"></fa-icon> Last
+                    <fa-icon [icon]="['fas', lastPostToggle ? 'chevron-right': 'chevron-down']"></fa-icon> {{'LASTS'| translate}}
                     {{lastPosts.length}} Posts
                 </p>
-                <p *ngIf="lastPosts.length == 0"><fa-icon [icon]="['fas', 'chevron-right']"></fa-icon> Last <fa-icon
+                <p *ngIf="lastPosts.length == 0"><fa-icon [icon]="['fas', 'chevron-right']"></fa-icon> {{'LASTS'| translate}} <fa-icon
                         [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Posts
                 </p>
                 <div [(ngbCollapse)]="lastPostToggle">
@@ -51,7 +51,7 @@
                             ngbTooltip="View Post {{post.title | capitalize}}" placement="bottom">{{post.title |
                             capitalize}}</a><br>
                         By <a routerLink="/user/profile/{{post.user_id}}" class="sidebar-nick"
-                            ngbTooltip="View Profile of {{post.user_nick}}" placement="bottom">{{post.user_nick}}</a>
+                            ngbTooltip="{{'VIEW_PROFILE'| translate}}{{post.user_nick}}" placement="bottom">{{post.user_nick}}</a>
                         {{post.created_at | ago}}
                     </div>
                 </div>
@@ -60,15 +60,15 @@
                 <p class="stats-toggle" (click)="statsToggle = !statsToggle"><fa-icon
                         [icon]="['fas', statsToggle ? 'chevron-right': 'chevron-down']"></fa-icon> Forum Stats:</p>
                 <div [(ngbCollapse)]="statsToggle">
-                    <p>Topics: {{forumStats.topics}}</p>
-                    <p>Posts: {{forumStats.posts}}</p>
-                    <p>Users: {{forumStats.users}}</p>
-                    <p>Last User: <a routerLink="/user/profile/{{forumStats.lastUser.id}}"
-                            ngbTooltip="View Profile of {{forumStats.lastUser.nick}}"
+                    <p>{{'TOPICS'| translate}}Topics: {{forumStats.topics}}</p>
+                    <p>{{'POSTS'| translate}}Posts: {{forumStats.posts}}</p>
+                    <p>{{'USERS'| translate}}Users: {{forumStats.users}}</p>
+                    <p>{{'LAST_USER'| translate}}Last User: <a routerLink="/user/profile/{{forumStats.lastUser.id}}"
+                            ngbTooltip="{{'VIEW_PROFILE'| translate}} {{forumStats.lastUser.nick}}"
                             placement="bottom">{{forumStats.lastUser.nick}}</a>
                     </p>
-                    <p *ngIf="forumStats.lastPoll">Last Poll: <a routerLink="/topic/{{forumStats.lastPoll.topic_id}}"
-                            ngbTooltip="View Poll {{forumStats.lastPoll.name}}"
+                    <p *ngIf="forumStats.lastPoll" >{{'LAST_POLL'| translate}}Last Poll: <a routerLink="/topic/{{forumStats.lastPoll.topic_id}}"
+                            ngbTooltip="{{'VIEW_POLL' | translate}} {{forumStats.lastPoll.name}}"
                             placement="bottom">{{forumStats.lastPoll.name}}</a>
                     </p>
                 </div>

@@ -14,6 +14,7 @@ import { AuthService } from '../../service/auth.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {  TranslateService } from '@ngx-translate/core';
 
 // Custom Validator
 function passwordMatchValidator(control: AbstractControl) {
@@ -51,30 +52,30 @@ export class RegisterComponent implements OnInit, OnDestroy {
   public formBuilderNonNullable: NonNullableFormBuilder;
   public validationMessagesRegister = {
     nick: {
-      required: 'Nick is Required',
-      minlength: 'Min Length is 3',
-      maxlength: 'Max Length is 100',
-      repeat: 'Nick already choosen',
+      required: '',
+      minlength: '',
+      maxlength: '',
+      repeat: 'n',
     },
     email: {
-      required: 'Email is Required',
-      minlength: 'Min Length is 3',
-      maxlength: 'Max Length is 255',
-      email: 'Invalid Email',
-      repeat: 'Email already choosen',
+      required: '',
+      minlength: '',
+      maxlength: '',
+      email: '',
+      repeat: '',
     },
     password: {
-      required: 'Password is Required',
-      minlength: 'Min Length is 8',
-      pattern: 'Invalid Password',
+      required: '',
+      minlength: '',
+      pattern: '',
     },
     password_confirmation: {
-      required: 'Password Confirmation is Required',
-      minlength: 'Min Length is 8',
-      mismatch: 'Password confirmation mismatch',
+      required: '',
+      minlength: '',
+      mismatch: '',
     },
     terms: {
-      required: 'Pleas Accept Terms and conditions',
+      required: '',
     },
   };
   public termsText: string;
@@ -84,7 +85,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private _authService: AuthService,
     private router: Router,
     private themeService: ThemeService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private _translateService: TranslateService
   ) {
     this.unsubscribe$ = new Subject();
     this.theme = this.themeService.getTheme();
@@ -97,6 +99,34 @@ export class RegisterComponent implements OnInit, OnDestroy {
       email: '',
       password: '',
       password_confirmation: '',
+    };
+    this.validationMessagesRegister = {
+      nick: {
+        required: _translateService.instant("VALIDATION.NICK.REQUIRED"),
+        minlength: _translateService.instant("VALIDATION.NICK.MIN"),
+        maxlength: _translateService.instant("VALIDATION.NICK.MAX"),
+        repeat: _translateService.instant("VALIDATION.NICK.REPEAT"),
+      },
+      email: {
+        required:  _translateService.instant("VALIDATION.EMAIL.REQUIRED"),
+        minlength: _translateService.instant("VALIDATION.EMAIL.MIN"),
+        maxlength: _translateService.instant("VALIDATION.EMAIL.MAX"),
+        email: _translateService.instant("VALIDATION.EMAIL.EMAIL"),
+        repeat:_translateService.instant("VALIDATION.EMAIL.EMAIL"),
+      },
+      password: {
+        required: _translateService.instant("VALIDATION.PASSWORD.REQUIRED"),
+        minlength: _translateService.instant("VALIDATION.PASSWORD.MIN"),
+        pattern: _translateService.instant("VALIDATION.PASSWORD.PATTERN"),
+      },
+      password_confirmation: {
+        required: _translateService.instant("VALIDATION.PASSWORD_CONFIRMATION.REQUIRED"),
+        minlength: _translateService.instant("VALIDATION.PASSWORD_CONFIRMATION.MIN"),
+        mismatch: _translateService.instant("VALIDATION.PASSWORD_CONFIRMATION.MISMATCH"),
+      },
+      terms: {
+        required: _translateService.instant("VALIDATION.TERMS.REQUIRED"),
+      },
     };
     this.formBuilderNonNullable = new FormBuilder().nonNullable;
     this.formRegister = this.formBuilderNonNullable.group(
@@ -203,7 +233,7 @@ By accessing or using this web page, you acknowledge that you have read these Te
             this.error = '';
             this.loading = false;
             this.router.navigate(['/']);
-            this.toastService.show(res.message);
+            this.toastService.show(this._translateService.instant(res.message));
           },
           error: (err) => {
             console.log(err);
@@ -241,7 +271,7 @@ By accessing or using this web page, you acknowledge that you have read these Te
           },
         });
     } else {
-      this.error = 'Invalid data in the Form';
+      this.error = this._translateService.instant("WRONG_FORMDATA");
     }
   }
 

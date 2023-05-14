@@ -5,7 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from 'src/app/helpers/services/toast.service';
-import { MessageRes } from 'src/app/models/common/message-res';
+import {  TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-list',
@@ -26,7 +26,8 @@ export class ListComponent implements OnInit, OnDestroy {
     private privateMessageService: PrivateMessageService,
     private route: ActivatedRoute,
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private _translateService: TranslateService
   ) {
     this.deleteReceived = [];
     this.deleteSent = [];
@@ -86,7 +87,7 @@ export class ListComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (r: MessageRes) => {
           this.getMessages();
-          this.toastService.show(r.message);
+          this.toastService.show(this._translateService.instant("MESSAGES_DELETED"));
         },
         error: (e) => console.error(e),
       });
