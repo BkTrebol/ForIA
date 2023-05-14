@@ -203,7 +203,8 @@
     "USERS": "Usuaris:",
     "LAST_USER": "Últim usuari:",
     "LAST_POLL": "Última enquesta:",
-   
+    "USER_NOT_FOUND": "Usuarr no trobat",
+
     "User created successfully": "Usuari creat amb èxit",
     "User email verified": "Correu electrònic de l'usuari verificat",
     "Account linked to Google account successfully": "Compte vinculat amb èxit al compte de Google",

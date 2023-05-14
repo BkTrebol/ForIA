@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Global } from '../../../../environment/global';
+import { environment } from 'src/environments/environment';
 import { ListPosts, Poll } from 'src/app/models/receive/list-posts';
 import { Poll as SendPoll} from 'src/app/models/send/create-topic';
 import { CreatePost } from 'src/app/models/send/create-post';
@@ -17,9 +17,9 @@ export class TopicService {
   private apiPollURL: string;
 
   constructor(private http: HttpClient) {
-    this.apiTopicURL = Global.api + 'topic/';
-    this.apiPostURL = Global.api + 'post/';
-    this.apiPollURL = Global.api + 'poll/';
+    this.apiTopicURL = environment.api + 'topic/';
+    this.apiPostURL = environment.api + 'post/';
+    this.apiPollURL = environment.api + 'poll/';
   }
 
   posts(id: string, page: string): Observable<ListPosts> {

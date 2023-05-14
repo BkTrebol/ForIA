@@ -4,7 +4,7 @@ import { Subject, filter, takeUntil } from 'rxjs';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
-import { Global } from 'src/environment/global';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-sidenav',
@@ -31,7 +31,7 @@ export class SidenavComponent implements OnInit {
     this.unsubscribe$ = new Subject();
     this.collapsed = window.innerWidth <= 800;
     this.user = this.authService.user.userData;
-    this.getAvatarUrl = Global.api + 'user/get-avatar/';
+    this.getAvatarUrl = environment.api + 'user/get-avatar/';
     this.defaultUrl = 'https://api.dicebear.com/6.x/bottts/svg?seed=';
     this.avatarUrl = '';
     this.regexUrl = /https?:\/\/.+\..+/;

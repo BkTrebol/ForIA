@@ -5,7 +5,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { Global } from 'src/environment/global';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-avatar',
@@ -28,7 +28,7 @@ export class AvatarComponent implements OnInit, OnChanges {
   @Input('small') small: boolean;
 
   constructor() {
-    this.getAvatarUrl = Global.api + 'user/get-avatar/';
+    this.getAvatarUrl = environment.api + 'user/get-avatar/';
     this.defaultUrl = 'https://api.dicebear.com/6.x/bottts/svg?seed=';
     this.avatarUrl = '';
     this.regexUrl = /https?:\/\/.+\..+/;

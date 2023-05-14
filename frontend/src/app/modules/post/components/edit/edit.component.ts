@@ -9,7 +9,7 @@ import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { PostService } from '../../service/post.service';
-import { Global } from 'src/environment/global';
+import { environment } from 'src/environments/environment';
 import {  TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -50,7 +50,7 @@ export class EditComponent implements OnInit, OnDestroy {
     this.editorConfig = {
       minHeight: '200px',
       editable: true,
-      uploadUrl: `${Global.api}upload/images`,
+      uploadUrl: `${environment.api}upload/images`,
       uploadWithCredentials: true,
     };
     this.post = {

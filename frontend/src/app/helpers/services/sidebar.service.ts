@@ -5,7 +5,7 @@ import { MessageRes } from 'src/app/models/common/message-res';
 import { ForumStats } from 'src/app/models/receive/forum-stats';
 import { LastPosts } from 'src/app/models/receive/last-posts';
 import { UserStats } from 'src/app/models/receive/user-stats';
-import { Global } from 'src/environment/global';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ export class SidebarService {
   public apiSidebarURL: string;
 
   constructor(private http: HttpClient) {
-    this.apiSidebarURL = Global.api + 'sidebar/';
+    this.apiSidebarURL = environment.api + 'sidebar/';
   }
 
   getData(): Observable<UserStats> {
@@ -30,6 +30,6 @@ export class SidebarService {
   }
 
   editSidebar(s: boolean): Observable<MessageRes> {
-    return this.http.put<MessageRes>(`${Global.api}preferences/sidebar`, JSON.stringify({ 'sidebar': s }))
+    return this.http.put<MessageRes>(`${environment.api}preferences/sidebar`, JSON.stringify({ 'sidebar': s }))
   }
 }

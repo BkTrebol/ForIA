@@ -9,7 +9,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/modules/user/service/user.service';
 import { EditUserProfile } from 'src/app/models/receive/edit-user-profile';
-import { Global } from 'src/environment/global';
+import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { UserPreferences } from 'src/app/models/user-preferences';
@@ -136,7 +136,7 @@ export class EditComponent implements OnInit, OnDestroy {
     this.filesToUpload = [];
     this.imageSelected = '';
     this.imageSrc = '';
-    this.url = Global.api + 'user/';
+    this.url = environment.api + 'user/';
     this.formBuilderNonNullable = new FormBuilder().nonNullable;
     this.formEditProfile = this.formBuilderNonNullable.group({
       nick: [

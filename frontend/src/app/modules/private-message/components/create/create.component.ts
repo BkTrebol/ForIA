@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
-import { Global } from 'src/environment/global';
+import { environment } from 'src/environments/environment';
 import {  TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 
@@ -52,7 +52,7 @@ export class CreateComponent implements OnInit, OnDestroy {
     this.editorConfig = {
       height: '200px',
       editable: true,
-      uploadUrl: `${Global.api}upload/images`,
+      uploadUrl: `${environment.api}upload/images`,
       uploadWithCredentials: true,
     };
     this.userLogged = null;
@@ -69,7 +69,7 @@ export class CreateComponent implements OnInit, OnDestroy {
         map((r) => {
           if (r.filter((u: any) => u.id === sendTo).length == 0) {
             console.log('No user found with this id');
-            this.toastService.showDanger('No user found with this id');
+            this.toastService.showDanger(this._translateService.instant('USER_NOT_FOUND'));
           } else {
             this.message.recipient = sendTo;
           }

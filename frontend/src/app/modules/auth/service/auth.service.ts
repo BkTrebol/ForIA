@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject, concatMap, map } from 'rxjs';
-import { Global } from 'src/environment/global';
+import { environment } from 'src/environments/environment';
 import { AuthData } from 'src/app/models/auth-data';
 import { Register } from 'src/app/models/register';
 import { User } from 'src/app/models/user';
@@ -34,9 +34,9 @@ export class AuthService {
   } | null>;
 
   constructor(private http: HttpClient) {
-    this.baseURL = Global.url;
-    this.apiAuthURL = Global.api + 'auth/';
-    this.apiAdminURL = Global.api + 'admin/';
+    this.baseURL = environment.url;
+    this.apiAuthURL = environment.api + 'auth/';
+    this.apiAdminURL = environment.api+'admin/';
     this.isAdmin = new BehaviorSubject(null);
     this.$isAdmin = this.isAdmin.asObservable();
     this.userSubject = new BehaviorSubject(null);
@@ -52,7 +52,7 @@ export class AuthService {
   // ADMIN
   getUserList(): Observable<{ id: number; nick: string }[]> {
     return this.http.get<{ id: number; nick: string }[]>(
-      `${Global.api}user/publiclist/`
+      `${environment.api}user/publiclist/`
     );
   }
 
