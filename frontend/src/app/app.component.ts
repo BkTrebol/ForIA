@@ -47,7 +47,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     const lang = localStorage.getItem('lang');
     const browserLang = navigator.language;
-    console.log(lang, browserLang);
 
     if (lang != null && lang != '') {
       this._translateService.use(lang);

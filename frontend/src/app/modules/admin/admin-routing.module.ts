@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { canActivateAdmin } from 'src/app/helpers/guards/canActivateChild/admin.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'categories', pathMatch: 'full' },
+  { path: '', redirectTo:'admin/categories',pathMatch: 'full'},
   {
     path: 'login',
     loadChildren: () =>

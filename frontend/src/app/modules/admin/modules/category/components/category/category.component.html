@@ -24,8 +24,11 @@
 						<div class="btn-group w-content mx-auto mt-sm-0 mt-2 mx-sm-1">
 							<button class="btn btn-sm btn-primary" (click)="editCategory(categoryModal,index,cindex)"
 								aria-label="Edit Cateogry"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
-							<button class="btn btn-sm btn-danger" (click)="deleteCategory(deleteModal,index,cindex)"
+							<button  *ngIf="category.id !== 1"class="btn btn-sm btn-danger" (click)="deleteCategory(deleteModal,index,cindex)"
 								aria-label="Delete Cateogry"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
+							
+								<button *ngIf="category.id === 1" class="btn btn-sm btn-danger" (click)="emptyCategory(emptyModal,index,cindex)"
+							aria-label="Empty Cateogry"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
 						</div>
 					</div>
 				</div>
@@ -183,6 +186,23 @@
 		<div class="my-3">
 			<p>Confirm deleting category with title: {{catToDelete}}</p>
 			<p>All data related with this category will be deleted only if you click Save after Confirminig this modal</p>
+		</div>
+	</div>
+	<div class="modal-footer d-flex justify-content-between">
+		<button type="button" class="btn btn-secondary" (click)="modal.close()">Cancel</button>
+		<button type="button" class="btn btn-danger" (click)="modal.close(true)">Confirm</button>
+	</div>
+</ng-template>
+
+<ng-template #emptyModal let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Empty Category</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+	</div>
+	<div class="modal-body">
+		<div class="my-3">
+			<p>This category can't be deleted, proceding confirm will delete all Topics it contains and its posts.</p>
+			<p>Confirm deleting all topics from  title: {{catToDelete}}</p>
 		</div>
 	</div>
 	<div class="modal-footer d-flex justify-content-between">

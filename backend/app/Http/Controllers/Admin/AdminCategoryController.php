@@ -36,6 +36,17 @@ class AdminCategoryController extends Controller
         );
     }
 
+    function emptyTrash(Request $request){
+        $category = Category::where('id',1)->first();
+        $topics = $category->topics;
+        foreach($topics as $topic){
+            $topic->delete();
+        }
+        return response()->json([
+            "message" => "All topics from Trash have been deleted.",
+        ],200);
+    }
+
     function saveCategory(Request $request)
     {
         $request->validate([
