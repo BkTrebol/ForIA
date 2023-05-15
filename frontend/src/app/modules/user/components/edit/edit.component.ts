@@ -300,7 +300,9 @@ export class EditComponent implements OnInit, OnDestroy {
   deleteUser(modal: any) {
     this.deletionPassword = '';
     this.deletionPassword2 = '';
+   
     this.modalService.open(modal).result.catch(() => {
+      console.log(this.userDeletion)
       if (this.userDeletion != 3) {
         this.toastService.show(this._translateService.instant('DESTRUCTION_ABORTED'));
       }

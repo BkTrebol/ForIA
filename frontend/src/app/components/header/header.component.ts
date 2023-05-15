@@ -131,7 +131,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   // Change Language (for not logged users)
   changeLanguage(): void {
-    console.log("change language", this.language);
+   localStorage.setItem('lang',this.language)
     this._translateService.use(this.language);
   }
 
