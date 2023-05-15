@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Mews\Purifier\Casts\CleanHtmlInput;
 
 use App\Models\User;
 use App\Models\Topic;
@@ -24,6 +25,9 @@ class Post extends Model
 
     protected $touches = ['topic'];
 
+    protected $casts = [
+        'content' => CleanHtmlInput::class,
+    ];
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }

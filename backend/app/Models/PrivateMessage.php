@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Mews\Purifier\Casts\CleanHtmlInput;
 use App\Models\User;
 use App\Models\Topic;
 class PrivateMessage extends Model
@@ -24,6 +24,10 @@ class PrivateMessage extends Model
         'title',
     ];
 
+    protected $casts = [
+        'title' => CleanHtmlInput::class,
+        'content' => CleanHtmlInput::class,
+    ];
     public function sender(){
         return $this->belongsTo(User::class, 'sender_id');
     }

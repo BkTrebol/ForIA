@@ -1,17 +1,20 @@
 version: '3'
 services:
   backend:
+    # image: registry/backend:latest
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
       - '9000:9000'
-    # volumes:
+    volumes:
       # - ./backend:/var/www/html
+      - storage:/var/www/html/storage:rw
     depends_on:
       - database
 
   frontend:
+    # image: registry/frontend:latest
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -26,10 +29,14 @@ services:
   database:
     image: mysql
     command: --log_bin_trust_function_creators=1
+    volumes:
+      - bbdd:/var/lib/mysql
     environment:
       MYSQL_DATABASE: foria
       MYSQL_USER: foriauser
       MYSQL_PASSWORD: dufh4342jchdd
       MYSQL_ROOT_PASSWORD: 64ghfgsjh3j1
 
-
+volumes:
+  storage:
+  bbdd:

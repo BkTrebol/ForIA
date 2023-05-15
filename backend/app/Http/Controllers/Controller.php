@@ -13,7 +13,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function is_admin(Request $request) {
+    protected function is_admin(Request $request) {
         $user = Auth::user();
         if($request->session()->get('fakeRole',false)){
             return false;
@@ -21,7 +21,7 @@ class Controller extends BaseController
         return $user && $user->isAdmin();
     }
 
-    public function roles(Request $request) {
+    protected function roles(Request $request) {
         $user = Auth::user();
         if($request->session()->get('fakeRole',false)){
             
@@ -30,11 +30,40 @@ class Controller extends BaseController
         return $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
     }
 
-    public function ban_words($content, $replace_char="*"){
+    protected function ban_words($content, $replace_char="*"){
         $censor = new CensorWords;
         $censor->setReplaceChar($replace_char);
         $langs = array('en-uk', 'en-us', 'es');
         $censor->setDictionary($langs);
-        return $censor->censorString($content)['clean'];
+        $content = $this->renameEntities($content);
+        $content =  $censor->censorString($content)['clean'];
+        return $this->restoreEntities($content);
     }
+
+    private function renameEntities($html)
+        {
+            $entities = [
+                '&lt;' => '__lt__',
+                '&gt;' => '__gt__',
+                '&amp;' => '__amp__',
+                '&quot;' => '__quot__',
+                '&apos;' => '__apos__',
+            ];
+
+            return strtr($html, $entities);
+        }
+
+    private function restoreEntities($html)
+        {
+            $entities = [
+                '__lt__' => '&lt;',
+                '__gt__' => '&gt;',
+                '__amp__' => '&amp;',
+                '__quot__' => '&quot;',
+                '__apos__' => '&apos;',
+            ];
+
+            return strtr($html, $entities);
+        }
+
 }

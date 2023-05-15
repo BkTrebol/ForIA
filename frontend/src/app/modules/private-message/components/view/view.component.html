@@ -94,7 +94,7 @@
                     date}}
                 </p>
             </div>
-            <p class="content" [innerHTML]="pm.content">
+            <p class="content" [innerHTML]="pm.content | sanitizer">
             </p>
         </div>
         <div class="user-avatar">
