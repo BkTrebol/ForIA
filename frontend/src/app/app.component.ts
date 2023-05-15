@@ -84,7 +84,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this._authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {
         this.userIsAuthenticated = r;
-        this._translateService.use(r?.userPreferences.language ?? 'es');
+        const lang = r?.userPreferences.language;
+        if (lang){
+          this._translateService.use(lang);
+        }
+        
         if (
           this.userIsAuthenticated &&
           !this.userIsAuthenticated.userData.isVerified &&
