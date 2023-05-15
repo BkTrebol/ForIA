@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public theme: string;
   public isAdminRoute: boolean;
-  
+
   constructor(
     private _authService: AuthService,
     private router: Router,
@@ -47,6 +47,8 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     const lang = localStorage.getItem('lang');
     const browserLang = navigator.language;
+    console.log(lang, browserLang);
+
     if (lang != null && lang != '') {
       this._translateService.use(lang);
     } else {

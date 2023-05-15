@@ -13,7 +13,8 @@
                         [icon]="['fas', 'vial']"></fa-icon><span>Topic</span></a>
             </li>
             <li>
-                <button ngbTooltip="Change to {{theme=='light' ? 'Dark': 'Light'}} Theme" aria-albel="Change the theme" type="button" (click)="changeTheme()"><fa-icon
+                <button ngbTooltip="Change to {{theme=='light' ? 'Dark': 'Light'}} Theme" aria-albel="Change the theme"
+                    type="button" (click)="changeTheme()"><fa-icon
                         [icon]="['fas', theme=='light' ? 'moon': 'sun']"></fa-icon></button>
             </li>
         </ul>
@@ -25,7 +26,8 @@
                     <span>{{userIsAuthenticated.userData.nick}}</span>
                 </p>
                 <div class="dropdown-content {{hover ? 'noo': ''}}" (click)="hover=true">
-                    <a *ngIf="userIsAuthenticated.userData.isAdmin" routerLink="admin" routerLinkActive="active"><fa-icon [icon]="['fas', 'hammer']"></fa-icon>Admin</a>
+                    <a *ngIf="userIsAuthenticated.userData.isAdmin" routerLink="admin"
+                        routerLinkActive="active"><fa-icon [icon]="['fas', 'hammer']"></fa-icon>Admin</a>
                     <a routerLink="/private-message" routerLinkActive="active">
                         <fa-icon [icon]="['fas', 'message']"></fa-icon><span>{{"MESSAGES"|translate}}</span>
                     </a>
@@ -34,7 +36,7 @@
                     <a routerLink="/user/edit" routerLinkActive="active"><fa-icon
                             [icon]="['fas', 'edit']"></fa-icon><span>{{"EDIT" | translate}}</span></a>
                     <a routerLink="/user/password" routerLinkActive="active"><fa-icon
-                        [icon]="['fas', 'lock']"></fa-icon><span>{{"PASSWORD" | translate}}</span></a>
+                            [icon]="['fas', 'lock']"></fa-icon><span>{{"PASSWORD" | translate}}</span></a>
                     <a href="javascript:void(0);" (click)="logout()"><fa-icon
                             [icon]="['fas', 'right-from-bracket']"></fa-icon><span>{{"LOGOUT" | translate}}</span></a>
                 </div>
@@ -51,8 +53,16 @@
                         [icon]="['fas', 'vial']"></fa-icon><span>Topic</span></a>
             </li>
             <li>
-                <button ngbTooltip="{{'CHANGE_TO' | translate}} {{theme=='light' ? 'Dark': 'Light'}} Theme" aria-albel="Change the theme" type="button"
-                    (click)="changeTheme()"><fa-icon [icon]="['fas', theme=='light' ? 'moon': 'sun']"></fa-icon></button>
+                <button ngbTooltip="{{'CHANGE_TO' | translate}} {{theme=='light' ? 'Dark': 'Light'}} Theme"
+                    aria-albel="Change the theme" type="button" (click)="changeTheme()"><fa-icon
+                        [icon]="['fas', theme=='light' ? 'moon': 'sun']"></fa-icon></button>
+            </li>
+            <li>
+                <select (change)="changeLanguage()" id="language" [(ngModel)]="language">
+                    <option value="es" [selected]="language === 'es'">{{"SPANISH"|translate}}</option>
+                    <option value="ca" [selected]="language === 'ca'">{{"CATALAN"|translate}}</option>
+                    <option value="en" [selected]="language === 'en'">{{"ENGLISH"|translate}}</option>
+                </select>
             </li>
         </ul>
         <ul>
@@ -68,7 +78,7 @@
         </ul>
     </nav>
 
-    <ul *ngIf="userIsAuthenticated && isAdmin" class="ng-select">
+    <!-- <ul *ngIf="userIsAuthenticated && isAdmin" class="ng-select">
         <li >
             <ng-select [(ngModel)]="roles" (change)="changeRole()" [multiple]="true">
                 <ng-option *ngFor="let role of roleList" [value]="role.id">{{role.id + '-' +
@@ -83,5 +93,5 @@
                     user.nick}}</ng-option>
             </ng-select>
         </li>
-    </ul>
+    </ul> -->
 </header>

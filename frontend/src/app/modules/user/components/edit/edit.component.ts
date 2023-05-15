@@ -6,7 +6,6 @@ import {
   FormGroup,
 } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/modules/user/service/user.service';
 import { EditUserProfile } from 'src/app/models/receive/edit-user-profile';
 import { environment } from 'src/environments/environment';
@@ -15,7 +14,7 @@ import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {  TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit',
@@ -73,8 +72,6 @@ export class EditComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private _authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute,
     private themeService: ThemeService,
     private toastService: ToastService,
     private modalService: NgbModal,
