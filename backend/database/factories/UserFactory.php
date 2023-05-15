@@ -28,15 +28,6 @@ class UserFactory extends Factory
         ];
     }
 
-    // public function configure()
-    // {
-    //     return $this->afterCreating(function (User $user) {
-    //         $userRole = Role::where('name', 'ROLE_USER')->first();
-    //         $guestRole = Role::where('name', 'ROLE_GUEST')->first();
-    //         $user->roles()->attach([$userRole->id, $guestRole->id]);
-    //     });
-    // }
-
     /**
      * Indicate that the model's email address should be unverified.
      */
