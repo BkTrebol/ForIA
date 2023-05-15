@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('public_role_id');
-                // ->default(1);
+            $table->foreignId('public_role_id')
+                ->default(1);
                 // ->constrained('public_roles')
                 // ->onDelete('set default');
         });
@@ -28,6 +28,6 @@ return new class extends Migration
             $table->dropForeign(['public_role_id']);
             $table->dropColumn('public_role_id');
         });
-     
+
     }
 };

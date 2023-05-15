@@ -86,6 +86,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'none',
             'nick' => 'Guest',
             "password" => '$2ywr32$92I2fdUNpkj3OwerQ5byMi.Y232Ea33423o9llC/wret2.uheWG/igi',
+            'public_role_id' => 1
             ]
         );
 

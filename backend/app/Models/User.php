@@ -110,7 +110,7 @@ class User extends Authenticatable
         parent::boot();
 
         static::created(function ($user) {
-            $pbRole = PublicRole::orrderBy('posts')->first();
+            $pbRole = PublicRole::orderBy('posts')->first();
             $user->public_role_id = $pbRole->id;
             UserPreference::create([
                 "user_id" => $user->id
