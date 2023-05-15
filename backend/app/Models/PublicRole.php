@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Mews\Purifier\Casts\CleanHtmlInput;
 
 class PublicRole extends Model
 {
@@ -24,7 +25,10 @@ class PublicRole extends Model
     protected $hidden = [
         'posts'
     ];
-
+    protected $casts = [
+        'name' => CleanHtmlInput::class,
+        'description' => CleanHtmlInput::class,
+    ];
     public function users()
     {
         return $this->hasMany(User::class);

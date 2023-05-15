@@ -47,14 +47,14 @@ class LoginController extends Controller
 
         $csrf_token_cookie = $_COOKIE['g_csrf_token'];
         if (! $csrf_token_cookie){
-            return redirect()->away('http://localhost:4200/auth/login');
+            return redirect()->away(config('app.urls.frontend').'auth/login');
         }
         $csrf_token_body = $request->get('g_csrf_token');
         if (!$csrf_token_body){
-            return redirect()->away('http://localhost:4200/auth/login');
+            return redirect()->away(config('app.urls.frontend').'auth/login');
         }
         if ($csrf_token_cookie != $csrf_token_body){
-            return redirect()->away('http://localhost:4200/auth/login');
+            return redirect()->away(config('app.urls.frontend').'auth/login');
         }
 
         $id_token = $request->credential;
@@ -76,7 +76,7 @@ class LoginController extends Controller
         // $payload = $client->verifyIdToken($id_token);
 
         if (!$payload) {
-            return redirect()->away('http://localhost:4200/auth/login');
+            return redirect()->away(config('app.urls.frontend').'auth/login');
         } else{
             $userid = $payload['sub'];
             $user = User::where('email', $payload['email'])->first();
@@ -108,9 +108,9 @@ class LoginController extends Controller
             }
             if($user->google_auth ){
                 Auth::login($user);
-                return redirect()->away('http://localhost:4200/#googleauth');
+                return redirect()->away(config('app.urls.frontend').'#googleauth');
             } else{
-                return redirect()->away('http://localhost:4200/auth/login?email='.$user->email);
+                return redirect()->away(config('app.urls.frontend').'auth/login?email='.$user->email);
             }
 
         }

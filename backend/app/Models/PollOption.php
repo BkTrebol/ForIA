@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Mews\Purifier\Casts\CleanHtmlInput;
 class PollOption extends Model
 {
     use HasFactory;
@@ -23,6 +23,9 @@ class PollOption extends Model
         'created_at',
         'updated_at',
         'poll_id'
+    ];
+    protected $casts = [
+        'option' => CleanHtmlInput::class,
     ];
 
     public function answers(){

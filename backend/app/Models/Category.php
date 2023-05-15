@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Mews\Purifier\Casts\CleanHtmlInput;
 use App\Models\Topic;
 class Category extends Model
 {
@@ -25,6 +25,11 @@ class Category extends Model
         'can_mod',
         'section',
         'order',
+    ];
+
+    protected $casts = [
+        'description' => CleanHtmlInput::class,
+        'title' => CleanHtmlInput::class,
     ];
 
     public function view(){
