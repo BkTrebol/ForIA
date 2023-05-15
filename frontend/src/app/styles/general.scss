@@ -161,6 +161,9 @@ No changes
         border-color: transparent transparent $color-black-grey transparent;
       }
     }
+    .active {
+      color: $color-gradient2;
+    }
   }
   // Light theme
   &.light {
@@ -182,6 +185,9 @@ No changes
       &::before {
         border-color: transparent transparent $color-grey-clear transparent;
       }
+    }
+    .active {
+      color: $color-gradient5;
     }
   }
   .logo {

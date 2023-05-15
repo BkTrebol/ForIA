@@ -16,7 +16,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Session;
 class LoginController extends Controller
 {
-    
+
     function login(Request $request){
         if (Auth::user()) return response()->json(['message' => 'Unauthorized'],403);
         if(!Auth::attempt($request->only(['email', 'password']),$request->remember_me)){
@@ -43,10 +43,11 @@ class LoginController extends Controller
             $user ? true : false
             ,200);
     }
+
     function googleAuth(Request $request){
 
         $csrf_token_cookie = $_COOKIE['g_csrf_token'];
-        if (! $csrf_token_cookie){
+        if (!$csrf_token_cookie){
             return redirect()->away('http://localhost:4200/auth/login');
         }
         $csrf_token_body = $request->get('g_csrf_token');
@@ -59,7 +60,7 @@ class LoginController extends Controller
 
         $id_token = $request->credential;
         $client = new Google_Client(['client_id' => config('app.GOOGLE_CLIENT_ID')]);  // Specify the CLIENT_ID of the app that accesses the backend
-        
+
         // Fix clock sync error.
         Firebase\JWT\JWT::$leeway = 5;
         do {
@@ -99,9 +100,6 @@ class LoginController extends Controller
                     'avatar' => $payload['picture'],
                     'email_verified_at' => now(),
                 ]);
-                $defaultRole = Role::find(2)->first();
-                $user->roles()->attach($defaultRole);
-                // Auth::login($user);
             }
             if(Carbon::parse($user->suspension)->isFuture()){
                 return redirect()->away('http://bing.com/');
@@ -123,7 +121,7 @@ class LoginController extends Controller
         $user['isAdmin'] = $user->isAdmin();
         $user['isVerified'] = $user->hasVerifiedEmail();
         $user->load('publicRole');
-        
+
 
         return response()->json([
             'userData'=> $user,

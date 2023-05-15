@@ -36,11 +36,13 @@
                 <div class="show">
                     <div class="field">
                         <input type="{{ canShow  ? 'text': 'password'}}" autocomplete="new-password"
-                            formControlName="password" class="input" placeholder="{{'PASSWORD' |translate}}" [(ngModel)]="user.password"
-                            required>
+                            formControlName="password" class="input" placeholder="{{'PASSWORD' |translate}}"
+                            [(ngModel)]="user.password" required>
                         <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
                     </div>
-                    <fa-icon class="eye" [icon]="['fas', canShow ? 'eye':'eye-slash']" (click)="changeShow()" ngbTooltip="{{canShow ? ('HIDE'| translate) : ('SHOW'| translate)}}  {{'PASSWORD' | translate}}" placement="bottom"></fa-icon>
+                    <fa-icon class="eye" [icon]="['fas', canShow ? 'eye':'eye-slash']" (click)="changeShow()"
+                        ngbTooltip="{{canShow ? ('HIDE'| translate) : ('SHOW'| translate)}}  {{'PASSWORD' | translate}}"
+                        placement="bottom"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!password?.valid && password?.touched">
                     <ng-container *ngFor="let validation of validationMessagesRegister.password | keyvalue">
@@ -54,12 +56,14 @@
                 <div class="show">
                     <div class="field">
                         <input type="{{ canShowConf  ? 'text': 'password'}}" autocomplete="new-password"
-                            formControlName="password_confirmation" class="input" placeholder="{{'PASSWORD_CONFIRMATION' | translate}}"
+                            formControlName="password_confirmation" class="input"
+                            placeholder="{{'PASSWORD_CONFIRMATION' | translate}}"
                             [(ngModel)]="user.password_confirmation" required>
                         <fa-icon class="icon" [icon]="['fas', 'lock']"></fa-icon>
                     </div>
-                    <fa-icon class="eye" [icon]="['fas', canShowConf ? 'eye':'eye-slash']"
-                        (click)="changeShowConf()" ngbTooltip="{{canShowConf ? ('HIDE'| translate) : ('SHOW'| translate)}}{{'TPASSWORD_CONFIRMATION' | translate}}" placement="bottom"></fa-icon>
+                    <fa-icon class="eye" [icon]="['fas', canShowConf ? 'eye':'eye-slash']" (click)="changeShowConf()"
+                        ngbTooltip="{{canShowConf ? ('HIDE'| translate) : ('SHOW'| translate)}}{{'TPASSWORD_CONFIRMATION' | translate}}"
+                        placement="bottom"></fa-icon>
                 </div>
                 <div class="message-block" *ngIf="!password_confirmation?.valid && password_confirmation?.touched">
                     <ng-container
@@ -77,7 +81,8 @@
                         <label for="terms">{{'TERMS_CONDITIONS' | translate}}</label>
                     </div>
                 </div>
-                <div *ngIf="!terms?.value" class="row-field" (click)="openTermsModal(termsModal)" ngbTooltip="{{'READ_TERMS_CONDITIONS' | translate}}" placement="bottom">
+                <div *ngIf="!terms?.value" class="row-field" (click)="openTermsModal(termsModal)"
+                    ngbTooltip="{{'READ_TERMS_CONDITIONS' | translate}}" placement="bottom">
                     <span><span class="red">* </span> <span class="und">{{'TERMS_CONDITIONS' | translate}}</span></span>
                     <fa-icon [icon]="['fas', 'file']"></fa-icon>
                 </div>
@@ -91,7 +96,8 @@
         </div>
         <div class="form-links">
             <p>{{"HAVE_ACCOUNT"|translate}} <a routerLink="/auth/login">{{"LOGIN"|translate}}</a></p>
-            <p>{{"FORGOT_PASSWORD" |translate}} <a routerLink="/auth/reset-password">{{"RESET_PASSWORD" |translate}}</a></p>
+            <p>{{"FORGOT_PASSWORD" |translate}} <a routerLink="/auth/reset-password">{{"RESET_PASSWORD" |translate}}</a>
+            </p>
         </div>
     </form>
 </div>
@@ -103,11 +109,11 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        <!-- <p>{{termsText}}</p> -->
         <p [innerHTML]="termsText"></p>
-    </div>
-    <div class="modal-footer d-felx justify-content-between">
-        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">{{"CLOSE"|translate}}</button>
-        <button type="button" class="btn btn-success" (click)="checkTerms(); modal.close('Close click')">{{"ACCEPT"|translate}}</button>
+        <div class="mt-2 modal-footer d-felx justify-content-between">
+            <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">{{"CLOSE"|translate}}</button>
+            <button type="button" class="btn btn-success"
+                (click)="checkTerms(); modal.close('Close click')">{{"ACCEPT"|translate}}</button>
+        </div>
     </div>
 </ng-template>

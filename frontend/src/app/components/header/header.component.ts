@@ -21,18 +21,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
     userData: User;
     userPreferences: UserPreferences;
   } | null;
-
   public top: boolean;
   public canSmall: boolean;
   public url: string;
   public theme: string;
   public hover: boolean;
   public roleList: Role[];
-  public isAdmin :boolean;
-  public userList$: Observable<{ id: number; nick: string }[]>|null;
+  public isAdmin: boolean;
+  public userList$: Observable<{ id: number; nick: string }[]> | null;
   public user: number;
   public roles: number[];
-  public development:boolean;
+  public development: boolean;
+  public language: string;
+
   constructor(
     private _authService: AuthService,
     private router: Router,
@@ -41,12 +42,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private _translateService: TranslateService
   ) {
     this.isAdmin = false;
-    this.development = !environment.production
+    this.development = !environment.production;
     this.user = 0;
     this.roles = [];
-    if (environment.production){
+    if (environment.production) {
       this.userList$ = null;
-    } else{
+    } else {
       this.userList$ = new Observable();
     }
     this.roleList = [];
@@ -57,12 +58,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.url = environment.api + 'user/get-avatar/';
     this.theme = this.themeService.getTheme();
     this.hover = false;
+    this.language = navigator.language;
   }
 
   ngOnInit(): void {
-    if (!environment.production){
+    if (!environment.production) {
       this.userList$ = this._authService.getUserList();
-    } 
+    }
+
     this.getRoleList();
 
     this._authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
@@ -126,16 +129,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.themeService.changeTheme(this.theme);
   }
 
-  getRoleList(){
-    this._authService.getRoleList()
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe((r) => {
-      this.roleList = r.roles
-      this.roles = r.actual
-    })
+  // Change Language (for not logged users)
+  changeLanguage(): void {
+    console.log("change language", this.language);
+    this._translateService.use(this.language);
   }
-  changeRole(){
-    if (this.user) {
+
+  getRoleList() {
+    this._authService
+      .getRoleList()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((r) => {
+        this.roleList = r.roles;
+        this.roles = r.actual;
+      });
+  }
+
+  changeRole() {
+    if (this.user && this.isAdmin) {
       this._authService
         .changeRole(this.roles)
         .pipe(takeUntil(this.unsubscribe$))
@@ -148,8 +159,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
         });
     }
   }
+
   changeUser() {
-    if (environment.production){
+    if (environment.production) {
       return;
     }
     if (this.user) {

@@ -7,7 +7,7 @@
 // Forms: login, register, edit user, edit user preferences
 .form-page {
   @include center;
-  padding: 64px 0;
+  padding: 40px 0;
   // Dark theme
   &.dark {
     .form-container {
@@ -196,6 +196,7 @@
           font-size: $size-text;
           color: $color-tertiary;
           margin-left: 16px;
+          max-width: 290px;
         }
         // For display only one message of error
         .message-block div:not(:first-child) {
@@ -353,7 +354,7 @@
   }
   // Responsive for tablet
   @include tablet {
-    padding: 48px 0;
+    padding: 32px 0;
     .form-container {
       padding: 32px 48px;
     }

@@ -7,7 +7,7 @@
       </div>
       <div class="subt" *ngIf="!loading">
         <h2 *ngIf="!topic">{{"CHOOSE_TOPIC"|translate}}</h2>
-        <h2 *ngIf="topic">{{"CHOOSE_TOPIC"|translate}} {{topic}}</h2>
+        <h2 *ngIf="topic">{{topic | capitalize}}</h2>
       </div>
     </div>
     <div class="list-body">

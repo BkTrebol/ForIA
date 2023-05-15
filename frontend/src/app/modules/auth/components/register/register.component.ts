@@ -112,7 +112,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         minlength: _translateService.instant("VALIDATION.EMAIL.MIN"),
         maxlength: _translateService.instant("VALIDATION.EMAIL.MAX"),
         email: _translateService.instant("VALIDATION.EMAIL.EMAIL"),
-        repeat:_translateService.instant("VALIDATION.EMAIL.EMAIL"),
+        repeat:_translateService.instant("VALIDATION.EMAIL.EMAIL_REPEAT"),
       },
       password: {
         required: _translateService.instant("VALIDATION.PASSWORD.REQUIRED"),
@@ -284,7 +284,7 @@ By accessing or using this web page, you acknowledge that you have read these Te
   }
 
   openTermsModal(modal: any) {
-    this.modalService.open(modal, { centered: true });
+    this.modalService.open(modal, { centered: true, scrollable: true });
   }
 
   checkTerms() {
