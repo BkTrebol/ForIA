@@ -40,12 +40,14 @@ class RegisterController extends Controller
 
         return response()->json(['message' => 'User created successfully'],201);
     }
-    function verifyEmail(int $id,EmailVerificationRequest $request) {
+
+    function verifyEmail(EmailVerificationRequest $request) {
         $request->fulfill();
         return response()->json([
             "message" => "User email verified"
         ],200);
     }
+    
     function confirmGoogle(Request $request){
         if (Auth::attempt($request->only(['email', 'password']),$request->remember)){
             $user = Auth::user();

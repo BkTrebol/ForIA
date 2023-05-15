@@ -1,14 +1,15 @@
-FROM php:8.1.19-fpm-bullseye
+FROM php:8.1.19-fpm-alpine3.18
 
 WORKDIR /var/www/html
 ENV APP_ENV=production
+ENV APP_DEBUG=true
 
-RUN apt-get update && \
-    apt-get install -y \
+RUN apk update && \
+    apk add --no-cache \
         git \
         curl \
         libpng-dev \
-        libonig-dev \
+        oniguruma-dev \
         libxml2-dev \
         zip \
         unzip
@@ -16,7 +17,6 @@ RUN apt-get update && \
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
 COPY . .
-RUN mv .env .env.development
 RUN mv .env.production .env
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer

@@ -1,18 +1,20 @@
 version: '3'
 services:
   backend:
+    # image: registry/backend:latest
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
       - '9000:9000'
     volumes:
-      - storage:/var/www/html
       # - ./backend:/var/www/html
+      - storage:/var/www/html/storage:rw
     depends_on:
       - database
 
   frontend:
+    # image: registry/frontend:latest
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -36,5 +38,5 @@ services:
       MYSQL_ROOT_PASSWORD: 64ghfgsjh3j1
 
 volumes:
-  storage: 
+  storage:
   bbdd:
