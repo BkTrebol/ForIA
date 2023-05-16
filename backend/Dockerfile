@@ -2,7 +2,7 @@ FROM php:8.1.19-fpm-alpine3.18
 
 WORKDIR /var/www/html
 ENV APP_ENV=production
-ENV APP_DEBUG=true
+ENV APP_DEBUG=false
 
 RUN apk update && \
     apk add --no-cache \
