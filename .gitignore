@@ -21,3 +21,9 @@ Thumbs.db
 /ssl/
 /ssl
 ssl/
+/persistent
+backend/.envold.production
+backend/.env.development
+docker-compose2.yml
+.gitignore
+backend/.gitignore
