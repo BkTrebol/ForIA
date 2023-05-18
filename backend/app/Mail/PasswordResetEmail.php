@@ -29,8 +29,14 @@ class PasswordResetEmail extends Mailable
      */
     public function envelope(): Envelope
     {
+        $lang = $this->user->preferences->lang;
+        $subjects = [
+            "es" => "Reinicio de contraseña.",
+            "ca" => "Reinici de contrasenya.",
+            "en" => "Password reset."
+        ];
         return new Envelope(
-            subject: 'Password Reset Email',
+            subject: $subjects[$lang]??$subjects['en'],
         );
     }
 
@@ -38,10 +44,13 @@ class PasswordResetEmail extends Mailable
      * Get the message content definition.
      */
     public function content(): Content
-    {
+    {   
+        $lang = $this->user->preferences->lang??'en';
+        $view = 'emails.'.$lang.'_reset_password';
+        $view = view()->exists($view) ? $view : 'email.reset_password';
         $url = config('app.urls.frontend').'auth/reset-password?token='.$this->token.'&email='.$this->user->email;
         return (new Content())
-        ->view('emails.reset_password')
+        ->view($view)
         ->with([
             "name" => $this->user->nick,
             "url" => $url,

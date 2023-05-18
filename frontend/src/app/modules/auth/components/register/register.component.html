@@ -109,7 +109,8 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        <p [innerHTML]="termsText"></p>
+        <!-- <p [innerHTML]="termsText"></p> -->
+        <p [innerHTML]="'TERMS' | translate"></p>
         <div class="mt-2 modal-footer d-felx justify-content-between">
             <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">{{"CLOSE"|translate}}</button>
             <button type="button" class="btn btn-success"

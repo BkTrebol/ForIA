@@ -99,6 +99,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       email: '',
       password: '',
       password_confirmation: '',
+      lang: this._translateService.currentLang
     };
     this.validationMessagesRegister = {
       nick: {

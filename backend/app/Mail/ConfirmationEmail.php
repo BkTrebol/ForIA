@@ -31,8 +31,15 @@ class ConfirmationEmail extends Mailable
      */
     public function envelope(): Envelope
     {
+        $lang = $this->user->preferences->lang;
+        $subjects = [
+            "es" => "Confirmación de email.",
+            "ca" => "Confirmació d'email.",
+            "en" => "Email confirmation."
+        ];
+        
         return new Envelope(
-            subject: 'Confirmation Email',
+            subject: $subjects[$lang]??$subjects['en'],
         );
     }
 
@@ -41,6 +48,11 @@ class ConfirmationEmail extends Mailable
      */
     public function content(): Content
     {    
+        $lang = $this->user->preferences->lang??'en';
+        $view = 'emails.'.$lang.'_verify_email';
+        $view = view()->exists($view) ? $view : 'email.verify_email';
+
+        
         $verificationUrl = URL::temporarySignedRoute(
            'verification.verify',
             Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
@@ -53,7 +65,7 @@ class ConfirmationEmail extends Mailable
         $verificationUrl = str_replace('/api/', '', $verificationUrl);
         
         return (new Content())
-        ->view('emails.verify_email')
+        ->view($view)
         ->with([
             "name" => $this->user->nick,
             'verificationUrl' => $verificationUrl

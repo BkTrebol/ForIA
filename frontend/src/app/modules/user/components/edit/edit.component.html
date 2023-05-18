@@ -258,7 +258,7 @@
         </div>
     </div>
     <div class="modal-footer d-flex justify-content-between">
-        <button type="button" class="btn btn-secondary" (click)="modal.close()">{{"CANCEL"|translate}}</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">{{"CANCEL"|translate}}</button>
         <button type="button" class="btn btn-danger" (click)="confirmDelete()"  [disabled]="(deletionPassword.length < 3 && userDeletion === 1) || (deletionPassword2.length < 3 && userDeletion === 2)">
             <div *ngIf="deleteLoading" class="spinner-border spinner-border-sm" role="status">
                 <span class="visually-hidden">Loading...</span>

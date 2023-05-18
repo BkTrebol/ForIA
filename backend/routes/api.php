@@ -131,6 +131,7 @@ Route::middleware('auth:sanctum')->group(function(){
             Route::get('/list','getList');
             Route::post('/update','updateCategories');
             Route::post('/save','saveCategory');
+            Route::delete('/empty','emptyTrash');
         });
 
         Route::controller(RoleController::class)->prefix('role')->group(function(){

@@ -31,6 +31,10 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        if($request->lang && strlen($request->lang) === 2){
+            $user->preferences->lang = $request->lang;
+        }
+
 
         if (env('APP_DEBUG')==false && !$user->hasVerifiedEmail()) {
             Mail::to($user->email)->send(new ConfirmationEmail($user));

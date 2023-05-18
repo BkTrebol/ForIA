@@ -102,7 +102,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r) => {
-          console.log(r);
           this.roleList = r;
         },
       });
@@ -190,6 +189,19 @@ export class CategoryComponent implements OnInit, OnDestroy {
     ); // Avoid error for unhdandled Dismiss
   }
 
+  emptyCategory(category: any, index: number, cindex: number) {
+    this.catToDelete = this.sections[index].categories[cindex].title;
+    this._modalService.open(category).result.then(
+      (result) => {
+        if (result) {
+          this._categoryService.emptyTrash()
+          .subscribe((r) => {
+            this._toastService.show(r.message)
+          })
+        }
+      },
+      () => { });
+  }
   createCategory(category: any) {
     this.newCategoryMode = true;
     this.categoryForm = this._fb.group({

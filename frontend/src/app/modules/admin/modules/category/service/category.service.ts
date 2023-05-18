@@ -23,6 +23,9 @@ export class CategoryService {
   saveCategory(form: FormData): Observable<any> {
     return this._http.post<any>(`${this.catUrl}save`, form);
   }
+  emptyTrash():Observable<any>{
+    return this._http.delete(`${this.catUrl}empty`);
+  }
 
   saveCategories(categories: Array<any>): Observable<any> {
     const params = JSON.stringify({ categories: categories });

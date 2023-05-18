@@ -33,7 +33,7 @@ class User extends Authenticatable
         'birthday',
         'avatar',
         'google_auth',
-        'email_verified_at'
+        'email_verified_at',
     ];
 
     /**
