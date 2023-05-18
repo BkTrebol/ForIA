@@ -851,9 +851,6 @@
     width: 1000px;
     padding: 32px 64px;
     font-family: $font-text;
-    // [ng-reflect-router-link] {
-    //   cursor: pointer;
-    // }
     .list-header {
       padding-bottom: 16px;
       h1 {
@@ -937,6 +934,10 @@
       }
     }
     .list-body {
+      img {
+        max-width: 100%;
+        max-height: 200px;
+      }
       .error {
         font-size: $size-text;
         color: $color-tertiary;
@@ -1016,10 +1017,6 @@
           p.m {
             margin-top: -8px;
             margin-bottom: -16px;
-          }
-          img {
-            max-width: 100%;
-            max-height: 300px;
           }
         }
         .last-post {
@@ -1327,6 +1324,7 @@
           }
           .add-o {
             @include row(space-between, 16px);
+            margin-bottom: 8px;
           }
         }
       }
@@ -1367,9 +1365,15 @@
         }
       }
       .create-topic {
-        @include row(space-between);
+        // @include row(space-between);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
         .form-control {
           @include col(space-between, 8px);
+        }
+        .mt {
+          margin-top: 24px;
         }
       }
       .editor-parent {
@@ -1479,6 +1483,9 @@
       width: 800px;
       padding: 32px;
       .list-body {
+        img {
+          max-height: 150px;
+        }
         .topics {
           .topic-user {
             .topic-body {
@@ -1520,13 +1527,6 @@
             @include col(flex-start);
           }
         }
-        .cateogrries {
-          .category {
-            img {
-              max-height: 300px;
-            }
-          }
-        }
       }
       .list-footer {
         @include flex(column, center, space-between, 16px);
@@ -1564,6 +1564,9 @@
         }
       }
       .list-body {
+        img {
+          max-height: 100px;
+        }
         .topics {
           .topic-user {
             padding: 8px 16px;
@@ -1588,11 +1591,6 @@
         }
         .categories {
           flex-direction: column;
-          .category {
-            img {
-              max-height: 150px;
-            }
-          }
           .last-post {
             width: 100%;
             padding: 4px 8px;
@@ -1652,6 +1650,9 @@
         }
       }
       .list-body {
+        img {
+          max-height: 80px;
+        }
         .section {
           fieldset {
             padding: 0px 8px;
@@ -1665,9 +1666,6 @@
             }
             span {
               margin-bottom: -16px;
-            }
-            img {
-              max-height: 120px;
             }
           }
           .last-post {

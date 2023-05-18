@@ -1,6 +1,6 @@
 <div class="list-page {{theme}}">
     <app-sidebar></app-sidebar>
-    
+
     <div class="list" *ngIf="loading">
         <div class="list-header">
             <span>
@@ -120,7 +120,7 @@
                     {{"BACK_TO_VOTE"|translate}}</button>
             </div>
             <div class="poll-view">
-                <p *ngIf="(listPosts.poll.finish_date | finished) <= 0">{{"FINISHES"|translate}} {{listPosts.poll.finish_date | date }}
+                <p *ngIf="(listPosts.poll.finish_date | finished) < 0">{{"FINISHES"|translate}} {{listPosts.poll.finish_date | date }}
                 </p>
                 <p *ngIf="(listPosts.poll.finish_date | finished) > 0">{{"FINISHED"|translate}} {{listPosts.poll.finish_date | date }}
                 </p>
@@ -228,7 +228,7 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        <p>{{"CONFIRM_DELETE_POLL"|translate}}: {{pollResults?.name}} ({{'WITH'|translate}} {{pollResults?.votes}} {{'VOTE'|translate}}{{pollResults?.votes != 1 ? 's': ''}})</p>
+        <p>{{"CONFIRM_DELETE_POLL"|translate}} {{pollResults?.name}} ({{'WITH'|translate}} {{pollResults?.votes}} {{'VOTES2'|translate}}{{pollResults?.votes != 1 ? 's': ''}})</p>
     </div>
     <div class="modal-footer d-felx justify-content-between">
         <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">{{"CANCEL"|translate}}</button>

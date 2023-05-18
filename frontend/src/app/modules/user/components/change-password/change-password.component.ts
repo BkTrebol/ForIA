@@ -90,7 +90,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       password: '',
       password_confirmation: '',
     };
-    (this.validationMessagesChangePassword = {
+    this.validationMessagesChangePassword = {
       old_password: {
         required: _translateService.instant('VALIDATION.PASSWORD.REQUIRED'),
         minlength: _translateService.instant('VALIDATION.PASSWORD.MIN'),
@@ -113,8 +113,8 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
           'VALIDATION.PASSWORD_CONFIRMATION.MISMATCH'
         ),
       },
-    }),
-      (this.formBuilderNonNullable = new FormBuilder().nonNullable);
+    },
+    this.formBuilderNonNullable = new FormBuilder().nonNullable;
     this.formChangePassword = this.formBuilderNonNullable.group(
       {
         old_password: [
@@ -162,7 +162,6 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
-            console.log(res);
             this.error = '';
             this.loading = false;
             this.toastService.show(this._translateService.instant(res.message));

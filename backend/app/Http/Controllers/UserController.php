@@ -97,7 +97,7 @@ class UserController extends Controller
             }
             $user['is_verified'] = $user->hasVerifiedEmail();
             $user->publicRole;
-            if($user->preferences->hide_email){
+            if(!$isAdmin && (!$viewer || $viewer && $viewer->id != $user->id) && $user->preferences->hide_email){
                 $user->makeHidden(['email']);
             }
 

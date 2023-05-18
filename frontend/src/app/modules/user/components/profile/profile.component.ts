@@ -76,17 +76,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.user = res;
-          if (
-            this.userAuth &&
-            this.user.id == this.userAuth.id &&
-            !this.userAuth.isVerified
-          ) {
-            this.toastService.show(
-              this._translateService.instant('VERIFY_EMAIL')
-            );
-          } else {
-            this.userAuth = this.authService.user?.userData;
-          }
         },
         error: (err) => {
           console.log(err);

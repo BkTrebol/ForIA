@@ -46,9 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private _translateService: TranslateService
   ) {
     const lang = localStorage.getItem('lang');
-    const browserLang = navigator.language;
-    console.log(lang, browserLang);
-
+    const browserLang = navigator.language.toLowerCase().substring(0, 2);
     if (lang != null && lang != '') {
       this._translateService.use(lang);
     } else {
@@ -90,7 +88,7 @@ export class AppComponent implements OnInit, OnDestroy {
         if (lang){
           this._translateService.use(lang);
         }
-        
+
         if (
           this.userIsAuthenticated &&
           !this.userIsAuthenticated.userData.isVerified &&

@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TopicService } from '../../service/topic.service';
@@ -11,7 +17,7 @@ import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { environment } from 'src/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {  TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-view',
@@ -24,7 +30,6 @@ export class ViewComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public loading2: boolean;
   public listPosts: ListPosts;
-  public audioUrl: string;
   public content: string;
   public error: string;
   public editorConfig: AngularEditorConfig;
@@ -49,9 +54,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private modalService: NgbModal,
     private _translateService: TranslateService
-
   ) {
-
     this.newPostId = '';
     this.showResults = false;
     this.vote = null;
@@ -96,7 +99,6 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.unsubscribe$ = new Subject();
     this.loading = true;
     this.loading2 = false;
-    this.audioUrl = 'http://localhost:8000/things/nc01008.mp3';
     this.content = '';
     this.error = '';
     this.editorConfig = {
@@ -104,7 +106,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       uploadWithCredentials: true,
       minHeight: '200px',
       editable: true,
-      sanitize:false,
+      sanitize: false,
     };
     this.theme = themeService.getTheme();
     this.userLogged = null;
@@ -136,14 +138,13 @@ export class ViewComponent implements OnInit, OnDestroy {
         this.theme = t;
       });
   }
-  
+
   getData(id: string, page: string, noScroll: boolean = false) {
     this.topicService
       .posts(id, page)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          console.log(res)
           this.listPosts = res;
           this.loading = false;
           if (
@@ -154,7 +155,7 @@ export class ViewComponent implements OnInit, OnDestroy {
               relativeTo: this.route,
               queryParams: { page: this.listPosts.page.current },
               queryParamsHandling: 'merge',
-            })
+            });
           }
           if (this.route.snapshot.fragment == 'last') {
             setTimeout(() => {
@@ -163,16 +164,24 @@ export class ViewComponent implements OnInit, OnDestroy {
                 behavior: 'smooth',
               });
             }, 100);
-          }  else{
+          } else if (noScroll) {
             setTimeout(() => {
-              const id = this.newPostId != '' ? this.newPostId : this.route.snapshot.fragment??''
-              console.log(id)
-              if(id != '' && id){
-                document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "center", inline: "start" })
+              const id =
+                this.newPostId != ''
+                  ? this.newPostId
+                  : this.route.snapshot.fragment ?? '';
+              console.log(id);
+              if (id != '' && id) {
+                document.getElementById(id)?.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'center',
+                  inline: 'start',
+                });
               }
-            },100);
+            }, 100);
+          } else {
+            this.scrollToTop();
           }
-
 
           if (res.poll) {
             this.loading2 = true;
@@ -193,10 +202,10 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.content.length == 0) {
-      this.error = this._translateService.instant("VALIDATION.POST.EMPTY");
+      this.error = this._translateService.instant('VALIDATION.POST.EMPTY');
       return;
     } else if (this.content.length > 10_000) {
-      this.error = this._translateService.instant("VALIDATION.POST.LONG");
+      this.error = this._translateService.instant('VALIDATION.POST.LONG');
       return;
     } else {
       this.error = '';
@@ -212,7 +221,9 @@ export class ViewComponent implements OnInit, OnDestroy {
           this.content = '';
           this.error = '';
           if (res.hasOwnProperty('newRole')) {
-            this.toastService.show(`${this._translateService.instant("EVOLVED")} ${res.newRole.name}`);
+            this.toastService.show(
+              `${this._translateService.instant('EVOLVED')} ${res.newRole.name}`
+            );
             if (this.userLogged)
               this.userLogged.userData.public_role = res.newRole;
           }
@@ -259,13 +270,6 @@ export class ViewComponent implements OnInit, OnDestroy {
       });
   }
 
-  playAudio() {
-    let audio = new Audio();
-    audio.src = this.audioUrl;
-    audio.load();
-    audio.play();
-  }
-
   checkPoll() {
     if (this.listPosts.poll) {
       this.getVotes();
@@ -303,7 +307,11 @@ export class ViewComponent implements OnInit, OnDestroy {
           next: (r) => {
             this.showResults = true;
             this.listPosts.poll.can_vote = false;
-            this.getVotes();
+            // this.getVotes();
+            this.getData(
+              this.route.snapshot.paramMap.get('id') ?? '',
+              this.route.snapshot.queryParams['page'] ?? '1'
+            );
           },
           error: (e) => console.log(e),
         });

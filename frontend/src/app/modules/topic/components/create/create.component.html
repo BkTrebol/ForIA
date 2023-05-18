@@ -6,7 +6,7 @@
         <div class="list-body">
             <div class="create-topic">
                 <div class="poll">
-                    <div class="poll-options">
+                    <div class="poll-options mt">
                         <input id="title" type="text" placeholder="Title" [(ngModel)]="topic.title">
                         <input placeholder="{{'DESCRIPTION'|translate}}" type="text" [(ngModel)]="topic.description">
                         <button [ngClass]="pollToggle ? 'btn-d':'btn-a'" (click)="togglePoll()"><fa-icon [icon]="['fas',  pollToggle ? 'trash':'plus']"></fa-icon> {{pollToggle ? ('REMOVE_POLL'|translate) : ('ADD_POLL'|translate)}}</button>
@@ -16,11 +16,15 @@
                     <div class="poll-name">
                         <input type="text" placeholder="{{'POLL_NAME'|translate}}" [(ngModel)]="topic.poll.name">
                     </div>
+                    <div class="poll-date">
+                        <label for="date">{{"POLL_FINISH_DATE"|translate}}</label>
+                        <input id="date" type="date" [(ngModel)]="topic.poll.finish_date">
+                    </div>
                     <div class="poll-options">
                         <div class="poll-option" *ngFor="let opt of topic.poll.options; index as i;">
                             <input type="text" placeholder="{{'OPTION'|translate}} {{i+1}}" [(ngModel)]="topic.poll.options[i].option">
                             <button [disabled]="topic.poll.options.length <= 2" class="btn-delete"
-                                (click)="onDeleteOption(i)">
+                                (click)="onDeleteOption(i)" ngbTooltip="Delete this option" placement="right">
                                 <fa-icon [icon]="['fas', 'trash']"></fa-icon>
                             </button>
                         </div>
