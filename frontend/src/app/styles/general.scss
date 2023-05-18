@@ -301,6 +301,9 @@ No changes
         p span {
           @include no;
         }
+        select{
+          @include no;
+        }
         &.dropdown {
           .dropdown-content {
             a span {

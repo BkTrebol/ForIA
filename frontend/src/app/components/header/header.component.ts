@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.url = environment.api + 'user/get-avatar/';
     this.theme = this.themeService.getTheme();
     this.hover = false;
-    this.language = navigator.language;
+    this.language = this._translateService.currentLang;
   }
 
   ngOnInit(): void {
@@ -88,6 +88,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           '/auth/register',
           '/auth/reset-password',
           '/user/edit',
+          '/user/password',
           '/error',
         ].includes(this.router.url) ||
         this.router.url.startsWith('/user/profile/')

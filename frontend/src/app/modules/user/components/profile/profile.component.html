@@ -77,7 +77,7 @@
                     <fa-icon class="icon" [icon]="['fas', 'calendar-days']"></fa-icon>
                     <p>Created at: {{user.created_at | date}}</p>
                 </div>
-                <div class="data" >
+                <div class="data" *ngIf="user.last_seen">
                     <fa-icon class="icon" [icon]="['fas', 'clock']"></fa-icon>
                     <p>Last seen: {{user.last_seen | date}}</p>
                 </div>

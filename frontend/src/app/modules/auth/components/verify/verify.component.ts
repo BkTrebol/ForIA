@@ -15,6 +15,7 @@ export class VerifyComponent implements OnInit {
     expires: string,
     signature: string,
   }
+
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
@@ -34,6 +35,7 @@ export class VerifyComponent implements OnInit {
       });
     }
   }
+
   ngOnInit() {
     this.authService.verification = this.verification;
     this.authService.isLogged()
@@ -56,5 +58,5 @@ export class VerifyComponent implements OnInit {
         this.router.navigate(['/auth/login']);
       }
     });
-}
+  }
 }

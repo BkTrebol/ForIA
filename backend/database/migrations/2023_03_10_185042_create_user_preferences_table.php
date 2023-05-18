@@ -19,7 +19,7 @@ return new class extends Migration
             $table->boolean('allow_view_profile')->default(true);
             $table->boolean('allow_user_to_mp')->default(true);
             $table->boolean('hide_email')->default(false);
-            $table->string('language')->default('es');
+            $table->string('language')->default('en');
             $table->boolean('allow_music')->default(true);
         });
     }

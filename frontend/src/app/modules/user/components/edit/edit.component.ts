@@ -183,6 +183,7 @@ export class EditComponent implements OnInit, OnDestroy {
     });
 
     this.getPref();
+    
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((t: string) => {
