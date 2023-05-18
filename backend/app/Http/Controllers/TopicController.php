@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\CanPostInCategory;
@@ -50,8 +51,10 @@ class TopicController extends Controller
         }
 
         $response = [
+            'closed' => $topic->can_post === $topic->category->can_mod,
+            'can_mod' => $isMod || $isAdmin,
             'can_edit' => $isMod || $isAdmin || ($user && $topic->user_id == $user->id && $topic->posts->count() == 0),
-            'can_post' => in_array($topic->can_post, $roles),
+            'can_post' => in_array($topic->can_post, $roles) || $isMod || $isAdmin,
             'can_poll' => $poll == null && (($user && $user->id == $topic->user_id) || $isAdmin || $isMod),
             'category' => $topic->category->only('id', 'title'),
 
@@ -60,7 +63,7 @@ class TopicController extends Controller
                 if($user && $user->preferences->filter_bad_words){
                     $post['content'] = self::ban_words($post->content);
                 }
-                return $post->load(['user:id,nick,avatar,created_at,public_role_id','user.publicRole'])->only('id', 'content', 'created_at', 'updated_at', 'can_edit', 'user');
+                return $post->load(['user:id,nick,avatar,created_at,public_role_id','user.publicRole'])->only('id', 'content', 'created_at', 'updated_at', 'can_edit', 'user','closed','can_mod');
             }),
             'poll' => $poll,
             'page' => [
@@ -79,6 +82,27 @@ class TopicController extends Controller
         return response()->json($response, 200);
     }
 
+    function toggleTopic(Topic $topic, Request $request){
+        $user = Auth::user();
+        $isAdmin = self::is_admin($request);
+        $roles = self::roles($request);
+        $isMod = in_array($topic->category->can_mod, $roles);
+        if (!$isMod && !$isAdmin){
+            return response()->json('Unauthorized',403);
+        }
+        if($topic->can_post === $topic->category->can_mod){
+            $topic->can_post = 2;
+            $message = 'Topic opened';
+        }else{
+            $topic->can_post = $topic->category->can_mod;
+            $message = 'Topic closed';
+        }
+
+        $topic->save();
+        return response()->json([
+            'message' => $message,
+        ],200);
+    }
 
     function createTopic(Request $request)
     {
@@ -96,6 +120,8 @@ class TopicController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'content' => $request->content,
+            'can_view' => $request->can_view??1,
+            'can_post' => $request->can_post??2,
         ]);
 
         if ($request->has('poll') && $request->poll['name'] != '') {
@@ -179,6 +205,8 @@ class TopicController extends Controller
         $topic->title = $request->title;
         $topic->description = $request->description;
         $topic->content = $request->content;
+        $topic->can_view = $request->can_view;
+        $topic->can_post = $request->can_post;
         $topic->update();
         return response()->json([
             'message' => 'Topic updated succesfully',
@@ -223,13 +251,30 @@ class TopicController extends Controller
                 'message' => 'Unauthorized',
             ], 403);
         }
-
+        $topic['is_admin'] = $isAdmin;
+        $topic['is_mod'] = $isMod;
+        $topic->makeHidden(['id','user_id','created_at','updated_at']);
         return response()->json([
-            "topic" => $topic->only('title', 'description', 'content', 'category_id'),
+            // "topic" => $topic->only('title', 'description', 'content', 'category_id'),
+            "topic" => $topic,
             "category" => Category::where('id', $topic->category_id)->first()->only('title')
         ]);
     }
 
+    function getRoles(Category $category,Request $request){
+        $user = Auth::user();
+        $userMaxrol = $user->roles()->orderBy('order','desc')->first()->order;
+        $roles = self::roles($request);
+        $isAdmin = self::is_admin($request);
+        $isMod = in_array($category->can_mod, $roles);
+
+        if (!$isAdmin && !$isMod) {
+            return response()->json([], 200);
+        }
+
+        $roles = Role::where('order','<=',$userMaxrol)->orderBy('order')->get();
+        return response()->json($roles,200);
+    }
     function checkPostPermission(Post $post,Request $request)
     {
         $user = Auth::user();

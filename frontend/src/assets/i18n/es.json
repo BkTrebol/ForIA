@@ -204,7 +204,17 @@
     "LAST_USER": "Último usuario:",
     "LAST_POLL": "Última encuesta:",
     "USER_NOT_FOUND": "Usuario no encontrado",
-    
+    "CAN_POST": "Puede publicar:",
+    "CAN_VIEW": "Puede ver:",
+    "CLOSE_POST": "Cerrar tema",
+    "OPEN_POST": "Abrir tema",
+    "SPANISH":"Español",
+    "CATALAN":"Catalán",
+    "ENGLISH":"Inglés",
+    "SEND":"Enviar",
+
+    "Topic opened": "Tema abierto",
+    "Topic closed": "Tema cerrado",
     "User created successfully": "Usuario creado exitosamente",
     "User email verified": "Email de usuario verificado",
     "Account linked to Google account successfully": "Cuenta vinculada a cuenta de Google exitosamente",

@@ -40,6 +40,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   public post_delete: number;
   public post_by: string;
   public newPostId: string;
+  public posting: boolean;
   constructor(
     private topicService: TopicService,
     private route: ActivatedRoute,
@@ -51,11 +52,13 @@ export class ViewComponent implements OnInit, OnDestroy {
     private _translateService: TranslateService
 
   ) {
-
+    this.posting = false;
     this.newPostId = '';
     this.showResults = false;
     this.vote = null;
     this.listPosts = {
+      closed:false,
+      can_mod:false,
       can_poll: false,
       can_edit: false,
       can_post: false,
@@ -191,12 +194,30 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.getData(this.listPosts.topic.id.toString(), page.toString());
   }
 
+  toggleTopic(){
+    this.topicService.toggleTopic(this.listPosts.topic.id)
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe({
+      next: r => {
+        this.toastService.show(this._translateService.instant(r.message))
+        this.listPosts.closed = !this.listPosts.closed;
+      },
+      error: e => {
+        this.toastService.showDanger(this._translateService.instant(e))
+      }
+    })
+  }
+
+
   onSubmit() {
+    this.posting = true;
     if (this.content.length == 0) {
       this.error = this._translateService.instant("VALIDATION.POST.EMPTY");
+      this.posting = false;
       return;
     } else if (this.content.length > 10_000) {
       this.error = this._translateService.instant("VALIDATION.POST.LONG");
+      this.posting = false;
       return;
     } else {
       this.error = '';
@@ -211,6 +232,7 @@ export class ViewComponent implements OnInit, OnDestroy {
           this.newPostId = res.id.toString();
           this.content = '';
           this.error = '';
+          this.posting = false;
           if (res.hasOwnProperty('newRole')) {
             this.toastService.show(`${this._translateService.instant("EVOLVED")} ${res.newRole.name}`);
             if (this.userLogged)
@@ -219,7 +241,7 @@ export class ViewComponent implements OnInit, OnDestroy {
           this.getData(this.listPosts.topic.id.toString(), res.lastPage, true);
         },
         error: (err) => {
-          console.log(err);
+          this.posting = false;;
           this.error = err.error.message;
         },
       });

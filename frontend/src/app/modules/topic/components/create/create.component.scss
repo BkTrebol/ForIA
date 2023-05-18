@@ -6,3 +6,10 @@
     @include btn2(rgb(255, 73, 73));
   }
 }
+.list-page .list .list-body .editor-parent.self-grid .custom-search .user-search .select {
+  width:100% !important;
+}
+.self-grid{
+  grid-template-columns: auto auto !important;
+  grid-column-gap:20px;
+}

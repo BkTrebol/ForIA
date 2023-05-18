@@ -73,7 +73,7 @@ class UserController extends Controller
     function changePassword(Request $request){
         $user = Auth::user();
         $request->validate([
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8', 'confirmed','regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{8,}$/'],
             'old_password' => ['required',function($attribute,$old_password,$error)use ($user){
                 if (!Hash::check($old_password,$user->password)){
                     $error('Wrong password');
@@ -185,6 +185,10 @@ class UserController extends Controller
 
     function deleteUser(Request $request){
         $user = Auth::user();
+        if($user->id <= 2){ // Guest and admin can't be deleted.
+            return response()->json('Unauthorized',403);
+        }
+
         if(!$request->has("password") || !$request->has("confirm")){
                 return response()->json([
                     "meessage" => "Missing password",422]);

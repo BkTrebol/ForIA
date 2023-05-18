@@ -65,8 +65,10 @@
                                 [config]="editorConfig"></angular-editor>
                         </div>
                     </div>
-                    <input class="btn-s" type="submit"
-                        [disabled]="reply.content.length == 0 || reply.content.length > 10_000" (click)="onSubmit()">
+                    <button class="btn-s" type="submit"
+                        [disabled]="reply.content.length == 0 || reply.content.length > 10_000 || posting" (click)="onSubmit()">
+                        <span *ngIf="posting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        {{"SEND" | translate}}  </button>
                     <div *ngIf="error != ''" class="error">
                         <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}
                     </div>

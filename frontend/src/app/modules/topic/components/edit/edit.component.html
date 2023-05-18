@@ -22,14 +22,48 @@
         </div>
       </div>
       <div class="editor-parent" *ngIf="userLogged">
-        <div class="custom-search center" *ngIf="userLogged.userData.isAdmin">
+        <div class="custom-search center" [ngClass]="{'self-grid':roleList.length > 0}" *ngIf="userLogged.userData.isAdmin">
           <label for="topic-choose">{{"CATEGORY"|translate}} </label>
           <div class="user-search">
             <ng-select labelForId="topic-choose" [items]="categoryList" class="select" bindLabel="title" bindValue="id"
               [(ngModel)]="topic.category_id">
             </ng-select>
           </div>
+          <div class="custom-search center" *ngIf="roleList.length > 0">
+            <label for="topic-view">{{"CAN_VIEW"|translate}} </label>
+            <div class="user-search">
+              <ng-select labelForId="topic-view" [items]="roleList" class="select" bindLabel="name" bindValue="id"
+                [(ngModel)]="topic.can_view">
+              </ng-select>
+            </div>
+            </div>
+            <div class="custom-search center" *ngIf="roleList.length > 0">
+              <label for="topic-post">{{"CAN_POST"|translate}} </label>
+              <div class="user-search">
+                <ng-select labelForId="topic-post" [items]="roleList" class="select" bindLabel="name" bindValue="id"
+                  [(ngModel)]="topic.can_post">
+                </ng-select>
+              </div>
+              </div>
         </div>
+<!-- 
+        <div class="custom-search center" *ngIf="roleList.length > 0">
+        <label for="topic-view">{{"CAN_VIEW"|translate}} </label>
+        <div class="user-search">
+          <ng-select labelForId="topic-view" [items]="roleList" class="select" bindLabel="name" bindValue="id"
+            [(ngModel)]="topic.can_view">
+          </ng-select>
+        </div>
+        </div>
+        <div class="custom-search center" *ngIf="roleList.length > 0">
+        <label for="topic-post">{{"CAN_POST"|translate}} </label>
+        <div class="user-search">
+          <ng-select labelForId="topic-post" [items]="roleList" class="select" bindLabel="name" bindValue="id"
+            [(ngModel)]="topic.can_post">
+          </ng-select>
+        </div>
+        </div> -->
+
         <div class="editor-user">
           <div class="user-card">
             <app-avatar [user]="userLogged.userData"></app-avatar>
@@ -42,8 +76,11 @@
             <angular-editor id="editor" [(ngModel)]="topic.content" [config]="editorConfig"></angular-editor>
           </div>
         </div>
-        <input type="submit" [disabled]="topic.content.length == 0 || topic.content.length > 10_000
+        <button type="submit" [disabled]="topic.content.length == 0 || topic.content.length > 10_000 || posting
                 || topic.title.length < 3" class="btn-s" (click)="onSubmit()">
+                <span *ngIf="posting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              {{"SEND" | translate}}  
+              </button>
         <div *ngIf="error != ''" class="error">
           <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}
         </div>

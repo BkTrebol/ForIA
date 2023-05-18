@@ -24,9 +24,9 @@ class Controller extends BaseController
     protected function roles(Request $request) {
         $user = Auth::user();
         if($request->session()->get('fakeRole',false)){
-
             return $request->session()->get('fakeRole');
         }
+
         return $user && $user->hasVerifiedEmail() ? $user->roles()->pluck('role_id')->toArray() : [1];
     }
 

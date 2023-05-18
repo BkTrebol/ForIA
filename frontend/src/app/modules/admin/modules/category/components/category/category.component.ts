@@ -203,6 +203,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       () => { });
   }
   createCategory(category: any) {
+    this.imageUrl = '';
     this.newCategoryMode = true;
     this.categoryForm = this._fb.group({
       id: [],

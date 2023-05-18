@@ -154,7 +154,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           [
             Validators.required,
             Validators.minLength(8),
-            Validators.pattern('^[a-zA-Z0-9_!$%&/()?+-]+$'),
+            Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{8,}$'),
           ],
         ],
         password_confirmation: [
@@ -237,7 +237,7 @@ By accessing or using this web page, you acknowledge that you have read these Te
             this.toastService.show(this._translateService.instant(res.message));
           },
           error: (err) => {
-            console.log(err);
+            // console.log(err);
             this.loading = false;
             // Message error
             this.error = err.error.message.split('.')[0];

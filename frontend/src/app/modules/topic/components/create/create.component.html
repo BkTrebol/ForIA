@@ -9,7 +9,9 @@
                     <div class="poll-options">
                         <input id="title" type="text" placeholder="Title" [(ngModel)]="topic.title">
                         <input placeholder="{{'DESCRIPTION'|translate}}" type="text" [(ngModel)]="topic.description">
-                        <button [ngClass]="pollToggle ? 'btn-d':'btn-a'" (click)="togglePoll()"><fa-icon [icon]="['fas',  pollToggle ? 'trash':'plus']"></fa-icon> {{pollToggle ? ('REMOVE_POLL'|translate) : ('ADD_POLL'|translate)}}</button>
+                        <button [ngClass]="pollToggle ? 'btn-d':'btn-a'" (click)="togglePoll()"><fa-icon
+                                [icon]="['fas',  pollToggle ? 'trash':'plus']"></fa-icon> {{pollToggle ?
+                            ('REMOVE_POLL'|translate) : ('ADD_POLL'|translate)}}</button>
                     </div>
                 </div>
                 <div class="poll" *ngIf="pollToggle">
@@ -18,7 +20,8 @@
                     </div>
                     <div class="poll-options">
                         <div class="poll-option" *ngFor="let opt of topic.poll.options; index as i;">
-                            <input type="text" placeholder="{{'OPTION'|translate}} {{i+1}}" [(ngModel)]="topic.poll.options[i].option">
+                            <input type="text" placeholder="{{'OPTION'|translate}} {{i+1}}"
+                                [(ngModel)]="topic.poll.options[i].option">
                             <button [disabled]="topic.poll.options.length <= 2" class="btn-delete"
                                 (click)="onDeleteOption(i)">
                                 <fa-icon [icon]="['fas', 'trash']"></fa-icon>
@@ -33,17 +36,37 @@
                     </div>
                 </div>
             </div>
+            <div class="editor-parent self-grid">
+                <div class="custom-search center" *ngIf="roleList.length > 0">
+                    <label for="topic-view">{{"CAN_VIEW"|translate}} </label>
+                    <div class="user-search">
+                        <ng-select labelForId="topic-view" [items]="roleList" class="select" bindLabel="name"
+                            bindValue="id" [(ngModel)]="topic.can_view">
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="custom-search center" *ngIf="roleList.length > 0">
+                    <label for="topic-post">{{"CAN_POST"|translate}} </label>
+                    <div class="user-search">
+                        <ng-select labelForId="topic-post" [items]="roleList" class="select" bindLabel="name"
+                            bindValue="id" [(ngModel)]="topic.can_post">
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
             <div class="editor-parent" *ngIf="userLogged">
                 <div class="editor-user">
                     <div class="user-card">
                         <app-avatar [user]="userLogged.userData"></app-avatar>
                         <div class="text">
                             <a routerLink="/user/profile/{{userLogged.userData.id}}">{{userLogged.userData.nick}}</a>
-                            <small ngbTooltip="{{userLogged.userData.public_role.description}}" placement="bottom">{{userLogged.userData.public_role.name}}</small>
+                            <small ngbTooltip="{{userLogged.userData.public_role.description}}"
+                                placement="bottom">{{userLogged.userData.public_role.name}}</small>
                         </div>
                     </div>
                     <div class="editor">
-                        <angular-editor id="editor" [(ngModel)]="topic.content" [config]="editorConfig"></angular-editor>
+                        <angular-editor id="editor" [(ngModel)]="topic.content"
+                            [config]="editorConfig"></angular-editor>
                     </div>
                 </div>
                 <input type="submit" [disabled]="topic.content.length == 0 || topic.content.length > 10_000

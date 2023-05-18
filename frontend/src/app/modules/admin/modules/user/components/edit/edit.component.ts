@@ -33,7 +33,6 @@ export class EditComponent implements OnInit, OnDestroy {
   public deleteLoading: boolean;
   public userDeletion: number;
   public passToggle: boolean;
-  public ngSelectOn: boolean;
 
   constructor(
     private _userService: UserService,
@@ -50,7 +49,6 @@ export class EditComponent implements OnInit, OnDestroy {
       month: dateNow.getMonth() + 1,
       day: dateNow.getDate(),
     };
-    this.ngSelectOn = false;
     this.userDeletion = 0;
     this.deleteLoading = false;
     this.saveLoading = false;
@@ -113,7 +111,7 @@ export class EditComponent implements OnInit, OnDestroy {
       roles: [userRoles],
       suspension: [this.parseDateToPicker(this.user.suspension)],
     });
-    console.log(this.editUserForm.value);
+    // console.log(this.editUserForm.value);
   }
 
   parseDateToPicker(date: any) {
@@ -218,7 +216,7 @@ export class EditComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.saveLoading = true;
-    console.log(this.editUserForm.value);
+    // console.log(this.editUserForm.value);
     if (this.editUserForm.valid) {
       this.editUserForm.value.birthday = this.parsePickerDate(
         this.editUserForm.value.birthday
@@ -230,7 +228,7 @@ export class EditComponent implements OnInit, OnDestroy {
         this.editUserForm.value.verified =
           this.editUserForm.value.email_verified_at;
       }
-      console.log(this.editUserForm.value);
+      // console.log(this.editUserForm.value);
       this._userService
         .updateUser(this.editUserForm.value)
         .pipe(takeUntil(this.unsubscribe$))

@@ -64,4 +64,10 @@ export class TopicService {
   deletePoll(id: string): Observable<MessageRes> {
     return this.http.delete<MessageRes>(`${this.apiPollURL}delete/${id}`);
   }
+
+  toggleTopic(id:number):Observable<MessageRes>{
+    return this.http.get<MessageRes>(`${this.apiTopicURL}toggle/${id}`)
+  }
+
+
 }

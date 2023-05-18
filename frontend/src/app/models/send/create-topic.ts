@@ -4,6 +4,8 @@ export interface Topic {
   description: string;
   content: string;
   poll: Poll;
+  can_view:number;
+  can_post:number;
 }
 
 export interface Poll {

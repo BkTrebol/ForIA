@@ -17,6 +17,7 @@ class PostController extends Controller
             'topic_id' => ['required', new CanPostInTopic],
             'content' => ['required']
         ]);
+        
         $topic = Topic::find($request->topic_id);
         $user = Auth::user();
         $roles = self::roles($request);

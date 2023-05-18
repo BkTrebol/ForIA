@@ -16,7 +16,7 @@ class AdminUserController extends Controller
 
     function getList(Request $request){
         // Consulta base
-        $query = User::where('nick','<>','Guest')->withCount('posts');
+        $query = User::where('id','<>',1)->withCount('posts');
         // Filtro por nick (LIKE)
         if ($request->has('nick')) {
             $query->where('nick', 'like', '%' . $request->nick . '%');
@@ -71,9 +71,16 @@ class AdminUserController extends Controller
             $query->orderBy($request->order, $request->dir);
         }
 
+        $viewer = Auth::user();
+        $userMaxRole = $viewer->roles()->orderBy('order', 'desc')->first()->order;
+
         // Obtener usuarios filtrados
         $users = $query->paginate(10);
         // $users->makeVisible(['suspension','email_verified_at','google_auth','roles']);
+        $users->getCollection()->transform(function ($user) use ($viewer,$userMaxRole) {
+            $user->can_edit = $user->roles()->orderBy('order', 'desc')->first()->order < $userMaxRole || $user->id === $viewer->id;
+            return $user;
+        });
         return response()->json([
             'users' => $users->items(),
             'page' => [
@@ -86,6 +93,13 @@ class AdminUserController extends Controller
     }
 
     function getUser(User $user){
+        $viewer = Auth::user();
+        $viewMaxRol = $viewer->roles()->orderBy('order','desc')->first()->order;
+        $userMaxrol = $user->roles()->orderBy('order','desc')->first()->order;
+        if(($userMaxrol >= $viewMaxRol || $user->id === 1) && $user->id !== $viewer->id ){
+            return response()->json('Unauthorized',403);
+        }
+
         $user->makeVisible(['suspension','roles']);
         $user['roles'] = $user->roles()->where('role_id','>',2)->get();
         $user['verified'] = $user->hasVerifiedEmail();
@@ -119,6 +133,13 @@ class AdminUserController extends Controller
     }
     function updateUser(Request $request){
         $user = User::find($request->id);
+        $viewer = Auth::user();
+        $viewMaxRol = $viewer->roles()->orderBy('order','desc')->first()->order;
+        $userMaxrol = $user->roles()->orderBy('order','desc')->first()->order;
+
+        if(($userMaxrol >= $viewMaxRol || $user->id === 1) && $user->id !== $viewer->id){
+            return response()->json('Unauthorized',403);
+        }
         $request->validate([
             'nick' => ['required', 'string', 'max:100','unique:users,nick,'.$user->id],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
@@ -133,6 +154,12 @@ class AdminUserController extends Controller
         if($request->roles){
             $user->roles()->sync($request->roles);
         }
+        // Owner must always have this role.
+        if($user->id === 2){
+            $user->roles()->attach([0]);
+        }
+        // All users must always have these roles.
+        $user->roles()->attach([1,2]);
 
         $user->update([
             'nick' => $request->nick,
@@ -167,8 +194,17 @@ class AdminUserController extends Controller
     }
 
     function deleteUser(User $user,Request $request){
-        $actualUser = Auth::user();
-        if($user->id === $actualUser->id){
+        $viewer = Auth::user();
+        $viewMaxRol = $viewer->roles()->orderBy('order','desc')->first()->order;
+        $userMaxrol = $user->roles()->orderBy('order','desc')->first()->order;
+        if(($userMaxrol >= $viewMaxRol || $user->id === 1) && $user->id !== $viewer->id){
+            return response()->json('Unauthorized',403);
+        }
+        if($user->id === 2){
+            return response()->json('Unauthorized',403);
+        }
+
+        if($user->id === $viewer->id){
             $request->user()->tokens()->delete();
             $request->session()->invalidate();
             $request->session()->regenerateToken();

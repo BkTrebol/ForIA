@@ -31,7 +31,7 @@ export class CreateComponent implements OnInit, OnDestroy {
   public post: GetCreatePost;
   public topic: string | null;
   public topicList: { id: number; title: string }[];
-
+  public posting:boolean;
   constructor(
     private route: ActivatedRoute,
     private themeService: ThemeService,
@@ -41,6 +41,7 @@ export class CreateComponent implements OnInit, OnDestroy {
     private postService: PostService,
     private _translateService:TranslateService
   ) {
+    this.posting = false;
     this.unsubscribe$ = new Subject();
     this.loading = true;
     this.theme = this.themeService.getTheme();
@@ -72,12 +73,10 @@ export class CreateComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
+            this.loading = false;
             this.topicList = res;
           },
           error: (err) => {
-            console.log(err);
-          },
-          complete: () => {
             this.loading = false;
           },
         });
@@ -87,12 +86,10 @@ export class CreateComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
+            this.loading = false;
             this.topic = res.title;
           },
-          error: (err) => {
-            console.log(err);
-          },
-          complete: () => {
+          error: () => {
             this.loading = false;
           },
         });
@@ -112,12 +109,14 @@ export class CreateComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    this.posting = true;
     if (this.post.topic_id !== undefined && this.post.content.length > 0 && this.post.content.length < 10_000) {
       this.postService
         .post(this.post)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
+            this.posting = false;
             this.router.navigate([`/topic/${this.post.topic_id}`],
               {              
               queryParams: {page: res.lastPage},
@@ -128,11 +127,12 @@ export class CreateComponent implements OnInit, OnDestroy {
               this.toastService.show(`${this._translateService.instant("EVOLVED")} ${res.newRole.name}`);
             }
           },
-          error: (e) => console.log(e),
+          error: () => this.posting = false,
         });
       this.error = '';
     } else {
-      this.error = this._translateService.instant("VALIDATION.WRONG_FORMDATA")
+      this.error = this._translateService.instant("VALIDATION.WRONG_FORMDATA");
+      this.posting = false;
     }
   }
 

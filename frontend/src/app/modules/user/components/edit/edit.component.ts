@@ -27,10 +27,9 @@ export class EditComponent implements OnInit, OnDestroy {
   public theme: string;
   public error: string;
   public loading: boolean;
-  public loading2: boolean;
   public user: EditUserProfile;
   public preferences: UserPreferences;
-  public userId: string;
+  public userId: number;
   public filesToUpload: Array<File>;
   public imageSelected: string;
   public imageSrc: string;
@@ -41,6 +40,7 @@ export class EditComponent implements OnInit, OnDestroy {
   public deleteLoading: boolean;
   public deletionPassword: string;
   public deletionPassword2: string;
+  public sending: boolean;
   public validationMessagesEditProfile = {
     nick: {
       required: '',
@@ -78,6 +78,7 @@ export class EditComponent implements OnInit, OnDestroy {
     private _translateService: TranslateService
 
   ) {
+    this.sending = false;
     this.deletionPassword = '';
     this.deletionPassword2 = '';
     this.deleteLoading = false;
@@ -86,7 +87,6 @@ export class EditComponent implements OnInit, OnDestroy {
     this.theme = this.themeService.getTheme();
     this.error = '';
     this.loading = true;
-    this.loading2 = false;
     this.validationMessagesEditProfile = {
       nick: {
         required: this._translateService.instant("VALIDATION.NICK.REQUIRED"),
@@ -174,12 +174,10 @@ export class EditComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userService.getEdit().subscribe({
       next: (res) => {
+        this.loading = false;
         this.user = res;
       },
       error: (err) => {
-        console.log(err);
-      },
-      complete: () => {
         this.loading = false;
       },
     });
@@ -193,8 +191,8 @@ export class EditComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
+    this.sending = true;
     if (this.formEditProfile.valid) {
-      this.loading2 = true;
       this.error = '';
       delete this.formEditProfile.value.avatar;
       // Miro si vol canviar l'imatge o no
@@ -204,13 +202,13 @@ export class EditComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe({
             next: (res) => {
+              this.sending = false;
               this._authService.autoAuthUser();
               this.toastService.show(this._translateService.instant(res.message));
-              this.loading2 = false;
             },
             error: (err) => {
+              this.sending = false;
               this.error = err.error.message;
-              this.loading2 = false;
             },
           });
       } else {
@@ -219,13 +217,13 @@ export class EditComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe({
             next: (res) => {
+              this.sending = false;
               this.toastService.show(this._translateService.instant(res.message));
               this._authService.autoAuthUser();
-              this.loading2 = false;
             },
             error: (err) => {
+              this.sending = false;
               this.error = err.error.message;
-              this.loading2 = false;
             },
           });
       }
@@ -263,33 +261,28 @@ export class EditComponent implements OnInit, OnDestroy {
         next: (res) => {
           this.preferences = res;
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
         },
       });
   }
 
   editPreferences(): void {
+    this.sending = true;
     if (this.formEditPreferences.valid) {
-      this.loading2 = true;
       this.userService
         .editPreferences(this.preferences)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
+            this.sending = false;
             localStorage.setItem('lang', this.preferences.language);
             this._translateService.use(this.preferences.language);
             this._authService.autoAuthUser();
             this.toastService.show(this._translateService.instant(res.message));
-            this.loading2 = false;
           },
-          error: (err) => {
+          error: () => {
+            this.sending = false;
             this._authService.autoAuthUser();
-            console.log(err);
-            this.loading2 = false;
-          },
-          complete: () => {
-            this.loading2 = false;
           },
         });
     } else {
@@ -302,7 +295,6 @@ export class EditComponent implements OnInit, OnDestroy {
     this.deletionPassword2 = '';
    
     this.modalService.open(modal).result.catch(() => {
-      console.log(this.userDeletion)
       if (this.userDeletion != 3) {
         this.toastService.show(this._translateService.instant('DESTRUCTION_ABORTED'));
       }
@@ -316,7 +308,6 @@ export class EditComponent implements OnInit, OnDestroy {
     this.userDeletion++;
     if (this.userDeletion >= 3) {
       this.deleteLoading = true;
-      console.log(this.deletionPassword, this.deletionPassword2);
       if (
         this.deletionPassword !== this.deletionPassword2 ||
         this.deletionPassword === ''
@@ -330,7 +321,6 @@ export class EditComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe({
             next: (r) => {
-              console.log(r);
               this.modalService.dismissAll();
               this.deleteLoading = false;
               this.toastService.show(this._translateService.instant(r.message));

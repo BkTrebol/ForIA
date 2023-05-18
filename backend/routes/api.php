@@ -22,8 +22,6 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Auth\PasswordResetController;
 
-use App\Models\Post;
-use App\Models\Topic;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -75,9 +73,10 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::controller(TopicController::class)->prefix('topic')->group(function(){
         Route::post('/','createTopic');
         Route::get('/edit/{topic}','getTopicData');
+        Route::get('toggle/{topic}','toggleTopic');
+        Route::get('/roles/{category}','getRoles');
         Route::put('/{topic}','editTopic');
         Route::delete('/{topic}','deleteTopic');
-
         Route::get('one-topic/{topic}', 'getOneTopic');
     });
 

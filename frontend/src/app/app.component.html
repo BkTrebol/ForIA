@@ -9,7 +9,7 @@
   <app-footer></app-footer>
 </div>
 
-<div *ngIf="isAdminRoute">
+<div *ngIf="isAdminRoute" [hidden]="loading">
   <app-admin></app-admin>
 </div>
 

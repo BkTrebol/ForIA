@@ -21,7 +21,7 @@ export class ListComponent implements OnInit, OnDestroy {
   public showReceived: boolean;
   public deleteSent: number[];
   public deleteReceived: number[];
-
+  public sending: boolean;
   constructor(
     private themeService: ThemeService,
     private privateMessageService: PrivateMessageService,
@@ -30,6 +30,7 @@ export class ListComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private _translateService: TranslateService
   ) {
+    this.sending = false;
     this.deleteReceived = [];
     this.deleteSent = [];
     this.messages = {
@@ -82,19 +83,22 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   onDeletePms() {
+    this.sending = true;
     this.privateMessageService
       .delete(this.deleteSent, this.deleteReceived)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r: MessageRes) => {
+          this.sending = false;
           this.getMessages();
           this.toastService.show(this._translateService.instant("MESSAGES_DELETED"));
         },
-        error: (e) => console.error(e),
+        error: () => {this.sending = false;}
       });
   }
 
   getMessages() {
+    this.sending = false;
     this.loading = true;
     this.privateMessageService
       .getMessages(

@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { CategoryService } from 'src/app/modules/category/service/category.service';
 import { environment } from 'src/environments/environment';
 import {  TranslateService } from '@ngx-translate/core';
+import { Role } from 'src/app/models/receive/admin-role';
 
 @Component({
   selector: 'app-create',
@@ -30,7 +31,8 @@ export class CreateComponent implements OnInit, OnDestroy {
     userPreferences: UserPreferences;
   } | null;
   public editorConfig: AngularEditorConfig;
-
+  public roleList: Role[];
+  public posting: boolean;
   constructor(
     private categoryService: CategoryService,
     private route: ActivatedRoute,
@@ -40,6 +42,8 @@ export class CreateComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private _translateService: TranslateService
   ) {
+    this.posting = false;
+    this.roleList = [];
     this.unsubscribe$ = new Subject();
     this.loading = false;
     this.theme = this.themeService.getTheme();
@@ -57,6 +61,8 @@ export class CreateComponent implements OnInit, OnDestroy {
       title: '',
       content: '',
       description: '',
+      can_view:1,
+      can_post:2,
       poll: {
         name: '',
         options: [{ option: '' }, { option: '' }],
@@ -68,6 +74,12 @@ export class CreateComponent implements OnInit, OnDestroy {
     if (this.topic.category_id == 0) {
       this.router.navigate([`/error`]);
     }
+
+    this.categoryService.getRoles(this.topic.category_id)
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe(r => {
+      this.roleList = r;
+    })
 
     this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {
@@ -91,15 +103,17 @@ export class CreateComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    this.posting = true;
     this.categoryService
       .post(this.topic)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
+          this.posting = false;
           this.router.navigate([`/topic/${res.id}`]);
           this.toastService.show(this._translateService.instant(res.message));
         },
-        error: (e) => console.log(e),
+        error: () => this.posting = false,
       });
   }
 

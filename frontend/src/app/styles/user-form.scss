@@ -53,6 +53,9 @@
       }
       .btn-field .btn-send {
         @include btn($color-shades1, 20%);
+        &:disabled{
+          @include btn($color-dark-loading, 20%);
+        }
       }
       .google .line hr {
         border-color: $color-white-clear;
@@ -121,6 +124,9 @@
       }
       .btn-field .btn-send {
         @include btn($color-primary, 20%);
+        &:disabled{
+          @include btn($color-dark-loading, 20%);
+        }
       }
       .google .line hr {
         border-color: $color-black-clear;

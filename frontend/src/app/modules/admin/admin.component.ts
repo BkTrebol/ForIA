@@ -5,10 +5,13 @@ import {
   OnInit,
   ViewEncapsulation,
   ElementRef,
+  Input,
+  AfterContentInit,
+  AfterViewInit,
 } from '@angular/core';
 import { AuthService } from '../auth/service/auth.service';
 import { Subject, filter, takeUntil } from 'rxjs';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivationEnd, ChildActivationEnd, GuardsCheckEnd, NavigationCancel, NavigationEnd, NavigationError, ResolveEnd, Router } from '@angular/router';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 
 @Component({
@@ -17,7 +20,7 @@ import { ToastService } from 'src/app/helpers/services/toast.service';
   styleUrls: ['./admin.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AdminComponent implements OnInit, OnDestroy {
+export class AdminComponent implements OnInit, OnDestroy,AfterViewInit {
   private unsubscribe$: Subject<void>;
   public isAdmin: boolean;
   private styleSheet: HTMLLinkElement | undefined;
@@ -33,16 +36,18 @@ export class AdminComponent implements OnInit, OnDestroy {
   ) {
     this.unsubscribe$ = new Subject();
     this.isAdmin = false;
+    // this.loading = true;
     this.loading = true;
     this.collapsed = window.innerWidth <= 800;
+    this._router.events
+    .pipe(filter((event) => 
+    event instanceof NavigationEnd))
+    .subscribe((event: any) => {
+      this.loading = false;
+    });
   }
   ngOnInit(): void {
-    this._router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event: any) => {
-        this.loading = false;
-      });
-
+    // Adds bootstrap.
     this.styleSheet = this.renderer.createElement('link');
     this.renderer.setAttribute(this.styleSheet, 'rel', 'stylesheet');
     this.renderer.setAttribute(
@@ -54,6 +59,7 @@ export class AdminComponent implements OnInit, OnDestroy {
       this.el.nativeElement.ownerDocument.head,
       this.styleSheet
     );
+    // Admin Checker and redirect.
     this._authService.checkAdmin().subscribe((r) => {
       if (!r) {
         this._router.navigate(['admin/login']);
@@ -64,6 +70,10 @@ export class AdminComponent implements OnInit, OnDestroy {
       .subscribe((r) => {
         this.isAdmin = r != null ? r : false;
       });
+  }
+
+  ngAfterViewInit(): void {
+    this.loading = false;
   }
 
   logout(): void {
@@ -87,6 +97,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // Removes boostrap.
     this.renderer.removeChild(
       this.el.nativeElement.ownerDocument.head,
       this.styleSheet

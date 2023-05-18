@@ -79,8 +79,9 @@
                     </div>
                     <div class="list-footer" *ngIf="messages.received.messages.length > 0">
                         <div class="align-right">
-                            <button class="btn2" [disabled]="deleteReceived.length == 0" (click)="onDeletePms()">
-                                <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                            <button class="btn2" [disabled]="deleteReceived.length == 0 || sending" (click)="onDeletePms()">
+                                <span *ngIf="sending" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> 
+                                <fa-icon  *ngIf="!sending" [icon]="['fas', 'trash']"></fa-icon>
                                 {{"DELETE_SELECTED"|translate}} ({{deleteReceived.length}})</button>
                         </div>
                         <app-pagination [current_page]="messages.received.page.current"
@@ -119,8 +120,9 @@
         </div>
         <div class="list-footer" *ngIf="messages.sent.messages.length > 0">
             <div class="align-right">
-                <button class="btn2" [disabled]="deleteSent.length == 0" (click)="onDeletePms()">
-                    <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                <button class="btn2" [disabled]="deleteSent.length == 0 || sending" (click)="onDeletePms()">
+                    <span *ngIf="sending" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> 
+                    <fa-icon *ngIf="!sending" [icon]="['fas', 'trash']"></fa-icon>
                     {{"DELETE_SELECTED"|translate}} ({{deleteSent.length}})</button>
             </div>
             <app-pagination [current_page]="messages.sent.page.current" [last_page]="messages.sent.page.last"

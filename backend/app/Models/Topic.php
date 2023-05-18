@@ -28,7 +28,7 @@ class Topic extends Model
         'title',
         'description',
         'can_view',
-        'can_edit',
+        'can_post',
         'content',
     ];
 

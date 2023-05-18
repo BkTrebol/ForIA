@@ -75,6 +75,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .getProfile(this.route.snapshot.paramMap.get('id') ?? '')
       .subscribe({
         next: (res) => {
+          this.loading = false;
           this.user = res;
           if (
             this.userAuth &&
@@ -89,9 +90,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
           }
         },
         error: (err) => {
-          console.log(err);
-        },
-        complete: () => {
           this.loading = false;
         },
       });

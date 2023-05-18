@@ -45,13 +45,13 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public theme: string;
   public error: string;
-  public loading: boolean;
   public canShowOld: boolean;
   public canShow: boolean;
   public canShowConf: boolean;
   public changePasswordData: ChangePassword;
   public formChangePassword: FormGroup;
   public formBuilderNonNullable: NonNullableFormBuilder;
+  public sending: boolean;
   public validationMessagesChangePassword = {
     old_password: {
       required: '',
@@ -78,10 +78,10 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private _translateService: TranslateService
   ) {
+    this.sending = false;
     this.unsubscribe$ = new Subject();
     this.theme = themeService.getTheme();
     this.error = '';
-    this.loading = false;
     this.canShowOld = false;
     this.canShow = false;
     this.canShowConf = false;
@@ -121,8 +121,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
           '',
           [
             Validators.required,
-            Validators.minLength(8),
-            Validators.pattern('^[a-zA-Z0-9_!$%&/()?+-]+$'),
+            Validators.minLength(3),
           ],
         ],
         password: [
@@ -130,7 +129,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
           [
             Validators.required,
             Validators.minLength(8),
-            Validators.pattern('^[a-zA-Z0-9_!$%&/()?+-]+$'),
+            Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{8,}$'),
           ],
         ],
         password_confirmation: [
@@ -154,22 +153,21 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
 
   // Change user Password
   submit() {
+    this.sending = true;
     if (this.formChangePassword.valid) {
-      this.loading = true;
       this._userService
         .changePassword(this.changePasswordData)
         .pipe(first())
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
-            console.log(res);
+            this.sending = false;
             this.error = '';
-            this.loading = false;
             this.toastService.show(this._translateService.instant(res.message));
             this.router.navigate(['']);
           },
           error: (err) => {
-            this.loading = false;
+            this.sending = false;
             this.error = err.error.message;
             this.formChangePassword.controls['old_password'].reset();
             this.formChangePassword.controls['password'].reset();

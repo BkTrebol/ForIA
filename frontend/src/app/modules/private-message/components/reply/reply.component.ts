@@ -30,7 +30,7 @@ export class ReplyComponent implements OnInit, OnDestroy {
     userData: User;
     userPreferences: UserPreferences;
   } | null;
-
+  public posting: boolean;
   constructor(
     private themeService: ThemeService,
     private privateMessageService: PrivateMessageService,
@@ -40,6 +40,7 @@ export class ReplyComponent implements OnInit, OnDestroy {
     private _translateService: TranslateService
 
   ) {
+    this.posting = false;
     this.message_id = 0;
     this.theme = themeService.getTheme();
     this.unsubscribe$ = new Subject();
@@ -98,11 +99,14 @@ export class ReplyComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.posting = true;
     if (this.reply.content.length == 0) {
       this.error = this._translateService.instant("VALIDATION.MESSAGE.EMPTY");
+      this.posting = false;
       return;
     } else if (this.reply.content.length > 10_000) {
       this.error = this._translateService.instant("VALIDATION.MESSAGE.LONG");
+      this.posting = false;
       return;
     } else {
       this.error = '';
@@ -113,9 +117,10 @@ export class ReplyComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r) => {
+          this.posting = false;
           this.router.navigate([`/private-message/${r.id}`]);
         },
-        error: (e) => console.log(e),
+        error: () =>this.posting = false,
       });
   }
 

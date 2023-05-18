@@ -61,8 +61,14 @@ class RoleController extends Controller
     }
 
     function deleteRole(Role $role){
-        $sameOrder = Role::where('order',$role->order);
-        if($sameOrder->count() == 1){
+        $user = Auth::user();
+        $userMaxrol = $user->roles()->orderBy('order','desc')->first()->order;
+        if($role->order <= $userMaxrol){
+            return response()->json('Unauthorized',403);
+        }
+
+        $sameOrder = Role::where('order',$role->order)->count();
+        if($sameOrder === 1){
             $higherRoles = Role::where('order','>',$role->order)->get();
             foreach($higherRoles as $r){
                 $r->update([
@@ -86,17 +92,27 @@ class RoleController extends Controller
     }
 
     function editRole(Request $request){
-        $id = $request->id??0;
         $request->validate([
             "id" => ["required"],
-            'name' => 'required|unique:roles,name,' . $id,
+            'name' => 'required|unique:roles,name,' . $request->id,
             'admin' => 'boolean',
         ]);
-
-        Role::find($id)->update([
+        
+        $role = Role::find($request->id);
+        $user = Auth::user();
+        $userMaxrol = $user->roles()->orderBy('order','desc')->first()->order;
+        if($role->order <= $userMaxrol){
+            return response()->json('Unauthorized',403);
+        }
+        $role->update([
             "name" => $request->name,
             "admin" => $request->admin
         ]);
+        if($role->order <= $userMaxrol){
+            return response()->json('Unauthorized',403);
+        }
+
+
         return response()->json([
             "message" => "Role updated successfully",
         ],200);

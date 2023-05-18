@@ -9,6 +9,7 @@ import { EditTopic } from 'src/app/models/receive/edit-topic';
 import { OneTopic } from 'src/app/models/receive/edit-topic';
 import { MessageRes } from 'src/app/models/common/message-res';
 import { ListSimple } from 'src/app/models/receive/list-simple';
+import { Role } from 'src/app/models/receive/admin-role';
 
 @Injectable({
   providedIn: 'root',
@@ -54,5 +55,9 @@ export class CategoryService {
   editTopic(id: string, topic: OneTopic): Observable<MessageRes> {
     let params = JSON.stringify(topic);
     return this.http.put<MessageRes>(`${this.apiTopicURL}${id}`, params);
+  }
+
+  getRoles(categoryId:number):Observable<Role[]>{
+    return this.http.get<Role[]>(`${this.apiTopicURL}roles/${categoryId}`)
   }
 }

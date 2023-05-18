@@ -176,15 +176,10 @@ export class RolesComponent {
               next: (r) => {
                 this.modalLoading = false;
                 if (type === 'Public')
-                  this.publicRoleList.splice(
-                    this.publicRoleList.indexOf(this.roleToDelete),
-                    1
-                  );
+                  this.getPublicRoles();
                 else
-                  this.roleList.splice(
-                    this.roleList.indexOf(this.roleToDelete),
-                    1
-                  );
+                  this.getRoles();
+                  
                 this.resetRoleVars();
                 this._toastService.show(r.message);
               },
@@ -270,12 +265,12 @@ export class RolesComponent {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r) => {
-          console.log(r);
+          // console.log(r);
           this.getRoles();
           this._toastService.show(r.message);
         },
         error: (e) => {
-          console.log(e);
+          // console.log(e);
           this._toastService.show(e.message);
         },
       });

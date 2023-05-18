@@ -2,6 +2,8 @@ import { UserCard } from '../common/user-card';
 import { Pages } from '../common/pages';
 
 export interface ListPosts {
+  closed: boolean;
+  can_mod: boolean;
   can_edit: boolean;
   can_post: boolean;
   can_poll: boolean;

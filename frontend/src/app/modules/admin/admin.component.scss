@@ -31,9 +31,10 @@
       top: unset !important;
     }
   }
-  .maxZIndex {
-    z-index: 1001;
+  .ng-select-opened + label{
+    z-index: 1010;
   }
+
   ng-select {
     ~ label {
       opacity: 0.65;

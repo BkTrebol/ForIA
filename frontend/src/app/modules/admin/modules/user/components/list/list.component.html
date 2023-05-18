@@ -87,9 +87,10 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="Posts" *ngIf="show.posts" class="d-none" prop="posts_count"
       [width]="45"></ngx-datatable-column>
-    <ngx-datatable-column name="Actions" prop="id" [sortable]="false" [width]="45">
-      <ng-template ngx-datatable-cell-template let-value="value">
-        <a routerLink="{{value}}"><fa-icon [icon]="['far', 'pen-to-square']"></fa-icon></a>
+    <ngx-datatable-column name="Actions" prop="row" [sortable]="false" [width]="45">
+      <ng-template ngx-datatable-cell-template let-row="row">
+        <a routerLink="{{row.id}}" *ngIf="row.can_edit"><fa-icon [icon]="['far', 'pen-to-square']"></fa-icon></a>
+        <span *ngIf="!row.can_edit"><fa-icon [icon]="['fas', 'x']"></fa-icon></span>
       </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>

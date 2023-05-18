@@ -88,14 +88,14 @@
                 <fa-icon [icon]="['fas', 'star']"></fa-icon>
             </span>
             <div class="form-floating">
-                <ng-select (focus)="ngSelectOn = true" (blur)="ngSelectOn = false" [items]="publicRoleList" bindLabel="name" bindValue="id" [multiple]="false"
+                <ng-select  [items]="publicRoleList" bindLabel="name" bindValue="id" [multiple]="false"
                     [clearable]="false" formControlName="public_role_id">
                     <ng-template ng-option-tmp let-item="item">
                         <div *ngIf="item.posts !== null">{{ item.name }} - Posts: {{ item.posts }}</div>
                         <div *ngIf="item.posts === null">{{ item.name }}</div>
                     </ng-template>
                 </ng-select>
-                <label class="text-secondary" [class]="ngSelectOn ? 'maxZIndex' : ''" for="public_role_id">Public Role</label>
+                <label class="text-secondary" for="public_role_id">Public Role</label>
             </div>
             <div class="w-100 d-block mt-1 ms-1">
                 <small><fa-icon [icon]="['fas', 'circle-info']"></fa-icon> If a role that can change with amount of
@@ -108,9 +108,9 @@
                 <fa-icon [icon]="['fas', 'shield']"></fa-icon>
             </span>
             <div class="form-floating ngSelect">
-                <ng-select [items]="roleList" (focus)="ngSelectOn = true" (blur)="ngSelectOn = false" bindLabel="name" bindValue="id" [multiple]="true" [clearable]="true"
+                <ng-select [items]="roleList"  bindLabel="name" bindValue="id" [multiple]="true" [clearable]="true"
                     formControlName="roles"></ng-select>
-                <label class="text-secondary" [class]="ngSelectOn ? 'maxZIndex' : ''" for="roles">Roles</label>
+                <label class="text-secondary" for="roles">Roles</label>
             </div>
         </div>
 

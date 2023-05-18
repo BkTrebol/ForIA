@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (r) => {
           this._authService.checkAdmin().subscribe((r) => {
-            this._router.navigate(['admin/dashboard']);
+            this._router.navigate(['admin/categories']);
             this.loginLoading = false;
           });
         },

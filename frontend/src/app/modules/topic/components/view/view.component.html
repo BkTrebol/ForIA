@@ -58,6 +58,12 @@
             <div class="subt">
                 <h2>{{listPosts.topic.title | capitalize}}</h2>
                 <div class="two-options">
+                    <a class="btn-a btn-delete" *ngIf="listPosts.can_mod && !listPosts.closed" href="javascript:void(0);" (click)="toggleTopic()">
+                        <fa-icon [icon]="['fas', 'lock']"></fa-icon>
+                        {{"CLOSE_POST"|translate}}</a>
+                        <a class="btn-a btn-a" *ngIf="listPosts.can_mod && listPosts.closed" href="javascript:void(0);" (click)="toggleTopic()">
+                            <fa-icon [icon]="['fas', 'unlock']"></fa-icon>
+                            {{"OPEN_POST"|translate}}</a>
                     <a class="btn-a" *ngIf="listPosts.can_post" routerLink="/post/create/{{listPosts.topic.id}}">
                         <fa-icon [icon]="['fas', 'plus']"></fa-icon>
                         {{"CREATE_POST"|translate}}</a>
@@ -201,11 +207,14 @@
                         </div>
                     </div>
                     <div class="editor">
-                        <angular-editor id="editor" [(ngModel)]="content " [config]="editorConfig"></angular-editor>
+                        <angular-editor id="editor" [(ngModel)]="content" [config]="editorConfig"></angular-editor>
                     </div>
                 </div>
-                <input type="submit" [disabled]="content.length == 0 || content.length > 10_000" class="btn-s"
+                <button type="submit" [disabled]="content.length == 0 || content.length > 10_000 || posting" class="btn-s"
                     (click)="onSubmit()">
+                    <span *ngIf="posting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    {{"SEND"|translate}}
+                </button>
                 <div *ngIf="error != ''" class="error">
                     <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}
                 </div>

@@ -43,7 +43,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     userPreferences: UserPreferences;
   } | null;
   public ocult: boolean;
-
+  public posting: boolean;
   constructor(
     private themeService: ThemeService,
     private privateMessageService: PrivateMessageService,
@@ -53,6 +53,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     private _translateService: TranslateService
 
   ) {
+    this.posting = false;
     this.theme = themeService.getTheme();
     this.unsubscribe$ = new Subject();
     this.loading = true;
@@ -91,13 +92,12 @@ export class ViewComponent implements OnInit, OnDestroy {
           this.reply.thread_id = r.message.thread_id;
           this.reply.recipient = r.recipient;
           this.privateMessageList = r;
-        },
-        error: (e) => {
-          console.log(e);
-        },
-        complete: () => {
           this.loading = false;
         },
+        error: () => {
+          this.loading = false;
+        },
+
       });
   }
 
@@ -124,12 +124,13 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r) => {
+          this.loading = false;
           this.reply.thread_id = r.message.thread_id;
           this.reply.recipient = r.recipient;
           this.privateMessageList = r;
         },
         error: (e) => {
-          console.log(e);
+          this.loading = false;
         },
         complete: () => {
           this.loading = false;
@@ -147,11 +148,14 @@ export class ViewComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.posting = true;
     if (this.reply.content.length == 0) {
       this.error = this._translateService.instant("VALIDATION.MESSAGE.EMPTY");
+      this.posting = false;
       return;
     } else if (this.reply.content.length > 10_000) {
       this.error = this._translateService.instant("VALIDATION.MESSAGE.LONG");
+      this.posting = false;
       return;
     } else {
       this.error = '';
@@ -162,11 +166,12 @@ export class ViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r) => {
+          this.posting = false;
           this.scrollToTop();
           this.router.navigate([`/private-message/${r.id}`]);
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
+          this.posting = false;
         },
       });
   }

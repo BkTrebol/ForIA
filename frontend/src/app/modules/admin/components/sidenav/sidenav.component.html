@@ -41,9 +41,9 @@
           <strong class="nav-item">{{user.nick}}</strong>
         </a>
         <ul ngbDropdownMenu class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-          <li><a class="dropdown-item" routerLink=""><fa-icon [icon]="['fas', 'gear']"></fa-icon> Settings</a></li>
-          <li><a class="dropdown-item" routerLink=""><fa-icon [icon]="['fas', 'user-gear']"></fa-icon> Profile</a></li>
-          <li><a class="dropdown-item" routerLink=""><fa-icon [icon]="['fas', 'house']"></fa-icon> Forum</a></li>
+          <li><a class="dropdown-item" routerLink="/user/edit"><fa-icon [icon]="['fas', 'gear']"></fa-icon> Settings</a></li>
+          <li><a class="dropdown-item" routerLink="/user/profile/{{user.id}}"><fa-icon [icon]="['fas', 'user-gear']"></fa-icon> Profile</a></li>
+          <li><a class="dropdown-item" routerLink="/"><fa-icon [icon]="['fas', 'house']"></fa-icon> Forum</a></li>
           <li>
             <hr class="dropdown-divider">
           </li>

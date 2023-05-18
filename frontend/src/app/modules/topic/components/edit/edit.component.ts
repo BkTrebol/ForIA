@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { CategoryService } from 'src/app/modules/category/service/category.service';
 import { environment } from 'src/environments/environment';
 import {  TranslateService } from '@ngx-translate/core';
+import { Role } from 'src/app/models/receive/admin-role';
 
 @Component({
   selector: 'app-edit',
@@ -28,11 +29,13 @@ export class EditComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public error: string;
   public pollToggle: boolean;
+  public posting: boolean;
   public userLogged: {
     userData: User;
     userPreferences: UserPreferences;
   } | null;
   public editorConfig: AngularEditorConfig;
+  public roleList: Role[]
 
   constructor(
     private categoryService: CategoryService,
@@ -43,12 +46,14 @@ export class EditComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private _translateService:TranslateService
   ) {
+    this.posting = false;
     this.unsubscribe$ = new Subject();
     this.loading = false;
     this.theme = this.themeService.getTheme();
     this.error = '';
     this.pollToggle = false;
     this.userLogged = null;
+    this.roleList = [];
     this.editorConfig = {
       minHeight: '200px',
       editable: true,
@@ -56,11 +61,16 @@ export class EditComponent implements OnInit, OnDestroy {
       uploadWithCredentials: true,
     };
     this.topic = {
+      is_admin:false,
+      is_mod:false,
       category_id: 0,
       title: '',
       content: '',
       description: '',
+      can_view:1,
+      can_post:2,
     };
+
     this.topic_id = this.route.snapshot.paramMap.get('id') ?? '0';
     this.category_title = '';
     this.categoryList = [];
@@ -78,6 +88,13 @@ export class EditComponent implements OnInit, OnDestroy {
         next: (res) => {
           this.topic = res.topic;
           this.category_title = res.category.title;
+          if(res.topic.is_admin || res.topic.is_mod){
+            this.categoryService.getRoles(res.topic.category_id)
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(r => {
+              this.roleList = r;
+            })
+          }
         },
         error: (err) => {
           console.log(err);
@@ -111,15 +128,17 @@ export class EditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    this.posting = true;
     this.categoryService
       .editTopic(this.topic_id, this.topic)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
+          this.posting = false;
           this.router.navigate([`/topic/${this.topic_id}`]);
           this.toastService.show(this._translateService.instant(res.message));
         },
-        error: (e) => console.log(e),
+        error: () => this.posting = false,
       });
   }
 

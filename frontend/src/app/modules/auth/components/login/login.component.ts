@@ -12,6 +12,7 @@ import { AuthService } from '../../service/auth.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import {  TranslateService } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public formLogin: FormGroup;
   public formBuilderNonNullable: NonNullableFormBuilder;
   public googleEmail: string;
+  public development: boolean;
   public validationMessagesLogin = {
     email: {
       required: "",
@@ -49,6 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private toastService: ToastService
   ) {
+    this.development = !environment.production
     this.googleEmail = '';
     this.unsubscribe$ = new Subject();
     this.theme = this.themeService.getTheme();
@@ -71,8 +74,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         '',
         [
           Validators.required,
-          Validators.minLength(8),
-          Validators.pattern('^[a-zA-Z0-9_+-]+$'), //TODO change pattern more secure
+          Validators.minLength(3),
         ],
       ],
       remember_me: [false, []],
@@ -136,7 +138,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.toastService.show(this._translateService.instant(res.message));
           },
           error: (err) => {
-            console.log('Err (login ts):', err);
+            // console.log('Err (login ts):', err);
             this.loading = false;
             this.error = this._translateService.instant(err.error.message);
             this.formLogin.controls['password'].reset();

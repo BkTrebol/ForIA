@@ -47,15 +47,13 @@ export class ListComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.forum = res;
+          this.loading = false;
           res.forEach((section) => {
             this.ocults[section.name] = false;
           });
         },
         error: (err) => {
-          console.log(err);
-        },
-        complete: () => {
-          this.loading = false;
+          this.loading = false;;
         },
       });
 

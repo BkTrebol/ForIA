@@ -30,7 +30,7 @@ export class CreateComponent implements OnInit, OnDestroy {
     userPreferences: UserPreferences;
   } | null;
   public error: string;
-
+  public posting: boolean;
   constructor(
     private router: Router,
     private themeService: ThemeService,
@@ -40,6 +40,7 @@ export class CreateComponent implements OnInit, OnDestroy {
     private _translateService: TranslateService,
     private toastService: ToastService
   ) {
+    this.posting = false;
     this.theme = themeService.getTheme();
     this.unsubscribe$ = new Subject();
     this.loading = false;
@@ -68,7 +69,7 @@ export class CreateComponent implements OnInit, OnDestroy {
       this.userList$ = this.privateMessageService.getUserList().pipe(
         map((r) => {
           if (r.filter((u: any) => u.id === sendTo).length == 0) {
-            console.log('No user found with this id');
+            // console.log('No user found with this id');
             this.toastService.showDanger(
               this._translateService.instant('USER_NOT_FOUND')
             );
@@ -94,11 +95,14 @@ export class CreateComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.posting = true;
     if (this.message.content.length == 0) {
       this.error = this._translateService.instant('VALIDATION.MESSAGE.EMPTY');
+      this.posting = false;
       return;
     } else if (this.message.content.length > 10_000) {
       this.error = this._translateService.instant('VALIDATION.MESSAGE.LONG');
+      this.posting = false;
       return;
     } else {
       this.error = '';
@@ -108,8 +112,11 @@ export class CreateComponent implements OnInit, OnDestroy {
       .sendMessage(this.message)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: (r) => this.router.navigate([`/private-message/${r.id}`]),
-        error: (e) => console.log(e),
+        next: (r) => {
+          this.posting = false;
+          this.router.navigate([`/private-message/${r.id}`])
+        },
+      error: () => this.posting = false,
       });
   }
 

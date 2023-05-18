@@ -26,9 +26,9 @@ return new class extends Migration
             $table->unsignedBigInteger('can_post')->default(2);
             $table->unsignedBigInteger('can_mod')->default(3);
 
-            $table->foreign('can_view')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('can_post')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('can_mod')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('can_view')->references('id')->on('roles')->onUpdate('cascade')->onDelete('set default');
+            $table->foreign('can_post')->references('id')->on('roles')->onUpdate('cascade')->onDelete('set default');
+            $table->foreign('can_mod')->references('id')->on('roles')->onUpdate('cascade')->onDelete('set default');
 
             $table->timestamps();
 

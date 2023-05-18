@@ -6,5 +6,5 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-  public loading: boolean = true;
+  // public loading: boolean = true;
 }

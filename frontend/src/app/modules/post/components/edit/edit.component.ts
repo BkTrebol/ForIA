@@ -32,7 +32,7 @@ export class EditComponent implements OnInit, OnDestroy {
   public topic: string;
   public topicList: { id: number; title: string }[];
   public post_id: string;
-
+  public posting: boolean;
   constructor(
     private route: ActivatedRoute,
     private themeService: ThemeService,
@@ -42,6 +42,7 @@ export class EditComponent implements OnInit, OnDestroy {
     private postService: PostService,
     private _translateService: TranslateService
   ) {
+    this.posting = false;
     this.unsubscribe$ = new Subject();
     this.loading = true;
     this.theme = this.themeService.getTheme();
@@ -72,19 +73,17 @@ export class EditComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
+          this.loading = false;
           this.post = res.post;
           this.topic = res.topic.title;
         },
         error: (err) => {
+          this.loading = false;
           if (err.status == 403) {
             this.router.navigate([`/error`]);
-          } else {
-            console.log(err);
-          }
+          } 
         },
-        complete: () => {
-          this.loading = false;
-        },
+
       });
 
     this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
@@ -96,12 +95,10 @@ export class EditComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe({
               next: (res) => {
+                this.loading = false;
                 this.topicList = res;
               },
-              error: (err) => {
-                console.log(err);
-              },
-              complete: () => {
+              error: () => {
                 this.loading = false;
               },
             });
@@ -117,6 +114,7 @@ export class EditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    this.posting = true;
     if (
       this.post.topic_id !== undefined &&
       this.post.content.length > 0 &&
@@ -127,14 +125,16 @@ export class EditComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
+            this.posting = false;
             this.router.navigate([`/topic/${this.post.topic_id}`]);
             this.toastService.show(this._translateService.instant("POST_EDITED"));
           },
-          error: (e) => console.log(e),
+          error: () => this.posting = false,
         });
       this.error = '';
     } else {
       this.error = this._translateService.instant("VALIDATION.WRONG_FORMDATA")
+      this.posting = false;
     }
   }
 
