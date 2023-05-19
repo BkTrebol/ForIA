@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
-    
+
     function changeRole(Request $request){
         $roles = $request->roles;
         if(!$roles || $roles ===[] ){
@@ -63,7 +63,7 @@ class RoleController extends Controller
     function deleteRole(Role $role){
         $user = Auth::user();
         $userMaxrol = $user->roles()->orderBy('order','desc')->first()->order;
-        if($role->order <= $userMaxrol){
+        if($role->order > $userMaxrol){
             return response()->json('Unauthorized',403);
         }
 
@@ -97,7 +97,7 @@ class RoleController extends Controller
             'name' => 'required|unique:roles,name,' . $request->id,
             'admin' => 'boolean',
         ]);
-        
+
         $role = Role::find($request->id);
         $user = Auth::user();
         $userMaxrol = $user->roles()->orderBy('order','desc')->first()->order;

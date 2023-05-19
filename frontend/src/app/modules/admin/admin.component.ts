@@ -8,10 +8,11 @@ import {
   Input,
   AfterContentInit,
   AfterViewInit,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { AuthService } from '../auth/service/auth.service';
 import { Subject, filter, takeUntil } from 'rxjs';
-import { ActivationEnd, ChildActivationEnd, GuardsCheckEnd, NavigationCancel, NavigationEnd, NavigationError, ResolveEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 
 @Component({
@@ -20,7 +21,7 @@ import { ToastService } from 'src/app/helpers/services/toast.service';
   styleUrls: ['./admin.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AdminComponent implements OnInit, OnDestroy,AfterViewInit {
+export class AdminComponent implements OnInit, OnDestroy, AfterViewInit {
   private unsubscribe$: Subject<void>;
   public isAdmin: boolean;
   private styleSheet: HTMLLinkElement | undefined;
@@ -32,7 +33,8 @@ export class AdminComponent implements OnInit, OnDestroy,AfterViewInit {
     private renderer: Renderer2,
     private _authService: AuthService,
     private _router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private cdRef: ChangeDetectorRef
   ) {
     this.unsubscribe$ = new Subject();
     this.isAdmin = false;
@@ -40,12 +42,12 @@ export class AdminComponent implements OnInit, OnDestroy,AfterViewInit {
     this.loading = true;
     this.collapsed = window.innerWidth <= 800;
     this._router.events
-    .pipe(filter((event) => 
-    event instanceof NavigationEnd))
-    .subscribe((event: any) => {
-      this.loading = false;
-    });
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((_: any) => {
+        this.loading = false;
+      });
   }
+
   ngOnInit(): void {
     // Adds bootstrap.
     this.styleSheet = this.renderer.createElement('link');
@@ -74,6 +76,7 @@ export class AdminComponent implements OnInit, OnDestroy,AfterViewInit {
 
   ngAfterViewInit(): void {
     this.loading = false;
+    this.cdRef.detectChanges();
   }
 
   logout(): void {
@@ -86,7 +89,6 @@ export class AdminComponent implements OnInit, OnDestroy,AfterViewInit {
           this.toastService.show(res.message);
         },
         error: (err) => {
-          console.log(err)
           this.toastService.show(err.message);
         },
         complete: () => {

@@ -62,19 +62,36 @@ class AdminCategoryController extends Controller
             "can_view" => ['required', 'exists:roles,id'],
             "can_post" => ['required', 'exists:roles,id'],
             "can_mod" => ['required', 'exists:roles,id'],
-            "image" => ['nullable', 'image'],
+            "image" => ['nullable', 'image', 'mimes:jpg,png,jpeg,gif,svg', 'max:200'],
+            "music" => ['nullable', 'mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav'],
         ]);
 
+        $category = Category::find($request->input("id"));
 
         if ($request->hasFile('image')) {
             $image = $request->file('image')->store('categories');
+            if($category && $category->image) {
+                if(Storage::disk('categories')->exists($category->image)){
+                    Storage::delete($category->image);
+                }
+                $category->image = null;
+                $category->save();
+            }
+        }else{
+            $image = $category->image ?? null;
         }
-
-        $category = Category::find($request->input("id"));
-        if ($category && $category->image) {
-            Storage::delete($category->image);
-            $category->image = null;
-            $category->save();
+        if ($request->hasFile('music')) {
+            $music = $request->file('music')->store('music');
+            $music_path = substr($music, 6);
+            if ($category && $category->music) {
+                if(Storage::disk('music')->exists($category->music)){
+                    Storage::delete($category->music);
+                }
+                $category->music = null;
+                $category->save();
+            }
+        }else{
+            $music_path = $category->music ?? null;
         }
 
         $data = [
@@ -84,7 +101,8 @@ class AdminCategoryController extends Controller
             "can_post" => $request->input("can_post"),
             "can_mod" => $request->input("can_mod"),
             "description" => $request->input("description"),
-            "image" => $image ?? null,
+            "image" => $image,
+            "music" => $music_path,
         ];
 
         $category = Category::updateOrCreate([
@@ -106,7 +124,7 @@ class AdminCategoryController extends Controller
                 $oldCategory = Category::find($newCategory['id']);
                 $oldCategory->update($newCategory);
                 unset($oldCategoryList[array_search($oldCategory->id, $oldCategoryList)]);
-            } 
+            }
         }
         ;
 

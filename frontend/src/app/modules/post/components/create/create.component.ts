@@ -10,7 +10,7 @@ import { UserPreferences } from 'src/app/models/user-preferences';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { PostService } from '../../service/post.service';
 import { environment } from 'src/environments/environment';
-import {  TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create',
@@ -118,7 +118,7 @@ export class CreateComponent implements OnInit, OnDestroy {
           next: (res) => {
             this.posting = false;
             this.router.navigate([`/topic/${this.post.topic_id}`],
-              {              
+              {
               queryParams: {page: res.lastPage},
               fragment: res.id
             });

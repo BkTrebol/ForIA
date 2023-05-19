@@ -39,7 +39,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 
 // Translate
-import {  TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [

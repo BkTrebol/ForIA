@@ -120,7 +120,6 @@ export class ViewComponent implements OnInit, OnDestroy {
         error: (err) => {
           this.loading = false;
           this.router.navigate(['/error']);
-          // console.log(err);
         },
       });
   }

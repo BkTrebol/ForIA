@@ -36,16 +36,20 @@ export class CategoryComponent implements OnInit, OnDestroy {
   public catToDelete: string;
   public newCategoryMode: boolean;
   public newSectionMode: boolean;
-  public sectionList: Array<{name:string,id?:number}>;
+  public sectionList: Array<{ name: string; id?: number }>;
   public titleList: Array<string>;
   public saveLoading: boolean;
   public roleList: Array<Role>;
   public catImage?: File;
+  public catMusic?: File;
   public index: number;
   public cindex: number;
   public imageUrl: string;
+  public audioUrl: string;
   public userMaxRole: number;
   public formData: FormData;
+  public audio: HTMLAudioElement;
+
   constructor(
     private _fb: FormBuilder,
     private _categoryService: CategoryService,
@@ -55,6 +59,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.formData = new FormData();
     this.userMaxRole = 0;
     this.imageUrl = '';
+    this.audioUrl = '';
     this.index = 0;
     this.cindex = 0;
     this.unsubscribe$ = new Subject();
@@ -68,6 +73,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.sectionForm = this._fb.group({});
     this.loading = false;
     this.catToDelete = '';
+    this.audio = new Audio();
   }
 
   ngOnInit(): void {
@@ -134,9 +140,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.cindex = cindex;
     this.imageUrl =
       this.sections[index].categories[cindex].image === '' ||
-        this.sections[index].categories[cindex].image === null
+      this.sections[index].categories[cindex].image === null
         ? ''
         : `${environment.api}upload/images/${this.sections[index].categories[cindex].image}`;
+    this.audioUrl = ''; //`${environment.api}category/music/${this.sections[index].categories[cindex].id}`;
     this.categoryForm = this._fb.group({
       id: [this.sections[index].categories[cindex].id],
       section: [this.sections[index].categories[cindex].section],
@@ -158,7 +165,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
       ],
       // image: [this.sections[index].categories[cindex].image],
       image: [],
-      music: [this.sections[index].categories[cindex].music],
+      // music: [this.sections[index].categories[cindex].music],
+      music: [],
       title: [
         this.sections[index].categories[cindex].title,
         [
@@ -171,9 +179,18 @@ export class CategoryComponent implements OnInit, OnDestroy {
         ],
       ],
     });
-    if(this.can_view?.value >= this.userMaxRole) {this.can_view?.disable(); this.formData.append('can_view',this.can_view?.value)}
-    if(this.can_post?.value >= this.userMaxRole) {this.can_post?.disable();this.formData.append('can_post',this.can_post?.value)}
-    if(this.can_mod?.value >= this.userMaxRole) {this.can_mod?.disable();this.formData.append('can_mod',this.can_mod?.value)}
+    if (this.can_view?.value >= this.userMaxRole) {
+      this.can_view?.disable();
+      this.formData.append('can_view', this.can_view?.value);
+    }
+    if (this.can_post?.value >= this.userMaxRole) {
+      this.can_post?.disable();
+      this.formData.append('can_post', this.can_post?.value);
+    }
+    if (this.can_mod?.value >= this.userMaxRole) {
+      this.can_mod?.disable();
+      this.formData.append('can_mod', this.can_mod?.value);
+    }
     this._modalService.open(category);
   }
 
@@ -185,7 +202,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
           this.sections[index].categories.splice(cindex, 1);
         }
       },
-      () => { }
+      () => {}
     ); // Avoid error for unhdandled Dismiss
   }
 
@@ -194,16 +211,18 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this._modalService.open(category).result.then(
       (result) => {
         if (result) {
-          this._categoryService.emptyTrash()
-          .subscribe((r) => {
-            this._toastService.show(r.message)
-          })
+          this._categoryService.emptyTrash().subscribe((r) => {
+            this._toastService.show(r.message);
+          });
         }
       },
-      () => { });
+      () => {}
+    );
   }
+
   createCategory(category: any) {
     this.imageUrl = '';
+    this.audioUrl = '';
     this.newCategoryMode = true;
     this.categoryForm = this._fb.group({
       id: [],
@@ -230,21 +249,27 @@ export class CategoryComponent implements OnInit, OnDestroy {
   saveCategory() {
     this.saveLoading = true;
 
-    Object.keys(this.categoryForm.value).forEach(key => {
-      if (key !== 'image') this.formData.append(key, this.categoryForm.get(key)?.value);
+    Object.keys(this.categoryForm.value).forEach((key) => {
+      if (key !== 'image' && key !== 'music')
+        this.formData.append(key, this.categoryForm.get(key)?.value);
     });
     if (this.catImage instanceof File) {
       this.formData.append('image', this.catImage);
     }
-    
+    if (this.catMusic instanceof File) {
+      this.formData.append('music', this.catMusic);
+    }
+
     this._categoryService
       .saveCategory(this.formData)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: data => {
+        next: (data) => {
           const sectionId = this.sections.indexOf(
-            this.sections.find((s:Section) => s.name === data.category.section)??this.sections[0]
-            )
+            this.sections.find(
+              (s: Section) => s.name === data.category.section
+            ) ?? this.sections[0]
+          );
           if (!this.newCategoryMode) {
             this.sections[this.index].categories[this.cindex] = data.category;
           } else {
@@ -253,21 +278,38 @@ export class CategoryComponent implements OnInit, OnDestroy {
           this.categoryForm = this._fb.group({});
           this.saveLoading = false;
           this.formData = new FormData();
-          this._toastService.show(data.message)
+          this._toastService.show(data.message);
           this._modalService.dismissAll();
         },
-        error: ee => {
+        error: (err) => {
           this.saveLoading = false;
-          this._toastService.show(ee);
+          this._toastService.show(err);
           this._modalService.dismissAll();
-        }
-      })
+        },
+      });
   }
 
   onFileChange(event: any) {
     if (event.target.files && event.target.files.length > 0) {
       this.catImage = event.target.files[0];
       if (this.catImage) this.imageUrl = URL.createObjectURL(this.catImage);
+    }
+  }
+
+  onMusicChange(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      this.catMusic = event.target.files[0];
+      if (this.catMusic) {
+        this.audioUrl = URL.createObjectURL(this.catMusic);
+        // this.audio.src = this.audioUrl;
+        // this.audio.load();
+        // this.audio.play();
+      };
+      // const reader = new FileReader();
+      // reader.onload = (e: any) => {
+      //   this.audioUrl = e.target.result;
+      // };
+      // reader.readAsDataURL(event.target.files[0]);
     }
   }
 
@@ -344,7 +386,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
         index++;
       }
     }
-    this._categoryService.saveCategories(sendCatList)
+    this._categoryService
+      .saveCategories(sendCatList)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r) => {

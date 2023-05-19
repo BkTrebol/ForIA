@@ -24,11 +24,13 @@
 						<div class="btn-group w-content mx-auto mt-sm-0 mt-2 mx-sm-1">
 							<button class="btn btn-sm btn-primary" (click)="editCategory(categoryModal,index,cindex)"
 								aria-label="Edit Cateogry"><fa-icon [icon]="['fas', 'pen']"></fa-icon></button>
-							<button  *ngIf="category.id !== 1"class="btn btn-sm btn-danger" (click)="deleteCategory(deleteModal,index,cindex)"
-								aria-label="Delete Cateogry"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
-							
-								<button *ngIf="category.id === 1" class="btn btn-sm btn-danger" (click)="emptyCategory(emptyModal,index,cindex)"
-							aria-label="Empty Cateogry"><fa-icon [icon]="['fas', 'trash']"></fa-icon></button>
+							<button *ngIf="category.id !== 1" class="btn btn-sm btn-danger"
+								(click)="deleteCategory(deleteModal,index,cindex)" aria-label="Delete Cateogry"><fa-icon
+									[icon]="['fas', 'trash']"></fa-icon></button>
+
+							<button *ngIf="category.id === 1" class="btn btn-sm btn-danger"
+								(click)="emptyCategory(emptyModal,index,cindex)" aria-label="Empty Cateogry"><fa-icon
+									[icon]="['fas', 'trash']"></fa-icon></button>
 						</div>
 					</div>
 				</div>
@@ -39,7 +41,7 @@
 		<button (click)="onSubmit()" [disabled]="saveLoading" class="btn btn-primary m-2" ngbTooltip="Save Current Changes">
 			<span *ngIf="saveLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
 			<fa-icon *ngIf="!saveLoading" [icon]="['fas', 'cloud-arrow-up']"></fa-icon>
-			 Save
+			Save
 		</button>
 		<button class="btn btn-success m-2" (click)="createSection(sectionModal)" ngbTooltip="Add New Section"><fa-icon
 				[icon]="['fas', 'plus']"></fa-icon> Section</button>
@@ -65,7 +67,8 @@
 	</div>
 	<div class="modal-footer d-flex justify-content-between">
 		<button type="button" class="btn btn-secondary" (click)="modal.close()">Cancel</button>
-		<button type="button" class="btn btn-success" [disabled]="sectionForm.invalid" (click)="modal.close(true)">Save</button>
+		<button type="button" class="btn btn-success" [disabled]="sectionForm.invalid"
+			(click)="modal.close(true)">Save</button>
 	</div>
 </ng-template>
 
@@ -95,14 +98,12 @@
 								</div>
 							</div>
 							<div class="form-floating form-group my-1">
-
 								<textarea style="height:8rem;" type="text" id="description" placeholder="Description"
 									class="form-control" formControlName="description">
 									</textarea>
 								<label class="text-secondary" for="description">Description</label>
 							</div>
 							<div class="form-floating custom-floating-label form-group my-1" *ngIf="newCategoryMode">
-
 								<ng-select [items]="sectionList" [searchable]="true" bindLabel="name" bindValue="name"
 									formControlName="section" class="select"
 									[ngClass]="{ 'is-invalid': section?.invalid && section?.touched}">
@@ -115,7 +116,6 @@
 								</div>
 							</div>
 							<div class="form-floating custom-floating-label form-group my-1">
-
 								<ng-select [items]="roleList" [searchable]="true" bindLabel="name" bindValue="id" id="can_mod"
 									formControlName="can_mod" class="select"
 									[ngClass]="{ 'is-invalid': can_mod?.invalid && can_mod?.touched}"></ng-select>
@@ -127,7 +127,6 @@
 								</div>
 							</div>
 							<div class="form-floating custom-floating-label form-group my-1">
-
 								<ng-select [items]="roleList" [searchable]="true" bindLabel="name" bindValue="id" id="can_post"
 									formControlName="can_post" class="select"
 									[ngClass]="{ 'is-invalid': can_post?.invalid && can_post?.touched}"></ng-select>
@@ -140,9 +139,8 @@
 								</div>
 							</div>
 							<div class="form-floating custom-floating-label form-group my-1">
-
 								<ng-select [items]="roleList" [searchable]="true" bindLabel="name" bindValue="id" id="can_view"
-									formControlName="can_view" class="select" 
+									formControlName="can_view" class="select"
 									[ngClass]="{ 'is-invalid': can_view?.invalid && can_view?.touched}"></ng-select>
 								<label class="text-secondary" for="can_view">Can View <sup class="text-danger">*</sup></label>
 								<div class="invalid-feedback d-block mt-1 ms-1" *ngIf="!can_view?.valid && can_view?.touched">
@@ -153,14 +151,20 @@
 								</div>
 							</div>
 							<label class="text-secondary my-1" for="music">Music</label>
-							<input type="file" accept="audio/*" id="music" class="form-control" placeholder="Music"
+							<input type="file" accept="audio/*" id="music" (change)="onMusicChange($event)" class="form-control" placeholder="Music"
 								formControlName="music">
+							<!-- <div *ngIf="audioUrl" class="mt-2">
+								<audio controls="controls">
+									<source [src]="audioUrl" type="audio/*" />
+								</audio>
+							</div> -->
 							<label class="text-secondary my-1" for="image">Image</label>
 							<input type="file" id="image" (change)="onFileChange($event)" accept="image/*" class="form-control"
 								placeholder="Image" formControlName="image">
 							<div *ngIf="imageUrl" class="mt-2">
 								<img [src]="imageUrl" alt="Uploaded Image" class="uploaded-image">
 							</div>
+
 						</form>
 					</ng-container>
 				</div>
@@ -185,7 +189,9 @@
 	<div class="modal-body">
 		<div class="my-3">
 			<p>Confirm deleting category with title: {{catToDelete}}</p>
-			<p class="alert alert-danger">All data related with this category and the topics it contains will be deleted. <strong>Changes won't be effective until you save the category list</strong></p>
+			<p class="alert alert-danger">All data related with this category and the topics it contains will be deleted.
+				<strong>Changes won't be effective until you save the category list</strong>
+			</p>
 		</div>
 	</div>
 	<div class="modal-footer d-flex justify-content-between">
@@ -202,7 +208,7 @@
 	<div class="modal-body">
 		<div class="my-3">
 			<p>This category can't be deleted, proceding confirm will delete all Topics it contains and its posts.</p>
-			<p>Confirm deleting all topics from  title: {{catToDelete}}</p>
+			<p>Confirm deleting all topics from title: {{catToDelete}}</p>
 		</div>
 	</div>
 	<div class="modal-footer d-flex justify-content-between">

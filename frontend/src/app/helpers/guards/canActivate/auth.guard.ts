@@ -4,7 +4,6 @@ import {
   RouterStateSnapshot,
   UrlTree,
   Router,
-  CanActivateFn,
 } from '@angular/router';
 import { Observable, catchError, map, of } from 'rxjs';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
