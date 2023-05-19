@@ -174,7 +174,6 @@ export class ViewComponent implements OnInit, OnDestroy {
                 this.newPostId != ''
                   ? this.newPostId
                   : this.route.snapshot.fragment ?? '';
-              console.log(id);
               if (id != '' && id) {
                 document.getElementById(id)?.scrollIntoView({
                   behavior: 'smooth',

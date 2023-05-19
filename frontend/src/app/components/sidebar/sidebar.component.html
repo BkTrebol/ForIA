@@ -1,4 +1,4 @@
-<div class="sidebar {{coll}} {{theme}}">
+<aside class="sidebar {{coll}} {{theme}}">
     <div class="toggle {{order? 'start': 'end'}} {{userLoggedIn? '': 'sol'}}">
         <button class="btn2" (click)="coll = !coll; width = coll ? '45px':'240px';margin = coll?'0':'0 1rem'"
             type="button" ngbTooltip="{{coll? 'Expand': 'Collapse'}} Sidebar"><fa-icon
@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="create-post">
-                <a class="btn-a" routerLink="post/create"><fa-icon [icon]="['fas', 'plus']"></fa-icon> Create a Post</a>
+                <a class="btn-a" routerLink="/post/create"><fa-icon [icon]="['fas', 'plus']"></fa-icon> Create a Post</a>
             </div>
             <div class="sidebar-posts">
                 <p *ngIf="lastPosts.length > 0" class="last-post-toggle" (click)="lastPostToggle = !lastPostToggle">
@@ -81,4 +81,4 @@
             </div>
         </div>
     </div>
-</div>
+</aside>
