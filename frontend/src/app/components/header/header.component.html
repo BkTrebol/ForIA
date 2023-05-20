@@ -85,7 +85,7 @@
         </ul>
     </nav>
 
-    <!-- <ul *ngIf="userIsAuthenticated && isAdmin" class="ng-select">
+    <ul *ngIf="userIsAuthenticated && isAdmin" class="ng-select">
         <li >
             <ng-select [(ngModel)]="roles" (change)="changeRole()" [multiple]="true">
                 <ng-option *ngFor="let role of roleList" [value]="role.id">{{role.id + '-' +
@@ -93,12 +93,12 @@
             </ng-select>
         </li>
     </ul>
-    <ul class="ng-select">
-        <li *ngIf="development">
+    <ul class="ng-select" *ngIf="development">
+        <li >
             <ng-select [(ngModel)]="user" (change)="changeUser()">
                 <ng-option *ngFor="let user of userList$ | async" [value]="user.id">{{user.id + '-' +
                     user.nick}}</ng-option>
             </ng-select>
         </li>
-    </ul> -->
+    </ul>
 </header>

@@ -54,7 +54,7 @@ class TopicController extends Controller
             'closed' => $topic->can_post === $topic->category->can_mod,
             'can_mod' => $isMod || $isAdmin,
             'can_edit' => $isMod || $isAdmin || ($user && $topic->user_id == $user->id && $topic->posts->count() == 0),
-            'can_post' => in_array($topic->can_post, $roles) || $isMod || $isAdmin,
+            'can_post' =>( in_array($topic->can_post, $roles) && in_array($topic->category->can_post,$roles)) || $isMod || $isAdmin,
             'can_poll' => $poll == null && (($user && $user->id == $topic->user_id) || $isAdmin || $isMod),
             'category' => $topic->category->only('id', 'title'),
 

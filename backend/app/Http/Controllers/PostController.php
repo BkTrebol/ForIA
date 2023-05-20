@@ -115,10 +115,22 @@ class PostController extends Controller
         );
     }
 
-    function getAllTopic()
-    {
+    function getAllTopic(Request $request)
+    {   
+        $user = Auth::user();
+        $roles = self::roles($request);
+        $isAdmin = self::is_admin($request);
+        $topics = Topic::select('id', 'title')
+            ->orderBy('title', 'asc')
+            ->get()
+            ->filter(function ($topic) use ($roles, $isAdmin) {
+                return (
+                    (in_array($topic->can_post, $roles) && in_array($topic->category->can_post, $roles)) &&
+                    (in_array($topic->can_view, $roles) && in_array($topic->category->can_view, $roles))
+                ) || $isAdmin;
+            });
         return response()->json(
-            Topic::select('id', 'title')->orderBy('title', 'asc')->get()
+            $topics
         );
     }
 
