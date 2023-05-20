@@ -78,7 +78,7 @@
         </ul>
     </nav>
 
-    <!-- <ul *ngIf="userIsAuthenticated && isAdmin" class="ng-select">
+    <ul *ngIf="userIsAuthenticated && isAdmin" class="ng-select">
         <li >
             <ng-select [(ngModel)]="roles" (change)="changeRole()" [multiple]="true">
                 <ng-option *ngFor="let role of roleList" [value]="role.id">{{role.id + '-' +
@@ -93,5 +93,5 @@
                     user.nick}}</ng-option>
             </ng-select>
         </li>
-    </ul> -->
+    </ul>
 </header>
