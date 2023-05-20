@@ -40,6 +40,7 @@ describe('AuthService Test', () => {
       email: 'a@a',
       password: '12345678',
       password_confirmation: '12345678',
+      lang: 'en'
     };
     const mockRegisterResult = {
       message: 'User created successfully',

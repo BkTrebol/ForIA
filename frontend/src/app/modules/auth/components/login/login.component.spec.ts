@@ -88,7 +88,7 @@ describe('LoginComponent Test', () => {
     const email = form.controls['email'];
     email.setValue('a@a');
     const password = form.controls['password'];
-    password.setValue('1234567');
+    password.setValue('12');
     expect(form.invalid).toBeTrue();
     checkBtn(true, fixture);
   });

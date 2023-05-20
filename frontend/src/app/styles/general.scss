@@ -254,6 +254,13 @@
       }
     }
   }
+  @include topic-maybe() {
+    nav ul li {
+      &.topic-maybe {
+        display: none;
+      }
+    }
+  }
   // Responsive for tablet
   @include tablet() {
     @include row(flex-start, 30px);
