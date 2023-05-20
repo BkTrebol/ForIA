@@ -210,12 +210,12 @@
                         <angular-editor id="editor" [(ngModel)]="content" [config]="editorConfig"></angular-editor>
                     </div>
                 </div>
-                <button type="submit" [disabled]="content.length == 0 || content.length > 10_000 || posting" class="btn-s"
+                <button type="submit" [disabled]="content.length === 0 || content.length > 10_000 || posting" class="btn-s"
                     (click)="onSubmit()">
                     <span *ngIf="posting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     {{"SEND"|translate}}
                 </button>
-                <div *ngIf="error != ''" class="error">
+                <div *ngIf="error !== ''" class="error">
                     <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}
                 </div>
             </div>
@@ -237,7 +237,7 @@
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        <p>{{"CONFIRM_DELETE_POLL"|translate}} {{pollResults?.name}} ({{'WITH'|translate}} {{pollResults?.votes}} {{'VOTES2'|translate}}{{pollResults?.votes != 1 ? 's': ''}})</p>
+        <p>{{"CONFIRM_DELETE_POLL"|translate}} {{pollResults?.name}} ({{'WITH'|translate}} {{pollResults?.votes}} {{'VOTES2'|translate}}{{pollResults?.votes !== 1 ? 's': ''}})</p>
     </div>
     <div class="modal-footer d-felx justify-content-between">
         <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">{{"CANCEL"|translate}}</button>

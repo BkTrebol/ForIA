@@ -177,13 +177,13 @@ export class EditComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.user = res;
       },
-      error: (err) => {
+      error: () => {
         this.loading = false;
       },
     });
 
     this.getPref();
-    
+
     this.themeService.theme
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((t: string) => {
@@ -263,6 +263,7 @@ export class EditComponent implements OnInit, OnDestroy {
           this.preferences = res;
         },
         error: () => {
+          //
         },
       });
   }
@@ -294,7 +295,7 @@ export class EditComponent implements OnInit, OnDestroy {
   deleteUser(modal: any) {
     this.deletionPassword = '';
     this.deletionPassword2 = '';
-   
+
     this.modalService.open(modal).result.catch(() => {
       if (this.userDeletion != 3) {
         this.toastService.show(this._translateService.instant('DESTRUCTION_ABORTED'));

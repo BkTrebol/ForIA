@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -11,7 +11,7 @@ export class UserService {
 
   constructor(
     private _http: HttpClient,
-  ) { 
+  ) {
     this.apiUrl = environment.api+'admin/';
   }
 
@@ -31,7 +31,7 @@ export class UserService {
   getRoles():Observable<any> {
     return this._http.get(`${this.apiUrl}role/normal`);
   }
-  
+
   getPublicRoles():Observable<any> {
     return this._http.get(`${this.apiUrl}role/public`);
   }

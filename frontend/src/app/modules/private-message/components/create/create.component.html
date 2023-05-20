@@ -25,11 +25,11 @@
                         <angular-editor [(ngModel)]="message.content" [config]="editorConfig"></angular-editor>
                     </div>
                 </div>
-                <div *ngIf="error != ''" class="error">
+                <div *ngIf="error !== ''" class="error">
                     <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}
                 </div>
                 <button type="submit" class="btn-s"
-                    [disabled]="message.recipient == 0 || message.title == '' || posting || message.content.length == 0 || message.content.length > 10_000 || message.recipient == null"
+                    [disabled]="message.recipient == 0 || message.title === '' || posting || message.content.length === 0 || message.content.length > 10_000 || message.recipient == null"
                     (click)="onSubmit()">
                     <span *ngIf="posting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     {{"SEND" | translate}}  </button>

@@ -67,11 +67,14 @@ export class LoginComponent implements OnInit, OnDestroy {
       .adminLogin(this.authData)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: (r) => {
-          this._authService.checkAdmin().subscribe((r) => {
-            this._router.navigate(['admin/categories']);
-            this.loginLoading = false;
-          });
+        next: () => {
+          this._authService
+            .checkAdmin()
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(() => {
+              this._router.navigate(['admin/categories']);
+              this.loginLoading = false;
+            });
         },
         error: (e) => {
           this.error = e.error.message;

@@ -1,11 +1,11 @@
-<ng-container *ngIf="appa == 'line'">
-  <ngx-skeleton-loader [theme]="{'background-color': theme == 'dark' ? '#555': '#CCC', height: height, width: width}"
-    appearance="line" animation="progress{{theme == 'dark' ? '-dark': ''}}">
+<ng-container *ngIf="appa === 'line'">
+  <ngx-skeleton-loader [theme]="{'background-color': theme === 'dark' ? '#555': '#CCC', height: height, width: width}"
+    appearance="line" animation="progress{{theme === 'dark' ? '-dark': ''}}">
   </ngx-skeleton-loader>
 </ng-container>
 
-<ng-container *ngIf="appa == 'circle'">
-  <ngx-skeleton-loader [theme]="{'background-color': theme == 'dark' ? '#555': '#CCC', height: height, width: width}"
-    appearance="circle" animation="progress{{theme == 'dark' ? '-dark': ''}}">
+<ng-container *ngIf="appa === 'circle'">
+  <ngx-skeleton-loader [theme]="{'background-color': theme === 'dark' ? '#555': '#CCC', height: height, width: width}"
+    appearance="circle" animation="progress{{theme === 'dark' ? '-dark': ''}}">
   </ngx-skeleton-loader>
 </ng-container>

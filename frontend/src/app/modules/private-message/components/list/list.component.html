@@ -74,13 +74,13 @@
                         <div class="message-checkbox" ngbTooltip="{{'CHECK_DELETE'|translate}}"><input type="checkbox" (click)="deletePm(pm.id,'received')"
                                 [checked]="deleteReceived.includes(pm.id)"></div>
                     </div>
-                    <div class="list-footer" *ngIf="messages.received.messages.length == 0">
+                    <div class="list-footer" *ngIf="messages.received.messages.length === 0">
                         {{"NO_RECEIVED_MESSAGES"|translate}}
                     </div>
                     <div class="list-footer" *ngIf="messages.received.messages.length > 0">
                         <div class="align-right">
-                            <button class="btn2" [disabled]="deleteReceived.length == 0 || sending" (click)="onDeletePms()">
-                                <span *ngIf="sending" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> 
+                            <button class="btn2" [disabled]="deleteReceived.length === 0 || sending" (click)="onDeletePms()">
+                                <span *ngIf="sending" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <fa-icon  *ngIf="!sending" [icon]="['fas', 'trash']"></fa-icon>
                                 {{"DELETE_SELECTED"|translate}} ({{deleteReceived.length}})</button>
                         </div>
@@ -115,13 +115,13 @@
             <div class="message-checkbox" ngbTooltip="{{'CHECK_DELETE'|translate}}"><input type="checkbox" (click)="deletePm(pm.id,'sent')"
                     [checked]="deleteSent.includes(pm.id)"></div>
         </div>
-        <div class="list-footer" *ngIf="messages.sent.messages.length == 0">
+        <div class="list-footer" *ngIf="messages.sent.messages.length === 0">
             {{"NO_SENT_MESSAGES"|translate}}
         </div>
         <div class="list-footer" *ngIf="messages.sent.messages.length > 0">
             <div class="align-right">
-                <button class="btn2" [disabled]="deleteSent.length == 0 || sending" (click)="onDeletePms()">
-                    <span *ngIf="sending" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> 
+                <button class="btn2" [disabled]="deleteSent.length === 0 || sending" (click)="onDeletePms()">
+                    <span *ngIf="sending" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     <fa-icon *ngIf="!sending" [icon]="['fas', 'trash']"></fa-icon>
                     {{"DELETE_SELECTED"|translate}} ({{deleteSent.length}})</button>
             </div>

@@ -90,6 +90,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           '/user/edit',
           '/user/password',
           '/error',
+          '/post/create',
         ].includes(this.router.url) ||
         this.router.url.startsWith('/user/profile/')
       ) {

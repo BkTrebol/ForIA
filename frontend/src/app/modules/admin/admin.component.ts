@@ -5,8 +5,6 @@ import {
   OnInit,
   ViewEncapsulation,
   ElementRef,
-  Input,
-  AfterContentInit,
   AfterViewInit,
   ChangeDetectorRef,
 } from '@angular/core';
@@ -43,7 +41,7 @@ export class AdminComponent implements OnInit, OnDestroy, AfterViewInit {
     this.collapsed = window.innerWidth <= 800;
     this._router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((_: any) => {
+      .subscribe(() => {
         this.loading = false;
       });
   }

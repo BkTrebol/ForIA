@@ -47,9 +47,8 @@ export class UserService {
   }
 
   editProfile(user: UserProfile): Observable<MessageRes> {
-    let headers: HttpHeaders;
-    let params = JSON.stringify(user);
-    headers = new HttpHeaders({
+    const params = JSON.stringify(user);
+    const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Accept: 'application/json',
     });
@@ -62,11 +61,10 @@ export class UserService {
     user: UserProfile,
     image: Array<File>
   ): Observable<MessageRes> {
-    let postData: FormData;
-    let headers = new HttpHeaders({
+    const headers = new HttpHeaders({
       Accept: 'application/json',
     });
-    postData = new FormData();
+    const postData = new FormData();
     postData.append('nick', user.nick);
     postData.append('email', user.email);
     postData.append('location', user.location ?? '');
@@ -79,7 +77,7 @@ export class UserService {
   }
 
   editPreferences(preferences: UserPreferences): Observable<MessageRes> {
-    let params = JSON.stringify(preferences);
+    const params = JSON.stringify(preferences);
     return this.http.put<{ message: string }>(
       `${environment.api}preferences/all`,
       params

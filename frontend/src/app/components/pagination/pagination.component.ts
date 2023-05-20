@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
@@ -19,11 +18,11 @@ import { ThemeService } from 'src/app/helpers/services/theme.service';
 })
 export class PaginationComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
-  @Input('current_page') current_page: number;
-  @Input('last_page') last_page: number;
-  @Input('ignoreParams') ignoreParams: boolean;
+  @Input() current_page: number;
+  @Input() last_page: number;
+  @Input() ignoreParams: boolean;
 
-  @Output('changePage') changePage;
+  @Output() changePage;
   @ViewChild('pagination3') pagination: any;
 
   public theme: string;
@@ -65,7 +64,7 @@ export class PaginationComponent implements OnInit, OnDestroy {
   }
 
   onKeyDown(event: KeyboardEvent) {
-    let target = event.target as HTMLLinkElement;
+    const target = event.target as HTMLLinkElement;
     const keyCode = event.code;
     if (
       +event.key > this.last_page ||
@@ -86,12 +85,12 @@ export class PaginationComponent implements OnInit, OnDestroy {
   }
 
   onFocus(event: FocusEvent) {
-    let target = event.target as HTMLLinkElement;
+    const target = event.target as HTMLLinkElement;
     target.textContent = '';
   }
 
   onBlur(event: FocusEvent) {
-    let target = event.target as HTMLLinkElement;
+    const target = event.target as HTMLLinkElement;
     target.textContent = '...';
   }
 

@@ -43,7 +43,7 @@ export class ToastsContainer implements OnInit, OnDestroy {
     return toast.textOrTpl instanceof TemplateRef;
   }
 
-  closeToast(toast: NgbToast, group: string = '') {
+  closeToast(toast: NgbToast, group = '') {
     toast.hide;
     this.toastService.remove(toast, group);
   }
@@ -55,7 +55,7 @@ export class ToastsContainer implements OnInit, OnDestroy {
   sendVerification(){
     this.authService.sendVerification()
     .pipe(takeUntil(this.unsubscribe$))
-    .subscribe((r)=> {
+    .subscribe(()=> {
       this.toastService.show("Email Sent")
     });
   }

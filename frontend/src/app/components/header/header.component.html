@@ -13,9 +13,9 @@
                         [icon]="['fas', 'vial']"></fa-icon><span>Topic</span></a>
             </li>
             <li>
-                <button ngbTooltip="Change to {{theme=='light' ? 'Dark': 'Light'}} Theme" aria-albel="Change the theme"
+                <button ngbTooltip="Change to {{theme==='light' ? 'Dark': 'Light'}} Theme" aria-albel="Change the theme"
                     type="button" (click)="changeTheme()"><fa-icon
-                        [icon]="['fas', theme=='light' ? 'moon': 'sun']"></fa-icon></button>
+                        [icon]="['fas', theme==='light' ? 'moon': 'sun']"></fa-icon></button>
             </li>
         </ul>
         <ul>
@@ -49,19 +49,26 @@
             <li><a routerLink="/category/2" routerLinkActive="active"><fa-icon
                         [icon]="['fas', 'newspaper']"></fa-icon><span>{{"NEWS"|translate}}</span></a>
             </li>
-            <li><a routerLink="/topic/1" routerLinkActive="active"><fa-icon
+            <li class="topic-maybe"><a routerLink="/topic/1" routerLinkActive="active"><fa-icon
                         [icon]="['fas', 'vial']"></fa-icon><span>Topic</span></a>
             </li>
             <li>
-                <button ngbTooltip="{{'CHANGE_TO' | translate}} {{theme=='light' ? 'Dark': 'Light'}} Theme"
+                <button ngbTooltip="{{'CHANGE_TO' | translate}} {{theme==='light' ? 'Dark': 'Light'}} Theme"
                     aria-albel="Change the theme" type="button" (click)="changeTheme()"><fa-icon
-                        [icon]="['fas', theme=='light' ? 'moon': 'sun']"></fa-icon></button>
+                        [icon]="['fas', theme==='light' ? 'moon': 'sun']"></fa-icon></button>
             </li>
-            <li>
+            <li class="gran">
                 <select (change)="changeLanguage()" id="language" [(ngModel)]="language">
                     <option value="es" [selected]="language === 'es'">{{"SPANISH"|translate}}</option>
                     <option value="ca" [selected]="language === 'ca'">{{"CATALAN"|translate}}</option>
                     <option value="en" [selected]="language === 'en'">{{"ENGLISH"|translate}}</option>
+                </select>
+            </li>
+            <li class="petit">
+                <select (change)="changeLanguage()" id="language" [(ngModel)]="language">
+                    <option value="es" [selected]="language === 'es'">{{"SPANISH"|translate | uppercase | slice:0:2 }}</option>
+                    <option value="ca" [selected]="language === 'ca'">{{"CATALAN"|translate | uppercase | slice:0:2}}</option>
+                    <option value="en" [selected]="language === 'en'">{{"ENGLISH"|translate | uppercase | slice:0:2}}</option>
                 </select>
             </li>
         </ul>

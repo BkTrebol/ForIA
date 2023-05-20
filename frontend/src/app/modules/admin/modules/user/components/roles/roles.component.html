@@ -40,8 +40,8 @@
         class="list-group-item align-items-center d-flex flex-wrap justify-content-between">
         <div class="d-flex w-50">
           <fa-icon *ngIf="rol.admin" [icon]="['fas', 'user-gear']"></fa-icon>
-          <fa-icon *ngIf="rol.name=='WELCOME_MOD'" [icon]="['fas', 'hand']"></fa-icon>
-          <fa-icon *ngIf="rol.name=='ROLE_MOD'" [icon]="['fas', 'user-shield']"></fa-icon>
+          <fa-icon *ngIf="rol.name==='WELCOME_MOD'" [icon]="['fas', 'hand']"></fa-icon>
+          <fa-icon *ngIf="rol.name==='ROLE_MOD'" [icon]="['fas', 'user-shield']"></fa-icon>
           <p class="m-0 ms-2 p-0">{{rol.name}}</p>
         </div>
         <div class="w-50 d-flex justify-content-between gap-1 flex-column flex-sm-row">

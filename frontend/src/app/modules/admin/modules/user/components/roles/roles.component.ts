@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { UserService } from '../../service/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +15,7 @@ import { PublicRole, Role } from 'src/app/models/receive/admin-role';
   templateUrl: './roles.component.html',
   styleUrls: ['./roles.component.scss'],
 })
-export class RolesComponent {
+export class RolesComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public loading: boolean;
   public roleList: Array<Role>;
@@ -65,8 +65,8 @@ export class RolesComponent {
           this.roleList = r.editable;
           this.uneditableRoleList = r.nonEditable;
           this.orders = [];
-          let minRol = 3;
-          let maxRol =
+          const minRol = 3;
+          const maxRol =
             r.nonEditable[0]?.order - 1 ??
             r.editable[r.editable.length - 1].order;
           for (let i = minRol; i <= maxRol; i++) {
@@ -85,7 +85,7 @@ export class RolesComponent {
           this.publicRoleList = r;
           this.loading = false;
         },
-        error: (err) => {
+        error: () => {
           this.loading = false;
         }
       });
@@ -179,7 +179,7 @@ export class RolesComponent {
                   this.getPublicRoles();
                 else
                   this.getRoles();
-                  
+
                 this.resetRoleVars();
                 this._toastService.show(r.message);
               },

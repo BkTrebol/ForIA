@@ -34,7 +34,7 @@ export class AuthGuard {
             return true;
           }
         }),
-        catchError((err) => {
+        catchError(() => {
           this.router.navigate(['/auth/login'], {
             queryParams: { returnUrl: state.url },
           });
@@ -46,14 +46,3 @@ export class AuthGuard {
     }
   }
 }
-
-// export const authGuard: CanActivateFn = () => {
-//   const authService = inject(AuthService);
-//   const router = inject(Router);
-
-//   if (!authService.getIsAuth()) {
-//     router.navigate(['/auth/login']);
-//     return false;
-//   }
-//   return true;
-// };

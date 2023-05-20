@@ -2,8 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import {
   NgbDateStruct,
-  NgbCalendar,
-  NgbDatepickerModule,
   NgbModal,
 } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../service/user.service';
@@ -157,7 +155,7 @@ export class EditComponent implements OnInit, OnDestroy {
               this._router.navigate(['/admin/users']);
             }
           },
-          error: (e) => {
+          error: () => {
             this.deleteLoading = false;
           },
         });

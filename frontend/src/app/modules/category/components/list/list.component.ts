@@ -52,8 +52,8 @@ export class ListComponent implements OnInit, OnDestroy {
             this.ocults[section.name] = false;
           });
         },
-        error: (err) => {
-          this.loading = false;;
+        error: () => {
+          this.loading = false;
         },
       });
 
@@ -80,7 +80,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
   toogleSections() {
     this.allSections = !this.allSections;
-    for (let nom in this.ocults) {
+    for (const nom in this.ocults) {
       this.ocults[nom] = this.allSections;
     }
   }

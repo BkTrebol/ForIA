@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -11,7 +11,7 @@ export class CategoryService {
   private catUrl: string;
   constructor(
     private _http: HttpClient,
-  ) { 
+  ) {
     this.apiUrl = environment.api+'admin/';
     this.catUrl = this.apiUrl+'category/';
   }

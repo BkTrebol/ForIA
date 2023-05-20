@@ -4,7 +4,7 @@ import { UserService } from '../../service/user.service';
 import { PublicUserProfile } from 'src/app/models/receive/user-profile';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
 import { EChartsOption } from 'echarts';
@@ -35,6 +35,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private authService: AuthService,
+    private router: Router,
     private route: ActivatedRoute,
     private themeService: ThemeService,
     private toastService: ToastService,
@@ -78,8 +79,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.user = res;
         },
-        error: (err) => {
+        error: () => {
           this.loading = false;
+          this.router.navigate(['/error']);
         },
       });
 
@@ -94,7 +96,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     this.route.params
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((_: Params) => {
+      .subscribe(() => {
         this.id = this.route.snapshot.paramMap.get('id') ?? '';
         this.getUserProfile();
         this.getStatistics();
@@ -230,22 +232,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (res) => {
-          // console.log(res);
-          // this.chartOption = {
-          //   xAxis: {
-          //     type: 'category',
-          //     data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          //   },
-          //   yAxis: {
-          //     type: 'value',
-          //   },
-          //   series: [
-          //     {
-          //       data: [820, 932, 901, 934, 1290, 1330, 1320],
-          //       type: 'line',
-          //     },
-          //   ],
-          // };
           if (res.no) {
             this.chartOption = {
               title: {
@@ -354,7 +340,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.user = res;
       },
       error: (err) => {
-        console.log(err);
+        this.router.navigate(['/error']);
       },
     });
   }

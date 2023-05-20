@@ -26,7 +26,6 @@ export class ErrorsInterceptor implements HttpInterceptor {
         // console.log(error.error.message) // DEBUG
         if (error.error instanceof ErrorEvent) {
           // console.log('This is client side error');
-          // errorMsg = `Error: ${error.error.message}`;
         } else {
           if (error.status === 500) {
             this.toastService.showDanger('Server error');
@@ -37,18 +36,12 @@ export class ErrorsInterceptor implements HttpInterceptor {
             !error.url?.includes('/auth/data')
           ) {
             this.toastService.showDanger('Unauthenticated');
-          // } else if (error.status === 422) {
-          //   this.toastService.showDanger('Invalid form data');
           } else if (error.status === 404) {
             this.toastService.showDanger('Page not found');
           } else if (!error.url?.includes('/auth/data')) {
             // this.toastService.showDanger('Unknown Error');
-          } else {
-            // throwError(null);
           }
 
-          // console.log('This is server side error');
-          // errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
         }
 
         return throwError(() => error);

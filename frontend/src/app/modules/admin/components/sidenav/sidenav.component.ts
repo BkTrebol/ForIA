@@ -1,7 +1,14 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import {  NavigationEnd, Router } from '@angular/router';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
-import { ToastService } from 'src/app/helpers/services/toast.service';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { environment } from 'src/environments/environment';
@@ -11,16 +18,15 @@ import { environment } from 'src/environments/environment';
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
 })
-export class SidenavComponent implements OnInit {
+export class SidenavComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
-  // public collapsed: boolean;
   public user: User;
   public getAvatarUrl: string;
   public defaultUrl: string;
   public avatarUrl: string;
   public regexUrl: RegExp;
   public showActive: boolean;
-  @Output('logout') logout = new EventEmitter<void>();
+  @Output() logout = new EventEmitter<void>();
 
   @Input() collapsed: boolean;
   @Output() collapsedChange = new EventEmitter<boolean>();
@@ -42,6 +48,7 @@ export class SidenavComponent implements OnInit {
     // this.collapsed = window.innerWidth <= 800;
 
     this.router.events
+      .pipe(takeUntil(this.unsubscribe$))
       .pipe(filter((event: any) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.showActive =

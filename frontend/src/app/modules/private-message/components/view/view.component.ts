@@ -1,18 +1,15 @@
 import {
   Component,
-  OnChanges,
   OnDestroy,
   OnInit,
-  SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  PrivateMessage,
   PrivateMessageList,
   newPrivateMessage,
 } from 'src/app/models/receive/list-pm';
 import { PrivateMessageService } from '../../service/private-message.service';
-import { ActivatedRoute, RouteReuseStrategy, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, switchMap, takeUntil } from 'rxjs';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
@@ -129,7 +126,7 @@ export class ViewComponent implements OnInit, OnDestroy {
           this.reply.recipient = r.recipient;
           this.privateMessageList = r;
         },
-        error: (e) => {
+        error: () => {
           this.loading = false;
         },
         complete: () => {

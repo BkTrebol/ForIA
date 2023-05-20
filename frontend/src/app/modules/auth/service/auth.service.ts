@@ -7,7 +7,6 @@ import { Register } from 'src/app/models/register';
 import { User } from 'src/app/models/user';
 import { UserPreferences } from 'src/app/models/user-preferences';
 import { ResetPassword } from 'src/app/models/reset-password';
-import { ChangePassword } from 'src/app/models/change-password';
 import { MessageRes } from 'src/app/models/common/message-res';
 import { Role } from 'src/app/models/receive/admin-role';
 
@@ -90,7 +89,7 @@ export class AuthService {
   }
 
   resetPassword(resetPassowrdData: ResetPassword): Observable<any> {
-    let params = JSON.stringify(resetPassowrdData);
+    const params = JSON.stringify(resetPassowrdData);
     return this.http.post(`${this.apiAuthURL}password`, params);
   }
 
@@ -99,7 +98,7 @@ export class AuthService {
   }
 
   register(register: Register): Observable<any> {
-    let params = JSON.stringify(register);
+    const params = JSON.stringify(register);
     return this.http.post(`${this.apiAuthURL}register`, params).pipe(
       concatMap((r) => {
         return this.checkLogin().pipe(
@@ -111,8 +110,8 @@ export class AuthService {
     );
   }
 
-  login(authData: AuthData, google: boolean = false): Observable<any> {
-    let params = JSON.stringify(authData);
+  login(authData: AuthData, google = false): Observable<any> {
+    const params = JSON.stringify(authData);
     return this.http
       .post(`${this.apiAuthURL}${google ? 'googleconfirm' : 'login'}`, params)
       .pipe(
@@ -127,7 +126,7 @@ export class AuthService {
   }
 
   adminLogin(authData: AuthData): Observable<any> {
-    let params = JSON.stringify(authData);
+    const params = JSON.stringify(authData);
     return this.http.post(`${this.apiAdminURL}login`, params).pipe(
       concatMap((r) => {
         return this.checkLogin().pipe(
@@ -163,11 +162,11 @@ export class AuthService {
 
   autoAuthUser() {
     this.checkLogin().subscribe({
-      next: (r) => {
+      next: () => {
         this.loading$.complete();
         return;
       },
-      error: (e) => {
+      error: () => {
         this.loading$.complete();
         return;
       },

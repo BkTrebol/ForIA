@@ -3,7 +3,6 @@ import {
   Input,
   OnChanges,
   OnInit,
-  SimpleChanges,
 } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
@@ -18,14 +17,14 @@ export class AvatarComponent implements OnInit, OnChanges {
   public avatarUrl: string;
   public regexUrl: RegExp;
 
-  @Input('user') user: {
+  @Input() user: {
     avatar: string | null;
     nick: string;
     isVerified?: boolean;
   };
-  @Input('width') width: string;
-  @Input('height') height: string;
-  @Input('small') small: boolean;
+  @Input() width: string;
+  @Input() height: string;
+  @Input() small: boolean;
 
   constructor() {
     this.getAvatarUrl = environment.api + 'user/get-avatar/';
@@ -38,7 +37,7 @@ export class AvatarComponent implements OnInit, OnChanges {
     this.small = false;
   }
 
-  ngOnChanges(_: SimpleChanges): void {
+  ngOnChanges(): void {
     this.getUrlImge();
   }
 
