@@ -45,14 +45,14 @@ class PasswordResetController extends Controller
         $user = User::where('email', $request->email)->first();
         if (!$user)
             return response()->json([
-                "message" => "If there's an account with this email and reset link has been sent."
+                "message" => "If there's an account with this email a reset link has been sent."
             ]);
         $token = Password::createToken($user);
 
         Mail::to($user->email)->send(new PasswordResetEmail($user, $token));
 
         return response()->json([
-            "message" => "If there's an account with this email and reset link has been sent."
+            "message" => "If there's an account with this email a reset link has been sent."
         ]);
     }
 

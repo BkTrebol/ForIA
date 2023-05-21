@@ -36,10 +36,9 @@ export class ErrorsInterceptor implements HttpInterceptor {
           } else if (
             error.status === 401 &&
             !error.url?.includes('/auth/data') &&
-            !(
-              error.url?.includes('/admin/login') ||
-              error.url?.includes('/auth/login')
-            )
+            !error.url?.includes('/admin/login') &&
+            !error.url?.includes('/auth/login') &&
+            !error.url?.startsWith('/auth/login')
           ) {
             this.toastService.showDanger('Unauthenticated');
           } else if (error.status === 404) {
