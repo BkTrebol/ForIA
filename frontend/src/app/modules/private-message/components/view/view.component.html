@@ -36,6 +36,11 @@
                 <fa-icon [icon]="['fas', 'reply']"></fa-icon>
                 {{"REPLY"|translate}}
             </button>
+            <button class="btn2 return" routerLink="/private-message/"
+                ngbTooltip="{{'RETURN_PM'|translate}}">
+                <fa-icon [icon]="['fas', 'message']"></fa-icon>
+                {{"RETURN_PM2"|translate}}
+            </button>
             <ng-container *ngIf="privateMessageList">
                 <div *ngIf="privateMessageList.message.hasOwnProperty('content')" class="messages">
                     <ng-container *ngTemplateOutlet="message; context:{pm: privateMessageList.message}"></ng-container>

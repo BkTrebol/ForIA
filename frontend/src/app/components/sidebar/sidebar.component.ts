@@ -123,8 +123,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.order = this.order ? 0 : 1;
         this.authService.autoAuthUser();
       },
-      error: (err) => {
-        console.log(err);
+      error: () => {
+        //
       },
     });
   }

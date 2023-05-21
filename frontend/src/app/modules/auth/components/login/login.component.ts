@@ -138,7 +138,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.toastService.show(this._translateService.instant(res.message));
           },
           error: (err) => {
-            // console.log('Err (login ts):', err);
             this.loading = false;
             this.error = this._translateService.instant(err.error.message);
             this.formLogin.controls['password'].reset();

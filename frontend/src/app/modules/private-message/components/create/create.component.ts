@@ -69,7 +69,6 @@ export class CreateComponent implements OnInit, OnDestroy {
       this.userList$ = this.privateMessageService.getUserList().pipe(
         map((r) => {
           if (r.filter((u: any) => u.id === sendTo).length == 0) {
-            // console.log('No user found with this id');
             this.toastService.showDanger(
               this._translateService.instant('USER_NOT_FOUND')
             );

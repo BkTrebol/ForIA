@@ -237,7 +237,6 @@ By accessing or using this web page, you acknowledge that you have read these Te
             this.toastService.show(this._translateService.instant(res.message));
           },
           error: (err) => {
-            // console.log(err);
             this.loading = false;
             // Message error
             this.error = err.error.message.split('.')[0];

@@ -942,6 +942,9 @@
       .btn2 {
         @include btn2($color-gradient2);
         margin: 16px 8px;
+        &.return {
+          float: right;
+        }
       }
       .btn-add {
         @include btn0($color-shades1);
@@ -1133,11 +1136,13 @@
           padding: 16px;
           border-right: 2px solid $color-black;
           @include col(flex-start, 16px);
+          align-items: center;
           &.m {
             padding: 16px 11px 16px 11px;
           }
           .text {
             @include col(space-between, 8px);
+            align-items: center;
             word-break: break-all;
             &.m {
               margin-bottom: -25px;
@@ -1394,9 +1399,11 @@
         }
         .editor-user {
           @include row(space-between);
+          // align-items: flex-start;
           .user-card {
             padding: 16px;
             @include col(flex-start, 16px);
+            align-items: center;
             .text {
               @include col(space-between, 8px);
               word-break: break-all;
@@ -1532,6 +1539,7 @@
         .posts {
           .user-card {
             @include col(flex-start);
+            align-items: center;
           }
         }
       }

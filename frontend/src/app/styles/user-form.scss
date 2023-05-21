@@ -14,7 +14,7 @@
       background-color: $color-black-opacity;
       color: $color-white-clear;
       .btn2,
-      .btn-a {
+      .btn-a, .btn-delete {
         color: $color-white-clear;
       }
       .fields .group {
@@ -88,7 +88,7 @@
       background-color: $color-white-opacity;
       color: $color-black-clear;
       .btn2,
-      .btn-a {
+      .btn-a, .btn-delete {
         color: $color-black-clear;
       }
       .fields .group {
@@ -181,6 +181,10 @@
     }
     .btn2 {
       @include btn2($color-gradient2);
+      text-decoration: none;
+    }
+    .btn-delete {
+      @include btn2(#dc3545);
       text-decoration: none;
     }
     .btn-a {

@@ -265,12 +265,10 @@ export class RolesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: (r) => {
-          // console.log(r);
           this.getRoles();
           this._toastService.show(r.message);
         },
         error: (e) => {
-          // console.log(e);
           this._toastService.show(e.message);
         },
       });

@@ -130,7 +130,9 @@ export class ListComponent implements OnInit, OnDestroy {
             });
           }
         },
-        error: (e) => console.log(e),
+        error: () => {
+          //
+        },
         complete: () => {
           this.loading = false;
         },

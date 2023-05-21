@@ -124,7 +124,7 @@
             <div class="center"><a class="btn2" routerLink="/user/profile/{{userId}}">
                     <fa-icon [icon]="['fas', 'user-circle']"></fa-icon>
                     {{'PROFILE_VIEW_PROFILE'|translate}}</a></div>
-            <div *ngIf="userId > 2" class="center mt-2"><button type="button" (click)="deleteUser(deleteModal)" class="btn btn-danger">
+            <div *ngIf="userId > 2" class="center mt-2"><button type="button" (click)="deleteUser(deleteModal)" class="btn-delete">
                     <fa-icon [icon]="['fas', 'trash-can']"></fa-icon>
                     {{'DELETE_ACCOUNT'|translate}}</button></div>
         </div>
@@ -210,11 +210,11 @@
             <div class="center"><a class="btn2" routerLink="/user/profile/{{userId}}">
                     <fa-icon [icon]="['fas', 'user-circle']"></fa-icon>
                     {{'PROFILE_VIEW_PROFILE'|translate}}</a></div>
-            <div *ngIf="userId > 2" class="center mt-2"><button type="button" (click)="deleteUser(deleteModal)" class="btn btn-danger">
+                    <!-- btn btn-danger -->
+            <div *ngIf="userId > 2" class="center mt-2"><button class="btn-delete" type="button" (click)="deleteUser(deleteModal)">
                     <fa-icon [icon]="['fas', 'trash-can']"></fa-icon>
                     {{'DELETE_ACCOUNT'|translate}}</button></div>
         </div>
-
     </form>
 </div>
 
