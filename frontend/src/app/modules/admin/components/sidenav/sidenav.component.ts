@@ -20,7 +20,7 @@ import { environment } from 'src/environments/environment';
 })
 export class SidenavComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
-  public user: User;
+  public user: User | null;
   public getAvatarUrl: string;
   public defaultUrl: string;
   public avatarUrl: string;
@@ -36,7 +36,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
       /users\/\d+/.test(this.router.url) || /users\/?$/.test(this.router.url);
     this.unsubscribe$ = new Subject();
     this.collapsed = window.innerWidth <= 800;
-    this.user = this.authService.user.userData;
+    this.user = this.authService.user?.userData;
     this.getAvatarUrl = environment.api + 'user/get-avatar/';
     this.defaultUrl = 'https://api.dicebear.com/6.x/bottts/svg?seed=';
     this.avatarUrl = '';
@@ -45,7 +45,12 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getUrlImge();
-    // this.collapsed = window.innerWidth <= 800;
+
+    this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
+      next: (res) => {
+        this.user = res !== null ? res.userData: null;
+      },
+    });
 
     this.router.events
       .pipe(takeUntil(this.unsubscribe$))
@@ -63,14 +68,16 @@ export class SidenavComponent implements OnInit, OnDestroy {
   }
 
   getUrlImge(): void {
-    if (this.user.avatar != null && this.user.avatar != '') {
-      if (this.regexUrl.test(this.user.avatar)) {
-        this.avatarUrl = this.user.avatar;
+    if (this.user !== null) {
+      if (this.user.avatar != null && this.user.avatar != '') {
+        if (this.regexUrl.test(this.user.avatar)) {
+          this.avatarUrl = this.user.avatar;
+        } else {
+          this.avatarUrl = this.getAvatarUrl + this.user.avatar;
+        }
       } else {
-        this.avatarUrl = this.getAvatarUrl + this.user.avatar;
+        this.avatarUrl = this.defaultUrl + this.user.nick;
       }
-    } else {
-      this.avatarUrl = this.defaultUrl + this.user.nick;
     }
   }
 

@@ -33,11 +33,10 @@
       </ul>
     </div>
     <div class="py-3">
-      <div ngbDropdown class="dropdown p-1">
+      <div ngbDropdown class="dropdown p-1" *ngIf="user !== null">
         <a href="javascript:void(0)" class="d-flex align-items-center link-dark text-decoration-none" id="dropdownUser2"
           ngbDropdownToggle>
-          <img [src]="avatarUrl" alt="Avatar of {{user.nick}}" width="32" height="32" class="rounded-circle me-1"
-            onerror="this.onerror=null; this.src=defaultUrl+user.nick">
+          <img [src]="avatarUrl" alt="Avatar of {{user.nick}}" width="32" height="32" class="rounded-circle me-1">
           <strong class="nav-item">{{user.nick}}</strong>
         </a>
         <ul ngbDropdownMenu class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
