@@ -45,6 +45,8 @@ export class ViewComponent implements OnInit, OnDestroy {
   public post_by: string;
   public newPostId: string;
   public posting: boolean;
+  public voting: boolean;
+
   constructor(
     private topicService: TopicService,
     private route: ActivatedRoute,
@@ -116,6 +118,7 @@ export class ViewComponent implements OnInit, OnDestroy {
     this.actualDate = new Date();
     this.post_delete = NaN;
     this.post_by = '';
+    this.voting = false;
   }
 
   ngOnInit(): void {
@@ -321,12 +324,14 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   onVote() {
     if (this.vote) {
+      this.voting = true;
       this.topicService
         .vote(this.vote)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: () => {
             this.showResults = true;
+            this.voting = false;
             this.listPosts.poll.can_vote = false;
             this.getData(
               this.route.snapshot.paramMap.get('id') ?? '',

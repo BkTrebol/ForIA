@@ -2,7 +2,6 @@
     <form [formGroup]="formRegister" (ngSubmit)="submit()" class="form-container">
         <h2>{{"REGISTER" | translate}}</h2>
         <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}</h3>
-        <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
         <div class="fields">
             <div class="group">
                 <div class="field">
@@ -89,7 +88,8 @@
             </div>
         </div>
         <div class="btn-field">
-            <button [disabled]="formRegister.invalid" class="btn-send">
+            <button [disabled]="formRegister.invalid || sending" class="btn-send">
+                <span *ngIf="sending" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 {{'REGISTER' | translate}}
             </button>
             <fa-icon class="btn-icon" [icon]="['fas', 'thumbs-up']"></fa-icon>

@@ -1,5 +1,5 @@
 <div class="save-loading" *ngIf="saveLoading || deleteLoading">
-    <div class="spinner-border text-dark" role="status">
+    <div class="spinner-border fix-spinner text-dark" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
 </div>
@@ -135,7 +135,7 @@
                 <div *ngIf="saveLoading" class="spinner-border spinner-border-sm" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
-                <fa-icon [icon]="['fas', 'cloud-arrow-up']"></fa-icon> Save
+                <fa-icon *ngIf="!saveLoading" [icon]="['fas', 'cloud-arrow-up']"></fa-icon> Save
             </button>
         </div>
     </form>

@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       pattern: '',
     },
   };
+  public sending: boolean;
 
   constructor(
     private _translateService: TranslateService,
@@ -86,6 +87,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         pattern: _translateService.instant('VALIDATION.PASSWORD.PATTERN'),
       },
     };
+    this.sending = false;
   }
 
   ngOnInit(): void {
@@ -116,6 +118,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   submit() {
     if (this.formLogin.valid) {
       this.loading = true;
+      this.sending = true;
       this._authService
         .login(this.authData, this.googleEmail != '')
         .pipe(takeUntil(this.unsubscribe$))
@@ -123,6 +126,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           next: (res) => {
             this.error = '';
             this.loading = false;
+            this.sending = false;
             if (this._authService.verification) {
               this.verifyEmail();
             }
@@ -133,6 +137,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           },
           error: (err) => {
             this.loading = false;
+            this.sending = false;
             this.error = this._translateService.instant(err.error.message);
             this.formLogin.controls['password'].reset();
           },

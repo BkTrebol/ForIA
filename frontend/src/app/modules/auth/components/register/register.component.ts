@@ -79,6 +79,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     },
   };
   public termsText: string;
+  public sending: boolean;
 
   constructor(
     private modalService: NgbModal,
@@ -167,6 +168,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         validators: passwordMatchValidator,
       }
     );
+    this.sending = false;
     this.termsText = `
 Welcome to our forum web page! These terms and conditions (“Terms”) govern your use of this web page and any content, features, or services offered on it. By accessing or using this web page, you agree to be bound by these Terms. If you do not agree to be bound by all of these Terms, do not access or use this web page.
 <br><br>
@@ -226,6 +228,7 @@ By accessing or using this web page, you acknowledge that you have read these Te
   submit() {
     if (this.formRegister.valid) {
       this.loading = true;
+      this.sending = true;
       this._authService
         .register(this.user)
         .pipe(takeUntil(this.unsubscribe$))
@@ -233,11 +236,13 @@ By accessing or using this web page, you acknowledge that you have read these Te
           next: (res) => {
             this.error = '';
             this.loading = false;
+            this.sending = false;
             this.router.navigate(['/']);
             this.toastService.show(this._translateService.instant(res.message));
           },
           error: (err) => {
             this.loading = false;
+            this.sending = false;
             // Message error
             this.error = err.error.message.split('.')[0];
             // Reset the passwords

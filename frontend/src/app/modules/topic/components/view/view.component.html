@@ -96,7 +96,8 @@
                     </div>
                 </div>
                 <button class="btn-a" (click)="onVote()" [disabled]="vote == null">
-                    <fa-icon [icon]="['fas', 'check']"></fa-icon>
+                    <fa-icon *ngIf="!voting" [icon]="['fas', 'check']"></fa-icon>
+                    <span *ngIf="voting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     {{"VOTE"|translate}}</button>
                 <button class="btn2" (click)="onShowPollResults()">
                     <fa-icon [icon]="['fas', 'square-poll-horizontal']"></fa-icon>
