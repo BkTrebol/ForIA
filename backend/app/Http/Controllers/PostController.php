@@ -120,15 +120,20 @@ class PostController extends Controller
         $user = Auth::user();
         $roles = self::roles($request);
         $isAdmin = self::is_admin($request);
-        $topics = Topic::select('id', 'title')
-            ->orderBy('title', 'asc')
-            ->get()
-            ->filter(function ($topic) use ($roles, $isAdmin) {
-                return (
-                    (in_array($topic->can_post, $roles) && in_array($topic->category->can_post, $roles)) &&
-                    (in_array($topic->can_view, $roles) && in_array($topic->category->can_view, $roles))
-                ) || $isAdmin;
-            });
+
+            if($isAdmin){ // Admin can see all topics.
+                $topics =Topic::select('id', 'title')->orderBy('title', 'asc') ->get();
+            } else{
+                $topics = Topic::select('id', 'title')
+                ->orderBy('title', 'asc')
+                ->whereIn('can_post',$roles)
+                ->whereIn('can_view',$roles)
+                ->whereHas('category',function ($query )use ($roles ){
+                    $query->whereIn('can_view',$roles)->whereIn('can_post',$roles);
+                })
+                ->get();
+            }
+
         return response()->json(
             $topics
         );

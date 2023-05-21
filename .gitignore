@@ -27,3 +27,4 @@ backend/.env.development
 docker-compose2.yml
 .gitignore
 backend/.gitignore
+backup.sh
