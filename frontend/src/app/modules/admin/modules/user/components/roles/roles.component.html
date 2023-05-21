@@ -42,6 +42,9 @@
           <fa-icon *ngIf="rol.admin" [icon]="['fas', 'user-gear']"></fa-icon>
           <fa-icon *ngIf="rol.name==='WELCOME_MOD'" [icon]="['fas', 'hand']"></fa-icon>
           <fa-icon *ngIf="rol.name==='ROLE_MOD'" [icon]="['fas', 'user-shield']"></fa-icon>
+          <fa-icon *ngIf="rol.name==='FUNDAMENTALS_MOD'" [icon]="['fas', 'user-tag']"></fa-icon>
+          <fa-icon *ngIf="rol.name==='APPLICATIONS_MOD'" [icon]="['fas', 'rocket']"></fa-icon>
+          <fa-icon *ngIf="rol.name==='ETICS_MOD'" [icon]="['fas', 'user-pen']"></fa-icon>
           <p class="m-0 ms-2 p-0">{{rol.name}}</p>
         </div>
         <div class="w-50 d-flex justify-content-between gap-1 flex-column flex-sm-row">
