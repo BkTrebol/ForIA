@@ -53,6 +53,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   public emailSend: boolean;
   public resetPasswordData: ResetPassword;
   public formSendEmail: FormGroup;
+  public sending: boolean;
   public formResetPassword: FormGroup;
   public formBuilderNonNullable: NonNullableFormBuilder;
   public validationMessagesSendEmail = {
@@ -90,6 +91,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private _translateService: TranslateService
   ) {
+    this.sending = false;
     this.unsubscribe$ = new Subject();
     this.theme = themeService.getTheme();
     this.error = '';
@@ -143,7 +145,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
           [
             Validators.required,
             Validators.minLength(8),
-            Validators.pattern('^[a-zA-Z0-9_!$%&/()?+-]+$'),
+            Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$'),
           ],
         ],
         password_confirmation: [
@@ -181,13 +183,19 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
   // Send email
   sendEmail(): void {
+    this.sending = true;
     if (this.formSendEmail.valid) {
       this._authService.requestPasswordReset(this.formSendEmail.value.email)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(r => {
+      .subscribe({
+        next: r => {
+        this.sending = false;
         this.toastService.show(this._translateService.instant(r.message));
-      });
+      }, error: () => {
+        this.sending = false;
+      }});
     } else {
+      this.sending = false;
       this.errorEmail = 'Invalid email';
       this.emailSend = false;
     }
@@ -196,6 +204,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   // Reset Password of the user
   submit() {
     if (this.formResetPassword.valid) {
+      this.sending = true;
       this.loading = true;
       this._authService
         .resetPassword(this.resetPasswordData)
@@ -203,12 +212,14 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
+            this.sending = false;
             this.error = '';
             this.loading = false;
             this.toastService.show(this._translateService.instant(res.message));
             this.router.navigate(['/auth/login']);
           },
           error: (err) => {
+            this.sending = false;
             this.loading = false;
             this.error = err.error.message;
             this.formResetPassword.controls['password'].reset();
