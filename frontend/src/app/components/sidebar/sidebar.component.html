@@ -8,11 +8,11 @@
             ('RIGHT' | translate)}}</button>
     </div>
     <div [(ngbCollapse)]="coll">
-        <div class="sidebar-title" *ngIf="userLoggedIn;else notLoggedHeader">
+        <div class="sidebar-title" *ngIf="userLocalData;else notLoggedHeader">
             <app-avatar [user]="userLocalData"></app-avatar>
             <div class="text">
-                <a routerLink="/user/profile/{{userLocalData?.id}}"
-                    ngbTooltip="{{'VIEW_PROFILE'| translate}} {{userLocalData.nick}}">{{userLocalData?.nick}}</a>
+                <a routerLink="/user/profile/{{userLocalData.id}}"
+                    ngbTooltip="{{'VIEW_PROFILE'| translate}} {{userLocalData.nick}}">{{userLocalData.nick}}</a>
                 <small ngbTooltip="{{userLocalData.public_role.description}}"
                     placement="bottom">{{userLocalData.public_role.name}}
                 </small>
@@ -42,7 +42,7 @@
                     <fa-icon [icon]="['fas', lastPostToggle ? 'chevron-right': 'chevron-down']"></fa-icon> {{'LASTS'| translate}}
                     {{lastPosts.length}} Posts
                 </p>
-                <p *ngIf="lastPosts.length == 0"><fa-icon [icon]="['fas', 'chevron-right']"></fa-icon> {{'LASTS'| translate}} <fa-icon
+                <p *ngIf="lastPosts.length === 0"><fa-icon [icon]="['fas', 'chevron-right']"></fa-icon> {{'LASTS'| translate}} <fa-icon
                         [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Posts
                 </p>
                 <div [(ngbCollapse)]="lastPostToggle">

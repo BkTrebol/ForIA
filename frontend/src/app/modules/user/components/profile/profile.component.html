@@ -118,12 +118,12 @@
                 </button>
             </div>
             <div class="chart" *ngIf="chartFirst">
-                <div echarts [options]="chartOption" class="show-chart" [theme]="theme == 'dark' ? 'dark': 'default'">
+                <div echarts [options]="chartOption" class="show-chart" [theme]="theme === 'dark' ? 'dark': 'default'">
                 </div>
                 <!-- <div echarts [options]="options | async" [theme]="'dark'" [loading]="loading" class="demo-chart"></div> -->
             </div>
             <div class="chart" *ngIf="!chartFirst">
-                <div echarts [options]="chartOption2" class="show-chart" [theme]="theme == 'dark' ? 'dark': 'default'">
+                <div echarts [options]="chartOption2" class="show-chart" [theme]="theme === 'dark' ? 'dark': 'default'">
                 </div>
             </div>
         </div>

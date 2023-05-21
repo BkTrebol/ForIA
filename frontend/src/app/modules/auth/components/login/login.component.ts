@@ -152,7 +152,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   verifyEmail(){
     this._authService.verifyEmail(this._authService.verification)
     .subscribe(
-      r => {
+      () => {
         this.toastService.show("EMAIL_VERIFIED")
         this.toastService.verificationToast = [];
         this._authService.verification = undefined;

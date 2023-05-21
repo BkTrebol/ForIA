@@ -81,7 +81,7 @@ export class EditComponent implements OnInit, OnDestroy {
           this.loading = false;
           if (err.status == 403) {
             this.router.navigate([`/error`]);
-          } 
+          }
         },
 
       });
@@ -124,7 +124,7 @@ export class EditComponent implements OnInit, OnDestroy {
         .editPost(this.post_id, this.post)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
-          next: (res) => {
+          next: () => {
             this.posting = false;
             this.router.navigate([`/topic/${this.post.topic_id}`]);
             this.toastService.show(this._translateService.instant("POST_EDITED"));

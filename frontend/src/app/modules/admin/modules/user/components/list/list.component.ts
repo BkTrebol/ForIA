@@ -76,7 +76,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event: Event): void {
+  onResize(): void {
     this.updateColumnVisibility();
   }
 

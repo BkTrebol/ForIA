@@ -36,7 +36,7 @@ export class CategoryService {
   post(topic: Topic): Observable<any> {
     let params: string;
     if (topic.poll.options.length === 0) {
-      let { poll, ...newTopic } = topic;
+      const { poll, ...newTopic } = topic;
       params = JSON.stringify(newTopic);
     } else {
       params = JSON.stringify(topic);
@@ -53,7 +53,7 @@ export class CategoryService {
   }
 
   editTopic(id: string, topic: OneTopic): Observable<MessageRes> {
-    let params = JSON.stringify(topic);
+    const params = JSON.stringify(topic);
     return this.http.put<MessageRes>(`${this.apiTopicURL}${id}`, params);
   }
 

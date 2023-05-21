@@ -43,7 +43,7 @@ export class VerifyComponent implements OnInit {
       if(r){
         this.authService.verifyEmail(this.verification)
         .subscribe({
-          next: r => {
+          next: () => {
             this.authService.verification = undefined;
             this.toastService.clear();
             this.toastService.show(this._translateService.instant("EMAIL_VERIFIED"));

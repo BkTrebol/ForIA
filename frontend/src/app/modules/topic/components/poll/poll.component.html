@@ -1,8 +1,8 @@
 <div class="list-page {{theme}}">
     <div class="list">
         <div class="list-header">
-            <h1 *ngIf="title != ''">{{"EDIT"|translate}} {{title}}</h1>
-            <h1 *ngIf="title == ''">{{mode | capitalize}} {{"NEW_POLL"|translate}}</h1>
+            <h1 *ngIf="title !== ''">{{"EDIT"|translate}} {{title}}</h1>
+            <h1 *ngIf="title === ''">{{mode | capitalize}} {{"NEW_POLL"|translate}}</h1>
         </div>
         <div class="list-body">
             <div class="poll">
@@ -27,8 +27,8 @@
                         </button>
                     </div>
                 </div>
-                <p class="error" *ngIf="error != ''"><fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}</p>
-                <button class="btn-s" type="submit" [disabled]="poll.name == '' || poll.name.length < 3 || poll.options.length < 2 || poll.options.length > 10 || poll.finish_date == '' "
+                <p class="error" *ngIf="error !== ''"><fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon> {{error}}</p>
+                <button class="btn-s" type="submit" [disabled]="poll.name === '' || poll.name.length < 3 || poll.options.length < 2 || poll.options.length > 10 || poll.finish_date === '' "
                     (click)="onSubmit()">{{"SUBMIT"|translate}}</button>
             </div>
         </div>

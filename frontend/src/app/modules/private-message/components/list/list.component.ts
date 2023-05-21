@@ -88,7 +88,7 @@ export class ListComponent implements OnInit, OnDestroy {
       .delete(this.deleteSent, this.deleteReceived)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: (r: MessageRes) => {
+        next: () => {
           this.sending = false;
           this.getMessages();
           this.toastService.show(this._translateService.instant("MESSAGES_DELETED"));

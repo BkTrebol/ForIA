@@ -935,10 +935,6 @@
       }
     }
     .list-body {
-      img {
-        max-width: 100%;
-        max-height: 200px;
-      }
       .error {
         font-size: $size-text;
         color: $color-tertiary;
@@ -1018,6 +1014,10 @@
           p.m {
             margin-top: -8px;
             margin-bottom: -16px;
+          }
+          img {
+            max-width: 100%;
+            max-height: 200px;
           }
         }
         .last-post {
@@ -1183,6 +1183,7 @@
               }
               img {
                 max-width: 100%;
+                max-height: 200px;
               }
             }
           }
@@ -1269,6 +1270,7 @@
             word-break: break-all;
             img {
               max-width: 100%;
+              max-height: 200px;
             }
           }
           .me {
@@ -1366,7 +1368,6 @@
         }
       }
       .create-topic {
-        // @include row(space-between);
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
@@ -1375,6 +1376,10 @@
         }
         .mt {
           margin-top: 24px;
+        }
+        img {
+          max-width: 100%;
+          max-height: 200px;
         }
       }
       .editor-parent {
@@ -1406,6 +1411,7 @@
               .angular-editor-textarea {
                 img {
                   max-width: 100%;
+                  max-height: 200px;
                 }
               }
             }
@@ -1566,7 +1572,7 @@
       }
       .list-body {
         img {
-          max-height: 100px;
+          max-height: 110px;
         }
         .topics {
           .topic-user {
@@ -1652,7 +1658,7 @@
       }
       .list-body {
         img {
-          max-height: 80px;
+          max-height: 90px;
         }
         .section {
           fieldset {

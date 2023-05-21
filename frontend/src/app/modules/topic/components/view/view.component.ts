@@ -2,7 +2,6 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
@@ -143,7 +142,7 @@ export class ViewComponent implements OnInit, OnDestroy {
       });
   }
 
-  getData(id: string, page: string, noScroll: boolean = false) {
+  getData(id: string, page: string, noScroll = false) {
     this.topicService
       .posts(id, page)
       .pipe(takeUntil(this.unsubscribe$))
@@ -252,7 +251,7 @@ export class ViewComponent implements OnInit, OnDestroy {
           this.getData(this.listPosts.topic.id.toString(), res.lastPage, true);
         },
         error: (err) => {
-          this.posting = false;;
+          this.posting = false;
           this.error = err.error.message;
         },
       });
@@ -326,10 +325,9 @@ export class ViewComponent implements OnInit, OnDestroy {
         .vote(this.vote)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
-          next: (r) => {
+          next: () => {
             this.showResults = true;
             this.listPosts.poll.can_vote = false;
-            // this.getVotes();
             this.getData(
               this.route.snapshot.paramMap.get('id') ?? '',
               this.route.snapshot.queryParams['page'] ?? '1'

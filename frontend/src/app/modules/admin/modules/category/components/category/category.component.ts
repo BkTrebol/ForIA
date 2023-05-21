@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   OnDestroy,
   OnInit,
@@ -202,7 +201,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
           this.sections[index].categories.splice(cindex, 1);
         }
       },
-      () => {}
+      () => {
+        //
+      }
     ); // Avoid error for unhdandled Dismiss
   }
 
@@ -216,7 +217,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
           });
         }
       },
-      () => {}
+      () => {
+        //
+      }
     );
   }
 
@@ -304,7 +307,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         // this.audio.src = this.audioUrl;
         // this.audio.load();
         // this.audio.play();
-      };
+      }
       // const reader = new FileReader();
       // reader.onload = (e: any) => {
       //   this.audioUrl = e.target.result;
@@ -373,8 +376,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
     let index = 1;
     const sendCatList = [];
     this.saveLoading = true;
-    for (let section of this.sections) {
-      for (let category of section.categories) {
+    for (const section of this.sections) {
+      for (const category of section.categories) {
         const newCat = {
           order: index,
           section: section.name,
@@ -394,7 +397,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
           this.getData();
           this._toastService.show(r);
         },
-        error: (e) => {
+        error: () => {
           this.getData();
         },
       });

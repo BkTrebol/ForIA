@@ -3,7 +3,7 @@
         <h2>{{"LOGIN"| translate}}</h2>
         <h3 *ngIf="error"><fa-icon [icon]="['fas', 'circle-exclamation']"></fa-icon> {{error}}</h3>
         <h4 *ngIf="loading"><fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon> Loading ...</h4>
-        <h4 *ngIf="googleEmail != ''">{{"ACC_CONFIRM"|translate}}</h4>
+        <h4 *ngIf="googleEmail !== ''">{{"ACC_CONFIRM"|translate}}</h4>
         <div class="fields">
             <div class="group">
                 <div class="field">

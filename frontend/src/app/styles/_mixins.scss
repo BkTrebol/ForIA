@@ -245,6 +245,12 @@
   }
 }
 
+@mixin topic-maybe() {
+  @media (max-width: 1500px) {
+    @content;
+  }
+}
+
 @mixin mini() {
   @media (max-width: $size-mini) {
     @content;

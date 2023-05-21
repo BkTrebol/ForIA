@@ -76,7 +76,7 @@ export class CreateComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.topicList = res;
           },
-          error: (err) => {
+          error: () => {
             this.loading = false;
           },
         });

@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { LastPosts } from 'src/app/models/receive/last-posts';
 import { ForumStats } from 'src/app/models/receive/forum-stats';
 import { UserStats } from 'src/app/models/receive/user-stats';
-import { MessageRes } from 'src/app/models/common/message-res';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,7 +17,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void>;
   public theme: string;
   public userData: UserStats;
-  public userLocalData: any;
+  public userLocalData: User | null;
   public userLoggedIn: boolean;
   public lastPosts: LastPosts[];
   public forumStats: ForumStats;
@@ -41,6 +41,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       pms: 0,
       newPms: 0,
     }
+    this.userLocalData = null;
     this.forumStats = {
       topics: 0,
       posts: 0,
@@ -69,7 +70,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.authService.authData.pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: (r) => {
         this.userLoggedIn = r != null;
-        this.userLocalData = r?.userData;
+        this.userLocalData = r?.userData ?? null;
         this.order = r?.userPreferences.sidebar ? 1 : 0;
         if (this.userLoggedIn) {
           this.elseLoading = true;
@@ -118,7 +119,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   editSidebar() {
     this.sidebarService.editSidebar(this.order === 0 ? true : false).subscribe({
-      next: (_: MessageRes) => {
+      next: () => {
         this.order = this.order ? 0 : 1;
         this.authService.autoAuthUser();
       },

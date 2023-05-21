@@ -8,10 +8,6 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 
-function random(min: number, max: number) {
-  return Math.floor(Math.random() * max) + min;
-}
-
 @Component({
   selector: 'app-loading',
   templateUrl: './loading.component.html',
@@ -23,10 +19,10 @@ export class LoadingComponent implements OnInit, OnDestroy {
   public innerWidth: number;
   public original: boolean;
 
-  @Input('type') type: string;
-  @Input('height') height: string;
-  @Input('width') width: string;
-  @Input('appa') appa: string;
+  @Input() type: string;
+  @Input() height: string;
+  @Input() width: string;
+  @Input() appa: string;
 
   constructor(private themeService: ThemeService) {
     this.unsubscribe$ = new Subject();
@@ -56,7 +52,7 @@ export class LoadingComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(_: void) {
+  onResize() {
     this.innerWidth = window.innerWidth;
     if (this.appa === 'circle') {
       this.changeCircleSize();

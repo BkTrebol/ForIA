@@ -18,7 +18,7 @@ export class PostService {
   }
 
   post(post: GetCreatePost): Observable<any> {
-    let params = JSON.stringify(post);
+    const params = JSON.stringify(post);
     return this.http.post<void>(`${this.apiPostURL}`, params);
   }
 
@@ -27,7 +27,7 @@ export class PostService {
   }
 
   editPost(id: string, post: CreatePost): Observable<MessageRes> {
-    let params = JSON.stringify(post);
+    const params = JSON.stringify(post);
     return this.http.put<MessageRes>(`${this.apiPostURL}${id}`, params);
   }
 

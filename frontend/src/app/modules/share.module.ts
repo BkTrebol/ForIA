@@ -10,9 +10,6 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 // Ngb modules
 import {
-  NgbModule,
-  NgbToast,
-  NgbToastModule,
   NgbTooltipModule, NgbCollapse,
   NgbProgressbarModule,
 } from '@ng-bootstrap/ng-bootstrap';

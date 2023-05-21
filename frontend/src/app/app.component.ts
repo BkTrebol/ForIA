@@ -14,6 +14,7 @@ import {
   ResolveEnd,
   ResolveStart,
   Router,
+  Event,
 } from '@angular/router';
 import { AuthService } from './modules/auth/service/auth.service';
 import { User } from './models/user';

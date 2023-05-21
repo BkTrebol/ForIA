@@ -33,6 +33,7 @@ export class CreateComponent implements OnInit, OnDestroy {
   public editorConfig: AngularEditorConfig;
   public roleList: Role[];
   public posting: boolean;
+  
   constructor(
     private categoryService: CategoryService,
     private route: ActivatedRoute,

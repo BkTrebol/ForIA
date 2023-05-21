@@ -29,7 +29,7 @@ export class AuthGuard implements CanLoad {
             return true;
           }
         }),
-        catchError((err) => {
+        catchError(() => {
           this.router.navigate(['/auth/login'], {
             queryParams: { returnUrl: segments.join('/') },
           });

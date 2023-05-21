@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivateChild {
             return true;
           }
         }),
-        catchError((err) => {
+        catchError(() => {
           this.router.navigate(['/auth/login'], {
             queryParams: { returnUrl: state.url },
           });

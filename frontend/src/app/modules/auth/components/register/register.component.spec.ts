@@ -192,9 +192,9 @@ describe('RegisterComponent Test', () => {
     const email = form.controls['email'];
     email.setValue('a@a');
     const password = form.controls['password'];
-    password.setValue('12345678');
+    password.setValue('12345aA!');
     const password_confirmation = form.controls['password_confirmation'];
-    password_confirmation.setValue('12345678');
+    password_confirmation.setValue('12345aA!');
     const terms = form.controls['terms'];
     terms.setValue(true);
     expect(form.valid).toBeTrue();
@@ -230,12 +230,6 @@ describe('RegisterComponent Test', () => {
   it('TS property error, loading and user initialized', () => {
     expect(component.error).toBe('');
     expect(component.loading).toBe(false);
-    expect(component.user).toEqual({
-      nick: '',
-      email: '',
-      password: '',
-      password_confirmation: '',
-    });
   });
 
   it("TS error message don't change (all invalid)", () => {

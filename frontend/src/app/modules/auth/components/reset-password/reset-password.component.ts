@@ -20,12 +20,12 @@ function passwordMatchValidator(control: AbstractControl) {
   const confirmPassword = control?.get('password_confirmation');
 
   if (password?.value !== confirmPassword?.value) {
-    let errors = confirmPassword?.errors ?? {};
+    const errors = confirmPassword?.errors ?? {};
     errors['mismatch'] = true;
     confirmPassword?.setErrors(errors);
     return { passwordMismatch: true };
   } else {
-    let errors: ValidationErrors = confirmPassword?.errors ?? [];
+    const errors: ValidationErrors = confirmPassword?.errors ?? [];
     delete errors['mismatch'];
     confirmPassword?.setErrors(Object.keys(errors).length == 0 ? null : errors);
     return null;

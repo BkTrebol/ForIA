@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, filter, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ListTopics } from 'src/app/models/receive/list-topics';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
@@ -117,7 +117,7 @@ export class ViewComponent implements OnInit, OnDestroy {
             this.getMusic(this.listTopics.category.id.toString());
           }
         },
-        error: (err) => {
+        error: () => {
           this.loading = false;
           this.router.navigate(['/error']);
         },
@@ -131,14 +131,14 @@ export class ViewComponent implements OnInit, OnDestroy {
   getMusic(id: string): void {
     this.audio.src = `${environment.api}category/music/${id}`;
     this.audio.load();
-    let isPlaying = this.audio.play();
+    const isPlaying = this.audio.play();
     this.audio.volume = 0.3;
     if (isPlaying !== undefined) {
       isPlaying
-        .then((_) => {
+        .then(() => {
           this.isMusic = true;
         })
-        .catch((error) => {
+        .catch(() => {
           this.isMusic = false;
         });
     }

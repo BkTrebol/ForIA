@@ -74,7 +74,7 @@
                             <input (change)="modifyVolume($event)" (input)="modifyVolume($event)" type="range"
                                 id="volume" min="0" max="1" step="0.1" value="0.3">
                             <label for="volume"><fa-icon
-                                    [icon]="['fas', (audio.volume == 0 ? 'volume-xmark': audio.volume > 0.5 ? 'volume-high': 'volume-low')]"></fa-icon>
+                                    [icon]="['fas', (audio.volume === 0 ? 'volume-xmark': audio.volume > 0.5 ? 'volume-high': 'volume-low')]"></fa-icon>
                             </label>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="petit">
                                     <span class="mostrar-petit"
-                                        ngbTooltip="{{topic.posts+1}} Post{{topic.posts == 0 ? '': 's'}}"
+                                        ngbTooltip="{{topic.posts+1}} Post{{topic.posts === 0 ? '': 's'}}"
                                         placement="bottom">{{topic.posts +1}} <fa-icon
                                             [icon]="['fas', 'message']"></fa-icon></span>
                                     <div class="mostrar-dos" *ngIf="topic.last_post">
@@ -119,7 +119,7 @@
                     </div>
                     <div class="topic-info">
                         <div class="topic-stats">
-                            <p>{{topic.posts+1}} post<span *ngIf="topic.posts != 0">s</span></p>
+                            <p>{{topic.posts+1}} post<span *ngIf="topic.posts !== 0">s</span></p>
                         </div>
                         <div class="last-post" *ngIf="topic.last_post">
                             <div class="text">

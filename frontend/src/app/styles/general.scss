@@ -4,48 +4,6 @@
 // FUNCTIONS
 @import "./mixins";
 
-/*
-SIMPLE - visual elements & nº options (no super simple)
-
-Group elements by colors, proximity, shapes
-
-Remember better first and last element of sequence
-
-Easy access (click) - close and big
-
-Shorten times (no lot of time)
-
-Remember different element
-
-20% -> 80%
-
-Show incomplete tasks & visual progress & notifications
-
-Divide into parts (<=7)
-
-No changes
-*/
-
-// Containers
-// .cont-two {
-//   max-width: $size-cont;
-// }
-// .cont-center {
-//   max-width: $size-cont;
-//   margin: auto;
-// }
-// .grid {
-//   display: grid;
-//   grid-template-columns: repeat(4, 1fr);
-//   // grid-template-rows: ;
-// }
-// .side-bar {
-//   grid-column: 1 / 2;
-// }
-// .content {
-//   grid-column: 2 / 4;
-// }
-
 // All the page
 .page-container {
   position: relative;
@@ -281,6 +239,25 @@ No changes
           background-color: transparent;
           border: none;
         }
+        &.gran, &.petit {
+          display: grid;
+          place-content: center;
+          margin-left: -24px;
+        }
+        &.petit {
+          display: none;
+        }
+        select {
+          font-family: $font-text;
+        }
+
+      }
+    }
+  }
+  @include topic-maybe() {
+    nav ul li {
+      &.topic-maybe {
+        display: none;
       }
     }
   }
@@ -301,15 +278,15 @@ No changes
         p span {
           @include no;
         }
-        select{
-          @include no;
-        }
         &.dropdown {
           .dropdown-content {
             a span {
               display: inline;
             }
           }
+        }
+        &.gran, &.petit {
+          margin-left: 0px;
         }
       }
     }
@@ -342,18 +319,29 @@ No changes
             }
           }
         }
+        &.gran {
+          display: none;
+        }
+        &.petit {
+          display: grid;
+          place-content: center;
+        }
       }
     }
   }
   // Responsive for mini
   @include mini() {
     nav ul {
+      gap: 8px;
       li {
         fa-icon {
           margin-right: 12px;
         }
         a span {
           @include no;
+        }
+        &.topic-maybe {
+          display: none;
         }
       }
     }

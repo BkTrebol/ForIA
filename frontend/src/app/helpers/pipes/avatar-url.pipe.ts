@@ -8,7 +8,7 @@ export class AvatarUrlPipe implements PipeTransform {
   constructor() {
     this.regexUrl = /https?:\/\/.+\..+/;
   }
-  transform(value: string, ...args: unknown[]): unknown {
+  transform(value: string): unknown {
     return this.regexUrl.test(value);
   }
 }
