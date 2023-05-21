@@ -29,22 +29,24 @@ class AdminCategoryController extends Controller
         )->values();
         return response()->json(
             [
-            "categories" => $categories,
-            "userMaxRole" => $user->roles()->orderBy('order','desc')->first()->order,
-        ]
-        ,200
+                "categories" => $categories,
+                "userMaxRole" => $user->roles()->orderBy('order', 'desc')->first()->order,
+            ]
+            ,
+            200
         );
     }
 
-    function emptyTrash(Request $request){
-        $category = Category::where('id',1)->first();
+    function emptyTrash(Request $request)
+    {
+        $category = Category::where('id', 1)->first();
         $topics = $category->topics;
-        foreach($topics as $topic){
+        foreach ($topics as $topic) {
             $topic->delete();
         }
         return response()->json([
             "message" => "All topics from Trash have been deleted.",
-        ],200);
+        ], 200);
     }
 
     function saveCategory(Request $request)
@@ -70,29 +72,38 @@ class AdminCategoryController extends Controller
 
         if ($request->hasFile('image')) {
             $image = $request->file('image')->store('categories');
-            if($category && $category->image) {
-                if(Storage::disk('categories')->exists($category->image)){
-                    Storage::delete($category->image);
+            if ($category && $category->image) {
+                if (Storage::disk('categories')->exists(basename($category->image))) {
+                    Storage::disk('categories')->delete(basename($category->image));
                 }
                 $category->image = null;
                 $category->save();
             }
-        }else{
+        } else if ($request->input('deleteImage') == 'delete') {
+            $image = null;
+            if ($category && $category->image) {
+                if (Storage::disk('categories')->exists(basename($category->image))) {
+                    Storage::disk('categories')->delete(basename($category->image));
+                }
+            }
+        } else {
             $image = $category->image ?? null;
         }
+
         if ($request->hasFile('music')) {
             $music = $request->file('music')->store('music');
             $music_path = substr($music, 6);
             if ($category && $category->music) {
-                if(Storage::disk('music')->exists($category->music)){
+                if (Storage::disk('music')->exists($category->music)) {
                     Storage::delete($category->music);
                 }
                 $category->music = null;
                 $category->save();
             }
-        }else{
+        }  else {
             $music_path = $category->music ?? null;
         }
+
 
         $data = [
             "section" => $request->input("section"),
@@ -109,6 +120,7 @@ class AdminCategoryController extends Controller
             "id" => $request->input("id")
         ], $data);
         return response()->json([
+            "SUP" => basename($category->image),
             "message" => 'Category updated successfully',
             "category" => $category
         ], 200);

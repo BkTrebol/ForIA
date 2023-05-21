@@ -262,6 +262,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
     if (this.catMusic instanceof File) {
       this.formData.append('music', this.catMusic);
     }
+    if(this.categoryForm.value.image === 'delete'){
+      this.formData.append('deleteImage','delete');
+    }
 
     this._categoryService
       .saveCategory(this.formData)

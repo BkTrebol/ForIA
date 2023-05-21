@@ -26,8 +26,6 @@ services:
     image: mysql
     volumes:
       - ./persistent/bbdd:/var/lib/mysql
-      - ./persistent/bbdd:/var/backups
-      - ./backup.sh:/var/backup.sh
     environment:
       MYSQL_DATABASE: foria
       MYSQL_USER: foriauser
