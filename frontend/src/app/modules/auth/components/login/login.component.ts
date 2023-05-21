@@ -11,7 +11,7 @@ import { AuthData } from 'src/app/models/auth-data';
 import { AuthService } from '../../service/auth.service';
 import { ThemeService } from 'src/app/helpers/services/theme.service';
 import { ToastService } from 'src/app/helpers/services/toast.service';
-import {  TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-login',
@@ -31,15 +31,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   public development: boolean;
   public validationMessagesLogin = {
     email: {
-      required: "",
-      minlength:"" ,
-      maxlength: "",
-      email: "",
+      required: '',
+      minlength: '',
+      maxlength: '',
+      email: '',
     },
     password: {
-      required: "",
-      minlength: "",
-      pattern: "",
+      required: '',
+      minlength: '',
+      pattern: '',
     },
   };
 
@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private toastService: ToastService
   ) {
-    this.development = !environment.production
+    this.development = !environment.production;
     this.googleEmail = '';
     this.unsubscribe$ = new Subject();
     this.theme = this.themeService.getTheme();
@@ -70,33 +70,27 @@ export class LoginComponent implements OnInit, OnDestroy {
           Validators.email,
         ],
       ],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-        ],
-      ],
+      password: ['', [Validators.required, Validators.minLength(3)]],
       remember_me: [false, []],
     });
     this.validationMessagesLogin = {
       email: {
-        required: _translateService.instant("VALIDATION.EMAIL.REQUIRED"),
-        minlength: _translateService.instant("VALIDATION.EMAIL.MIN"),
-        maxlength: _translateService.instant("VALIDATION.EMAIL.MAX"),
-        email: _translateService.instant("VALIDATION.EMAIL.EMAIL"),
+        required: _translateService.instant('VALIDATION.EMAIL.REQUIRED'),
+        minlength: _translateService.instant('VALIDATION.EMAIL.MIN'),
+        maxlength: _translateService.instant('VALIDATION.EMAIL.MAX'),
+        email: _translateService.instant('VALIDATION.EMAIL.EMAIL'),
       },
       password: {
-        required: _translateService.instant("VALIDATION.PASSWORD.REQUIRED"),
-        minlength: _translateService.instant("VALIDATION.PASSWORD.MIN"),
-        pattern: _translateService.instant("VALIDATION.PASSWORD.PATTERN"),
+        required: _translateService.instant('VALIDATION.PASSWORD.REQUIRED'),
+        minlength: _translateService.instant('VALIDATION.PASSWORD.MIN'),
+        pattern: _translateService.instant('VALIDATION.PASSWORD.PATTERN'),
       },
-    }
+    };
   }
 
-  ngOnInit():void {
-    this.googleEmail = this.route.snapshot.queryParams['email']??'';
-    if (this.googleEmail != ''){
+  ngOnInit(): void {
+    this.googleEmail = this.route.snapshot.queryParams['email'] ?? '';
+    if (this.googleEmail != '') {
       this.authData.email = this.googleEmail;
       this.formLogin.get('email')?.disable();
     }
@@ -123,13 +117,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.formLogin.valid) {
       this.loading = true;
       this._authService
-        .login(this.authData,this.googleEmail != '')
+        .login(this.authData, this.googleEmail != '')
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
             this.error = '';
             this.loading = false;
-            if(this._authService.verification){
+            if (this._authService.verification) {
               this.verifyEmail();
             }
             this.router.navigateByUrl(
@@ -144,20 +138,20 @@ export class LoginComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      this.error = this._translateService.instant("VALIDATION.WRONG_FORMDATA");
+      this.error = this._translateService.instant('VALIDATION.WRONG_FORMDATA');
     }
   }
 
-  verifyEmail(){
-    this._authService.verifyEmail(this._authService.verification)
-    .subscribe(
-      () => {
-        this.toastService.show("EMAIL_VERIFIED")
+  verifyEmail() {
+    this._authService
+      .verifyEmail(this._authService.verification)
+      .subscribe(() => {
+        this.toastService.show('EMAIL_VERIFIED');
         this.toastService.verificationToast = [];
         this._authService.verification = undefined;
-      }
-    )
+      });
   }
+
   changeShow() {
     this.canShow = !this.canShow;
   }
