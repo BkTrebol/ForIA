@@ -7,7 +7,6 @@ services:
     ports:
       - '9000:9000'
     volumes:
-      # - storage:/var/www/html/storage:rw
       - ./persistent/storage:/var/www/html/storage:rw
     depends_on:
       - database
@@ -23,7 +22,6 @@ services:
       - '80:80'
       - '443:443'
 
-
   database:
     image: mysql
     volumes:
@@ -34,6 +32,3 @@ services:
       MYSQL_PASSWORD: te9n#mF3a#cAAGP8
       MYSQL_ROOT_PASSWORD: cM#@j22@MwdV#Nsr
 
-volumes:
-  # storage:
-  bbdd:
