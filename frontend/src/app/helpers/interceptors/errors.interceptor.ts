@@ -29,11 +29,17 @@ export class ErrorsInterceptor implements HttpInterceptor {
         } else {
           if (error.status === 500) {
             this.toastService.showDanger('Server error');
-          } else if (error.status === 403) {
+          } else if (
+            error.status === 403
+          ) {
             this.toastService.showDanger('Unauthorized');
           } else if (
             error.status === 401 &&
-            !error.url?.includes('/auth/data')
+            !error.url?.includes('/auth/data') &&
+            !(
+              error.url?.includes('/admin/login') ||
+              error.url?.includes('/auth/login')
+            )
           ) {
             this.toastService.showDanger('Unauthenticated');
           } else if (error.status === 404) {

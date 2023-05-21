@@ -163,7 +163,7 @@
 								placeholder="Image" formControlName="image">
 							<div *ngIf="imageUrl" class="mt-2">
 								<img [src]="imageUrl" alt="Uploaded Image" class="uploaded-image">
-								<button class="btn btn-danger col-12 mt-1" (click)="imageUrl = '';catImage = undefined;categoryForm.value.image='delete'">Delete Image</button>
+								<button class="btn btn-danger col-12 mt-1" (click)="imageUrl = '';catImage = undefined;categoryForm.value.image='delete'"><fa-icon [icon]="['fas', 'trash']"></fa-icon>	Delete Image</button>
 							</div>
 
 						</form>
