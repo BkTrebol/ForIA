@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     },
   };
   public sending: boolean;
+  public email_disabled: boolean;
 
   constructor(
     private _translateService: TranslateService,
@@ -88,6 +89,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       },
     };
     this.sending = false;
+    this.email_disabled = false;
   }
 
   ngOnInit(): void {
@@ -95,7 +97,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.googleEmail != '') {
       this.authData.email = this.googleEmail;
       this.formLogin.get('email')?.disable();
+      this.email_disabled = true;
     }
+
     this._authService.authData
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((r) => {
